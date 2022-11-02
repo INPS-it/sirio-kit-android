@@ -25,16 +25,20 @@ repositories {
    }
 }
 dependencies {
-    implementation 'it.inps.sirio:library:x.y.z'
+    implementation 'it.inps.sirio:library:4.0.0'
 }
 ```
-2. Use SirioTheme in the app
+2. Add following repository in your gradle file (es. settings.gradle)
+```
+maven { url 'https://jitpack.io' }
+```
+3. Use SirioTheme in the app
 ```kotlin
 SirioTheme {
 
 }
 ```
-2. Use components as in the demo app
+4. Use components as in the demo app
 
 ## License
 
