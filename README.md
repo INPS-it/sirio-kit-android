@@ -1,12 +1,6 @@
-<!--
-SPDX-FileCopyrightText: 2021 Istituto Nazionale Previdenza Sociale
+# sirio-kit-android
 
-SPDX-License-Identifier: BSD-3-Clause
--->
-
-# SirioKitAndroid
-
-SirioKitAndroid is a library containing the android implementation of Sirio design system to be used for INPS mobile apps UI
+sirio-kit-android is a library containing the android implementation of the Sirio design system used for INPS mobile apps UI.
 
 ## Requirements
 
@@ -42,4 +36,4 @@ SirioTheme {
 
 ## License
 
-SirioKitAndroid is released under the BSD 3-Clause License. [See LICENSE](https://github.com/INPS-it/sirio-kit-android/blob/main/LICENSE) for details.
+sirio-kit-android is released under the BSD 3-Clause License. [See LICENSE](https://github.com/INPS-it/sirio-kit-android/blob/main/LICENSE) for details.
