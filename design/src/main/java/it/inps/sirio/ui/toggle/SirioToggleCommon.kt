@@ -21,7 +21,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,6 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import it.inps.sirio.theme.*
+import it.inps.sirio.ui.text.SirioTextCommon
 
 /**
  * Sirio toggle implementation
@@ -46,7 +46,7 @@ internal fun SirioToggleCommon(
     text: String? = null,
     isOn: Boolean,
     enabled: Boolean = true,
-    onToggleChange: (Boolean) -> Unit
+    onToggleChange: (Boolean) -> Unit,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
@@ -60,7 +60,7 @@ internal fun SirioToggleCommon(
             isHovered -> if (isOn) SirioTheme.colors.toggleHoverOn else SirioTheme.colors.toggleHoverOff
             else -> if (isOn) SirioTheme.colors.toggleDefaultOn else SirioTheme.colors.toggleDefaultOff
         }
-        val contentColor = if (enabled)borderColor else SirioTheme.colors.toggleDisabled
+        val contentColor = if (enabled) borderColor else SirioTheme.colors.toggleDisabled
         val offset: Float = with(LocalDensity.current) {
             toggleIndicatorHorizontalOffset.dp.toPx()
         }
@@ -112,10 +112,10 @@ internal fun SirioToggleCommon(
             }
         }
         text?.let {
-            Text(
+            SirioTextCommon(
                 text = it,
                 color = contentColor,
-                style = SirioTheme.typography.toggleLabelText,
+                typography = SirioTheme.typography.toggleLabelText,
             )
         }
     }

@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.dp
 import com.guru.fontawesomecomposelib.FaIconType
 
 @Composable
-internal fun FaIconCentered(
+internal fun SirioIcon(
     icon: FaIconType?,
     iconColor: Color,
     size: Dp = 24.dp,

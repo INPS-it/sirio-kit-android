@@ -14,7 +14,6 @@ import androidx.compose.foundation.interaction.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -25,7 +24,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.guru.fontawesomecomposelib.*
 import it.inps.sirio.theme.*
-import it.inps.sirio.utils.FaIconCentered
+import it.inps.sirio.ui.text.SirioTextCommon
+import it.inps.sirio.utils.SirioIcon
 
 /**
  * A custom FAB for type handling [FABType]
@@ -161,10 +161,10 @@ private fun FABContent(
 private fun FabText(text: String?, contentColor: Color) {
     text?.let {
         Spacer(modifier = Modifier.width(fabExtendedSpacerWidth))
-        Text(
+        SirioTextCommon(
             text = it,
             color = contentColor,
-            style = SirioTheme.typography.fabText,
+            typography = SirioTheme.typography.fabText,
         )
     }
 }
@@ -174,7 +174,7 @@ private fun FabIcon(
     icon: FaIconType,
     iconColor: Color
 ) {
-    FaIconCentered(
+    SirioIcon(
         icon = icon,
         size = fabIconSize,
         iconColor = iconColor,

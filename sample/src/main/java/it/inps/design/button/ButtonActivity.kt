@@ -13,6 +13,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -103,7 +104,7 @@ fun ButtonPrimaryDemoContent() {
     Column(
         Modifier
             .fillMaxSize()
-            .background(Color(0xFFE5E5E5))
+            .background(Color.White)
             .padding(0.dp, 10.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -120,7 +121,7 @@ fun ButtonDangerDemoContent() {
     Column(
         Modifier
             .fillMaxSize()
-            .background(Color(0xFFE5E5E5))
+            .background(Color.White)
             .padding(0.dp, 10.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -137,7 +138,7 @@ fun ButtonSecondaryDemoContent() {
     Column(
         Modifier
             .fillMaxSize()
-            .background(Color(0xFFE5E5E5))
+            .background(Color.White)
             .padding(0.dp, 10.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -154,7 +155,7 @@ fun ButtonTertiaryLightDemoContent() {
     Column(
         Modifier
             .fillMaxSize()
-            .background(Color(0xFFE5E5E5))
+            .background(Color.White)
             .padding(0.dp, 10.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -173,7 +174,7 @@ fun ButtonTertiaryDarkDemoContent() {
     Column(
         Modifier
             .fillMaxSize()
-            .background(Color(0xFFE5E5E5))
+            .background(Color.White)
             .padding(0.dp, 10.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -192,8 +193,9 @@ fun ButtonGhostDemoContent() {
     Column(
         Modifier
             .fillMaxSize()
-            .background(Color(0xFFE5E5E5))
-            .padding(0.dp, 10.dp),
+            .background(Color.White)
+            .padding(0.dp, 10.dp)
+            .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(20.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -208,59 +210,66 @@ fun ButtonGhostDemoContent() {
 
 @Composable
 private fun ButtonDemoContent(text: String, style: ButtonStyle, size: ButtonSize) {
-    Text(text = "${style.name} ${size.name}")
-    Row(Modifier
-            .fillMaxWidth()
-            .wrapContentHeight(),
-        horizontalArrangement = Arrangement.SpaceEvenly
-    ) {
-        SirioButton(
-            text = text,
-            icon = null,
-            enabled = true,
-            style = style,
-            size = size,
-            onClick = {})
-        SirioButton(
-            text = text,
-            icon = FaIcons.ArrowRight,
-            enabled = true,
-            style = style,
-            size = size,
-            onClick = {})
-        SirioButton(
-            icon = FaIcons.ArrowRight,
-            enabled = true,
-            style = style,
-            size = size,
-            onClick = {})
-    }
+    Text(text = size.name)
     Row(
-        Modifier
+        modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight(),
-        horizontalArrangement = Arrangement.SpaceEvenly
+        horizontalArrangement = Arrangement.Center
     ) {
-        SirioButton(
-            text = text,
-            icon = null,
-            enabled = false,
-            style = style,
-            size = size,
-            onClick = {})
-        SirioButton(
-            text = text,
-            icon = FaIcons.ArrowRight,
-            enabled = false,
-            style = style,
-            size = size,
-            onClick = {})
-        SirioButton(
-            icon = FaIcons.ArrowRight,
-            enabled = false,
-            style = style,
-            size = size,
-            onClick = {})
+        Column(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalAlignment = Alignment.End
+        ) {
+            SirioButton(
+                text = text,
+                icon = null,
+                enabled = true,
+                style = style,
+                size = size,
+                onClick = {})
+            SirioButton(
+                text = text,
+                icon = FaIcons.ArrowRight,
+                enabled = true,
+                style = style,
+                size = size,
+                onClick = {})
+            SirioButton(
+                icon = FaIcons.ArrowRight,
+                enabled = true,
+                style = style,
+                size = size,
+                onClick = {})
+        }
+        Spacer(modifier = Modifier.width(8.dp))
+        Column(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalAlignment = Alignment.Start
+        ) {
+            SirioButton(
+                text = text,
+                icon = null,
+                enabled = false,
+                style = style,
+                size = size,
+                onClick = {})
+            SirioButton(
+                text = text,
+                icon = FaIcons.ArrowRight,
+                enabled = false,
+                style = style,
+                size = size,
+                onClick = {})
+            SirioButton(
+                icon = FaIcons.ArrowRight,
+                enabled = false,
+                style = style,
+                size = size,
+                onClick = {})
+        }
     }
 }
 

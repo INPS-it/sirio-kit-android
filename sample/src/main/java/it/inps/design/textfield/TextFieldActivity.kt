@@ -12,15 +12,10 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -63,14 +58,14 @@ fun TextFieldDemoContent() {
             var text by remember { mutableStateOf("Text") }
             val label = "Label"
             val helperText = "*Helper text"
-//            SirioTextField(
-//                text = text,
-//                placeholder = "Placeholder",
-//                onValueChange = { text = it },
-//                label = label,
-//                helperText = helperText,
-//                onInfoClick = {},
-//            )
+            SirioTextField(
+                text = text,
+                placeholder = "Placeholder",
+                onValueChange = { text = it },
+                label = label,
+                helperText = helperText,
+                onInfoClick = {},
+            )
             Text(text = "Warning")
             SirioTextField(
                 text = text,
@@ -80,6 +75,7 @@ fun TextFieldDemoContent() {
                 onInfoClick = {},
                 icon = FaIcons.ExclamationCircle,
                 type = TextFieldSemantic.WARNING,
+                onTextFieldClick = { text = "Click" }
             )
             Text(text = "Alert")
             SirioTextField(
@@ -126,7 +122,7 @@ fun TextFieldDemoContent() {
 }
 
 @Preview(device = Devices.NEXUS_10)
-@Preview(showBackground = true)
+@Preview(showBackground = true, heightDp = 2000)
 @Composable
 private fun TextFieldActivityPreview() {
     SirioTheme {

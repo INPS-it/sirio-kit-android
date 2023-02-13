@@ -8,7 +8,6 @@
 
 package it.inps.sirio.ui.tabbar
 
-import android.content.res.Configuration
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -26,11 +25,16 @@ import androidx.compose.ui.layout.*
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Constraints
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import com.guru.fontawesomecomposelib.FaIcons
 import it.inps.sirio.theme.*
-import it.inps.sirio.utils.FaIconCentered
+import it.inps.sirio.ui.text.SirioTextCommon
+import it.inps.sirio.utils.SirioIcon
 import kotlin.math.max
 
 /**
@@ -43,75 +47,77 @@ import kotlin.math.max
 fun TabBar(items: List<TabBarItemData>, navController: NavHostController) {
     //TabBar should contain 3-5 tabs
     assert(items.size in 3..5)
-    SirioTheme(darkTheme = false) {
-        BottomNavigation(
-            backgroundColor = SirioTheme.colors.tabBarBackground,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(tabBarHeight)
-        ) {
+    BottomNavigation(
+        backgroundColor = SirioTheme.colors.tabBarBackground,
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(tabBarHeight)
+    ) {
 
-            // observe the backstack
-            val navBackStackEntry by navController.currentBackStackEntryAsState()
+        // observe the backstack
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
 
-            // observe current route to change the icon
-            // color,label color when navigated
-            val currentRoute = navBackStackEntry?.destination?.route
+        // observe current route to change the icon
+        // color,label color when navigated
+        val currentRoute = navBackStackEntry?.destination?.route
 
-            items.take(5).forEach { tabItem ->
-                val selected = currentRoute == tabItem.route
-                TabBarItem(
-                    // it currentRoute is equal then its selected route
-                    selected = selected,
+        val labelTypography = with(SirioTheme.typography.tabBarItemText) {
+            if (LocalConfiguration.current.fontScale > 1) copy(fontSize = 9.sp) else this
+        }
 
-                    // navigate on click
-                    onClick = {
-                        try {
-                            navController.navigate(tabItem.route) {
-                                // Pop up to the start destination of the graph to
-                                // avoid building up a large stack of destinations
-                                // on the back stack as users select items
-                                popUpTo(navController.graph.startDestinationId) {
-                                    saveState = true
-                                }
-                                // Avoid multiple copies of the same destination when
-                                // reselecting the same item
-                                launchSingleTop = true
-                                // Restore state when reselecting a previously selected item
-                                restoreState = true
+        items.take(5).forEach { tabItem ->
+            val selected = currentRoute == tabItem.route
+            TabBarItem(
+                // it currentRoute is equal then its selected route
+                selected = selected,
+
+                // navigate on click
+                onClick = {
+                    try {
+                        navController.navigate(tabItem.route) {
+                            // Pop up to the start destination of the graph to
+                            // avoid building up a large stack of destinations
+                            // on the back stack as users select items
+                            popUpTo(navController.graph.startDestinationId) {
+                                saveState = true
                             }
-                        } catch (e: Exception) {
-                            Log.e("TabBar", "TabBar: onclick exception ", e)
+                            // Avoid multiple copies of the same destination when
+                            // reselecting the same item
+                            launchSingleTop = true
+                            // Restore state when reselecting a previously selected item
+                            restoreState = true
                         }
-                    },
+                    } catch (e: Exception) {
+                        Log.e("TabBar", "TabBar: onclick exception ", e)
+                    }
+                },
 
-                    // Icon of tabItem
-                    icon = {
-                        BadgedBox(
-                            badge = {
-                                if (tabItem.badge) {
-                                    Badge()
-                                }
-                            }) {
-                            FaIconCentered(
-                                icon = tabItem.icon,
-                                size = tabBarItemIconSize,
-                                iconColor = if (selected) SirioTheme.colors.tabBarActive else SirioTheme.colors.tabBarContent,
-                            )
-                        }
-                    },
-
-                    // label
-                    label = {
-                        Text(
-                            text = tabItem.label,
-                            color = if (selected) SirioTheme.colors.tabBarActive else SirioTheme.colors.tabBarContent,
-                            style = SirioTheme.typography.tabBarItemText,
-                            maxLines = 1,
+                // Icon of tabItem
+                icon = {
+                    BadgedBox(
+                        badge = {
+                            if (tabItem.badge) {
+                                Badge()
+                            }
+                        }) {
+                        SirioIcon(
+                            icon = tabItem.icon,
+                            size = tabBarItemIconSize,
+                            iconColor = if (selected) SirioTheme.colors.tabBarActive else SirioTheme.colors.tabBarContent,
                         )
-                    },
-                )
-            }
+                    }
+                },
+
+                // label
+                label = {
+                    SirioTextCommon(
+                        text = tabItem.label,
+                        color = if (selected) SirioTheme.colors.tabBarActive else SirioTheme.colors.tabBarContent,
+                        maxLines = 1,
+                        typography = labelTypography,
+                    )
+                },
+            )
         }
     }
 }
@@ -184,7 +190,7 @@ private fun TabBarItemBaselineLayout(
     label: @Composable (() -> Unit),
     selected: Boolean,
 ) {
-    val configuration = LocalConfiguration.current
+//    val configuration = LocalConfiguration.current
     Layout(
         {
             Box(
@@ -212,25 +218,25 @@ private fun TabBarItemBaselineLayout(
             constraints.copy(minHeight = 0)
         )
 
-        when (configuration.orientation) {
-            Configuration.ORIENTATION_LANDSCAPE -> {
-                tabBarItemPlaceLabelAndIconInRow(
-                    statePlaceable,
-                    labelPlaceable,
-                    iconPlaceable,
-                    constraints,
-                )
-            }
-            else -> {
-                tabBarItemPlaceLabelAndIconInColumn(
-                    statePlaceable,
-                    labelPlaceable,
-                    iconPlaceable,
-                    constraints,
-                )
+//        when (configuration.orientation) {
+//            Configuration.ORIENTATION_LANDSCAPE -> {
+//                tabBarItemPlaceLabelAndIconInRow(
+//                    statePlaceable,
+//                    labelPlaceable,
+//                    iconPlaceable,
+//                    constraints,
+//                )
+//            }
+//            else -> {
+        tabBarItemPlaceLabelAndIconInColumn(
+            statePlaceable,
+            labelPlaceable,
+            iconPlaceable,
+            constraints,
+        )
 
-            }
-        }
+//            }
+//        }
 
     }
 }
@@ -289,5 +295,54 @@ private fun MeasureScope.tabBarItemPlaceLabelAndIconInRow(
         statePlaceable.placeRelative(0, 0)
         iconPlaceable.placeRelative(iconX, iconY)
         labelPlaceable.placeRelative(labelX, labelY)
+    }
+}
+
+
+@Preview(showSystemUi = true)
+@Composable
+private fun TabBarPreview() {
+    SirioTheme {
+        Scaffold(
+            bottomBar = {
+                TabBar(
+                    items = listOf(
+                        TabBarItemData(
+                            label = "Home",
+                            icon = FaIcons.Home,
+                            route = "InpsScreen.HomeScreen.route"
+                        ),
+                        TabBarItemData(
+                            label = "News",
+                            icon = FaIcons.Newspaper,
+                            route = "InpsScreen.NewsScreen.route"
+                        ),
+                        TabBarItemData(
+                            label = "Mappe",
+                            icon = FaIcons.Globe,
+                            route = "InpsScreen.MapsScreen.route"
+                        ),
+                        TabBarItemData(
+                            label = "Contattaci",
+                            icon = FaIcons.CommentAlt,
+                            route = "InpsScreen.ContattaciScreen.route"
+                        ),
+                        TabBarItemData(
+                            label = "Servizi",
+                            icon = FaIcons.GripHorizontal,
+                            route = "InpsScreen.ServiziScreen.route"
+                        )
+                    ),
+                    navController = rememberNavController()
+                )
+            }
+        ) { paddingValues ->
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+            ) {
+            }
+        }
     }
 }

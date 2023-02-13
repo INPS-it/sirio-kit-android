@@ -22,7 +22,6 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
@@ -30,6 +29,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
@@ -44,7 +44,8 @@ import it.inps.sirio.theme.*
 import it.inps.sirio.ui.button.ButtonSize
 import it.inps.sirio.ui.button.ButtonStyle
 import it.inps.sirio.ui.button.SirioButton
-import it.inps.sirio.utils.FaIconCentered
+import it.inps.sirio.ui.text.SirioTextCommon
+import it.inps.sirio.utils.SirioIcon
 
 /**
  * Sirio text field implementation
@@ -66,6 +67,7 @@ import it.inps.sirio.utils.FaIconCentered
  * @param onDropdownStateChange The callback invoked when dropdown with [optionValues] is opened/closed
  * @param onIconClick The callback on [icon] click
  * @param onIconButtonClick The callback on [iconButton] button click
+ * @param onTextFieldClick The callback on TextField click used to handle custom input. If the callback is provided the textfield is disabled to allow the action, normal behaviour otherwise
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -89,7 +91,7 @@ internal fun SirioTextFieldCommon(
     onDropdownStateChange: ((open: Boolean) -> Unit)? = null,
     onIconClick: (() -> Unit)? = null,
     onIconButtonClick: ((text: String) -> Unit)? = null,
-//    onTextFieldClick: (() -> Unit)? = null,
+    onTextFieldClick: (() -> Unit)? = null,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
@@ -101,14 +103,14 @@ internal fun SirioTextFieldCommon(
     Column {
         label?.let {
             Row(Modifier.wrapContentSize(), verticalAlignment = Alignment.CenterVertically) {
-                Text(
+                SirioTextCommon(
                     text = it,
                     color = textFieldParams.labelColor,
-                    style = SirioTheme.typography.textFieldLabel,
+                    typography = SirioTheme.typography.textFieldLabel,
                 )
                 onInfoClick?.let { itc ->
                     IconButton(onClick = itc) {
-                        FaIconCentered(
+                        SirioIcon(
                             icon = FaIcons.InfoCircle,
                             size = textFieldInfoIconSize,
                             iconColor = textFieldParams.infoIconColor,
@@ -158,6 +160,7 @@ internal fun SirioTextFieldCommon(
                     ),
                 onValueChange = onValueChange,
                 enabled = enabled,
+                readOnly = onTextFieldClick != null,
                 textStyle = SirioTheme.typography.textFieldText.merge(TextStyle(color = textFieldParams.textColor)),
                 keyboardOptions = KeyboardOptions(imeAction = imeAction),
                 keyboardActions = KeyboardActions(onAny = { keyboardActionOnAny.invoke(text) }),
@@ -171,10 +174,10 @@ internal fun SirioTextFieldCommon(
                         innerTextField = innerTextField,
                         placeholder = {
                             placeholder?.let {
-                                Text(
+                                SirioTextCommon(
                                     text = it,
                                     color = textFieldParams.placeholderTextColor,
-                                    style = SirioTheme.typography.textFieldPlaceholder,
+                                    typography = SirioTheme.typography.textFieldPlaceholder,
                                 )
                             }
                         },
@@ -192,8 +195,8 @@ internal fun SirioTextFieldCommon(
                         enabled = enabled,
                         interactionSource = interactionSource,
                         colors = colors,
-                        border = {
-                            TextFieldDefaults.BorderBox(
+                        container = {
+                            TextFieldDefaults.OutlinedBorderContainerBox(
                                 enabled = enabled,
                                 isError = false,
                                 interactionSource = interactionSource,
@@ -204,19 +207,16 @@ internal fun SirioTextFieldCommon(
                             )
                         }
                     )
-//                    {
-//                        TextFieldDefaults.OutlinedBorderContainerBox(
-//                            enabled = enabled,
-//                            isError = false,
-//                            interactionSource = interactionSource,
-//                            colors = colors,
-//                            shape = Shapes.small,
-//                            focusedBorderThickness = textFieldBorderWidth,
-//                            unfocusedBorderThickness = textFieldBorderWidth,
-//                        )
-//                    }
                 },
             )
+            onTextFieldClick?.let {
+                Box(
+                    modifier = Modifier
+                        .matchParentSize()
+                        .alpha(0f)
+                        .clickable(onClick = it),
+                )
+            }
         }
         Spacer(modifier = Modifier.height(textFieldPaddingBottom))
         if (isFocused && optionValues.isNotEmpty()) {
@@ -239,10 +239,10 @@ internal fun SirioTextFieldCommon(
             }
         } else {
             helperText?.let {
-                Text(
+                SirioTextCommon(
                     text = it,
                     color = textFieldParams.helperTextColor,
-                    style = SirioTheme.typography.textFieldHelperText,
+                    typography = SirioTheme.typography.textFieldHelperText,
                 )
             }
         }
@@ -281,7 +281,7 @@ private fun SirioTextFieldOptionItem(
                 onClick = onItemClick,
             )
     ) {
-        Text(
+        SirioTextCommon(
             text = value,
             modifier = Modifier.padding(
                 start = textFieldDropdownOptionStartPadding,
@@ -291,7 +291,7 @@ private fun SirioTextFieldOptionItem(
             ),
             color = optionItemParams.optionTextColor,
             maxLines = 1,
-            style = SirioTheme.typography.textFieldDropdownLabel,
+            typography = SirioTheme.typography.textFieldDropdownLabel,
         )
     }
 }
@@ -318,7 +318,7 @@ private fun TrailingIcon(
     Row(verticalAlignment = Alignment.CenterVertically) {
         icon?.let {
             IconButton(onClick = onIconClick ?: {}, enabled = enabled) {
-                FaIconCentered(
+                SirioIcon(
                     icon = it,
                     size = textFieldIconSize,
                     iconColor = iconColor,
@@ -438,7 +438,7 @@ private fun getTextFieldParams(
     )
     else -> TextFieldParams(
         backgroundColor = SirioTheme.colors.textField.background.default,
-        infoIconColor = SirioTheme.colors.textField.label.default,
+        infoIconColor = SirioTheme.colors.textField.label.hovered,
         labelColor = SirioTheme.colors.textField.label.default,
         helperTextColor = SirioTheme.colors.textField.helperText.default,
         placeholderTextColor = SirioTheme.colors.textField.placeholder.default,

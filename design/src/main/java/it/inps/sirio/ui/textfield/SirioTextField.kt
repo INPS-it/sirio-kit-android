@@ -50,7 +50,7 @@ fun SirioTextField(
     type: TextFieldSemantic? = null,
     enabled: Boolean = true,
     onIconClick: (() -> Unit)? = null,
-//    onTextFieldClick: (() -> Unit)? = null,
+    onTextFieldClick: (() -> Unit)? = null,
 ) {
     SirioTextFieldCommon(
         text = text,
@@ -63,7 +63,7 @@ fun SirioTextField(
         type = type,
         enabled = enabled,
         onIconClick = onIconClick,
-//        onTextFieldClick = onTextFieldClick,
+        onTextFieldClick = onTextFieldClick,
     )
 }
 

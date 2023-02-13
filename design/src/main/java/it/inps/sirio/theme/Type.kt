@@ -25,7 +25,7 @@ import it.inps.sirio.styleDictionary.StyleDictionaryTypography
 internal val Titillium_Web = TitilliumWebFamily
 internal val Roboto_Mono = RobotoMonoFamily
 
-internal val appNavigationTitleMd = TextStyle(
+val appNavigationTitleMd = TextStyle(
     fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
     fontSize = StyleDictionarySize.typographyAliasH6MdSize05.sp,
     lineHeight = StyleDictionarySize.typographySpecificAppNavigationTitleMdLineHeight.sp,
@@ -33,7 +33,7 @@ internal val appNavigationTitleMd = TextStyle(
     fontStyle = StyleDictionaryTypography.typographySpecificAppNavigationTitleFontWeight600.getFontStyle(),
 )
 
-internal val appNavigationTitleXl = TextStyle(
+val appNavigationTitleXl = TextStyle(
     fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
     fontSize = StyleDictionarySize.typographySpecificAppNavigationTitleXlSize.sp,
     lineHeight = StyleDictionarySize.typographySpecificAppNavigationTitleXlLineHeight.sp,
@@ -41,7 +41,7 @@ internal val appNavigationTitleXl = TextStyle(
     fontStyle = StyleDictionaryTypography.typographySpecificAppNavigationTitleFontWeight600.getFontStyle(),
 )
 
-internal val labelXl400 = TextStyle(
+val labelXl400 = TextStyle(
     fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
     fontSize = StyleDictionarySize.typographyAliasLabelXlSize06.sp,
     lineHeight = StyleDictionarySize.typographyAliasLabelXlLineHeight03.sp,
@@ -50,20 +50,20 @@ internal val labelXl400 = TextStyle(
 )
 
 @ExperimentalTextApi
-internal val labelMd700 = TextStyle(
+val labelMd700 = TextStyle(
     fontSize = StyleDictionarySize.typographyAliasLabelMdSize04.sp,
     fontWeight = StyleDictionaryTypography.typographyAliasLabelFontWeight700.getFontWeight(),
     fontStyle = StyleDictionaryTypography.typographyAliasLabelFontWeight700.getFontStyle(),
     fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
     lineHeight = StyleDictionarySize.typographyAliasLabelLineHeight01.sp,
-    platformStyle = PlatformTextStyle(includeFontPadding = false),
-    lineHeightStyle = LineHeightStyle(
-        alignment = LineHeightStyle.Alignment.Center,
-        trim = LineHeightStyle.Trim.Both
-    ),
+//    platformStyle = PlatformTextStyle(includeFontPadding = false),
+//    lineHeightStyle = LineHeightStyle(
+//        alignment = LineHeightStyle.Alignment.Center,
+//        trim = LineHeightStyle.Trim.Both
+//    ),
 )
 
-internal val labelMd600 = TextStyle(
+val labelMd600 = TextStyle(
     fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
     fontSize = StyleDictionarySize.typographySpecificAppNavigationTitleMdSize.sp,
     lineHeight = StyleDictionarySize.typographyAliasLabelLineHeight01.sp,
@@ -71,7 +71,7 @@ internal val labelMd600 = TextStyle(
     fontStyle = StyleDictionaryTypography.typographySpecificAppNavigationTitleFontWeight600.getFontStyle(),
 )
 
-internal val tabBarLabelXs = TextStyle(
+val tabBarLabelXs = TextStyle(
     fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
     fontSize = StyleDictionarySize.typographyAliasLabelXsSize02.sp,
     lineHeight = StyleDictionarySize.typographyAliasLabelLineHeight01.sp,
@@ -80,7 +80,7 @@ internal val tabBarLabelXs = TextStyle(
     textAlign = TextAlign.Center,
 )
 
-internal val helperTextXs400 = TextStyle(
+val helperTextXs400 = TextStyle(
     fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
     fontSize = StyleDictionarySize.typographyAliasLabelXsSize02.sp,
     lineHeight = StyleDictionarySize.typographyAliasLabelXsSize02.sp,
@@ -88,7 +88,7 @@ internal val helperTextXs400 = TextStyle(
     fontStyle = StyleDictionaryTypography.typographyAliasLabelFontWeight400.getFontStyle(),
 )
 
-internal val labelMdNumber400 = TextStyle(
+val labelMdNumber400 = TextStyle(
     fontFamily = StyleDictionaryTypography.typographyAliasFontFamilyNumber03,
     fontSize = StyleDictionarySize.typographyAliasLabelMdSize04.sp,
     lineHeight = StyleDictionarySize.typographyAliasLabelLineHeight01.sp,
@@ -97,7 +97,7 @@ internal val labelMdNumber400 = TextStyle(
     textAlign = TextAlign.Center,
 )
 
-internal val labelProgressBarNumber = TextStyle(
+val labelProgressBarNumber = TextStyle(
     fontFamily = StyleDictionaryTypography.typographyAliasFontFamilyNumber03,
     fontSize = StyleDictionarySize.typographyGlobalFontSize02.sp,
     lineHeight = StyleDictionarySize.typographyAliasLabelXsSize02.sp,
@@ -105,14 +105,14 @@ internal val labelProgressBarNumber = TextStyle(
     fontStyle = StyleDictionaryTypography.typographyAliasLabelFontWeight400.getFontStyle(),
 )
 
-internal val pMd01 = TextStyle(
+val pMd01 = TextStyle(
     fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
     fontSize = StyleDictionarySize.typographyGlobalFontSize04.sp,
     lineHeight = StyleDictionarySize.typographyAliasLinkPMdLineHeight04.sp,
     fontWeight = StyleDictionaryTypography.typographyAliasLabelFontWeight400.getFontWeight(),
     fontStyle = StyleDictionaryTypography.typographyAliasLabelFontWeight400.getFontStyle(),
 )
-internal val linkPMd01 = TextStyle(
+val linkPMd01 = TextStyle(
     fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
     fontSize = StyleDictionarySize.typographyGlobalFontSize04.sp,
     lineHeight = StyleDictionarySize.typographyAliasLinkPMdLineHeight04.sp,
@@ -122,7 +122,7 @@ internal val linkPMd01 = TextStyle(
     textDecoration = TextDecoration.Underline
 )
 
-internal val mPMd01_700 = TextStyle(
+val mPMd01_700 = TextStyle(
     fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
     fontSize = StyleDictionarySize.typographyGlobalFontSize04.sp,
     lineHeight = StyleDictionarySize.typographyAliasLinkPMdLineHeight04.sp,
@@ -130,7 +130,7 @@ internal val mPMd01_700 = TextStyle(
     fontStyle = StyleDictionaryTypography.typographyAliasLabelFontWeight700.getFontStyle(),
 )
 
-internal val labelMd400 = TextStyle(
+val labelMd400 = TextStyle(
     fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
     fontSize = StyleDictionarySize.typographyAliasLabelMdSize04.sp,
     lineHeight = StyleDictionarySize.typographyAliasLabelLineHeight01.sp,
@@ -138,7 +138,7 @@ internal val labelMd400 = TextStyle(
     fontStyle = StyleDictionaryTypography.typographyAliasLabelFontWeight400.getFontStyle(),
 )
 
-internal val placeholderMd400 = TextStyle(
+val placeholderMd400 = TextStyle(
     fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
     fontSize = StyleDictionarySize.typographyAliasLabelMdSize04.sp,
     lineHeight = StyleDictionarySize.typographyAliasLabelLineHeight01.sp,
@@ -146,7 +146,7 @@ internal val placeholderMd400 = TextStyle(
     fontStyle = StyleDictionaryTypography.typographyAliasLabelFontWeight400.getFontStyle(),
 )
 
-internal val h4Md = TextStyle(
+val h4Md = TextStyle(
     fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
     fontSize = StyleDictionarySize.typographyAliasH4MdSize07.sp,
     lineHeight = StyleDictionarySize.typographyAliasH4MdLineHeight07.sp,
@@ -194,7 +194,7 @@ internal val Typography = SirioTypography(
 )
 
 @Keep
-internal enum class TypographyStyle {
+enum class TypographyStyle {
     Regular {
         override fun getFontWeight(): FontWeight = FontWeight.Normal
         override fun getFontStyle(): FontStyle? = null

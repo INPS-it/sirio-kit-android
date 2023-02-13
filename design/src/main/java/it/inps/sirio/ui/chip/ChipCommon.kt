@@ -17,7 +17,6 @@ import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Text
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedButton
@@ -32,7 +31,8 @@ import androidx.compose.ui.unit.dp
 import com.guru.fontawesomecomposelib.FaIconType
 import com.guru.fontawesomecomposelib.FaIcons
 import it.inps.sirio.theme.*
-import it.inps.sirio.utils.FaIconCentered
+import it.inps.sirio.ui.text.SirioTextCommon
+import it.inps.sirio.utils.SirioIcon
 
 /**
  * The Sirio chip implementation
@@ -117,14 +117,14 @@ internal fun ChipCommon(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 icon?.let {
-                    FaIconCentered(icon = it, size = chipIconSize, iconColor = contentColor)
+                    SirioIcon(icon = it, size = chipIconSize, iconColor = contentColor)
                     Spacer(modifier = Modifier.width(iconEndPadding))
                 }
-                Text(
-                    modifier = Modifier.wrapContentHeight(),
+                SirioTextCommon(
                     text = text,
-                    style = SirioTheme.typography.chipText,
+                    modifier = Modifier.wrapContentHeight(),
                     color = contentColor,
+                    typography = SirioTheme.typography.chipText,
                 )
                 if (withClose) {
                     Spacer(modifier = Modifier.width(chipWithCloseButtonStartPadding))
@@ -136,7 +136,7 @@ internal fun ChipCommon(
                         contentPadding = PaddingValues(chipWithCloseButtonContentPadding),
                         colors = ButtonDefaults.outlinedButtonColors(containerColor = buttonBackgroundColor)
                     ) {
-                        FaIconCentered(
+                        SirioIcon(
                             icon = FaIcons.Times,
                             size = chipButtonIconSize,
                             iconColor = contentColor,

@@ -17,6 +17,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.guru.fontawesomecomposelib.FaIconType
 import com.guru.fontawesomecomposelib.FaIcons
+import it.inps.sirio.theme.DarkColorPalette
+import it.inps.sirio.theme.LightColorPalette
 import it.inps.sirio.theme.SirioTheme
 
 /**
@@ -44,6 +46,8 @@ fun SirioButton(
         ButtonStyle.Primary -> SirioTheme.colors.buttons.buttonPrimary
         ButtonStyle.Secondary -> SirioTheme.colors.buttons.buttonSecondary
         ButtonStyle.Tertiary -> SirioTheme.colors.buttons.buttonTertiary
+        ButtonStyle.TertiaryDark -> DarkColorPalette.buttons.buttonTertiary
+        ButtonStyle.TertiaryLight -> LightColorPalette.buttons.buttonTertiary
         ButtonStyle.Ghost -> SirioTheme.colors.buttons.buttonGhost
         ButtonStyle.Danger -> SirioTheme.colors.buttons.buttonDanger
     }

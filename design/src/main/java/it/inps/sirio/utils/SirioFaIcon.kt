@@ -17,10 +17,8 @@ import com.guru.fontawesomecomposelib.R
 
 /**
  * FaIcon composable to draw Font awesome icons
- * @param faIconType use the code point from FaIcons object which is unique for
+ * @param faIcon use the code point from FaIcons object which is unique for
  * each icon to draw for the corresponding font.
- * @param faIconType supports solid, regular and brand icons.
- * @param iconType for checking which font to load for the given iconType
  * @param modifier to apply layout changes.
  * @param size Provide the Icon size in DP. Since it's a font to not change Icon size with
  * font scaling of device it ignores device font scaling.

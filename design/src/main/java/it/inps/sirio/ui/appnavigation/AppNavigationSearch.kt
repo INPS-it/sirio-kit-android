@@ -23,7 +23,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.guru.fontawesomecomposelib.FaIcons
 import it.inps.sirio.theme.*
-import it.inps.sirio.utils.FaIconCentered
+import it.inps.sirio.ui.text.SirioTextCommon
+import it.inps.sirio.utils.SirioIcon
 
 /**
  * An app navigation with searchbar
@@ -55,15 +56,13 @@ fun AppNavigationSearch(
     onDoneClick: (KeyboardActionScope.() -> Unit)? = null,
 ) {
     Column {
-        SirioTheme(darkTheme = false) {
-            AppNavigation(
-                title = title,
-                leftItem = leftItem,
-                rightFirstItem = rightFirstItem,
-                rightSecondItem = rightSecondItem,
-                scrollBehavior = scrollBehavior
-            )
-        }
+        AppNavigation(
+            title = title,
+            leftItem = leftItem,
+            rightFirstItem = rightFirstItem,
+            rightSecondItem = rightSecondItem,
+            scrollBehavior = scrollBehavior
+        )
         Box(
             Modifier
                 .background(color = SirioTheme.colors.appNavigationSearchBackground2)
@@ -75,9 +74,9 @@ fun AppNavigationSearch(
                 value = searchText,
                 onValueChange = onSearchTextChanged,
                 placeholder = {
-                    Text(
+                    SirioTextCommon(
                         text = placeholderText,
-                        style = SirioTheme.typography.appNavigationSearchPlaceholder,
+                        typography = SirioTheme.typography.appNavigationSearchPlaceholder,
                     )
                 },
                 colors = TextFieldDefaults.textFieldColors(
@@ -96,13 +95,13 @@ fun AppNavigationSearch(
                 shape = RoundedCornerShape(appNavigationSearchCornerRadius),
                 trailingIcon = {
                     if (searchText.isBlank())
-                        FaIconCentered(
+                        SirioIcon(
                             icon = FaIcons.Search,
                             iconColor = SirioTheme.colors.appNavigationSearchIcon,
                         )
                     else
                         IconButton(onClick = { onSearchTextChanged("") }) {
-                            FaIconCentered(
+                            SirioIcon(
                                 icon = FaIcons.Times,
                                 iconColor = SirioTheme.colors.appNavigationSearchIcon,
                             )

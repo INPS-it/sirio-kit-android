@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -30,8 +29,9 @@ import it.inps.sirio.theme.*
 import it.inps.sirio.ui.button.ButtonSize
 import it.inps.sirio.ui.button.SirioButtonColors
 import it.inps.sirio.ui.button.SirioButtonCommon
+import it.inps.sirio.ui.text.SirioTextCommon
 import it.inps.sirio.ui.textfield.SirioTextFieldCommon
-import it.inps.sirio.utils.FaIconCentered
+import it.inps.sirio.utils.SirioIcon
 
 /**
  * The Sirio dialog implementation. It shows up in the [dialogHeightPercentage] bottom of the screen
@@ -102,19 +102,19 @@ fun SirioDialogCommon(
                         onClick = onDismiss,
                     )
                     semanticIcon?.let {
-                        FaIconCentered(icon = semanticIcon, iconColor = semanticIconColor)
+                        SirioIcon(icon = semanticIcon, iconColor = semanticIconColor)
                         Spacer(modifier = Modifier.height(dialogSemanticIconBottomPadding))
                     }
-                    Text(
+                    SirioTextCommon(
                         text = title,
-                        style = SirioTheme.typography.dialogTitle,
+                        typography = SirioTheme.typography.dialogTitle,
                         color = SirioTheme.colors.dialog.title,
                     )
                     text?.let {
                         Spacer(modifier = Modifier.height(dialogTextTopPadding))
-                        Text(
+                        SirioTextCommon(
                             text = text,
-                            style = SirioTheme.typography.dialogText,
+                            typography = SirioTheme.typography.dialogText,
                             color = SirioTheme.colors.dialog.text,
                         )
                     }

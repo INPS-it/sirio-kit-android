@@ -25,7 +25,7 @@ import it.inps.sirio.theme.SirioTheme
 val HOME_TAB = TabBarItemData(label = "Home", icon = FaIcons.Home, route = "Home")
 val NEWS_TAB = TabBarItemData(label = "News", icon = FaIcons.Bell, route = "Notizie", badge = true)
 val MAP_TAB = TabBarItemData(label = "Mappa", icon = FaIcons.Globe, route = "Mappa")
-val CONTACTS_TAB = TabBarItemData(label = "Contatti", icon = FaIcons.CommentAlt, route = "Contatti")
+val CONTACTS_TAB = TabBarItemData(label = "Contattaci", icon = FaIcons.CommentAlt, route = "Contatti")
 val SERVICES_TAB =
     TabBarItemData(label = "Servizi", icon = FaIcons.GripHorizontal, route = "Servizi")
 

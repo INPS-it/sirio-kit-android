@@ -11,7 +11,6 @@ package it.inps.sirio.ui.notification
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,7 +19,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.guru.fontawesomecomposelib.FaIconType
 import com.guru.fontawesomecomposelib.FaIcons
 import it.inps.sirio.theme.*
-import it.inps.sirio.utils.FaIconCentered
+import it.inps.sirio.ui.text.SirioTextCommon
+import it.inps.sirio.utils.SirioIcon
 
 /**
  * Inline notification implementation with an icon on the left and the state color,
@@ -54,7 +54,7 @@ internal fun NotificationInlineCommon(
                 .background(color = stateColor),
             contentAlignment = Alignment.Center,
         ) {
-            FaIconCentered(
+            SirioIcon(
                 icon = icon,
                 size = notificationInlineIconSize,
                 iconColor = SirioTheme.colors.notificationColors.icon,
@@ -69,22 +69,22 @@ internal fun NotificationInlineCommon(
                     bottom = notificationInlineVerticalPadding,
                 )
         ) {
-            Text(
+            SirioTextCommon(
                 text = title,
                 color = SirioTheme.colors.notificationColors.title,
-                style = SirioTheme.typography.notificationInlineTitle,
                 maxLines = 1,
+                typography = SirioTheme.typography.notificationInlineTitle,
             )
             Spacer(modifier = Modifier.height(notificationInlineVerticalSpacer))
-            Text(
+            SirioTextCommon(
                 text = text,
                 color = SirioTheme.colors.notificationColors.text,
-                style = SirioTheme.typography.notificationInlineText,
                 maxLines = 1,
+                typography = SirioTheme.typography.notificationInlineText,
             )
         }
         IconButton(onClick = onClose) {
-            FaIconCentered(
+            SirioIcon(
                 icon = FaIcons.Times,
                 size = notificationInlineCloseSize,
                 iconColor = SirioTheme.colors.notificationColors.icon,

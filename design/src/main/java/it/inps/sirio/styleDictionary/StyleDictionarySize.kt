@@ -3,7 +3,7 @@
 
 package it.inps.sirio.styleDictionary
 
-internal object StyleDictionarySize {
+object StyleDictionarySize {
     val typographyAliasDisclaimerMdLineHeight04 = 24
     val typographyAliasDisclaimerMdSize04 = 16
     val typographyAliasH1LgLineHeight14 = 78

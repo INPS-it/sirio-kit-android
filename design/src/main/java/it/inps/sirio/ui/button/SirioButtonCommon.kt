@@ -16,7 +16,6 @@ import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Text
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.runtime.Composable
@@ -30,7 +29,8 @@ import androidx.compose.ui.unit.dp
 import com.guru.fontawesomecomposelib.FaIconType
 import com.guru.fontawesomecomposelib.FaIcons
 import it.inps.sirio.theme.*
-import it.inps.sirio.utils.FaIconCentered
+import it.inps.sirio.ui.text.SirioTextCommon
+import it.inps.sirio.utils.SirioIcon
 
 /**
  * The Sirio Button common component
@@ -239,17 +239,17 @@ private fun ButtonContent(
     iconColor: Color
 ) {
     if (!text.isNullOrEmpty()) {
-        Text(
+        SirioTextCommon(
             text = text,
             color = textColor,
-            style = SirioTheme.typography.buttonText,
+            typography = SirioTheme.typography.buttonText,
         )
     }
     if (!text.isNullOrEmpty() && icon != null) {
         Spacer(Modifier.size(buttonTextIconSpacerWidth))
     }
     if (icon != null) {
-        FaIconCentered(icon, iconColor, buttonIconSize)
+        SirioIcon(icon, iconColor, buttonIconSize)
     }
 }
 
@@ -284,10 +284,15 @@ data class SirioButtonColors(
     }
 }
 
+/**
+ * Button style, when Dark/Light is provided it force the related theme, device theme is used otherwise
+ */
 enum class ButtonStyle {
     Primary,
     Secondary,
     Tertiary,
+    TertiaryDark,
+    TertiaryLight,
     Ghost,
     Danger,
 }

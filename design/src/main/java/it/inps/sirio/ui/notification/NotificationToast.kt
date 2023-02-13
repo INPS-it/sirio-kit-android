@@ -43,18 +43,16 @@ fun NotificationToast(
     type: NotificationType,
     onClose: () -> Unit,
 ) {
-    SirioTheme(darkTheme = false) {
-        val (icon: FaIconType, color: Color) = paramsByType(type)
-        NotificationToastCommon(
-            title = title,
-            text = text,
-            icon = icon,
-            buttonText = buttonText,
-            stateColor = color,
-            onAction = onAction,
-            onClose = onClose,
-        )
-    }
+    val (icon: FaIconType, color: Color) = paramsByType(type)
+    NotificationToastCommon(
+        title = title,
+        text = text,
+        icon = icon,
+        buttonText = buttonText,
+        stateColor = color,
+        onAction = onAction,
+        onClose = onClose,
+    )
 }
 
 /**

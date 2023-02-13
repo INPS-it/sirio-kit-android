@@ -222,13 +222,13 @@ data class SirioColors(
     val tabs: SirioTabsColors,
     val searchBar: SirioSearchBarColors,
     val dialog: SirioDialogColors,
-    val isDark: Boolean
+    val isDark: Boolean,
 )
 
 @Immutable
 data class SirioElevation(
     val default: Dp,
-    val pressed: Dp
+    val pressed: Dp,
 )
 
 @Keep

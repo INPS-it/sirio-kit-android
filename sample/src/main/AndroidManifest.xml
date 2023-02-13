@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Sirio">
         <activity
-            android:name=".MainActivity"
+            android:name="it.inps.design.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.Sirio.NoActionBar">
             <intent-filter>
@@ -18,28 +18,28 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".tabbar.TabBarActivity" />
-        <activity android:name=".fab.FabActivity" />
-        <activity android:name=".dialog.DialogActivity" />
-        <activity android:name=".appnavigation.AppNavigationActivity" />
-        <activity android:name=".tag.TagActivity" />
-        <activity android:name=".accordion.AccordionActivity" />
-        <activity android:name=".chip.ChipActivity" />
-        <activity android:name=".checkbox.CheckboxActivity" />
-        <activity android:name=".radiobutton.RadioButtonActivity" />
-        <activity android:name=".toggle.ToggleActivity" />
-        <activity android:name=".slider.SliderActivity" />
-        <activity android:name=".button.ButtonActivity" />
-        <activity android:name=".pagination.PaginationActivity" />
-        <activity android:name=".progressbar.ProgressBarActivity" />
-        <activity android:name=".fileupload.FileUploadActivity" />
-        <activity android:name=".notification.NotificationInlineActivity" />
-        <activity android:name=".notification.NotificationToastActivity" />
-        <activity android:name=".notification.NotificationActivity" />
-        <activity android:name=".searchbar.SearchBarActivity" />
-        <activity android:name=".textfield.TextFieldActivity" />
-        <activity android:name=".tabs.TabActivity" />
-        <activity android:name=".ui.DemoActivity" />
+        <activity android:name="it.inps.design.tabbar.TabBarActivity" />
+        <activity android:name="it.inps.design.fab.FabActivity" />
+        <activity android:name="it.inps.design.dialog.DialogActivity" />
+        <activity android:name="it.inps.design.appnavigation.AppNavigationActivity" />
+        <activity android:name="it.inps.design.tag.TagActivity" />
+        <activity android:name="it.inps.design.accordion.AccordionActivity" />
+        <activity android:name="it.inps.design.chip.ChipActivity" />
+        <activity android:name="it.inps.design.checkbox.CheckboxActivity" />
+        <activity android:name="it.inps.design.radiobutton.RadioButtonActivity" />
+        <activity android:name="it.inps.design.toggle.ToggleActivity" />
+        <activity android:name="it.inps.design.slider.SliderActivity" />
+        <activity android:name="it.inps.design.button.ButtonActivity" />
+        <activity android:name="it.inps.design.pagination.PaginationActivity" />
+        <activity android:name="it.inps.design.progressbar.ProgressBarActivity" />
+        <activity android:name="it.inps.design.fileupload.FileUploadActivity" />
+        <activity android:name="it.inps.design.notification.NotificationInlineActivity" />
+        <activity android:name="it.inps.design.notification.NotificationToastActivity" />
+        <activity android:name="it.inps.design.notification.NotificationActivity" />
+        <activity android:name="it.inps.design.searchbar.SearchBarActivity" />
+        <activity android:name="it.inps.design.textfield.TextFieldActivity" />
+        <activity android:name="it.inps.design.tabs.TabActivity" />
+        <activity android:name="it.inps.design.ui.DemoActivity" />
     </application>
 
 </manifest>

@@ -7,7 +7,7 @@ android {
     compileSdk 33
 
     defaultConfig {
-        applicationId "it.inps.design"
+        applicationId "it.inps.design.sample"
         minSdk 21
         targetSdk 33
         versionCode 4
@@ -44,7 +44,7 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
-    namespace 'it.inps.design'
+    namespace 'it.inps.design.sample'
 }
 
 dependencies {

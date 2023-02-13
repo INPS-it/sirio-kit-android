@@ -40,16 +40,14 @@ fun NotificationInline(
     type: NotificationType,
     onClose: () -> Unit,
 ) {
-    SirioTheme(darkTheme = false) {
-        val (icon: FaIconType, color: Color) = paramsByType(type)
-        NotificationInlineCommon(
-            title = title,
-            text = text,
-            icon = icon,
-            stateColor = color,
-            onClose = onClose,
-        )
-    }
+    val (icon: FaIconType, color: Color) = paramsByType(type)
+    NotificationInlineCommon(
+        title = title,
+        text = text,
+        icon = icon,
+        stateColor = color,
+        onClose = onClose,
+    )
 }
 
 /**

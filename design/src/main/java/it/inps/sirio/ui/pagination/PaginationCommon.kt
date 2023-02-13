@@ -20,7 +20,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,6 +33,7 @@ import it.inps.sirio.ui.button.ButtonSize
 import it.inps.sirio.ui.button.ButtonStyle
 import it.inps.sirio.ui.button.SirioButton
 import it.inps.sirio.theme.*
+import it.inps.sirio.ui.text.SirioTextCommon
 import java.lang.Integer.min
 
 /**
@@ -177,10 +177,10 @@ private fun PaginationTile(
         interactionSource = interactionSource,
     ) {
         Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            Text(
+            SirioTextCommon(
                 text = text,
                 color = paginationParams.numberColor,
-                style = SirioTheme.typography.paginationTileNumber,
+                typography = SirioTheme.typography.paginationTileNumber,
             )
         }
     }

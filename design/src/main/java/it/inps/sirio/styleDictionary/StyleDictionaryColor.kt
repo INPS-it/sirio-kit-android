@@ -5,7 +5,7 @@ package it.inps.sirio.styleDictionary
 
 import androidx.compose.ui.graphics.Color
 
-internal object StyleDictionaryColor {
+object StyleDictionaryColor {
     val colorAliasAppInteractivePrimary000Default = Color(0xffffffff)
     val colorAliasAppInteractivePrimaryActive = Color(0xff0076a8)
     val colorAliasAppInteractiveSecondaryDefault = Color(0xff5b6772)
@@ -24,9 +24,8 @@ internal object StyleDictionaryColor {
     val colorAliasBackgroundColorSecondaryLight40 = Color(0xffe3e5e8)
     val colorAliasBackgroundColorSecondaryLight50 = Color(0xffc6ccd2)
     val colorAliasBackgroundColorSecondaryMid90 = Color(0xff5b6571)
-    val colorAliasGradientAccentPrimary = listOf(Color(0x00007DB3), Color(0xFF18CEE7))
-    val colorAliasGradientAccentPrimaryDark =
-        listOf(Color(0x0000354C), Color(0x81007DB3), Color(0xFF18CEE7))
+    val colorAliasGradientAccentPrimary = listOf(Color(0xFF007DB3), Color(0xFF18CEE7))
+    val colorAliasGradientAccentPrimaryDark = listOf(Color(0xFF00354C), Color(0xFF007DB3), Color(0xFF18CEE7))
     val colorAliasInteractiveAccentDefault = Color(0xff18cee7)
     val colorAliasInteractiveAccentFocus = Color(0xff18cee7)
     val colorAliasInteractiveAccentHover = Color(0xff8ce7f3)
@@ -47,7 +46,7 @@ internal object StyleDictionaryColor {
     val colorAliasInteractiveSecondaryPressed = Color(0xff0b0d0e)
     val colorAliasOverlay15Secondary100 = Color(0x26454D56)
     val colorAliasOverlay25Primary000 = Color(0x400076A8)
-    val colorAliasOverlay90DarkPrimary120 = Color(0x4000354C)
+    val colorAliasOverlay90DarkPrimary120 = Color(0xE600354C)
     val colorAliasTextColorDisabled = Color(0xff5b6571)
     val colorAliasTextColorPrimary100 = Color(0xff0076a8)
     val colorAliasTextColorPrimaryDark110 = Color(0xff005980)
@@ -68,8 +67,8 @@ internal object StyleDictionaryColor {
     val colorGlobalDarkSecondary120 = Color(0xff17191c)
     val colorGlobalDarkSecondary125 = Color(0xff0b0d0e)
     val colorGlobalDarkSecondary130 = Color(0xff000000)
-    val colorGlobalGradient01 = listOf(Color(0x00007DB3), Color(0xFF18CEE7))
-    val colorGlobalGradient02 = listOf(Color(0x0000354C), Color(0x81007DB3), Color(0xFF18CEE7))
+    val colorGlobalGradient01 = listOf(Color(0xFF007DB3), Color(0xFF18CEE7))
+    val colorGlobalGradient02 = listOf(Color(0xFF00354C), Color(0xFF007DB3), Color(0xFF18CEE7))
     val colorGlobalLightPrimary40 = Color(0xffedf4f7)
     val colorGlobalLightPrimary50 = Color(0xffc2e2f0)
     val colorGlobalLightPrimary60 = Color(0xff8cd4f2)
@@ -113,6 +112,5 @@ internal object StyleDictionaryColor {
     val colorSpecificOptionBackgroundColorHover = Color(0xff005980)
     val colorSpecificOptionBackgroundColorPressed = Color(0xff00354c)
     val colorSpecificOptionBackgroundColorValued = Color(0xff0076a8)
-    val colorSpecificProgressbarBackgroundColor =
-        listOf(Color(0x0000354C), Color(0x81007DB3), Color(0xFF18CEE7))
+    val colorSpecificProgressbarBackgroundColor = listOf(Color(0xFF00354C), Color(0xFF007DB3), Color(0xFF18CEE7))
 }

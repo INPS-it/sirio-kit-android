@@ -10,7 +10,6 @@ package it.inps.sirio.ui.fileupload
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,6 +25,7 @@ import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.theme.fileUploadItemsPadding
 import it.inps.sirio.theme.fileUploadTextPaddingBottom
 import it.inps.sirio.theme.fileUploadTitlePaddingBottom
+import it.inps.sirio.ui.text.SirioTextCommon
 
 /**
  * Component that handle file selection with a title, a text, a button and a list of file names
@@ -48,18 +48,18 @@ internal fun FileUploadCommon(
 ) {
     Column(modifier = Modifier.wrapContentSize()) {
         title?.let {
-            Text(
+            SirioTextCommon(
                 text = it,
                 color = SirioTheme.colors.fileUploadTitle,
-                style = SirioTheme.typography.sliderTitle,
+                typography = SirioTheme.typography.sliderTitle,
             )
             Spacer(modifier = Modifier.height(fileUploadTitlePaddingBottom))
         }
         text?.let {
-            Text(
+            SirioTextCommon(
                 text = it,
                 color = SirioTheme.colors.fileUploadText,
-                style = SirioTheme.typography.sliderText,
+                typography = SirioTheme.typography.sliderText,
             )
             Spacer(modifier = Modifier.height(fileUploadTextPaddingBottom))
         }
@@ -93,7 +93,7 @@ internal fun FileUploadCommon(
 
 @Preview
 @Composable
-private fun SliderCommonPreview() {
+private fun FileUploadCommonPreview() {
     SirioTheme {
         Column(Modifier.background(Color(0xFFE5E5E5))) {
             FileUploadCommon(

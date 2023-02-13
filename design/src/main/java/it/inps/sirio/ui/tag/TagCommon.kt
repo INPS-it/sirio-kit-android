@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,6 +21,7 @@ import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.theme.tagElevation
 import it.inps.sirio.theme.tagHorizontalPadding
 import it.inps.sirio.theme.tagVerticalPadding
+import it.inps.sirio.ui.text.SirioTextCommon
 
 /**
  * Sirio tag implementation
@@ -41,10 +41,10 @@ internal fun TagCommon(text: String, backgroundColor: Color, textColor: Color) {
             modifier = Modifier.padding(tagHorizontalPadding, tagVerticalPadding),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
+            SirioTextCommon(
                 text = text,
-                style = SirioTheme.typography.tagText,
                 color = textColor,
+                typography = SirioTheme.typography.tagText,
             )
         }
     }

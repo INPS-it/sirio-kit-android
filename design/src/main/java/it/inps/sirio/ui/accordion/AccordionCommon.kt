@@ -29,7 +29,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.guru.fontawesomecomposelib.FaIcons
 import it.inps.sirio.theme.*
-import it.inps.sirio.utils.FaIconCentered
+import it.inps.sirio.ui.text.SirioTextCommon
+import it.inps.sirio.utils.SirioIcon
 
 
 /**
@@ -84,13 +85,13 @@ internal fun AccordionCommon(
                 .padding(horizontal = accordionHorizontalPadding),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
+            SirioTextCommon(
                 text = text,
                 modifier = Modifier.weight(1f),
-                style = SirioTheme.typography.accordionText,
                 color = contentColor,
+                typography = SirioTheme.typography.accordionText,
             )
-            FaIconCentered(
+            SirioIcon(
                 icon = if (open) FaIcons.AngleUp else FaIcons.AngleDown,
                 iconColor = contentColor,
             )
@@ -123,7 +124,7 @@ private fun getAccordionParams(
     isFocused: Boolean,
     isPressed: Boolean,
     isHovered: Boolean,
-    expanded: Boolean
+    expanded: Boolean,
 ) = if (!enabled) AccordionParams(
     SirioTheme.colors.accordion.background.disabled,
     SirioTheme.colors.accordion.content.disabled,
@@ -167,7 +168,7 @@ data class AccordionParams(
     val backgroundColor: Color,
     val contentColor: Color,
     val borderColor: Color,
-    val borderWidth: Dp
+    val borderWidth: Dp,
 )
 
 @Keep
@@ -206,8 +207,7 @@ private fun AccordionCommonPreview() {
             AccordionCommon(text = "Accordion Item #1") { Text(text = "Content") }
             AccordionCommon(text = "Accordion Item #1", open = true) {
                 Column() {
-                    for (i in 1..5)
-                     {
+                    for (i in 1..5) {
                         Text(
                             text = "Content $i",
                             Modifier.background(Color.Red)

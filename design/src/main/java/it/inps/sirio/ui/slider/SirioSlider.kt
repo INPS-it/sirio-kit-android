@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import it.inps.sirio.theme.SirioTheme
 import java.lang.Integer.min
 
 /**
@@ -51,23 +52,25 @@ fun SirioSlider(
 @Preview
 @Composable
 private fun SliderPreview() {
-    Column(Modifier.background(Color(0xFFE5E5E5))) {
-        SirioSlider(
-            title = "Slider label",
-            text = "*Info upload file",
-            value = 20,
-            minValue = 0,
-            maxValue = 100,
-            onValueChange = {},
-        )
-        SirioSlider(
-            title = "Slider label",
-            text = "*Info upload file",
-            value = 20,
-            minValue = 0,
-            maxValue = 100,
-            enabled = false,
-            onValueChange = {},
-        )
+    SirioTheme {
+        Column(Modifier.background(Color(0xFFE5E5E5))) {
+            SirioSlider(
+                title = "Slider label",
+                text = "*Info upload file",
+                value = 20,
+                minValue = 0,
+                maxValue = 100,
+                onValueChange = {},
+            )
+            SirioSlider(
+                title = "Slider label",
+                text = "*Info upload file",
+                value = 20,
+                minValue = 0,
+                maxValue = 100,
+                enabled = false,
+                onValueChange = {},
+            )
+        }
     }
 }

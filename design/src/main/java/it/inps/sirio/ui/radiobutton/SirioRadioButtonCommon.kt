@@ -17,7 +17,6 @@ import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -28,6 +27,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import it.inps.sirio.theme.*
+import it.inps.sirio.ui.text.SirioTextCommon
 
 /**
  * Radio button implementation
@@ -81,10 +81,10 @@ internal fun SirioRadioButtonCommon(
             borderColor = borderColor
         )
         text?.let {
-            Text(
+            SirioTextCommon(
                 text = it,
                 color = textColor,
-                style = SirioTheme.typography.radioLabelText,
+                typography = SirioTheme.typography.radioLabelText,
             )
         }
     }

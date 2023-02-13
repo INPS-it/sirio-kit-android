@@ -6,7 +6,7 @@ package it.inps.sirio.styleDictionary
 import it.inps.sirio.theme.*
 import it.inps.sirio.theme.TypographyStyle.*
 
-internal object StyleDictionaryTypography {
+object StyleDictionaryTypography {
     val typographyAliasDisclaimerFontWeight400 = Regular
     val typographyAliasFontFamilyNumber03 = Roboto_Mono
     val typographyAliasH1FontWeight700 = Bold

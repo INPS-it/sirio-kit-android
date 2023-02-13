@@ -18,7 +18,6 @@ import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -30,7 +29,8 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import com.guru.fontawesomecomposelib.FaIcons
 import it.inps.sirio.theme.*
-import it.inps.sirio.utils.FaIconCentered
+import it.inps.sirio.ui.text.SirioTextCommon
+import it.inps.sirio.utils.SirioIcon
 
 /**
  * Sirio checkbox implementation
@@ -85,10 +85,10 @@ internal fun CheckboxCommon(
             borderColor = borderColor
         )
         text?.let {
-            Text(
+            SirioTextCommon(
                 text = it,
                 color = textColor,
-                style = SirioTheme.typography.checkboxLabelText,
+                typography = SirioTheme.typography.checkboxLabelText,
             )
         }
     }
@@ -141,7 +141,7 @@ private fun CustomCheckbox(
             contentAlignment = Alignment.Center
         ) {
             if (checked) {
-                FaIconCentered(
+                SirioIcon(
                     icon = FaIcons.Check,
                     size = checkboxCheckSize,
                     iconColor = checkColor,

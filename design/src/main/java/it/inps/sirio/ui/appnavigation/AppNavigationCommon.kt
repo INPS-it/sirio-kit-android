@@ -15,7 +15,9 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.material.ripple.RippleAlpha
 import androidx.compose.material.ripple.RippleTheme
-import androidx.compose.material3.*
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,7 +25,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.guru.fontawesomecomposelib.*
 import it.inps.sirio.theme.*
-import it.inps.sirio.utils.FaIconCentered
+import it.inps.sirio.ui.text.SirioTextCommon
+import it.inps.sirio.utils.SirioIcon
 
 /**
  * The title of the app navigation
@@ -34,10 +37,10 @@ import it.inps.sirio.utils.FaIconCentered
  */
 @Composable
 internal fun AppNavigationTitle(title: String, long: Boolean = false, big: Boolean = false) {
-    Text(
+    SirioTextCommon(
         text = title,
-        style = if (big) SirioTheme.typography.appNavigationTitleBig else SirioTheme.typography.appNavigationTitle,
         maxLines = if (long) appNavigationTitleLongMaxLines else appNavigationTitleMaxLines,
+        typography = if (big) SirioTheme.typography.appNavigationTitleBig else SirioTheme.typography.appNavigationTitle,
     )
 }
 
@@ -92,7 +95,7 @@ internal fun AppNavigationIconButton(
     action: () -> Unit,
 ) {
     IconButton(onClick = action) {
-        FaIconCentered(
+        SirioIcon(
             icon = icon,
             iconColor = SirioTheme.colors.appNavigationIcon,
             size = appNavigationIconSize,
@@ -118,10 +121,10 @@ internal fun AppNavigationUsernameButton(
         contentPadding = PaddingValues(0.dp),
         shape = CircleShape
     ) {
-        Text(
+        SirioTextCommon(
             text = username.take(2).uppercase(),
             color = SirioTheme.colors.appNavigationUsernameText,
-            style = SirioTheme.typography.appNavigationUsername,
+            typography = SirioTheme.typography.appNavigationUsername,
         )
     }
 }

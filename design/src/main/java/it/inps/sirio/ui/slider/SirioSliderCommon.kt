@@ -33,6 +33,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import it.inps.sirio.theme.*
+import it.inps.sirio.ui.text.SirioTextCommon
 import java.lang.Integer.min
 import kotlin.math.max
 import kotlin.math.roundToInt
@@ -95,18 +96,18 @@ internal fun SirioSliderCommon(
 
     Column {
         title?.let {
-            Text(
+            SirioTextCommon(
                 text = it,
                 color = SirioTheme.colors.sliderTitle,
-                style = SirioTheme.typography.sliderTitle,
+                typography = SirioTheme.typography.sliderTitle,
             )
             Spacer(modifier = Modifier.height(sliderTitlePaddingBottom))
         }
         text?.let {
-            Text(
+            SirioTextCommon(
                 text = it,
                 color = SirioTheme.colors.sliderText,
-                style = SirioTheme.typography.sliderText,
+                typography = SirioTheme.typography.sliderText,
             )
             Spacer(modifier = Modifier.height(sliderTextPaddingBottom))
         }
@@ -141,17 +142,17 @@ internal fun SirioSliderCommon(
                         .wrapContentHeight(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Text(
+                    SirioTextCommon(
                         text = "$minValue",
                         modifier = Modifier.padding(start = 8.dp),
                         color = SirioTheme.colors.sliderNumbers,
-                        style = SirioTheme.typography.sliderNumber,
+                        typography = SirioTheme.typography.sliderNumber,
                     )
-                    Text(
+                    SirioTextCommon(
                         text = "$maxValue",
                         modifier = Modifier.padding(end = 8.dp),
                         color = SirioTheme.colors.sliderNumbers,
-                        style = SirioTheme.typography.sliderNumber,
+                        typography = SirioTheme.typography.sliderNumber,
                     )
                 }
             }

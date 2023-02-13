@@ -18,7 +18,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.LeadingIconTab
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
@@ -31,7 +30,8 @@ import androidx.compose.ui.unit.dp
 import com.guru.fontawesomecomposelib.FaIconType
 import com.guru.fontawesomecomposelib.FaIcons
 import it.inps.sirio.theme.*
-import it.inps.sirio.utils.FaIconCentered
+import it.inps.sirio.ui.text.SirioTextCommon
+import it.inps.sirio.utils.SirioIcon
 
 /**
  * Sirio tab implementation
@@ -77,14 +77,14 @@ internal fun SirioTabCommon(
             selected = selected,
             onClick = onSelect,
             text = {
-                Text(
+                SirioTextCommon(
                     text = label,
                     color = tabsParams.labelColor,
-                    style = if (selected) SirioTheme.typography.tabTextSelected else SirioTheme.typography.tabTextDefault
+                    typography = if (selected) SirioTheme.typography.tabTextSelected else SirioTheme.typography.tabTextDefault
                 )
             },
             icon = {
-                FaIconCentered(
+                SirioIcon(
                     icon = icon,
                     iconColor = tabsParams.iconColor,
                     size = tabIconSize

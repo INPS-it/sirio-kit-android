@@ -21,7 +21,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
-import it.inps.design.R
+import it.inps.design.sample.R
 
 @Composable
 fun HomeScreen() {

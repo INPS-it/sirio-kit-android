@@ -11,17 +11,13 @@ android {
         minSdk = 21
         targetSdk = 33
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
 
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            isShrinkResources = false
         }
     }
     compileOptions {
@@ -45,31 +41,27 @@ android {
     namespace = "it.inps.sirio"
 }
 
-val compose_alpha = "1.3.0-alpha02"
+val compose_alpha = "1.3.0"
 val compose_version = "1.2.0"
 val nav_version = "2.5.1"
 
 dependencies {
-    implementation("androidx.core:core-ktx:1.8.0")
-    implementation("androidx.appcompat:appcompat:1.4.2")
-    implementation("com.google.android.material:material:1.6.1")
+//    val composeBom = platform("androidx.compose:compose-bom:2022.11.00")
+//    implementation(composeBom)
+//    androidTestImplementation(composeBom)
+
+    implementation("com.google.android.material:material:1.7.0")
     implementation("androidx.compose.ui:ui:$compose_alpha")
     implementation("androidx.compose.material:material:$compose_alpha")
     implementation("androidx.compose.ui:ui-tooling-preview:$compose_alpha")
-    implementation("androidx.compose.material3:material3:1.0.0-alpha15")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
-    implementation("androidx.activity:activity-compose:1.5.1")
     implementation("androidx.navigation:navigation-compose:$nav_version")
-    implementation("com.google.accompanist:accompanist-flowlayout:0.25.0")
+    implementation("androidx.compose.material3:material3:1.0.1")
+    implementation("com.google.accompanist:accompanist-flowlayout:0.27.0")
     debugImplementation("androidx.compose.ui:ui-tooling:$compose_alpha")
     api("com.github.Gurupreet:FontAwesomeCompose:1.1.0")
-    androidTestImplementation("androidx.test.ext:junit:1.1.3")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:$compose_version")
-    testImplementation("junit:junit:4.13.2")
 
-    //Workaround
-    debugImplementation("androidx.customview:customview:1.2.0-alpha01")
+//Workaround
+    debugImplementation("androidx.customview:customview:1.2.0-alpha02")
     debugImplementation("androidx.customview:customview-poolingcontainer:1.0.0")
 }
 

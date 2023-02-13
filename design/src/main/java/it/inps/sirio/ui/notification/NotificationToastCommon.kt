@@ -11,7 +11,6 @@ package it.inps.sirio.ui.notification
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,7 +22,8 @@ import it.inps.sirio.ui.button.SirioButton
 import it.inps.sirio.ui.button.ButtonSize
 import it.inps.sirio.ui.button.ButtonStyle
 import it.inps.sirio.theme.*
-import it.inps.sirio.utils.FaIconCentered
+import it.inps.sirio.ui.text.SirioTextCommon
+import it.inps.sirio.utils.SirioIcon
 
 /**
  * Toast notification implementation with an icon, the state color,
@@ -67,32 +67,32 @@ internal fun NotificationToastCommon(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                FaIconCentered(
+                SirioIcon(
                     icon = icon,
                     size = notificationToastIconSize,
                     iconColor = SirioTheme.colors.notificationColors.icon,
                 )
                 IconButton(onClick = onClose) {
-                    FaIconCentered(
+                    SirioIcon(
                         icon = FaIcons.Times,
                         size = notificationToastCloseSize,
                         iconColor = SirioTheme.colors.notificationColors.icon,
                     )
                 }
             }
-            Text(
+            SirioTextCommon(
                 text = title,
                 modifier = Modifier.wrapContentSize(),
                 color = SirioTheme.colors.notificationColors.title,
-                style = SirioTheme.typography.notificationToastTitle,
                 maxLines = 1,
+                typography = SirioTheme.typography.notificationToastTitle,
             )
             Spacer(modifier = Modifier.height(notificationToastTitleBottomSpacer))
-            Text(
+            SirioTextCommon(
                 text = text,
                 modifier = Modifier.wrapContentSize(),
                 color = SirioTheme.colors.notificationColors.text,
-                style = SirioTheme.typography.notificationToastText,
+                typography = SirioTheme.typography.notificationToastText,
             )
             if (!buttonText.isNullOrEmpty() && onAction != null) {
                 Spacer(modifier = Modifier.height(notificationToastTextBottomSpacer))
