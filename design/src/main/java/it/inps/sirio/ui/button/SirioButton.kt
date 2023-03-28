@@ -8,6 +8,7 @@
 
 package it.inps.sirio.ui.button
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,6 +29,7 @@ import it.inps.sirio.theme.SirioTheme
  * @param size The [ButtonSize]
  * @param style The [ButtonStyle]
  * @param icon The icon
+ * @param iconResId Resources object to query the image file from
  * @param enabled Whether the button is enabled
  * @param useMaxWidth Whether the button had to fill the parent width
  * @param onClick The callback when the button is clicked
@@ -38,9 +40,11 @@ fun SirioButton(
     size: ButtonSize,
     style: ButtonStyle,
     icon: FaIconType? = null,
+    @DrawableRes iconResId: Int? = null,
     enabled: Boolean = true,
     useMaxWidth: Boolean = false,
-    onClick: () -> Unit
+    iconContentDescription: String? = null,
+    onClick: () -> Unit,
 ) {
     val colors: SirioButtonColors = when (style) {
         ButtonStyle.Primary -> SirioTheme.colors.buttons.buttonPrimary
@@ -54,11 +58,13 @@ fun SirioButton(
 
     SirioButtonCommon(
         text = text,
-        icon = icon,
+        faIcon = icon,
+        iconResId = iconResId,
         enabled = enabled,
         colors = colors,
         useMaxWidth = useMaxWidth,
         onClick = onClick,
+        iconContentDescription = iconContentDescription,
         size = size,
     )
 }

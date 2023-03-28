@@ -23,9 +23,9 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.guru.fontawesomecomposelib.FaIcons
-import it.inps.sirio.ui.textfield.TextFieldSemantic
-import it.inps.sirio.ui.textfield.SirioTextField
 import it.inps.sirio.theme.SirioTheme
+import it.inps.sirio.ui.textfield.SirioTextField
+import it.inps.sirio.ui.textfield.TextFieldSemantic
 
 class TextFieldActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,6 +56,7 @@ fun TextFieldDemoContent() {
             verticalArrangement = Arrangement.spacedBy(30.dp),
         ) {
             var text by remember { mutableStateOf("Text") }
+            var secured by remember { mutableStateOf(true) }
             val label = "Label"
             val helperText = "*Helper text"
             SirioTextField(
@@ -116,6 +117,18 @@ fun TextFieldDemoContent() {
                 onInfoClick = {},
                 icon = FaIcons.Calendar,
                 enabled = false,
+            )
+            Text(text = "Secured")
+            SirioTextField(
+                text = text,
+                secureText = secured,
+                onValueChange = { text = it },
+                label = label,
+                helperText = helperText,
+                onInfoClick = {},
+                icon = if (secured) FaIcons.EyeSlash else FaIcons.Eye,
+                onIconClick = { secured = !secured },
+                enabled = true,
             )
         }
     }

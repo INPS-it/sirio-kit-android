@@ -18,12 +18,15 @@ import androidx.compose.material.ripple.RippleTheme
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.TextButton
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.guru.fontawesomecomposelib.*
+import com.guru.fontawesomecomposelib.FaIconType
 import it.inps.sirio.theme.*
 import it.inps.sirio.ui.text.SirioTextCommon
 import it.inps.sirio.utils.SirioIcon
@@ -77,9 +80,17 @@ internal fun AppNavigationButton(
         LocalRippleTheme provides AppNavigationButtonRippleTheme,
     ) {
         if (data.username.isNotBlank())
-            AppNavigationUsernameButton(username = data.username, action = data.action)
+            AppNavigationUsernameButton(
+                username = data.username,
+                contentDescription = data.contentDescription,
+                action = data.action
+            )
         else
-            AppNavigationIconButton(icon = data.icon, action = data.action)
+            AppNavigationIconButton(
+                icon = data.icon,
+                contentDescription = data.contentDescription,
+                action = data.action
+            )
     }
 }
 
@@ -92,13 +103,15 @@ internal fun AppNavigationButton(
 @Composable
 internal fun AppNavigationIconButton(
     icon: FaIconType,
+    contentDescription: String? = null,
     action: () -> Unit,
 ) {
     IconButton(onClick = action) {
         SirioIcon(
-            icon = icon,
+            faIcon = icon,
             iconColor = SirioTheme.colors.appNavigationIcon,
             size = appNavigationIconSize,
+            contentDescription = contentDescription,
         )
     }
 }
@@ -107,16 +120,26 @@ internal fun AppNavigationIconButton(
  * A button with the username's first two letter
  *
  * @param username The username
+ * @param contentDescription The content description for the item
  * @param action The callback at click
  */
 @Composable
 internal fun AppNavigationUsernameButton(
     username: String,
+    contentDescription: String? = null,
     action: () -> Unit,
 ) {
+    val semantics =
+        if (contentDescription != null) {
+            Modifier.semantics { this.contentDescription = contentDescription }
+        } else {
+            Modifier
+        }
     TextButton(
         onClick = action,
-        modifier = Modifier.size(appNavigationUsernameButtonSize),
+        modifier = Modifier
+            .size(appNavigationUsernameButtonSize)
+            .then(semantics),
         colors = ButtonDefaults.textButtonColors(containerColor = SirioTheme.colors.appNavigationUsernameBackground),
         contentPadding = PaddingValues(0.dp),
         shape = CircleShape

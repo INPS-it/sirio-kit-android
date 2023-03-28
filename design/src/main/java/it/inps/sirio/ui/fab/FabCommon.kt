@@ -175,7 +175,7 @@ private fun FabIcon(
     iconColor: Color
 ) {
     SirioIcon(
-        icon = icon,
+        faIcon = icon,
         size = fabIconSize,
         iconColor = iconColor,
     )

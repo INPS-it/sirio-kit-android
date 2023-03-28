@@ -22,13 +22,20 @@ import it.inps.sirio.theme.SirioTheme
  * @param label The label above the progress
  * @param progress The progress between 0 and [maxValue]
  * @param maxValue The max value allowed
+ * @param showPercentage A boolean value indicating if the percentage of progress should be displayed. Defaults to true
  */
 @Composable
-fun SirioProgressBar(label: String, progress: Float, maxValue: Float = 100f) {
+fun SirioProgressBar(
+    label: String,
+    progress: Float,
+    maxValue: Float = 100f,
+    showPercentage: Boolean = true,
+) {
     SirioProgressBarCommon(
         label = label,
         progress = progress,
         maxValue = maxValue,
+        showPercentage = showPercentage,
     )
 }
 
@@ -40,11 +47,17 @@ fun SirioProgressBar(label: String, progress: Float, maxValue: Float = 100f) {
  * @param maxValue The max value allowed
  */
 @Composable
-fun SirioProgressBar(label: String, progress: Int, maxValue: Int = 100) {
+fun SirioProgressBar(
+    label: String,
+    progress: Int,
+    maxValue: Int = 100,
+    showPercentage: Boolean = true,
+) {
     SirioProgressBarCommon(
         label = label,
         progress = progress.toFloat(),
         maxValue = maxValue.toFloat(),
+        showPercentage = showPercentage,
     )
 }
 

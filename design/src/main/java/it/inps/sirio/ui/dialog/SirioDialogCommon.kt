@@ -19,6 +19,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layout
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.window.Dialog
@@ -47,6 +48,7 @@ import it.inps.sirio.utils.SirioIcon
  * @param positiveButtonText The text on the colored button. If null the button is hidden
  * @param positiveButtonColor The color of the positive button
  * @param neutralButtonText The text on the ghost button. If null the button is hidden
+ * @param closeContentDescription The content description of the close button
  * @param onPositive The callback when the colored button is pressed. It return a [Pair] whit the input field values if present
  * @param onNeutral The callback when the colored button is pressed. It return a [Pair] whit the input field values if present
  * @param onDismiss The callback when the dialog is dismissed
@@ -65,6 +67,7 @@ fun SirioDialogCommon(
     positiveButtonText: String?,
     positiveButtonColor: SirioButtonColors,
     neutralButtonText: String?,
+    closeContentDescription: String? = null,
     onPositive: (Pair<String?, String?>) -> Unit,
     onNeutral: (Pair<String?, String?>) -> Unit,
     onDismiss: () -> Unit,
@@ -98,25 +101,28 @@ fun SirioDialogCommon(
                         modifier = Modifier.align(Alignment.End),
                         size = ButtonSize.Large,
                         colors = SirioTheme.colors.buttons.buttonGhost,
-                        icon = FaIcons.Times,
+                        faIcon = FaIcons.Times,
+                        iconContentDescription = closeContentDescription,
                         onClick = onDismiss,
                     )
-                    semanticIcon?.let {
-                        SirioIcon(icon = semanticIcon, iconColor = semanticIconColor)
-                        Spacer(modifier = Modifier.height(dialogSemanticIconBottomPadding))
-                    }
-                    SirioTextCommon(
-                        text = title,
-                        typography = SirioTheme.typography.dialogTitle,
-                        color = SirioTheme.colors.dialog.title,
-                    )
-                    text?.let {
-                        Spacer(modifier = Modifier.height(dialogTextTopPadding))
+                    Column(modifier = Modifier.semantics(mergeDescendants = true) {}) {
+                        semanticIcon?.let {
+                            SirioIcon(faIcon = semanticIcon, iconColor = semanticIconColor)
+                            Spacer(modifier = Modifier.height(dialogSemanticIconBottomPadding))
+                        }
                         SirioTextCommon(
-                            text = text,
-                            typography = SirioTheme.typography.dialogText,
-                            color = SirioTheme.colors.dialog.text,
+                            text = title,
+                            typography = SirioTheme.typography.dialogTitle,
+                            color = SirioTheme.colors.dialog.title,
                         )
+                        text?.let {
+                            Spacer(modifier = Modifier.height(dialogTextTopPadding))
+                            SirioTextCommon(
+                                text = text,
+                                typography = SirioTheme.typography.dialogText,
+                                color = SirioTheme.colors.dialog.text,
+                            )
+                        }
                     }
                     firstInputTitle?.let { title ->
                         Spacer(modifier = Modifier.height(dialogInputTopPadding))

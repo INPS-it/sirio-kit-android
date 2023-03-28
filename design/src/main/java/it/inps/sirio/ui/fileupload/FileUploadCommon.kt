@@ -34,6 +34,7 @@ import it.inps.sirio.ui.text.SirioTextCommon
  * @param text The component text, placed under the title
  * @param enabled Whether the component allow items add/remove
  * @param uploadList The list of already added file names
+ * @param closeContentDescription The content description of the close button
  * @param onDeleteClick The callback when a file delete button is pressed. It pass index and name of the selected file
  * @param onUploadClick The callback when the upload button is pressed
  */
@@ -43,6 +44,7 @@ internal fun FileUploadCommon(
     text: String? = null,
     enabled: Boolean = true,
     uploadList: List<String>,
+    closeContentDescription: String? = null,
     onDeleteClick: (index: Int, value: String) -> Unit,
     onUploadClick: () -> Unit,
 ) {
@@ -83,7 +85,11 @@ internal fun FileUploadCommon(
             lastLineMainAxisAlignment = FlowMainAxisAlignment.Start,
         ) {
             uploadList.forEachIndexed { index, item ->
-                ChipLabelClose(label = item, enabled = enabled) {
+                ChipLabelClose(
+                    label = item,
+                    enabled = enabled,
+                    closeContentDescription = closeContentDescription,
+                ) {
                     onDeleteClick(index, item)
                 }
             }

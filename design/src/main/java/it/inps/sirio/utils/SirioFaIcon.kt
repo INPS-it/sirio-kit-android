@@ -5,6 +5,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -31,7 +33,8 @@ fun SirioFaIcon(
     faIcon: FaIconType,
     modifier: Modifier = Modifier,
     size: Dp = 24.dp,
-    tint: Color = Color.Unspecified
+    tint: Color = Color.Unspecified,
+    contentDescription: String? = null,
 ) {
     val scaleFactor = LocalConfiguration.current.fontScale
 
@@ -45,9 +48,14 @@ fun SirioFaIcon(
             fontSize = scaleIndependentFontSize
         )
 
+    val modifierWithContentDescription = if (contentDescription == null) {
+        Modifier
+    } else {
+        Modifier.semantics { this.contentDescription = contentDescription }
+    }
     BasicText(
         text = faIcon.src.codePointToString(),
-        modifier = modifier,
+        modifier = modifier.then(modifierWithContentDescription),
         style = faTextStyle,
     )
 }
@@ -77,7 +85,7 @@ private fun getFontFamily(faIconType: FaIconType): FontFamily {
 
 private fun scaleIndependentFontSize(sizeInDp: Dp, scaleFactor: Float): TextUnit {
     val materialIconOffset = 0.dp
-    return ((sizeInDp - materialIconOffset).value  / scaleFactor).sp
+    return ((sizeInDp - materialIconOffset).value / scaleFactor).sp
 }
 
 private fun Int.codePointToString() = this.toChar().toString()

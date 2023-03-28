@@ -42,6 +42,7 @@ import it.inps.sirio.utils.SirioIcon
  * @param withClose Whether the chip has the close button on the right
  * @param isActive Whether the chip is active
  * @param enabled Whether the chip is enabled
+ * @param closeContentDescription The content description of the close button
  * @param onClose The callback when the chip close button is clicked
  * @param onStateChange The callback when the chip active state change
  */
@@ -53,8 +54,9 @@ internal fun ChipCommon(
     withClose: Boolean,
     isActive: Boolean,
     enabled: Boolean,
+    closeContentDescription: String? = null,
     onClose: () -> Unit,
-    onStateChange: (active: Boolean) -> Unit
+    onStateChange: (active: Boolean) -> Unit,
 ) {
     val withIcon = icon != null
     val active by remember(withClose, isActive) { mutableStateOf(withClose || isActive) }
@@ -93,8 +95,7 @@ internal fun ChipCommon(
             modifier = Modifier
                 .height(chipBigHeight)
                 .wrapContentWidth()
-                .focusable(enabled = true, interactionSource = interactionSource)
-            ,
+                .focusable(enabled = true, interactionSource = interactionSource),
             enabled = enabled,
             shape = CircleShape,
             border = BorderStroke(
@@ -117,7 +118,7 @@ internal fun ChipCommon(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 icon?.let {
-                    SirioIcon(icon = it, size = chipIconSize, iconColor = contentColor)
+                    SirioIcon(faIcon = it, size = chipIconSize, iconColor = contentColor)
                     Spacer(modifier = Modifier.width(iconEndPadding))
                 }
                 SirioTextCommon(
@@ -137,9 +138,10 @@ internal fun ChipCommon(
                         colors = ButtonDefaults.outlinedButtonColors(containerColor = buttonBackgroundColor)
                     ) {
                         SirioIcon(
-                            icon = FaIcons.Times,
+                            faIcon = FaIcons.Times,
                             size = chipButtonIconSize,
                             iconColor = contentColor,
+                            contentDescription = closeContentDescription,
                         )
                     }
                 }
@@ -157,7 +159,7 @@ internal fun ChipCommon(
 @Composable
 private fun getChipPadding(
     withIcon: Boolean,
-    withClose: Boolean
+    withClose: Boolean,
 ): Triple<Dp, Dp, Dp> {
     val startPadding: Dp
     val endPadding: Dp
@@ -191,7 +193,7 @@ private fun getChipParams(
     isPressed: Boolean,
     isHovered: Boolean,
     active: Boolean,
-    withClose: Boolean
+    withClose: Boolean,
 ) = if (!enabled) {
     ChipParams(
         backgroundColor = SirioTheme.colors.chipDisabledBackground,

@@ -8,6 +8,7 @@
 
 package it.inps.sirio.ui.button
 
+import androidx.annotation.DrawableRes
 import androidx.annotation.Keep
 import androidx.compose.foundation.*
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -39,9 +40,11 @@ import it.inps.sirio.utils.SirioIcon
  * @param colors The colors depends on [ButtonStyle]
  * @param modifier The modifier is used only by other Sirio components
  * @param text The string on the button
- * @param icon The icon
+ * @param faIcon The font awesome icon
+ * @param iconResId Resources object to query the image file from
  * @param enabled Whether the button is enabled
  * @param useMaxWidth Whether the button had to fill the parent width
+ * @param iconContentDescription The content description for the icon
  * @param onClick The callback when the button is clicked
  */
 @Composable
@@ -50,10 +53,12 @@ internal fun SirioButtonCommon(
     colors: SirioButtonColors,
     modifier: Modifier = Modifier,
     text: String? = null,
-    icon: FaIconType? = null,
+    faIcon: FaIconType? = null,
+    @DrawableRes iconResId: Int? = null,
     enabled: Boolean = true,
     useMaxWidth: Boolean = false,
-    onClick: () -> Unit
+    iconContentDescription: String? = null,
+    onClick: () -> Unit,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
@@ -96,7 +101,16 @@ internal fun SirioButtonCommon(
                 disabledContainerColor = buttonParams.backgroundColor,
             ),
             contentPadding = getContentPadding(size, isFocused, text.isNullOrEmpty()),
-            content = { ButtonContent(text, buttonParams.textColor, icon, buttonParams.iconColor) }
+            content = {
+                ButtonContent(
+                    text = text,
+                    textColor = buttonParams.textColor,
+                    icon = faIcon,
+                    iconResId = iconResId,
+                    iconColor = buttonParams.iconColor,
+                    iconContentDescription = iconContentDescription,
+                )
+            }
         )
     }
 }
@@ -161,7 +175,7 @@ private fun getButtonParams(
 private fun getContentPadding(
     size: ButtonSize,
     isFocused: Boolean,
-    noText: Boolean
+    noText: Boolean,
 ): PaddingValues =
     when (size) {
         ButtonSize.Large -> {
@@ -229,15 +243,20 @@ private fun getContentPadding(
  * @param text The string in the button
  * @param textColor The text color
  * @param icon The FA icon
+ * @param iconResId Resources object to query the image file from
  * @param iconColor The icon color
+ * @param iconContentDescription The content description for the icon
  */
 @Composable
 private fun ButtonContent(
     text: String?,
     textColor: Color,
     icon: FaIconType?,
-    iconColor: Color
+    @DrawableRes iconResId: Int?,
+    iconColor: Color,
+    iconContentDescription: String? = null,
 ) {
+    val withIcon = icon != null || iconResId != null
     if (!text.isNullOrEmpty()) {
         SirioTextCommon(
             text = text,
@@ -245,11 +264,17 @@ private fun ButtonContent(
             typography = SirioTheme.typography.buttonText,
         )
     }
-    if (!text.isNullOrEmpty() && icon != null) {
+    if (!text.isNullOrEmpty() && withIcon) {
         Spacer(Modifier.size(buttonTextIconSpacerWidth))
     }
-    if (icon != null) {
-        SirioIcon(icon, iconColor, buttonIconSize)
+    if (withIcon) {
+        SirioIcon(
+            faIcon = icon,
+            iconResId = iconResId,
+            iconColor = iconColor,
+            size = buttonIconSize,
+            contentDescription = iconContentDescription,
+        )
     }
 }
 
@@ -270,7 +295,7 @@ data class SirioButtonColors(
     constructor(
         background: SirioColorState,
         border: SirioColorState? = null,
-        content: SirioColorState
+        content: SirioColorState,
     ) : this(background = background, border = border, icon = content, text = content)
 
     companion object {
@@ -318,6 +343,7 @@ private fun ButtonCommonPreview() {
             ButtonCommonPreviewContent(size = ButtonSize.Large)
             ButtonCommonPreviewContent(size = ButtonSize.Medium)
             ButtonCommonPreviewContent(size = ButtonSize.Small)
+
         }
     }
 }
@@ -338,12 +364,12 @@ private fun ButtonCommonPreviewContent(size: ButtonSize) {
         ) {}
         SirioButtonCommon(
             text = text,
-            icon = FaIcons.ArrowRight,
+            faIcon = FaIcons.ArrowRight,
             colors = SirioTheme.colors.buttons.buttonPrimary,
             size = size,
         ) {}
         SirioButtonCommon(
-            icon = FaIcons.ArrowRight,
+            faIcon = FaIcons.ArrowRight,
             colors = SirioTheme.colors.buttons.buttonPrimary,
             size = size,
         ) {}
@@ -362,13 +388,13 @@ private fun ButtonCommonPreviewContent(size: ButtonSize) {
         ) {}
         SirioButtonCommon(
             text = text,
-            icon = FaIcons.ArrowRight,
+            faIcon = FaIcons.ArrowRight,
             colors = SirioTheme.colors.buttons.buttonPrimary,
             enabled = false,
             size = size,
         ) {}
         SirioButtonCommon(
-            icon = FaIcons.ArrowRight,
+            faIcon = FaIcons.ArrowRight,
             colors = SirioTheme.colors.buttons.buttonPrimary,
             enabled = false,
             size = size,
@@ -387,12 +413,12 @@ private fun ButtonCommonPreviewContent(size: ButtonSize) {
         ) {}
         SirioButtonCommon(
             text = text,
-            icon = FaIcons.ArrowRight,
+            faIcon = FaIcons.ArrowRight,
             colors = SirioTheme.colors.buttons.buttonTertiary,
             size = size,
         ) {}
         SirioButtonCommon(
-            icon = FaIcons.ArrowRight,
+            faIcon = FaIcons.ArrowRight,
             colors = SirioTheme.colors.buttons.buttonTertiary,
             size = size,
         ) {}
@@ -411,13 +437,13 @@ private fun ButtonCommonPreviewContent(size: ButtonSize) {
         ) {}
         SirioButtonCommon(
             text = text,
-            icon = FaIcons.ArrowRight,
+            faIcon = FaIcons.ArrowRight,
             colors = SirioTheme.colors.buttons.buttonTertiary,
             enabled = false,
             size = size,
         ) {}
         SirioButtonCommon(
-            icon = FaIcons.ArrowRight,
+            faIcon = FaIcons.ArrowRight,
             colors = SirioTheme.colors.buttons.buttonTertiary,
             enabled = false,
             size = size,
@@ -436,12 +462,12 @@ private fun ButtonCommonPreviewContent(size: ButtonSize) {
         ) {}
         SirioButtonCommon(
             text = text,
-            icon = FaIcons.ArrowRight,
+            faIcon = FaIcons.ArrowRight,
             colors = SirioTheme.colors.buttons.buttonGhost,
             size = size,
         ) {}
         SirioButtonCommon(
-            icon = FaIcons.ArrowRight,
+            faIcon = FaIcons.ArrowRight,
             colors = SirioTheme.colors.buttons.buttonGhost,
             size = size,
         ) {}
@@ -460,13 +486,13 @@ private fun ButtonCommonPreviewContent(size: ButtonSize) {
         ) {}
         SirioButtonCommon(
             text = text,
-            icon = FaIcons.ArrowRight,
+            faIcon = FaIcons.ArrowRight,
             colors = SirioTheme.colors.buttons.buttonGhost,
             enabled = false,
             size = size,
         ) {}
         SirioButtonCommon(
-            icon = FaIcons.ArrowRight,
+            faIcon = FaIcons.ArrowRight,
             colors = SirioTheme.colors.buttons.buttonGhost,
             enabled = false,
             size = size,

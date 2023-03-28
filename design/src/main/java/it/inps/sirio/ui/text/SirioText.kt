@@ -9,6 +9,7 @@
 package it.inps.sirio.ui.text
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
@@ -19,6 +20,7 @@ import it.inps.sirio.theme.SirioTheme
  * SirioText is a composable function that represents a text component using the typography provided by Sirio
  *
  * @param text A string representing the text to display
+ * @param modifier A [Modifier] for customizing the appearance and behavior of the text component
  * @param color A [Color] for specifying the color of the text. Defaults to [Color.Unspecified]
  * @param maxLines An integer value indicating the maximum number of lines to display. Defaults to [Int.MAX_VALUE]
  * @param overflow A [TextOverflow] value indicating how to handle overflow text. Defaults to [TextOverflow.Clip]
@@ -27,6 +29,7 @@ import it.inps.sirio.theme.SirioTheme
 @Composable
 fun SirioText(
     text: String,
+    modifier: Modifier = Modifier,
     color: Color = Color.Unspecified,
     maxLines: Int = Int.MAX_VALUE,
     overflow: TextOverflow = TextOverflow.Clip,
@@ -34,6 +37,7 @@ fun SirioText(
 ) {
     SirioTextCommon(
         text = text,
+        modifier = modifier,
         color = color,
         maxLines = maxLines,
         overflow = overflow,

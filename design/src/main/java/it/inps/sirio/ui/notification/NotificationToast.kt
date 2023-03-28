@@ -32,6 +32,7 @@ import it.inps.sirio.theme.notificationToastPadding
  * @param buttonText The string inside the action button
  * @param onAction The callback when the action button is pressed
  * @param type The type [NotificationType], with related icon and color
+ * @param closeContentDescription The content description of the close button
  * @param onClose The callback when the close button is pressed
  */
 @Composable
@@ -41,6 +42,7 @@ fun NotificationToast(
     buttonText: String? = null,
     onAction: (() -> Unit)? = null,
     type: NotificationType,
+    closeContentDescription: String? = null,
     onClose: () -> Unit,
 ) {
     val (icon: FaIconType, color: Color) = paramsByType(type)
@@ -50,6 +52,7 @@ fun NotificationToast(
         icon = icon,
         buttonText = buttonText,
         stateColor = color,
+        closeContentDescription = closeContentDescription,
         onAction = onAction,
         onClose = onClose,
     )

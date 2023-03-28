@@ -142,7 +142,7 @@ private fun CustomCheckbox(
         ) {
             if (checked) {
                 SirioIcon(
-                    icon = FaIcons.Check,
+                    faIcon = FaIcons.Check,
                     size = checkboxCheckSize,
                     iconColor = checkColor,
                 )

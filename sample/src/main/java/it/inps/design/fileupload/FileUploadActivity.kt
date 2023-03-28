@@ -64,10 +64,11 @@ fun FileUploadDemoContent() {
             var progress by remember { mutableStateOf(0) }
             Text(text = "Enabled")
             FileUpload(
-                title,
-                text,
+                title = title,
+                text = text,
                 enabled = true,
                 uploadList = items,
+                closeContentDescription = "Elimina",
                 onDeleteClick = { index, _ -> items.removeAt(index) }) {
                 items.add("File ${++progress}")
             }

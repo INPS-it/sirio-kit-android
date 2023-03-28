@@ -50,6 +50,7 @@ fun AppNavigation(
                 AppNavigationIconButton(
                     icon = it.icon,
                     action = it.action,
+                    contentDescription = it.contentDescription,
                 )
             }
         },

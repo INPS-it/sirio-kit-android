@@ -15,6 +15,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.CustomAccessibilityAction
+import androidx.compose.ui.semantics.customActions
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import com.guru.fontawesomecomposelib.FaIconType
 import com.guru.fontawesomecomposelib.FaIcons
@@ -34,6 +37,7 @@ import it.inps.sirio.utils.SirioIcon
  * @param icon The notification FA icon, placed on top
  * @param buttonText The string inside the action button
  * @param stateColor The notification state color, placed on the left
+ * @param closeContentDescription The content description of the close button
  * @param onAction The callback when the action button is pressed
  * @param onClose The callback when the close button is pressed
  */
@@ -44,6 +48,7 @@ internal fun NotificationToastCommon(
     icon: FaIconType,
     buttonText: String? = null,
     stateColor: Color,
+    closeContentDescription: String? = null,
     onAction: (() -> Unit)? = null,
     onClose: () -> Unit,
 ) {
@@ -61,6 +66,17 @@ internal fun NotificationToastCommon(
                     horizontal = notificationToastHorizontalPadding,
                     vertical = notificationToastVerticalPadding,
                 )
+                .semantics(mergeDescendants = true) {
+//                    customActions = listOf(
+//                        CustomAccessibilityAction(
+//                            label = title + text,
+//                            action = {
+//                                onClose()
+//                                true
+//                            }
+//                        )
+//                    )
+                }
         ) {
             Row(
                 Modifier.fillMaxWidth(),
@@ -68,15 +84,16 @@ internal fun NotificationToastCommon(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 SirioIcon(
-                    icon = icon,
+                    faIcon = icon,
                     size = notificationToastIconSize,
                     iconColor = SirioTheme.colors.notificationColors.icon,
                 )
                 IconButton(onClick = onClose) {
                     SirioIcon(
-                        icon = FaIcons.Times,
+                        faIcon = FaIcons.Times,
                         size = notificationToastCloseSize,
                         iconColor = SirioTheme.colors.notificationColors.icon,
+                        contentDescription = closeContentDescription,
                     )
                 }
             }

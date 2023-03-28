@@ -29,12 +29,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.semantics.*
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -51,12 +52,16 @@ import it.inps.sirio.utils.SirioIcon
  * Sirio text field implementation
  *
  * @param text The current text field text
+ * @param secureText Whether the text should be obfuscated, eg password
  * @param onValueChange The callback on text changed
  * @param placeholder The string in text field when [text] is empty
  * @param icon The FA icon [FaIcons] placed at the end of text field
  * @param iconButton The FA icon [FaIcons] in the button on the right of text field
+ * @param iconContentDescription The content description for the icon
+ * @param iconButtonContentDescription The content description for the icon button
  * @param label The optional text on top of text field
  * @param onInfoClick The optional callback on info icon click
+ * @param infoContentDescription The content description for the info icon
  * @param helperText The optionl text on bottom of text field
  * @param optionValues An array of string as hints for user
  * @param onOptionValueSelected The callback when user select an option value from [optionValues]
@@ -73,12 +78,16 @@ import it.inps.sirio.utils.SirioIcon
 @Composable
 internal fun SirioTextFieldCommon(
     text: String = "",
+    secureText: Boolean = false,
     onValueChange: (String) -> Unit,
     placeholder: String? = null,
     icon: FaIconType? = null,
     iconButton: FaIconType? = null,
+    iconContentDescription: String? = null,
+    iconButtonContentDescription: String? = null,
     label: String? = null,
     onInfoClick: (() -> Unit)? = null,
+    infoContentDescription: String? = null,
     helperText: String? = null,
     optionValues: Array<String> = emptyArray(),
     onOptionValueSelected: ((value: String) -> Unit)? = null,
@@ -111,9 +120,10 @@ internal fun SirioTextFieldCommon(
                 onInfoClick?.let { itc ->
                     IconButton(onClick = itc) {
                         SirioIcon(
-                            icon = FaIcons.InfoCircle,
+                            faIcon = FaIcons.InfoCircle,
                             size = textFieldInfoIconSize,
                             iconColor = textFieldParams.infoIconColor,
+                            contentDescription = infoContentDescription,
                         )
                     }
                 }
@@ -147,8 +157,21 @@ internal fun SirioTextFieldCommon(
                 placeholderColor = textFieldParams.placeholderTextColor,
                 disabledPlaceholderColor = textFieldParams.placeholderTextColor,
             )
+
+            val clickable =
+                if (onTextFieldClick != null) {
+                    Modifier
+                        .clickable(
+                            interactionSource = interactionSource,
+                            indication = LocalIndication.current,
+                            onClick = onTextFieldClick,
+                        )
+                } else {
+                    Modifier
+                }
             BasicTextField(
                 value = text,
+                onValueChange = onValueChange,
                 modifier = Modifier
                     .fillMaxWidth()
                     .onFocusChanged {
@@ -157,14 +180,15 @@ internal fun SirioTextFieldCommon(
                     .defaultMinSize(
                         minWidth = TextFieldDefaults.MinWidth,
                         minHeight = TextFieldDefaults.MinHeight
-                    ),
-                onValueChange = onValueChange,
-                enabled = enabled,
+                    )
+                    .then(clickable),
+                enabled = enabled && onTextFieldClick == null,
                 readOnly = onTextFieldClick != null,
                 textStyle = SirioTheme.typography.textFieldText.merge(TextStyle(color = textFieldParams.textColor)),
                 keyboardOptions = KeyboardOptions(imeAction = imeAction),
                 keyboardActions = KeyboardActions(onAny = { keyboardActionOnAny.invoke(text) }),
                 singleLine = true,
+                visualTransformation = if (secureText) PasswordVisualTransformation() else VisualTransformation.None,
                 cursorBrush = SolidColor(textFieldParams.textColor),
                 interactionSource = interactionSource,
                 decorationBox = @Composable { innerTextField ->
@@ -186,6 +210,8 @@ internal fun SirioTextFieldCommon(
                                 icon = icon,
                                 iconColor = textFieldParams.iconColor,
                                 iconButton = iconButton,
+                                iconContentDescription = iconContentDescription,
+                                iconButtonContentDescription = iconButtonContentDescription,
                                 enabled = enabled,
                                 onIconClick = onIconClick,
                                 onIconButtonClick = { onIconButtonClick?.invoke(text) },
@@ -209,14 +235,6 @@ internal fun SirioTextFieldCommon(
                     )
                 },
             )
-            onTextFieldClick?.let {
-                Box(
-                    modifier = Modifier
-                        .matchParentSize()
-                        .alpha(0f)
-                        .clickable(onClick = it),
-                )
-            }
         }
         Spacer(modifier = Modifier.height(textFieldPaddingBottom))
         if (isFocused && optionValues.isNotEmpty()) {
@@ -303,6 +321,8 @@ private fun SirioTextFieldOptionItem(
  * @param iconColor The tint color of [icon]
  * @param iconButton The [FaIcons] in the button, if null no button is placed in trailing
  * @param enabled Whether the icons can be pressed
+ * @param iconContentDescription The content description for the icon
+ * @param iconButtonContentDescription The content description for the icon button
  * @param onIconClick The callback invoked on [icon] tap
  * @param onIconButtonClick The [iconButton] on click callback
  */
@@ -312,6 +332,8 @@ private fun TrailingIcon(
     iconColor: Color,
     iconButton: FaIconType?,
     enabled: Boolean,
+    iconContentDescription: String? = null,
+    iconButtonContentDescription: String? = null,
     onIconClick: (() -> Unit)?,
     onIconButtonClick: (() -> Unit)?,
 ) {
@@ -319,9 +341,10 @@ private fun TrailingIcon(
         icon?.let {
             IconButton(onClick = onIconClick ?: {}, enabled = enabled) {
                 SirioIcon(
-                    icon = it,
+                    faIcon = it,
                     size = textFieldIconSize,
                     iconColor = iconColor,
+                    contentDescription = iconContentDescription,
                 )
             }
         }
@@ -331,6 +354,7 @@ private fun TrailingIcon(
                 style = ButtonStyle.Primary,
                 icon = iconButton,
                 enabled = enabled,
+                iconContentDescription = iconButtonContentDescription,
                 onClick = onIconButtonClick ?: {},
             )
         }

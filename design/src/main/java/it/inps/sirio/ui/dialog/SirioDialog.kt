@@ -26,6 +26,7 @@ import it.inps.sirio.theme.dialogHeightPercentage
  * @param secondInputText The second input field text
  * @param positiveButtonText The text on the colored button. The color depends on [semantic]. If null the button is hidden
  * @param neutralButtonText The text on the ghost button. If null the button is hidden
+ * @param closeContentDescription The content description of the close button
  * @param onPositive The callback when the colored button is pressed. It return a [Pair] whit the input field values if present
  * @param onNeutral The callback when the colored button is pressed. It return a [Pair] whit the input field values if present
  * @param onDismiss The callback when the dialog is dismissed
@@ -42,6 +43,7 @@ fun SirioDialog(
     secondInputText: String? = null,
     positiveButtonText: String? = null,
     neutralButtonText: String? = null,
+    closeContentDescription: String? = null,
     onPositive: (Pair<String?, String?>) -> Unit = {},
     onNeutral: (Pair<String?, String?>) -> Unit = {},
     onDismiss: () -> Unit,
@@ -75,6 +77,7 @@ fun SirioDialog(
         positiveButtonText = positiveButtonText,
         positiveButtonColor = buttonColor,
         neutralButtonText = neutralButtonText,
+        closeContentDescription = closeContentDescription,
         onPositive = onPositive,
         onNeutral = onNeutral,
         onDismiss = onDismiss

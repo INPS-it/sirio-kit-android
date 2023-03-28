@@ -54,6 +54,7 @@ fun AppNavigationLogo(
             leftItem?.let {
                 AppNavigationIconButton(
                     icon = it.icon,
+                    contentDescription = it.contentDescription,
                     action = it.action,
                 )
             }

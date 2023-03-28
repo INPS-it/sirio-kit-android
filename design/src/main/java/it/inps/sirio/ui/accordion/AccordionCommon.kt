@@ -92,7 +92,7 @@ internal fun AccordionCommon(
                 typography = SirioTheme.typography.accordionText,
             )
             SirioIcon(
-                icon = if (open) FaIcons.AngleUp else FaIcons.AngleDown,
+                faIcon = if (open) FaIcons.AngleUp else FaIcons.AngleDown,
                 iconColor = contentColor,
             )
         }

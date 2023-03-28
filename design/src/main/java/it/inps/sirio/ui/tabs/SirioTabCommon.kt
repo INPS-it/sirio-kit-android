@@ -85,7 +85,7 @@ internal fun SirioTabCommon(
             },
             icon = {
                 SirioIcon(
-                    icon = icon,
+                    faIcon = icon,
                     iconColor = tabsParams.iconColor,
                     size = tabIconSize
                 )

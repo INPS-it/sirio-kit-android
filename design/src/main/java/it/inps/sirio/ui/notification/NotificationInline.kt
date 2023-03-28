@@ -31,6 +31,7 @@ import it.inps.sirio.theme.SirioTheme
  * @param title The notification title
  * @param text The notification text
  * @param type The type [NotificationType], with related icon and color
+ * @param closeContentDescription The content description of the close button
  * @param onClose The callback when the close button is pressed
  */
 @Composable
@@ -38,6 +39,7 @@ fun NotificationInline(
     title: String,
     text: String,
     type: NotificationType,
+    closeContentDescription: String? = null,
     onClose: () -> Unit,
 ) {
     val (icon: FaIconType, color: Color) = paramsByType(type)
@@ -46,6 +48,7 @@ fun NotificationInline(
         text = text,
         icon = icon,
         stateColor = color,
+        closeContentDescription = closeContentDescription,
         onClose = onClose,
     )
 }

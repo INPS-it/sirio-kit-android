@@ -28,11 +28,14 @@ import it.inps.sirio.theme.SirioTheme
  * Sirio text field component
  *
  * @param text The current text field text
+ * @param secureText Whether the text should be obfuscated, eg password
  * @param onValueChange The callback on text changed
  * @param placeholder The string in text field when [text] is empty
  * @param icon The FA icon [FaIcons] placed at the end of text field
+ * @param iconContentDescription The content description for the icon
  * @param label The optional text on top of text field
  * @param onInfoClick The optional callback on info icon click
+ * @param infoContentDescription The content description for the info icon
  * @param helperText The optionl text on bottom of text field
  * @param type The semantic [TextFieldSemantic] of text field
  * @param enabled Whether the text field can be edited by user
@@ -41,11 +44,14 @@ import it.inps.sirio.theme.SirioTheme
 @Composable
 fun SirioTextField(
     text: String,
+    secureText: Boolean = false,
     onValueChange: (String) -> Unit,
     placeholder: String? = null,
     icon: FaIconType? = null,
+    iconContentDescription: String? = null,
     label: String? = null,
     onInfoClick: (() -> Unit)? = null,
+    infoContentDescription: String? = null,
     helperText: String? = null,
     type: TextFieldSemantic? = null,
     enabled: Boolean = true,
@@ -54,11 +60,14 @@ fun SirioTextField(
 ) {
     SirioTextFieldCommon(
         text = text,
+        secureText = secureText,
         onValueChange = onValueChange,
         placeholder = placeholder,
         icon = icon,
+        iconContentDescription = iconContentDescription,
         label = label,
         onInfoClick = onInfoClick,
+        infoContentDescription = infoContentDescription,
         helperText = helperText,
         type = type,
         enabled = enabled,
@@ -122,6 +131,16 @@ private fun TextFieldPreview() {
                 helperText = "*Helper text",
                 onInfoClick = {},
                 icon = FaIcons.Calendar,
+                enabled = false,
+            )
+            SirioTextField(
+                text = "Text",
+                secureText = true,
+                onValueChange = {},
+                label = "Label",
+                helperText = "*Helper text",
+                onInfoClick = {},
+                icon = FaIcons.EyeSlash,
                 enabled = false,
             )
         }

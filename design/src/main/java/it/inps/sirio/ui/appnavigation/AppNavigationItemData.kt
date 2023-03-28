@@ -16,10 +16,12 @@ import com.guru.fontawesomecomposelib.FaIcons
  *
  * @param icon The FA icon of the item
  * @param action The onClick callback
- * @param username
+ * @param username The string for the username item data
+ * @param contentDescription The content description for the item
  */
 data class AppNavigationItemData(
     val icon: FaIconType = FaIcons.User,
     val action: () -> Unit,
     val username: String = "",
+    val contentDescription: String? = null,
 )

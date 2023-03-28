@@ -101,7 +101,7 @@ fun TabBar(items: List<TabBarItemData>, navController: NavHostController) {
                             }
                         }) {
                         SirioIcon(
-                            icon = tabItem.icon,
+                            faIcon = tabItem.icon,
                             size = tabBarItemIconSize,
                             iconColor = if (selected) SirioTheme.colors.tabBarActive else SirioTheme.colors.tabBarContent,
                         )

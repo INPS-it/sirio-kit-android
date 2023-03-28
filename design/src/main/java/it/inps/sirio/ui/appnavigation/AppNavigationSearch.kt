@@ -40,6 +40,7 @@ import it.inps.sirio.utils.SirioIcon
  * @param searchText The string in the searchbar
  * @param placeholderText The placeholder when search text is empty
  * @param onSearchTextChanged The callback when the search text is edited by the user
+ * @param clearButtonContentDescription The content description for the search bar clear button
  * @param onDoneClick The callback when user press the done button in the keyboard
  */
 @OptIn(ExperimentalMaterial3Api::class)
@@ -53,6 +54,7 @@ fun AppNavigationSearch(
     searchText: String,
     placeholderText: String = "",
     onSearchTextChanged: (String) -> Unit,
+    clearButtonContentDescription: String? = null,
     onDoneClick: (KeyboardActionScope.() -> Unit)? = null,
 ) {
     Column {
@@ -96,14 +98,15 @@ fun AppNavigationSearch(
                 trailingIcon = {
                     if (searchText.isBlank())
                         SirioIcon(
-                            icon = FaIcons.Search,
+                            faIcon = FaIcons.Search,
                             iconColor = SirioTheme.colors.appNavigationSearchIcon,
                         )
                     else
                         IconButton(onClick = { onSearchTextChanged("") }) {
                             SirioIcon(
-                                icon = FaIcons.Times,
+                                faIcon = FaIcons.Times,
                                 iconColor = SirioTheme.colors.appNavigationSearchIcon,
+                                contentDescription = clearButtonContentDescription,
                             )
                         }
                 }

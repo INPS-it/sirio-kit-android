@@ -13,7 +13,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -31,9 +30,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.guru.fontawesomecomposelib.FaIcons
-import it.inps.sirio.ui.button.*
-import it.inps.sirio.theme.SirioTheme
 import it.inps.design.ui.DemoMenuItem
+import it.inps.sirio.theme.SirioTheme
+import it.inps.sirio.ui.button.*
 
 class ButtonActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -278,11 +277,7 @@ private fun ButtonDemoContent(text: String, style: ButtonStyle, size: ButtonSize
 @Composable
 private fun ButtonDestinationsPreview() {
     SirioTheme {
-        Column(
-            Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-        ) {
+        Column(Modifier.fillMaxSize()) {
             ButtonPrimaryDemoContent()
             ButtonDangerDemoContent()
             ButtonSecondaryDemoContent()

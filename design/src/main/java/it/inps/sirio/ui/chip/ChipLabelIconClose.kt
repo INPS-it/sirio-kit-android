@@ -21,16 +21,24 @@ import it.inps.sirio.theme.SirioTheme
  * @param label The string on the chip
  * @param icon The icon at the start of the chip
  * @param enabled Whether the chip is enabled
+ * @param closeContentDescription The content description of the close button
  * @param onClose The callback when the chip close button is clicked
  */
 @Composable
-fun ChipLabelIconClose(label: String, icon: FaIconType, enabled: Boolean, onClose: () -> Unit) {
+fun ChipLabelIconClose(
+    label: String,
+    icon: FaIconType,
+    enabled: Boolean,
+    closeContentDescription: String? = null,
+    onClose: () -> Unit,
+) {
     ChipCommon(
         text = label,
         icon = icon,
         withClose = true,
         isActive = true,
         enabled = enabled,
+        closeContentDescription = closeContentDescription,
         onClose = onClose,
         onStateChange = {},
     )
