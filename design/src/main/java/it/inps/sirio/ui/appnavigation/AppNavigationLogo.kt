@@ -44,7 +44,7 @@ fun AppNavigationLogo(
     CenterAlignedTopAppBar(
         title = {
             Icon(
-                painter = painterResource(id = R.drawable.ic_inps),
+                painter = painterResource(id = R.drawable.inps_125),
                 contentDescription = null,
                 modifier = Modifier.size(appNavigationLogoSize),
                 tint = SirioTheme.colors.brand
