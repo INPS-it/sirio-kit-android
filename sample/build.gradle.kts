@@ -1,24 +1,32 @@
 plugins {
-//    alias(libs.plugins.android.application)
-    alias(libs.plugins.android.library)
+    alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    id("maven-publish")
 }
 
 android {
-    namespace = "it.inps.sirio"
+    namespace = "it.inps.design.sample"
     compileSdk = libs.versions.sdkCompile.get().toInt()
 
     defaultConfig {
+        applicationId = "it.inps.design.sample"
         minSdk = libs.versions.sdkMin.get().toInt()
+        targetSdk = libs.versions.sdkTarget.get().toInt()
+        versionCode = 4
+        versionName = "1.0.4"
 
-        vectorDrawables.useSupportLibrary = true
+        vectorDrawables {
+            useSupportLibrary = true
+        }
+        signingConfig = signingConfigs.getByName("debug")
     }
 
     buildTypes {
         release {
             isMinifyEnabled = false
-            isShrinkResources = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     compileOptions {
@@ -39,13 +47,11 @@ android {
     }
 }
 
-apply(from = "$rootDir/gradle/publish_github_package.gradle")
-
 dependencies {
+    implementation(project(":design"))
     implementation(platform(libs.compose.bom))
+    implementation(libs.bundles.demo)
+    implementation(libs.bundles.appcompat)
     implementation(libs.bundles.material)
     implementation(libs.bundles.compose)
-    implementation(libs.bundles.coil)
-    implementation(libs.bundles.design)
-    api(libs.bundles.fontawesome.compose)
 }
