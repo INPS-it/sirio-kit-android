@@ -21,16 +21,17 @@ object StyleDictionaryTypography {
     val typographyAliasLinkFontWeight700 = Bold
     val typographyAliasPFontWeight400 = Regular
     val typographyGlobalFontFamily01 = Titillium_Web
+    val typographyGlobalFontFamily02 = Lora
     val typographyGlobalFontFamily03 = Roboto_Mono
     val typographyGlobalFontWeights300 = Light
-    val typographyGlobalFontWeights300I = Light_Italic
+    val typographyGlobalFontWeights300I = LightItalic
     val typographyGlobalFontWeights400 = Regular
     val typographyGlobalFontWeights400I = Italic
     val typographyGlobalFontWeights500 = Medium
-    val typographyGlobalFontWeights500I = Medium_Italic
+    val typographyGlobalFontWeights500I = MediumItalic
     val typographyGlobalFontWeights600 = SemiBold
-    val typographyGlobalFontWeights600I = SemiBold_Italic
+    val typographyGlobalFontWeights600I = SemiBoldItalic
     val typographyGlobalFontWeights700 = Bold
-    val typographyGlobalFontWeights700I = Bold_Italic
+    val typographyGlobalFontWeights700I = BoldItalic
     val typographySpecificAppNavigationTitleFontWeight600 = SemiBold
 }

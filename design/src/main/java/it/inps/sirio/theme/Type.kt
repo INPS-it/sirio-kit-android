@@ -9,12 +9,9 @@
 package it.inps.sirio.theme
 
 import androidx.annotation.Keep
-import androidx.compose.ui.text.ExperimentalTextApi
-import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.sp
@@ -44,18 +41,17 @@ val appNavigationTitleXl = TextStyle(
 val labelXl400 = TextStyle(
     fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
     fontSize = StyleDictionarySize.typographyAliasLabelXlSize06.sp,
-    lineHeight = StyleDictionarySize.typographyAliasLabelXlLineHeight03.sp,
+    lineHeight = StyleDictionarySize.typographyAliasLabelLineHeight06.sp,
     fontWeight = StyleDictionaryTypography.typographyAliasLabelFontWeight400.getFontWeight(),
     fontStyle = StyleDictionaryTypography.typographyAliasLabelFontWeight400.getFontStyle(),
 )
 
-@ExperimentalTextApi
 val labelMd700 = TextStyle(
     fontSize = StyleDictionarySize.typographyAliasLabelMdSize04.sp,
     fontWeight = StyleDictionaryTypography.typographyAliasLabelFontWeight700.getFontWeight(),
     fontStyle = StyleDictionaryTypography.typographyAliasLabelFontWeight700.getFontStyle(),
     fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
-    lineHeight = StyleDictionarySize.typographyAliasLabelLineHeight01.sp,
+    lineHeight = StyleDictionarySize.typographyAliasLabelLineHeight04.sp,
 //    platformStyle = PlatformTextStyle(includeFontPadding = false),
 //    lineHeightStyle = LineHeightStyle(
 //        alignment = LineHeightStyle.Alignment.Center,
@@ -66,7 +62,7 @@ val labelMd700 = TextStyle(
 val labelMd600 = TextStyle(
     fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
     fontSize = StyleDictionarySize.typographySpecificAppNavigationTitleMdSize.sp,
-    lineHeight = StyleDictionarySize.typographyAliasLabelLineHeight01.sp,
+    lineHeight = StyleDictionarySize.typographyAliasLabelLineHeight04.sp,
     fontWeight = StyleDictionaryTypography.typographySpecificAppNavigationTitleFontWeight600.getFontWeight(),
     fontStyle = StyleDictionaryTypography.typographySpecificAppNavigationTitleFontWeight600.getFontStyle(),
 )
@@ -91,7 +87,7 @@ val helperTextXs400 = TextStyle(
 val labelMdNumber400 = TextStyle(
     fontFamily = StyleDictionaryTypography.typographyAliasFontFamilyNumber03,
     fontSize = StyleDictionarySize.typographyAliasLabelMdSize04.sp,
-    lineHeight = StyleDictionarySize.typographyAliasLabelLineHeight01.sp,
+    lineHeight = StyleDictionarySize.typographyAliasLabelLineHeight04.sp,
     fontWeight = StyleDictionaryTypography.typographyAliasLabelFontWeight400.getFontWeight(),
     fontStyle = StyleDictionaryTypography.typographyAliasLabelFontWeight400.getFontStyle(),
     textAlign = TextAlign.Center,
@@ -112,6 +108,7 @@ val pMd01 = TextStyle(
     fontWeight = StyleDictionaryTypography.typographyAliasLabelFontWeight400.getFontWeight(),
     fontStyle = StyleDictionaryTypography.typographyAliasLabelFontWeight400.getFontStyle(),
 )
+
 val linkPMd01 = TextStyle(
     fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
     fontSize = StyleDictionarySize.typographyGlobalFontSize04.sp,
@@ -119,6 +116,16 @@ val linkPMd01 = TextStyle(
     fontWeight = StyleDictionaryTypography.typographyAliasLabelFontWeight700.getFontWeight(),
     fontStyle = StyleDictionaryTypography.typographyAliasLabelFontWeight700.getFontStyle(),
     color = StyleDictionaryColor.colorAliasInteractiveAccentDefault,
+    textDecoration = TextDecoration.Underline
+)
+
+val linkH4Md01 = TextStyle(
+    fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
+    fontSize = StyleDictionarySize.typographyAliasLinkH4MdSize07.sp,
+    lineHeight = StyleDictionarySize.typographyAliasLinkH4MdLineHeight07.sp,
+    fontWeight = StyleDictionaryTypography.typographyAliasLabelFontWeight700.getFontWeight(),
+    fontStyle = StyleDictionaryTypography.typographyAliasLabelFontWeight700.getFontStyle(),
+    color = StyleDictionaryColor.colorAliasInteractivePrimaryDefault,
     textDecoration = TextDecoration.Underline
 )
 
@@ -133,7 +140,7 @@ val mPMd01_700 = TextStyle(
 val labelMd400 = TextStyle(
     fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
     fontSize = StyleDictionarySize.typographyAliasLabelMdSize04.sp,
-    lineHeight = StyleDictionarySize.typographyAliasLabelLineHeight01.sp,
+    lineHeight = StyleDictionarySize.typographyAliasLabelLineHeight04.sp,
     fontWeight = StyleDictionaryTypography.typographyAliasLabelFontWeight400.getFontWeight(),
     fontStyle = StyleDictionaryTypography.typographyAliasLabelFontWeight400.getFontStyle(),
 )
@@ -154,7 +161,22 @@ val h4Md = TextStyle(
     fontStyle = StyleDictionaryTypography.typographyAliasLabelFontWeight700.getFontStyle(),
 )
 
-@OptIn(ExperimentalTextApi::class)
+val h6Md = TextStyle(
+    fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
+    fontSize = StyleDictionarySize.typographyAliasH6MdSize05.sp,
+    lineHeight = StyleDictionarySize.typographyAliasH6MdLineHeight05.sp,
+    fontWeight = StyleDictionaryTypography.typographyAliasLabelFontWeight600.getFontWeight(),
+    fontStyle = StyleDictionaryTypography.typographyAliasLabelFontWeight600.getFontStyle(),
+)
+
+val signaturePMd02 = TextStyle(
+    fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily02,
+    fontSize = StyleDictionarySize.typographyAliasLabelMdSize04.sp,
+    lineHeight = StyleDictionarySize.typographyAliasLinkPMdLineHeight04.sp,
+    fontWeight = StyleDictionaryTypography.typographyGlobalFontWeights700I.getFontWeight(),
+    fontStyle = StyleDictionaryTypography.typographyGlobalFontWeights700I.getFontStyle(),
+)
+
 internal val Typography = SirioTypography(
     appNavigationTitle = appNavigationTitleMd,
     appNavigationTitleBig = appNavigationTitleXl,
@@ -219,19 +241,19 @@ enum class TypographyStyle {
         override fun getFontWeight(): FontWeight = FontWeight.SemiBold
         override fun getFontStyle(): FontStyle? = null
     },
-    Light_Italic {
+    LightItalic {
         override fun getFontWeight(): FontWeight = FontWeight.Light
         override fun getFontStyle(): FontStyle = FontStyle.Italic
     },
-    Bold_Italic {
+    BoldItalic {
         override fun getFontWeight(): FontWeight = FontWeight.Bold
         override fun getFontStyle(): FontStyle = FontStyle.Italic
     },
-    SemiBold_Italic {
+    SemiBoldItalic {
         override fun getFontWeight(): FontWeight = FontWeight.SemiBold
         override fun getFontStyle(): FontStyle = FontStyle.Italic
     },
-    Medium_Italic {
+    MediumItalic {
         override fun getFontWeight(): FontWeight = FontWeight.Medium
         override fun getFontStyle(): FontStyle = FontStyle.Italic
     };

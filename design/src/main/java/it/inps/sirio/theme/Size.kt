@@ -30,7 +30,7 @@ internal val fabExtendedSpacerWidth = 8.dp
 internal const val fabCornerSizePercent = 50
 
 internal val appNavigationIconSize = 24.dp
-internal val appNavigationLogoSize = 37.dp
+internal val appNavigationLogoSize = 108.dp
 internal val appNavigationUsernameButtonSize = 40.dp
 internal val appNavigationSearchPadding = 6.dp
 internal val appNavigationSearchCornerRadius = 4.dp
@@ -149,10 +149,7 @@ internal val textFieldFocusedBorderPadding = 3.dp
 internal val textFieldDropdownBorderWidth = 1.dp
 internal val textFieldDropdownMaxHeight = 194.dp
 internal val textFieldDropdownOptionHeight = 48.dp
-internal val textFieldDropdownOptionTopPadding = 14.dp//15.5.dp
-internal val textFieldDropdownOptionBottomPadding = 15.dp//16.5.dp
-internal val textFieldDropdownOptionStartPadding = 15.dp
-internal val textFieldDropdownOptionEndPadding = 0.dp
+internal val textFieldDropdownOptionHorizontalPadding = 16.dp
 internal val textFieldBorderWidth = 1.dp
 
 internal val paginationTileWidth = 38.dp

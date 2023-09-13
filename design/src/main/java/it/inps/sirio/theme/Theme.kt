@@ -22,6 +22,7 @@ import it.inps.sirio.ui.dialog.SirioDialogColors
 import it.inps.sirio.ui.pagination.SirioPaginationColors
 import it.inps.sirio.ui.searchbar.SirioSearchBarColors
 import it.inps.sirio.ui.tabs.SirioTabsColors
+import it.inps.sirio.ui.tag.SirioTagsColors
 import it.inps.sirio.ui.textfield.SirioTextFieldColors
 
 @Composable
@@ -126,18 +127,7 @@ data class SirioColors(
     val tabBarBackground: Color,
     val tabBarContent: Color,
     val tabBarActive: Color,
-    val tagGrayBackground: Color,
-    val tagBlueBackground: Color,
-    val tagRedBackground: Color,
-    val tagOrangeBackground: Color,
-    val tagGreenBackground: Color,
-    val tagWhiteBackground: Color,
-    val tagGrayText: Color,
-    val tagBlueText: Color,
-    val tagRedText: Color,
-    val tagOrangeText: Color,
-    val tagGreenText: Color,
-    val tagWhiteText: Color,
+    val tag: SirioTagsColors,
     val accordion: SirioAccordionColors,
     val chipDefaultBackground: Color,
     val chipHoverBackground: Color,
@@ -308,18 +298,7 @@ private val LocalSirioColors = staticCompositionLocalOf {
         tabBarBackground = Color.Unspecified,
         tabBarContent = Color.Unspecified,
         tabBarActive = Color.Unspecified,
-        tagGrayBackground = Color.Unspecified,
-        tagBlueBackground = Color.Unspecified,
-        tagRedBackground = Color.Unspecified,
-        tagOrangeBackground = Color.Unspecified,
-        tagGreenBackground = Color.Unspecified,
-        tagWhiteBackground = Color.Unspecified,
-        tagGrayText = Color.Unspecified,
-        tagBlueText = Color.Unspecified,
-        tagRedText = Color.Unspecified,
-        tagOrangeText = Color.Unspecified,
-        tagGreenText = Color.Unspecified,
-        tagWhiteText = Color.Unspecified,
+        tag = SirioTagsColors.Unspecified,
         accordion = SirioAccordionColors.Unspecified,
         chipDefaultBackground = Color.Unspecified,
         chipHoverBackground = Color.Unspecified,
