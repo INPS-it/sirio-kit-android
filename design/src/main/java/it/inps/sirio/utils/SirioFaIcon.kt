@@ -29,7 +29,7 @@ import com.guru.fontawesomecomposelib.R
  */
 
 @Composable
-fun SirioFaIcon(
+internal fun SirioFaIcon(
     faIcon: FaIconType,
     modifier: Modifier = Modifier,
     size: Dp = 24.dp,
@@ -84,7 +84,7 @@ private fun getFontFamily(faIconType: FaIconType): FontFamily {
  */
 
 private fun scaleIndependentFontSize(sizeInDp: Dp, scaleFactor: Float): TextUnit {
-    val materialIconOffset = 0.dp
+    val materialIconOffset = 3.dp
     return ((sizeInDp - materialIconOffset).value / scaleFactor).sp
 }
 

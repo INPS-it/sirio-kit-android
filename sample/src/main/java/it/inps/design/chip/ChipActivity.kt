@@ -32,12 +32,12 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.guru.fontawesomecomposelib.FaIcons
+import it.inps.design.ui.DemoMenuItem
+import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.ui.chip.ChipLabel
 import it.inps.sirio.ui.chip.ChipLabelClose
 import it.inps.sirio.ui.chip.ChipLabelIcon
 import it.inps.sirio.ui.chip.ChipLabelIconClose
-import it.inps.sirio.theme.SirioTheme
-import it.inps.design.ui.DemoMenuItem
 
 class ChipActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

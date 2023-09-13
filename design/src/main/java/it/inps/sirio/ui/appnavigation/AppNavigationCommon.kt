@@ -10,7 +10,11 @@ package it.inps.sirio.ui.appnavigation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.material.ripple.RippleAlpha
@@ -27,7 +31,12 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.guru.fontawesomecomposelib.FaIconType
-import it.inps.sirio.theme.*
+import com.guru.fontawesomecomposelib.FaIcons
+import it.inps.sirio.theme.SirioTheme
+import it.inps.sirio.theme.appNavigationIconSize
+import it.inps.sirio.theme.appNavigationTitleLongMaxLines
+import it.inps.sirio.theme.appNavigationTitleMaxLines
+import it.inps.sirio.theme.appNavigationUsernameButtonSize
 import it.inps.sirio.ui.text.SirioTextCommon
 import it.inps.sirio.utils.SirioIcon
 
@@ -184,6 +193,7 @@ private fun AppNavigationTitlePreview() {
             SirioTheme(darkTheme = true) {
                 AppNavigationTitle(title = title)
             }
+            AppNavigationIconButton(icon = FaIcons.Home) {}
         }
     }
 }

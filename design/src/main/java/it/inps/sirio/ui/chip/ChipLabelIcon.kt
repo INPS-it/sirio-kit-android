@@ -38,7 +38,6 @@ fun ChipLabelIcon(
         withClose = false,
         isActive = isActive,
         enabled = enabled,
-        onClose = {},
         onStateChange = onStateChange,
     )
 }

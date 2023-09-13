@@ -216,7 +216,7 @@ internal fun SirioSliderCommon(
                     interactionSource = interactionSource,
                 )
                 { innerTextField ->
-                    TextFieldDefaults.TextFieldDecorationBox(
+                    TextFieldDefaults.DecorationBox(
                         value = "$currentValue",
                         visualTransformation = VisualTransformation.None,
                         innerTextField = innerTextField,

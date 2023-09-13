@@ -41,7 +41,7 @@ fun AppNavigation(
     rightSecondItem: AppNavigationItemData? = null,
     scrollBehavior: TopAppBarScrollBehavior? = null,
 ) {
-    SmallTopAppBar(
+    TopAppBar(
         title = {
             AppNavigationTitle(title)
         },
@@ -58,11 +58,11 @@ fun AppNavigation(
             rightFirstItem = rightFirstItem,
             rightSecondItem = rightSecondItem,
         ),
-        colors = TopAppBarDefaults.smallTopAppBarColors(
+        colors = TopAppBarDefaults.topAppBarColors(
             containerColor = SirioTheme.colors.appNavigationBackground,
             navigationIconContentColor = SirioTheme.colors.appNavigationIcon,
             titleContentColor = SirioTheme.colors.appNavigationText,
-            actionIconContentColor = SirioTheme.colors.appNavigationIcon,
+            actionIconContentColor = SirioTheme.colors.appNavigationIcon
         ),
         scrollBehavior = scrollBehavior,
     )

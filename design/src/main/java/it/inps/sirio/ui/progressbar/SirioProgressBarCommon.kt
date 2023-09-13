@@ -10,7 +10,12 @@ package it.inps.sirio.ui.progressbar
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.runtime.Composable
@@ -45,7 +50,8 @@ internal fun SirioProgressBarCommon(
     val checkedProgress = max(min(progress, maxValue), 0f)
     val animatedProgress by animateFloatAsState(
         targetValue = checkedProgress / 100f,
-        animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec
+        animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
+        label = "progress",
     )
     val fraction = animatedProgress * 100 / maxValue
     Column {

@@ -22,6 +22,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
@@ -35,8 +36,10 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.semantics.*
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.guru.fontawesomecomposelib.FaIconType
@@ -51,6 +54,7 @@ import it.inps.sirio.utils.SirioIcon
 /**
  * Sirio text field implementation
  *
+ * @param modifier A [Modifier] for customizing the appearance and behavior of the text field component
  * @param text The current text field text
  * @param secureText Whether the text should be obfuscated, eg password
  * @param onValueChange The callback on text changed
@@ -69,6 +73,8 @@ import it.inps.sirio.utils.SirioIcon
  * @param backgroundColor The optional color used to force the background instead of default one
  * @param enabled Whether the text field can be edited by user
  * @param disableExtraBorder Used by other Sirio component to disable extra border in focus status
+ * @param keyboardOptions software keyboard options that contains configuration such as [KeyboardType] and [ImeAction].
+ * @param keyboardActions when the input service emits an IME action, the corresponding callback is called. Note that this IME action may be different from what you specified in [KeyboardOptions.imeAction].
  * @param onDropdownStateChange The callback invoked when dropdown with [optionValues] is opened/closed
  * @param onIconClick The callback on [icon] click
  * @param onIconButtonClick The callback on [iconButton] button click
@@ -77,6 +83,7 @@ import it.inps.sirio.utils.SirioIcon
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun SirioTextFieldCommon(
+    modifier: Modifier = Modifier,
     text: String = "",
     secureText: Boolean = false,
     onValueChange: (String) -> Unit,
@@ -95,8 +102,8 @@ internal fun SirioTextFieldCommon(
     backgroundColor: Color? = null,
     enabled: Boolean = true,
     disableExtraBorder: Boolean = false,
-    imeAction: ImeAction = ImeAction.Default,
-    keyboardActionOnAny: ((text: String) -> Unit) = {},
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
     onDropdownStateChange: ((open: Boolean) -> Unit)? = null,
     onIconClick: (() -> Unit)? = null,
     onIconButtonClick: ((text: String) -> Unit)? = null,
@@ -141,10 +148,12 @@ internal fun SirioTextFieldCommon(
                     .padding(textFieldFocusedBorderPadding)
             } else Modifier.padding(0.dp),
         ) {
-            val colors = TextFieldDefaults.outlinedTextFieldColors(
-                textColor = textFieldParams.textColor,
+            val colors = OutlinedTextFieldDefaults.colors(
+                focusedTextColor = textFieldParams.textColor,
+                unfocusedTextColor = textFieldParams.textColor,
                 disabledTextColor = textFieldParams.textColor,
-                containerColor = backgroundColor ?: textFieldParams.backgroundColor,
+                focusedContainerColor = backgroundColor ?: textFieldParams.backgroundColor,
+                unfocusedContainerColor = backgroundColor ?: textFieldParams.backgroundColor,
                 cursorColor = textFieldParams.textColor,
                 focusedBorderColor = textFieldParams.borderColor,
                 unfocusedBorderColor = textFieldParams.borderColor,
@@ -154,7 +163,8 @@ internal fun SirioTextFieldCommon(
                 disabledTrailingIconColor = textFieldParams.iconColor,
                 errorTrailingIconColor = textFieldParams.iconColor,
                 focusedTrailingIconColor = textFieldParams.iconColor,
-                placeholderColor = textFieldParams.placeholderTextColor,
+                focusedPlaceholderColor = textFieldParams.placeholderTextColor,
+                unfocusedPlaceholderColor = textFieldParams.placeholderTextColor,
                 disabledPlaceholderColor = textFieldParams.placeholderTextColor,
             )
 
@@ -181,21 +191,25 @@ internal fun SirioTextFieldCommon(
                         minWidth = TextFieldDefaults.MinWidth,
                         minHeight = TextFieldDefaults.MinHeight
                     )
-                    .then(clickable),
+                    .then(clickable)
+                    .then(modifier),
                 enabled = enabled && onTextFieldClick == null,
                 readOnly = onTextFieldClick != null,
                 textStyle = SirioTheme.typography.textFieldText.merge(TextStyle(color = textFieldParams.textColor)),
-                keyboardOptions = KeyboardOptions(imeAction = imeAction),
-                keyboardActions = KeyboardActions(onAny = { keyboardActionOnAny.invoke(text) }),
+                keyboardOptions = keyboardOptions,
+                keyboardActions = keyboardActions,
                 singleLine = true,
                 visualTransformation = if (secureText) PasswordVisualTransformation() else VisualTransformation.None,
                 cursorBrush = SolidColor(textFieldParams.textColor),
                 interactionSource = interactionSource,
                 decorationBox = @Composable { innerTextField ->
-                    TextFieldDefaults.OutlinedTextFieldDecorationBox(
+                    OutlinedTextFieldDefaults.DecorationBox(
                         value = text,
-                        visualTransformation = VisualTransformation.None,
                         innerTextField = innerTextField,
+                        enabled = enabled,
+                        singleLine = true,
+                        visualTransformation = VisualTransformation.None,
+                        interactionSource = interactionSource,
                         placeholder = {
                             placeholder?.let {
                                 SirioTextCommon(
@@ -217,12 +231,10 @@ internal fun SirioTextFieldCommon(
                                 onIconButtonClick = { onIconButtonClick?.invoke(text) },
                             )
                         },
-                        singleLine = true,
-                        enabled = enabled,
-                        interactionSource = interactionSource,
                         colors = colors,
+                        contentPadding = OutlinedTextFieldDefaults.contentPadding(),
                         container = {
-                            TextFieldDefaults.OutlinedBorderContainerBox(
+                            OutlinedTextFieldDefaults.ContainerBox(
                                 enabled = enabled,
                                 isError = false,
                                 interactionSource = interactionSource,
@@ -231,7 +243,7 @@ internal fun SirioTextFieldCommon(
                                 focusedBorderThickness = textFieldBorderWidth,
                                 unfocusedBorderThickness = textFieldBorderWidth,
                             )
-                        }
+                        },
                     )
                 },
             )
@@ -288,7 +300,7 @@ private fun SirioTextFieldOptionItem(
     val optionItemParams = getOptionItemParams(enabled, isFocused, isPressed, isHovered)
 
     Box(
-        Modifier
+        modifier = Modifier
             .fillMaxWidth()
             .height(textFieldDropdownOptionHeight)
             .background(color = optionItemParams.optionBackgroundColor)
@@ -297,18 +309,15 @@ private fun SirioTextFieldOptionItem(
                 indication = null,
                 enabled = enabled,
                 onClick = onItemClick,
-            )
+            ),
+        contentAlignment = Alignment.CenterStart
     ) {
         SirioTextCommon(
             text = value,
-            modifier = Modifier.padding(
-                start = textFieldDropdownOptionStartPadding,
-                top = textFieldDropdownOptionTopPadding,
-                end = textFieldDropdownOptionEndPadding,
-                bottom = textFieldDropdownOptionBottomPadding,
-            ),
+            modifier = Modifier.padding(horizontal = textFieldDropdownOptionHorizontalPadding),
             color = optionItemParams.optionTextColor,
-            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            maxLines = 2,
             typography = SirioTheme.typography.textFieldDropdownLabel,
         )
     }
@@ -383,6 +392,7 @@ private fun getTextFieldParams(
         borderColor = SirioTheme.colors.textField.border.disabled,
         dropdownBorderColor = SirioTheme.colors.textField.dropdown.disabled,
     )
+
     type == TextFieldSemantic.ALERT -> TextFieldParams(
         backgroundColor = SirioTheme.colors.textField.background.alert,
         infoIconColor = SirioTheme.colors.textField.label.alert,
@@ -394,6 +404,7 @@ private fun getTextFieldParams(
         borderColor = SirioTheme.colors.textField.border.alert,
         dropdownBorderColor = SirioTheme.colors.textField.dropdown.alert,
     )
+
     type == TextFieldSemantic.WARNING -> TextFieldParams(
         backgroundColor = SirioTheme.colors.textField.background.warning,
         infoIconColor = SirioTheme.colors.textField.label.warning,
@@ -405,6 +416,7 @@ private fun getTextFieldParams(
         borderColor = SirioTheme.colors.textField.border.warning,
         dropdownBorderColor = SirioTheme.colors.textField.dropdown.warning,
     )
+
     type == TextFieldSemantic.SUCCESS -> TextFieldParams(
         backgroundColor = SirioTheme.colors.textField.background.success,
         infoIconColor = SirioTheme.colors.textField.label.success,
@@ -416,6 +428,7 @@ private fun getTextFieldParams(
         borderColor = SirioTheme.colors.textField.border.success,
         dropdownBorderColor = SirioTheme.colors.textField.dropdown.success,
     )
+
     type == TextFieldSemantic.INFO -> TextFieldParams(
         backgroundColor = SirioTheme.colors.textField.background.info,
         infoIconColor = SirioTheme.colors.textField.label.info,
@@ -427,6 +440,7 @@ private fun getTextFieldParams(
         borderColor = SirioTheme.colors.textField.border.info,
         dropdownBorderColor = SirioTheme.colors.textField.dropdown.info,
     )
+
     isFocused -> TextFieldParams(
         backgroundColor = SirioTheme.colors.textField.background.focused,
         infoIconColor = SirioTheme.colors.textField.label.focused,
@@ -438,6 +452,7 @@ private fun getTextFieldParams(
         borderColor = SirioTheme.colors.textField.border.focused,
         dropdownBorderColor = SirioTheme.colors.textField.dropdown.focused,
     )
+
     isPressed -> TextFieldParams(
         backgroundColor = SirioTheme.colors.textField.background.pressed,
         infoIconColor = SirioTheme.colors.textField.label.pressed,
@@ -449,6 +464,7 @@ private fun getTextFieldParams(
         borderColor = SirioTheme.colors.textField.border.pressed,
         dropdownBorderColor = SirioTheme.colors.textField.dropdown.pressed,
     )
+
     isHovered -> TextFieldParams(
         backgroundColor = SirioTheme.colors.textField.background.hovered,
         infoIconColor = SirioTheme.colors.textField.label.hovered,
@@ -460,6 +476,7 @@ private fun getTextFieldParams(
         borderColor = SirioTheme.colors.textField.border.hovered,
         dropdownBorderColor = SirioTheme.colors.textField.dropdown.hovered,
     )
+
     else -> TextFieldParams(
         backgroundColor = SirioTheme.colors.textField.background.default,
         infoIconColor = SirioTheme.colors.textField.label.hovered,
@@ -487,18 +504,22 @@ private fun getOptionItemParams(
         optionBackgroundColor = SirioTheme.colors.textField.optionBackground.disabled,
         optionTextColor = SirioTheme.colors.textField.optionText.disabled,
     )
+
     isFocused -> OptionItemParams(
         optionBackgroundColor = SirioTheme.colors.textField.optionBackground.focused,
         optionTextColor = SirioTheme.colors.textField.optionText.focused,
     )
+
     isPressed -> OptionItemParams(
         optionBackgroundColor = SirioTheme.colors.textField.optionBackground.pressed,
         optionTextColor = SirioTheme.colors.textField.optionText.pressed,
     )
+
     isHovered -> OptionItemParams(
         optionBackgroundColor = SirioTheme.colors.textField.optionBackground.hovered,
         optionTextColor = SirioTheme.colors.textField.optionText.hovered,
     )
+
     else -> OptionItemParams(
         optionBackgroundColor = SirioTheme.colors.textField.optionBackground.default,
         optionTextColor = SirioTheme.colors.textField.optionText.default,

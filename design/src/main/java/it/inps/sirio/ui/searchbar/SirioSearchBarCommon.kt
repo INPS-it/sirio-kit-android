@@ -12,6 +12,8 @@ import androidx.annotation.Keep
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -103,18 +105,18 @@ internal fun SirioSearchBarCommon(
                     }
                 }
             },
-            imeAction = ImeAction.Search,
-            keyboardActionOnAny = {
-                if (it.isNotBlank()) {
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+            keyboardActions = KeyboardActions(onAny = {
+                if (searchText.isNotBlank()) {
                     focusManager.clearFocus()
                     showChips = true
-                    if (!chips.contains(it)) {
-                        onQueryAdded?.invoke(it)
-                        chips.add(it)
+                    if (!chips.contains(searchText)) {
+                        onQueryAdded?.invoke(searchText)
+                        chips.add(searchText)
                         onQueriesChange(chips.toTypedArray())
                     }
                 }
-            },
+            }),
         )
         if (showChips) {
             Spacer(modifier = Modifier.height(searchBarQueriesVerticalPadding))

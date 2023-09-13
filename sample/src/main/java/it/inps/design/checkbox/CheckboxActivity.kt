@@ -27,7 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import it.inps.sirio.ui.checkbox.Checkbox
+import it.inps.sirio.ui.checkbox.SirioCheckbox
 import it.inps.sirio.theme.SirioTheme
 
 class CheckboxActivity : ComponentActivity() {
@@ -69,33 +69,33 @@ fun CheckboxDemoContent() {
             }
             val text = "Title"
             Text(text = "Box Only")
-            Checkbox(
+            SirioCheckbox(
                 checked = checked[0] == true,
                 onCheckedChange = { checked[0] = checked[0]?.not() ?: true },
                 enabled = true
             )
-            Checkbox(
+            SirioCheckbox(
                 checked = checked[1] == true,
                 onCheckedChange = { checked[1] = checked[1]?.not() ?: true },
                 enabled = true
             )
-            Checkbox(checked = false, onCheckedChange = {}, enabled = false)
-            Checkbox(checked = true, onCheckedChange = {}, enabled = false)
+            SirioCheckbox(checked = false, onCheckedChange = {}, enabled = false)
+            SirioCheckbox(checked = true, onCheckedChange = {}, enabled = false)
             Text(text = "Box + Text")
-            Checkbox(
+            SirioCheckbox(
                 text = text,
                 checked = checked[4] == true,
                 onCheckedChange = { checked[4] = checked[4]?.not() ?: true },
                 enabled = true
             )
-            Checkbox(
+            SirioCheckbox(
                 text = text,
                 checked = checked[5] == true,
                 onCheckedChange = { checked[5] = checked[5]?.not() ?: true },
                 enabled = true
             )
-            Checkbox(text = text, checked = false, onCheckedChange = {}, enabled = false)
-            Checkbox(text = text, checked = true, onCheckedChange = {}, enabled = false)
+            SirioCheckbox(text = text, checked = false, onCheckedChange = {}, enabled = false)
+            SirioCheckbox(text = text, checked = true, onCheckedChange = {}, enabled = false)
         }
     }
 }

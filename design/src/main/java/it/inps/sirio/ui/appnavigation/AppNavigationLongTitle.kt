@@ -42,11 +42,11 @@ fun AppNavigationLongTitle(
     leftItem: AppNavigationItemData? = null,
     rightFirstItem: AppNavigationItemData? = null,
     rightSecondItem: AppNavigationItemData? = null,
-    scrollBehavior: TopAppBarScrollBehavior? = null
+    scrollBehavior: TopAppBarScrollBehavior? = null,
 ) {
     LargeTopAppBar(
         title = {
-            AppNavigationTitle(title, long = true)
+            AppNavigationTitle(title + "\n", long = true)
         },
         Modifier.wrapContentHeight(),
         navigationIcon = {

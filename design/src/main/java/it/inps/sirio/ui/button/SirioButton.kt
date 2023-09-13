@@ -25,47 +25,47 @@ import it.inps.sirio.theme.SirioTheme
 /**
  * The Sirio Button
  *
+ * @param modifier the Modifier to be applied to this button
  * @param text The string on the button
  * @param size The [ButtonSize]
  * @param style The [ButtonStyle]
  * @param icon The icon
  * @param iconResId Resources object to query the image file from
  * @param enabled Whether the button is enabled
- * @param useMaxWidth Whether the button had to fill the parent width
  * @param onClick The callback when the button is clicked
  */
 @Composable
 fun SirioButton(
+    modifier: Modifier = Modifier,
     text: String? = "",
     size: ButtonSize,
     style: ButtonStyle,
     icon: FaIconType? = null,
     @DrawableRes iconResId: Int? = null,
     enabled: Boolean = true,
-    useMaxWidth: Boolean = false,
     iconContentDescription: String? = null,
     onClick: () -> Unit,
 ) {
     val colors: SirioButtonColors = when (style) {
-        ButtonStyle.Primary -> SirioTheme.colors.buttons.buttonPrimary
-        ButtonStyle.Secondary -> SirioTheme.colors.buttons.buttonSecondary
-        ButtonStyle.Tertiary -> SirioTheme.colors.buttons.buttonTertiary
-        ButtonStyle.TertiaryDark -> DarkColorPalette.buttons.buttonTertiary
-        ButtonStyle.TertiaryLight -> LightColorPalette.buttons.buttonTertiary
-        ButtonStyle.Ghost -> SirioTheme.colors.buttons.buttonGhost
-        ButtonStyle.Danger -> SirioTheme.colors.buttons.buttonDanger
+        ButtonStyle.Primary -> SirioTheme.colors.buttons.primary
+        ButtonStyle.Secondary -> SirioTheme.colors.buttons.secondary
+        ButtonStyle.Tertiary -> SirioTheme.colors.buttons.tertiary
+        ButtonStyle.TertiaryDark -> DarkColorPalette.buttons.tertiary
+        ButtonStyle.TertiaryLight -> LightColorPalette.buttons.tertiary
+        ButtonStyle.Ghost -> SirioTheme.colors.buttons.ghost
+        ButtonStyle.Danger -> SirioTheme.colors.buttons.danger
     }
 
     SirioButtonCommon(
+        size = size,
+        colors = colors,
+        modifier = modifier,
         text = text,
         faIcon = icon,
         iconResId = iconResId,
         enabled = enabled,
-        colors = colors,
-        useMaxWidth = useMaxWidth,
-        onClick = onClick,
         iconContentDescription = iconContentDescription,
-        size = size,
+        onClick = onClick,
     )
 }
 

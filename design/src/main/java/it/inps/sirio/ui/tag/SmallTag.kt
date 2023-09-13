@@ -10,6 +10,7 @@ package it.inps.sirio.ui.tag
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import it.inps.sirio.theme.SirioTheme
 
@@ -18,21 +19,27 @@ import it.inps.sirio.theme.SirioTheme
  *
  * @param text The tag label
  * @param tagType The tag color type [TagType]
+ * @param modifier A [Modifier] for customizing the appearance and behavior of the tag component
  */
 @Composable
-fun SmallTag(text: String, tagType: TagType) {
-    val (backgroundColor, textColor) = when (tagType) {
-        TagType.GRAY -> Pair(SirioTheme.colors.tagGrayBackground, SirioTheme.colors.tagGrayText)
-        TagType.BLUE -> Pair(SirioTheme.colors.tagBlueBackground, SirioTheme.colors.tagBlueText)
-        TagType.RED -> Pair(SirioTheme.colors.tagRedBackground, SirioTheme.colors.tagRedText)
-        TagType.ORANGE -> Pair(
-            SirioTheme.colors.tagOrangeBackground,
-            SirioTheme.colors.tagOrangeText
-        )
-        TagType.GREEN -> Pair(SirioTheme.colors.tagGreenBackground, SirioTheme.colors.tagRedText)
-        TagType.WHITE -> Pair(SirioTheme.colors.tagWhiteBackground, SirioTheme.colors.tagWhiteText)
+fun SmallTag(
+    text: String,
+    tagType: TagType,
+    modifier: Modifier = Modifier,
+) {
+    val sirioTagColors = when (tagType) {
+        TagType.GRAY -> SirioTheme.colors.tag.gray
+        TagType.BLUE -> SirioTheme.colors.tag.blue
+        TagType.RED -> SirioTheme.colors.tag.red
+        TagType.ORANGE -> SirioTheme.colors.tag.orange
+        TagType.GREEN -> SirioTheme.colors.tag.green
+        TagType.WHITE -> SirioTheme.colors.tag.white
     }
-    TagCommon(text = text, backgroundColor = backgroundColor, textColor = textColor)
+    TagCommon(
+        text = text,
+        colors = sirioTagColors,
+        modifier = modifier,
+    )
 }
 
 @Preview
@@ -40,12 +47,12 @@ fun SmallTag(text: String, tagType: TagType) {
 private fun SmallTagPreview() {
     SirioTheme {
         Column {
-            SmallTag("Label Tag", TagType.GRAY)
-            SmallTag("Label Tag", TagType.BLUE)
-            SmallTag("Label Tag", TagType.RED)
-            SmallTag("Label Tag", TagType.ORANGE)
-            SmallTag("Label Tag", TagType.GREEN)
-            SmallTag("Label Tag", TagType.WHITE)
+            SmallTag(text = "Label Tag", tagType = TagType.GRAY)
+            SmallTag(text = "Label Tag", tagType = TagType.BLUE)
+            SmallTag(text = "Label Tag", tagType = TagType.RED)
+            SmallTag(text = "Label Tag", tagType = TagType.ORANGE)
+            SmallTag(text = "Label Tag", tagType = TagType.GREEN)
+            SmallTag(text = "Label Tag", tagType = TagType.WHITE)
         }
     }
 }

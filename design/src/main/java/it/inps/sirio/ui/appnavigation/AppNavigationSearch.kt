@@ -41,6 +41,7 @@ import it.inps.sirio.utils.SirioIcon
  * @param placeholderText The placeholder when search text is empty
  * @param onSearchTextChanged The callback when the search text is edited by the user
  * @param clearButtonContentDescription The content description for the search bar clear button
+ * @param textFieldEnabled controls the enabled state of the search text field. When false, this component will not respond to user input, and it will appear visually disabled and disabled to accessibility services.
  * @param onDoneClick The callback when user press the done button in the keyboard
  */
 @OptIn(ExperimentalMaterial3Api::class)
@@ -55,6 +56,7 @@ fun AppNavigationSearch(
     placeholderText: String = "",
     onSearchTextChanged: (String) -> Unit,
     clearButtonContentDescription: String? = null,
+    textFieldEnabled: Boolean = true,
     onDoneClick: (KeyboardActionScope.() -> Unit)? = null,
 ) {
     Column {
@@ -71,23 +73,26 @@ fun AppNavigationSearch(
                 .padding(appNavigationSearchPadding)
         ) {
             TextField(
-                modifier = Modifier
-                    .fillMaxWidth(),
                 value = searchText,
                 onValueChange = onSearchTextChanged,
+                modifier = Modifier.fillMaxWidth(),
+                enabled = textFieldEnabled,
                 placeholder = {
                     SirioTextCommon(
                         text = placeholderText,
                         typography = SirioTheme.typography.appNavigationSearchPlaceholder,
                     )
                 },
-                colors = TextFieldDefaults.textFieldColors(
+                colors = TextFieldDefaults.colors(
                     focusedIndicatorColor = SirioTheme.colors.appNavigationSearchBackground2,
                     unfocusedIndicatorColor = SirioTheme.colors.appNavigationSearchBackground2,
-                    containerColor = SirioTheme.colors.appNavigationSearchBackground1,
+                    focusedContainerColor = SirioTheme.colors.appNavigationSearchBackground1,
+                    unfocusedContainerColor = SirioTheme.colors.appNavigationSearchBackground1,
                     cursorColor = SirioTheme.colors.appNavigationSearchText,
-                    textColor = SirioTheme.colors.appNavigationSearchText,
-                    placeholderColor = SirioTheme.colors.appNavigationSearchText,
+                    focusedTextColor = SirioTheme.colors.appNavigationSearchText,
+                    unfocusedTextColor = SirioTheme.colors.appNavigationSearchText,
+                    focusedPlaceholderColor = SirioTheme.colors.appNavigationSearchText,
+                    unfocusedPlaceholderColor = SirioTheme.colors.appNavigationSearchText,
                 ),
                 maxLines = 1,
                 singleLine = true,

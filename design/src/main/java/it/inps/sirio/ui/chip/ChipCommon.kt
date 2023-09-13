@@ -15,22 +15,54 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.interaction.collectIsPressedAsState
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.guru.fontawesomecomposelib.FaIconType
 import com.guru.fontawesomecomposelib.FaIcons
-import it.inps.sirio.theme.*
+import it.inps.sirio.theme.SirioTheme
+import it.inps.sirio.theme.chipActiveBorderWidth
+import it.inps.sirio.theme.chipBigHeight
+import it.inps.sirio.theme.chipButtonIconSize
+import it.inps.sirio.theme.chipButtonSize
+import it.inps.sirio.theme.chipCloseEndPadding
+import it.inps.sirio.theme.chipDefaultHorizontalPadding
+import it.inps.sirio.theme.chipDefaultVerticalPadding
+import it.inps.sirio.theme.chipDisactiveBorderWidth
+import it.inps.sirio.theme.chipFocusBorderPadding
+import it.inps.sirio.theme.chipFocusBorderWidth
+import it.inps.sirio.theme.chipIconEndPadding
+import it.inps.sirio.theme.chipIconSize
+import it.inps.sirio.theme.chipIconStartPadding
+import it.inps.sirio.theme.chipWithCloseButtonBorderWidth
+import it.inps.sirio.theme.chipWithCloseButtonContentPadding
+import it.inps.sirio.theme.chipWithCloseButtonStartPadding
+import it.inps.sirio.theme.chipWithCloseIconEndPadding
 import it.inps.sirio.ui.text.SirioTextCommon
 import it.inps.sirio.utils.SirioIcon
 
@@ -46,7 +78,6 @@ import it.inps.sirio.utils.SirioIcon
  * @param onClose The callback when the chip close button is clicked
  * @param onStateChange The callback when the chip active state change
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun ChipCommon(
     text: String,
@@ -55,7 +86,7 @@ internal fun ChipCommon(
     isActive: Boolean,
     enabled: Boolean,
     closeContentDescription: String? = null,
-    onClose: () -> Unit,
+    onClose: () -> Unit = {},
     onStateChange: (active: Boolean) -> Unit,
 ) {
     val withIcon = icon != null
@@ -86,7 +117,7 @@ internal fun ChipCommon(
                     shape = CircleShape,
                 )
                 .padding(chipFocusBorderPadding)
-        } else Modifier.padding(0.dp)
+        } else Modifier.padding(0.dp),
     ) {
         Surface(
             onClick = {
@@ -94,7 +125,7 @@ internal fun ChipCommon(
             },
             modifier = Modifier
                 .height(chipBigHeight)
-                .wrapContentWidth()
+                .width(IntrinsicSize.Max)
                 .focusable(enabled = true, interactionSource = interactionSource),
             enabled = enabled,
             shape = CircleShape,
@@ -115,7 +146,7 @@ internal fun ChipCommon(
                         top = chipDefaultVerticalPadding,
                         bottom = chipDefaultVerticalPadding
                     ),
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 icon?.let {
                     SirioIcon(faIcon = it, size = chipIconSize, iconColor = contentColor)
@@ -123,8 +154,12 @@ internal fun ChipCommon(
                 }
                 SirioTextCommon(
                     text = text,
-                    modifier = Modifier.wrapContentHeight(),
+                    modifier = Modifier
+                        .wrapContentHeight()
+                        .weight(1f, false),
                     color = contentColor,
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 1,
                     typography = SirioTheme.typography.chipText,
                 )
                 if (withClose) {
@@ -161,11 +196,9 @@ private fun getChipPadding(
     withIcon: Boolean,
     withClose: Boolean,
 ): Triple<Dp, Dp, Dp> {
-    val startPadding: Dp
     val endPadding: Dp
     val iconEndPadding: Dp
-    if (withIcon) startPadding = chipIconStartPadding else startPadding =
-        chipDefaultHorizontalPadding
+    val startPadding: Dp = if (withIcon) chipIconStartPadding else chipDefaultHorizontalPadding
     if (withClose) {
         endPadding = chipCloseEndPadding
         iconEndPadding = chipWithCloseIconEndPadding
@@ -209,18 +242,21 @@ private fun getChipParams(
             buttonBorderColor = SirioTheme.colors.chipButtonBorder,
             buttonBackgroundColor = SirioTheme.colors.chipFocusButtonBackground,
         )
+
         isPressed -> ChipParams(
             backgroundColor = SirioTheme.colors.chipWithClosePressedBackground,
             contentColor = SirioTheme.colors.chipContent,
             buttonBorderColor = SirioTheme.colors.chipButtonBorder,
             buttonBackgroundColor = SirioTheme.colors.chipPressedButtonBackground,
         )
+
         isHovered -> ChipParams(
             backgroundColor = SirioTheme.colors.chipWithCloseHoverBackground,
             contentColor = SirioTheme.colors.chipContent,
             buttonBorderColor = SirioTheme.colors.chipButtonBorder,
             buttonBackgroundColor = SirioTheme.colors.chipHoverButtonBackground,
         )
+
         else -> ChipParams(
             backgroundColor = SirioTheme.colors.chipWithCloseDefaultBackground,
             contentColor = SirioTheme.colors.chipContent,
@@ -234,14 +270,17 @@ private fun getChipParams(
             backgroundColor = SirioTheme.colors.chipFocusBackground,
             contentColor = SirioTheme.colors.chipContent,
         )
+
         isPressed -> ChipParams(
             backgroundColor = SirioTheme.colors.chipPressedBackground,
             contentColor = SirioTheme.colors.chipContent,
         )
+
         isHovered -> ChipParams(
             backgroundColor = SirioTheme.colors.chipHoverBackground,
             contentColor = SirioTheme.colors.chipContent,
         )
+
         else -> ChipParams(
             backgroundColor = SirioTheme.colors.chipDefaultBackground,
             contentColor = SirioTheme.colors.chipContent,
@@ -254,16 +293,19 @@ private fun getChipParams(
             contentColor = SirioTheme.colors.chipFocusBackground,
             borderColor = SirioTheme.colors.chipFocusBackground,
         )
+
         isPressed -> ChipParams(
             backgroundColor = SirioTheme.colors.chipDisactiveBackground,
             contentColor = SirioTheme.colors.chipPressedBackground,
             borderColor = SirioTheme.colors.chipPressedBackground,
         )
+
         isHovered -> ChipParams(
             backgroundColor = SirioTheme.colors.chipDisactiveBackground,
             contentColor = SirioTheme.colors.chipHoverBackground,
             borderColor = SirioTheme.colors.chipHoverBackground,
         )
+
         else -> ChipParams(
             backgroundColor = SirioTheme.colors.chipDisactiveBackground,
             contentColor = SirioTheme.colors.chipDefaultBackground,

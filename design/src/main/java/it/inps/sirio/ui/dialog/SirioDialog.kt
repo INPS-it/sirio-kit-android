@@ -52,17 +52,17 @@ fun SirioDialog(
         DialogSemantic.INFO -> Triple(
             if (icon) FaIcons.InfoCircle else null,
             SirioTheme.colors.dialog.semanticDefault,
-            SirioTheme.colors.buttons.buttonPrimary,
+            SirioTheme.colors.buttons.primary,
         )
         DialogSemantic.WARNING -> Triple(
             if (icon) FaIcons.ExclamationCircle else null,
             SirioTheme.colors.dialog.semanticWarning,
-            SirioTheme.colors.buttons.buttonPrimary,
+            SirioTheme.colors.buttons.primary,
         )
         DialogSemantic.ALERT -> Triple(
             if (icon) FaIcons.ExclamationTriangle else null,
             SirioTheme.colors.dialog.semanticAlert,
-            SirioTheme.colors.buttons.buttonDanger,
+            SirioTheme.colors.buttons.danger,
         )
     }
     SirioDialogCommon(

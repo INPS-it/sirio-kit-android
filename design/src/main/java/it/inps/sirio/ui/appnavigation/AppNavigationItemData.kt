@@ -8,6 +8,7 @@
 
 package it.inps.sirio.ui.appnavigation
 
+import androidx.annotation.Keep
 import com.guru.fontawesomecomposelib.FaIconType
 import com.guru.fontawesomecomposelib.FaIcons
 
@@ -19,6 +20,7 @@ import com.guru.fontawesomecomposelib.FaIcons
  * @param username The string for the username item data
  * @param contentDescription The content description for the item
  */
+@Keep
 data class AppNavigationItemData(
     val icon: FaIconType = FaIcons.User,
     val action: () -> Unit,

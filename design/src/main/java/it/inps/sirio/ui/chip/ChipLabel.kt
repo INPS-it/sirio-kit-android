@@ -34,7 +34,6 @@ fun ChipLabel(
         withClose = false,
         isActive = active,
         enabled = enabled,
-        onClose = {},
         onStateChange = onStateChange,
     )
 }

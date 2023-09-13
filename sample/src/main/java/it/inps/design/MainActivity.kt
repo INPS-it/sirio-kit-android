@@ -23,7 +23,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import it.inps.sirio.theme.SirioTheme
 import it.inps.design.accordion.AccordionActivity
 import it.inps.design.appnavigation.AppNavigationActivity
 import it.inps.design.button.ButtonActivity
@@ -35,16 +34,17 @@ import it.inps.design.fab.FabActivity
 import it.inps.design.fileupload.FileUploadActivity
 import it.inps.design.notification.NotificationActivity
 import it.inps.design.pagination.PaginationActivity
-import it.inps.design.tabs.TabActivity
 import it.inps.design.progressbar.ProgressBarActivity
 import it.inps.design.radiobutton.RadioButtonActivity
 import it.inps.design.searchbar.SearchBarActivity
 import it.inps.design.slider.SliderActivity
 import it.inps.design.tabbar.TabBarActivity
+import it.inps.design.tabs.TabActivity
 import it.inps.design.tag.TagActivity
 import it.inps.design.textfield.TextFieldActivity
 import it.inps.design.toggle.ToggleActivity
 import it.inps.design.ui.DemoMenuItem
+import it.inps.sirio.theme.SirioTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

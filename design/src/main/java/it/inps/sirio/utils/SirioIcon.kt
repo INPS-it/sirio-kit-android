@@ -2,8 +2,8 @@ package it.inps.sirio.utils
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -32,21 +32,21 @@ fun SirioIcon(
     contentDescription: String? = null,
 ) {
     require(faIcon != null || iconResId != null) { "At least one of faIcon or iconResId must be non-null" }
-    faIcon?.let {
-        Box(Modifier.wrapContentSize(), contentAlignment = Alignment.Center) {
+    Box(Modifier.requiredSize(size), contentAlignment = Alignment.Center) {
+        faIcon?.let {
             SirioFaIcon(
                 faIcon = it,
                 size = size,
                 tint = iconColor,
                 contentDescription = contentDescription,
             )
+        } ?: iconResId?.let {
+            Icon(
+                painter = painterResource(id = it),
+                contentDescription = contentDescription,
+                modifier = Modifier.size(size),
+                tint = iconColor,
+            )
         }
-    } ?: iconResId?.let {
-        Icon(
-            painter = painterResource(id = it),
-            contentDescription = contentDescription,
-            modifier = Modifier.size(size),
-            tint = iconColor,
-        )
     }
 }

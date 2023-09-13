@@ -33,6 +33,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.guru.fontawesomecomposelib.FaIcons
 import it.inps.sirio.theme.*
+import it.inps.sirio.ui.badge.SirioBadgeCommon
 import it.inps.sirio.ui.text.SirioTextCommon
 import it.inps.sirio.utils.SirioIcon
 import kotlin.math.max
@@ -97,7 +98,7 @@ fun TabBar(items: List<TabBarItemData>, navController: NavHostController) {
                     BadgedBox(
                         badge = {
                             if (tabItem.badge) {
-                                Badge()
+                                SirioBadgeCommon()
                             }
                         }) {
                         SirioIcon(
@@ -310,27 +311,32 @@ private fun TabBarPreview() {
                         TabBarItemData(
                             label = "Home",
                             icon = FaIcons.Home,
-                            route = "InpsScreen.HomeScreen.route"
+                            route = "InpsScreen.HomeScreen.route",
+                            badge = false,
                         ),
                         TabBarItemData(
                             label = "News",
                             icon = FaIcons.Newspaper,
-                            route = "InpsScreen.NewsScreen.route"
+                            route = "InpsScreen.NewsScreen.route",
+                            badge = false,
                         ),
                         TabBarItemData(
                             label = "Mappe",
                             icon = FaIcons.Globe,
-                            route = "InpsScreen.MapsScreen.route"
+                            route = "InpsScreen.MapsScreen.route",
+                            badge = false,
                         ),
                         TabBarItemData(
                             label = "Contattaci",
                             icon = FaIcons.CommentAlt,
-                            route = "InpsScreen.ContattaciScreen.route"
+                            route = "InpsScreen.ContattaciScreen.route",
+                            badge = false,
                         ),
                         TabBarItemData(
                             label = "Servizi",
                             icon = FaIcons.GripHorizontal,
-                            route = "InpsScreen.ServiziScreen.route"
+                            route = "InpsScreen.ServiziScreen.route",
+                            badge = false,
                         )
                     ),
                     navController = rememberNavController()

@@ -9,13 +9,24 @@
 package it.inps.sirio.ui.dialog
 
 import androidx.annotation.Keep
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layout
@@ -26,7 +37,15 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.guru.fontawesomecomposelib.FaIconType
 import com.guru.fontawesomecomposelib.FaIcons
-import it.inps.sirio.theme.*
+import it.inps.sirio.theme.SirioTheme
+import it.inps.sirio.theme.dialogHeightPercentage
+import it.inps.sirio.theme.dialogInputTopPadding
+import it.inps.sirio.theme.dialogNeutralButtonTopPadding
+import it.inps.sirio.theme.dialogPadding
+import it.inps.sirio.theme.dialogPositiveButtonTopPadding
+import it.inps.sirio.theme.dialogSemanticIconBottomPadding
+import it.inps.sirio.theme.dialogShape
+import it.inps.sirio.theme.dialogTextTopPadding
 import it.inps.sirio.ui.button.ButtonSize
 import it.inps.sirio.ui.button.SirioButtonColors
 import it.inps.sirio.ui.button.SirioButtonCommon
@@ -53,9 +72,8 @@ import it.inps.sirio.utils.SirioIcon
  * @param onNeutral The callback when the colored button is pressed. It return a [Pair] whit the input field values if present
  * @param onDismiss The callback when the dialog is dismissed
  */
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun SirioDialogCommon(
+internal fun SirioDialogCommon(
     title: String,
     text: String?,
     semanticIcon: FaIconType?,
@@ -100,7 +118,7 @@ fun SirioDialogCommon(
                     SirioButtonCommon(
                         modifier = Modifier.align(Alignment.End),
                         size = ButtonSize.Large,
-                        colors = SirioTheme.colors.buttons.buttonGhost,
+                        colors = SirioTheme.colors.buttons.ghost,
                         faIcon = FaIcons.Times,
                         iconContentDescription = closeContentDescription,
                         onClick = onDismiss,
@@ -145,8 +163,8 @@ fun SirioDialogCommon(
                         SirioButtonCommon(
                             size = ButtonSize.Large,
                             colors = positiveButtonColor,
+                            modifier = Modifier.fillMaxWidth(),
                             text = it,
-                            useMaxWidth = true,
                             onClick = { onPositive(Pair(firstInput, secondInput)) },
                         )
                     }
@@ -154,9 +172,9 @@ fun SirioDialogCommon(
                         Spacer(modifier = Modifier.height(dialogNeutralButtonTopPadding))
                         SirioButtonCommon(
                             size = ButtonSize.Large,
-                            colors = SirioTheme.colors.buttons.buttonGhost,
+                            colors = SirioTheme.colors.buttons.ghost,
+                            modifier = Modifier.fillMaxWidth(),
                             text = it,
-                            useMaxWidth = true,
                             onClick = { onNeutral(Pair(firstInput, secondInput)) },
                         )
                     }
@@ -222,7 +240,7 @@ fun SirioDialogPreview() {
             secondInputTitle = secondInputTitle,
             secondInputText = secondInputText,
             positiveButtonText = positiveButtonText,
-            positiveButtonColor = SirioTheme.colors.buttons.buttonPrimary,
+            positiveButtonColor = SirioTheme.colors.buttons.primary,
             neutralButtonText = neutralButtonText,
             onPositive = {},
             onNeutral = {},

@@ -9,7 +9,12 @@
 package it.inps.sirio.ui.fileupload
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -17,14 +22,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.google.accompanist.flowlayout.FlowMainAxisAlignment
 import com.google.accompanist.flowlayout.FlowRow
 import com.guru.fontawesomecomposelib.FaIcons
-import it.inps.sirio.ui.button.SirioButton
-import it.inps.sirio.ui.button.ButtonSize
-import it.inps.sirio.ui.button.ButtonStyle
-import it.inps.sirio.ui.chip.ChipLabelClose
 import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.theme.fileUploadItemsPadding
 import it.inps.sirio.theme.fileUploadTextPaddingBottom
 import it.inps.sirio.theme.fileUploadTitlePaddingBottom
+import it.inps.sirio.ui.button.ButtonSize
+import it.inps.sirio.ui.button.ButtonStyle
+import it.inps.sirio.ui.button.SirioButton
+import it.inps.sirio.ui.chip.ChipLabelClose
 import it.inps.sirio.ui.text.SirioTextCommon
 
 /**
@@ -69,7 +74,6 @@ internal fun FileUploadCommon(
             text = "Upload",
             icon = FaIcons.ArrowUp,
             enabled = enabled,
-            useMaxWidth = false,
             onClick = onUploadClick,
             size = ButtonSize.Large,
             style = ButtonStyle.Primary,

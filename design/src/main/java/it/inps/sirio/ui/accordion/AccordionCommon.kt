@@ -9,7 +9,11 @@
 package it.inps.sirio.ui.accordion
 
 import androidx.annotation.Keep
-import androidx.compose.animation.*
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -18,9 +22,19 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.interaction.collectIsPressedAsState
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,7 +42,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.guru.fontawesomecomposelib.FaIcons
-import it.inps.sirio.theme.*
+import it.inps.sirio.theme.SirioColorState
+import it.inps.sirio.theme.SirioTheme
+import it.inps.sirio.theme.accordionContentBorderWidth
+import it.inps.sirio.theme.accordionContentPadding
+import it.inps.sirio.theme.accordionDefaultBorderWidth
+import it.inps.sirio.theme.accordionFocusBorderWidth
+import it.inps.sirio.theme.accordionHeight
+import it.inps.sirio.theme.accordionHorizontalPadding
 import it.inps.sirio.ui.text.SirioTextCommon
 import it.inps.sirio.utils.SirioIcon
 
@@ -206,7 +227,7 @@ private fun AccordionCommonPreview() {
         ) {
             AccordionCommon(text = "Accordion Item #1") { Text(text = "Content") }
             AccordionCommon(text = "Accordion Item #1", open = true) {
-                Column() {
+                Column {
                     for (i in 1..5) {
                         Text(
                             text = "Content $i",
