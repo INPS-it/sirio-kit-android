@@ -18,8 +18,11 @@ import androidx.compose.ui.unit.sp
 import it.inps.sirio.styleDictionary.StyleDictionaryColor
 import it.inps.sirio.styleDictionary.StyleDictionarySize
 import it.inps.sirio.styleDictionary.StyleDictionaryTypography
+import it.inps.sirio.ui.card.SirioCardTypography
+import it.inps.sirio.ui.card.SirioCardsTypography
 
 internal val Titillium_Web = TitilliumWebFamily
+internal val Lora = LoraFamily
 internal val Roboto_Mono = RobotoMonoFamily
 
 val appNavigationTitleMd = TextStyle(
@@ -213,6 +216,22 @@ internal val Typography = SirioTypography(
     tabTextSelected = labelMd700,
     dialogTitle = h4Md,
     dialogText = pMd01,
+    card = SirioCardsTypography(
+        editorial = SirioCardTypography(
+            date = labelMdNumber400,
+            title = linkH4Md01,
+            subtitle = h6Md,
+            text = pMd01,
+            signature = signaturePMd02,
+        ),
+        process = SirioCardTypography(
+            date = labelMdNumber400,
+            title = h4Md,
+            subtitle = h6Md,
+            text = pMd01,
+            signature = signaturePMd02,
+        ),
+    ),
 )
 
 @Keep

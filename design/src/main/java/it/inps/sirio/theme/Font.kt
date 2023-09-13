@@ -29,3 +29,7 @@ internal val RobotoMonoFamily = FontFamily(
     Font(R.font.robotomono_regular, FontWeight.W400, FontStyle.Normal),
     Font(R.font.robotomono_thin, FontWeight.W100, FontStyle.Normal),
 )
+
+internal val LoraFamily = FontFamily(
+    Font(R.font.lora),
+)

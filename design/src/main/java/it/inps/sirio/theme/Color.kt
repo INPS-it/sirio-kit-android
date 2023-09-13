@@ -14,7 +14,11 @@ import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
 import it.inps.sirio.styleDictionary.StyleDictionaryColor
 import it.inps.sirio.ui.accordion.SirioAccordionColors
+import it.inps.sirio.ui.badge.SirioBadgeColors
 import it.inps.sirio.ui.button.SirioButtonColors
+import it.inps.sirio.ui.card.SirioCardColors
+import it.inps.sirio.ui.card.SirioCardsColors
+import it.inps.sirio.ui.dialog.SirioDialogColors
 import it.inps.sirio.ui.pagination.SirioPaginationColors
 import it.inps.sirio.ui.searchbar.SirioSearchBarColors
 import it.inps.sirio.ui.tabs.SirioTabsColors
@@ -411,6 +415,36 @@ internal val LightColorPalette = SirioColors(
         title = StyleDictionaryColor.colorAliasTextColorSecondaryDark100,
         text = StyleDictionaryColor.colorAliasTextColorSecondaryDark100,
     ),
+    card = SirioCardsColors(
+        editorial = SirioCardColors(
+            background = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight0,
+            category = tagLightColors.gray,
+            icon = StyleDictionaryColor.colorGlobalSecondary100,
+            date = StyleDictionaryColor.colorAliasTextColorSecondaryDark100,
+            title = StyleDictionaryColor.colorAliasInteractivePrimaryDefault,
+            subtitle = StyleDictionaryColor.colorAliasTextColorSecondaryDark100,
+            text = StyleDictionaryColor.colorAliasTextColorSecondaryDark100,
+            signature = StyleDictionaryColor.colorAliasTextColorSecondaryDark100,
+            button = buttonsLightColors.tertiary,
+            iconButton = buttonsLightColors.ghost,
+        ),
+        process = SirioCardColors(
+            background = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight0,
+            category = tagLightColors.gray,
+            icon = StyleDictionaryColor.colorGlobalSecondary100,
+            date = StyleDictionaryColor.colorAliasTextColorSecondaryDark100,
+            title = StyleDictionaryColor.colorAliasTextColorSecondaryDark100,
+            subtitle = StyleDictionaryColor.colorAliasTextColorSecondaryDark100,
+            text = StyleDictionaryColor.colorAliasTextColorSecondaryDark100,
+            signature = StyleDictionaryColor.colorAliasTextColorSecondaryDark100,
+            button = buttonsLightColors.tertiary,
+            iconButton = buttonsLightColors.ghost,
+        ),
+    ),
+    badge = SirioBadgeColors(
+        background = StyleDictionaryColor.colorGlobalSemanticAlert100,
+        border = StyleDictionaryColor.colorGlobalPrimary000
+    ),
     isDark = false,
 )
 
@@ -802,6 +836,36 @@ internal val DarkColorPalette = SirioColors(
         semanticWarning = StyleDictionaryColor.colorGlobalSemanticWarning100,
         title = StyleDictionaryColor.colorAliasTextColorSecondaryDark100,
         text = StyleDictionaryColor.colorAliasTextColorSecondaryDark100,
+    ),
+    card = SirioCardsColors(
+        editorial = SirioCardColors(
+            background = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight0,
+            category = tagDarkColors.gray,
+            icon = StyleDictionaryColor.colorGlobalSecondary100,
+            date = StyleDictionaryColor.colorAliasTextColorSecondaryDark100,
+            title = StyleDictionaryColor.colorAliasInteractivePrimaryDefault,
+            subtitle = StyleDictionaryColor.colorAliasTextColorSecondaryDark100,
+            text = StyleDictionaryColor.colorAliasTextColorSecondaryDark100,
+            signature = StyleDictionaryColor.colorAliasTextColorSecondaryDark100,
+            button = buttonsDarkColors.tertiary,
+            iconButton = buttonsDarkColors.ghost,
+        ),
+        process = SirioCardColors(
+            background = StyleDictionaryColor.colorAliasBackgroundColorPrimaryDark115,
+            category = tagDarkColors.white,
+            icon = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight0,
+            date = StyleDictionaryColor.colorAliasTextColorPrimaryLight0,
+            title = StyleDictionaryColor.colorAliasTextColorPrimaryLight0,
+            subtitle = StyleDictionaryColor.colorAliasTextColorPrimaryLight0,
+            text = StyleDictionaryColor.colorAliasTextColorPrimaryLight0,
+            signature = StyleDictionaryColor.colorAliasTextColorPrimaryLight0,
+            button = buttonsDarkColors.tertiary,
+            iconButton = buttonsDarkColors.tertiary.copy(border = SirioColorState.all(Color.Transparent)),
+        ),
+    ),
+    badge = SirioBadgeColors(
+        background = StyleDictionaryColor.colorGlobalSemanticAlert100,
+        border = StyleDictionaryColor.colorGlobalPrimary000
     ),
     isDark = true,
 )

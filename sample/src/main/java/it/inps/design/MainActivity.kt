@@ -27,6 +27,7 @@ import it.inps.sirio.theme.SirioTheme
 import it.inps.design.accordion.AccordionActivity
 import it.inps.design.appnavigation.AppNavigationActivity
 import it.inps.design.button.ButtonActivity
+import it.inps.design.card.CardActivity
 import it.inps.design.checkbox.CheckboxActivity
 import it.inps.design.chip.ChipActivity
 import it.inps.design.dialog.DialogActivity
@@ -85,6 +86,10 @@ fun DemoContent() {
                 Divider()
                 DemoMenuItem("Buttons") {
                     context.startActivity(Intent(context, ButtonActivity::class.java))
+                }
+                Divider()
+                DemoMenuItem("Card") {
+                    context.startActivity(Intent(context, CardActivity::class.java))
                 }
                 Divider()
                 DemoMenuItem("Checkbox") {

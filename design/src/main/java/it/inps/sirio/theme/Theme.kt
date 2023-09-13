@@ -18,6 +18,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import it.inps.sirio.ui.accordion.SirioAccordionColors
+import it.inps.sirio.ui.badge.SirioBadgeColors
+import it.inps.sirio.ui.card.SirioCardsColors
+import it.inps.sirio.ui.card.SirioCardsTypography
 import it.inps.sirio.ui.dialog.SirioDialogColors
 import it.inps.sirio.ui.pagination.SirioPaginationColors
 import it.inps.sirio.ui.searchbar.SirioSearchBarColors
@@ -100,6 +103,7 @@ data class SirioTypography(
     val tabTextDefault: TextStyle,
     val dialogTitle: TextStyle,
     val dialogText: TextStyle,
+    val card: SirioCardsTypography,
 )
 
 /**
@@ -212,6 +216,8 @@ data class SirioColors(
     val tabs: SirioTabsColors,
     val searchBar: SirioSearchBarColors,
     val dialog: SirioDialogColors,
+    val card: SirioCardsColors,
+    val badge: SirioBadgeColors,
     val isDark: Boolean,
 )
 
@@ -383,6 +389,8 @@ private val LocalSirioColors = staticCompositionLocalOf {
         tabs = SirioTabsColors.Unspecified,
         searchBar = SirioSearchBarColors.Unspecified,
         dialog = SirioDialogColors.Unspecified,
+        card = SirioCardsColors.Unspecified,
+        badge = SirioBadgeColors.Unspecified,
         isDark = false,
     )
 }
@@ -424,6 +432,7 @@ internal val LocalSirioTypography = staticCompositionLocalOf {
         tabTextSelected = TextStyle.Default,
         dialogTitle = TextStyle.Default,
         dialogText = TextStyle.Default,
+        card = SirioCardsTypography.Default
     )
 }
 

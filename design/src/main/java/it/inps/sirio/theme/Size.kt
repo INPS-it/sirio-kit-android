@@ -178,3 +178,17 @@ internal val dialogTextTopPadding = 16.dp
 internal val dialogInputTopPadding = 16.dp
 internal val dialogPositiveButtonTopPadding = 32.dp
 internal val dialogNeutralButtonTopPadding = 24.dp
+
+internal const val cardIconSize = 32
+internal const val cardPaddingHorizontal = 16
+internal const val cardPaddingVertical = 16
+internal const val cardSubtitlePaddingTop = 0
+internal const val cardTextPaddingTop = 16
+internal const val cardSignaturePaddingTop = 16
+internal const val cardButtonPaddingTop = 16
+internal const val cardButtonPaddingHorizontal = 24
+internal const val cardImageHeight = 220
+internal const val cardImagePaddingBottom = 8
+
+internal const val badgeBorderSize = 1.5
+internal const val badgeSize = 8
