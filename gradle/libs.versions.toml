@@ -1,27 +1,28 @@
 [versions]
 # @keep
-sdkCompile = "33"
+sdkCompile = "34"
 # @keep
 sdkTarget = "33"
 # @keep
 sdkMin = "21"
 
-gradleAndroid = "8.1.1"
+gradleAndroid = "8.2.0"
 
-androidxCore = "1.10.1"
+androidxCore = "1.12.0"
 androidxAppcompat = "1.6.1"
-androidxRuntimeKtx = "2.6.1"
-androidxActivityCompose = "1.7.1"
+androidxRuntimeKtx = "2.6.2"
+androidxActivityCompose = "1.8.2"
 androidxConstraintlayoutCompose = "1.0.1"
 
-kotlin = "1.8.21"
-material = "1.9.0"
+kotlin = "1.9.20"
+material = "1.10.0"
 accompanist = "0.30.1"
 
-composeBom = "2023.06.01"
-composeNavigation = "2.6.0"
+composeBom = "2023.10.01"
+composeCompiler = "1.5.5"
+composeNavigation = "2.7.6"
 
-coil = "2.4.0"
+coil = "2.5.0"
 fontawesome-compose = "1.1.0"
 
 [libraries]

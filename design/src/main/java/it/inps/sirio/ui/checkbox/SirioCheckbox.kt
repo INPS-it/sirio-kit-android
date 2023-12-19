@@ -10,6 +10,7 @@ package it.inps.sirio.ui.checkbox
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
 import it.inps.sirio.theme.SirioTheme
 
@@ -24,6 +25,29 @@ import it.inps.sirio.theme.SirioTheme
 @Composable
 fun SirioCheckbox(
     text: String? = null,
+    checked: Boolean,
+    enabled: Boolean = true,
+    onCheckedChange: (Boolean) -> Unit,
+) {
+    SirioCheckboxCommon(
+        text = text,
+        checked = checked,
+        enabled = enabled,
+        onCheckedChange = onCheckedChange,
+    )
+}
+
+/**
+ * The Sirio checkbox
+ *
+ * @param text The string on the checkbox right
+ * @param checked Whether the checkbox is checked
+ * @param enabled Whether the checkbox is enabled
+ * @param onCheckedChange The callback when the checkbox state change
+ */
+@Composable
+fun SirioCheckbox(
+    text: AnnotatedString,
     checked: Boolean,
     enabled: Boolean = true,
     onCheckedChange: (Boolean) -> Unit,

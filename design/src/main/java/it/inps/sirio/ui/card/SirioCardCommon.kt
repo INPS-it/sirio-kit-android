@@ -12,6 +12,7 @@
 
 package it.inps.sirio.ui.card
 
+import androidx.annotation.DrawableRes
 import androidx.annotation.Keep
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -49,7 +50,7 @@ import it.inps.sirio.ui.button.SirioButtonCommon
 import it.inps.sirio.ui.tag.SirioTagColors
 import it.inps.sirio.ui.tag.TagCommon
 import it.inps.sirio.ui.text.SirioText
-import it.inps.sirio.utils.SirioFaIcon
+import it.inps.sirio.utils.SirioIcon
 
 /**
  * Sirio Card common implementation
@@ -63,6 +64,7 @@ import it.inps.sirio.utils.SirioFaIcon
  * @param imageContentDescriptor The content descriptor associated with the image
  * @param category The category of the card (optional).
  * @param icon The FA icon of the card (optional), used if no category is provided.
+ * @param iconResId The resource id of the image to be used as the icon if no [icon] is provided
  * @param date The date of the card (optional).
  * @param subtitle The subtitle of the card (optional).
  * @param signature The signature of the card (optional).
@@ -83,6 +85,7 @@ internal fun SirioCardCommon(
     imageContentDescriptor: String? = null,
     category: String? = null,
     icon: FaIconType? = null,
+    @DrawableRes iconResId: Int? = null,
     date: String? = null,
     subtitle: String? = null,
     signature: String? = null,
@@ -96,7 +99,7 @@ internal fun SirioCardCommon(
         modifier = Modifier
             .shadow(
                 ambientColor = StyleDictionaryBoxShadow.elevationElevation01.color,
-                elevation = 0.dp
+                elevation = StyleDictionaryBoxShadow.elevationElevation01.blurRadius.dp
             )
             .then(modifier),
         shape = Shapes.small,
@@ -135,11 +138,12 @@ internal fun SirioCardCommon(
                         colors = colors.category,
                     )
                 } ?: run {
-                    icon?.let {
-                        SirioFaIcon(
+                    if (icon != null || iconResId != null) {
+                        SirioIcon(
                             faIcon = icon,
+                            iconResId = iconResId,
+                            iconColor = colors.icon,
                             size = cardIconSize.dp,
-                            tint = colors.icon,
                         )
                     }
                 }

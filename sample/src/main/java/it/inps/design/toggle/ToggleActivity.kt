@@ -90,7 +90,7 @@ private fun ToggleDemoViewPreview() {
     Column(
         Modifier.fillMaxSize()
     ) {
-        SirioTheme() {
+        SirioTheme {
             ToggleDemoView()
         }
     }

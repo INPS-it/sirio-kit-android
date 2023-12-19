@@ -28,14 +28,14 @@ import it.inps.sirio.theme.SirioTheme
  *
  * @param items List of tab [TabItemData] contained in group
  * @param selectedIndex The current selected index, starting from 0
- * @param selection A [TabSelectionIndicator] for top or bottom selection indicator
+ * @param selection A [TabSelectionIndicatorPosition] for top or bottom selection indicator
  * @param onTabSelected The tab selection callback
  */
 @Composable
 fun SirioTabGroup(
     items: List<TabItemData>,
     selectedIndex: Int = 0,
-    selection: TabSelectionIndicator = TabSelectionIndicator.BOTTOM,
+    selection: TabSelectionIndicatorPosition = TabSelectionIndicatorPosition.BOTTOM,
     onTabSelected: (Int) -> Unit,
 ) {
     SirioTabGroupCommon(
@@ -86,7 +86,7 @@ private fun TabGroupPreview() {
                         enabled = true
                     ),
                 ),
-                selection = TabSelectionIndicator.TOP,
+                selection = TabSelectionIndicatorPosition.TOP,
                 selectedIndex = 0,
                 onTabSelected = {},
             )

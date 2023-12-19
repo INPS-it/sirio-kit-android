@@ -9,7 +9,12 @@
 package it.inps.sirio.ui.tabs
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ScrollableTabRow
@@ -27,14 +32,14 @@ import it.inps.sirio.theme.tabEdgePadding
  *
  * @param items List of tab [TabItemData] contained in group
  * @param selectedIndex The current selected index
- * @param selection A [TabSelectionIndicator] for top or bottom selection indicator
+ * @param selection A [TabSelectionIndicatorPosition] for top or bottom selection indicator
  * @param onTabSelected The tab selection callback
  */
 @Composable
 internal fun SirioTabGroupCommon(
     items: List<TabItemData>,
     selectedIndex: Int,
-    selection: TabSelectionIndicator,
+    selection: TabSelectionIndicatorPosition,
     onTabSelected: (Int) -> Unit,
 ) {
     require(items.isNotEmpty()) { "TabGroup cannot be empty" }
@@ -46,7 +51,7 @@ internal fun SirioTabGroupCommon(
             .fillMaxWidth()
             .wrapContentHeight(),
         edgePadding = tabEdgePadding,
-        containerColor = if (selection == TabSelectionIndicator.TOP) Color.Transparent else Color.White,
+        containerColor = if (selection == TabSelectionIndicatorPosition.TOP) Color.Transparent else Color.White,
         indicator = { },
         divider = {}
     ) {
@@ -103,7 +108,7 @@ private fun TabsCommonPreview() {
                         enabled = true
                     ),
                 ),
-                selection = TabSelectionIndicator.BOTTOM,
+                selection = TabSelectionIndicatorPosition.BOTTOM,
                 selectedIndex = 0,
                 onTabSelected = {})
             SirioTabGroupCommon(
@@ -134,7 +139,7 @@ private fun TabsCommonPreview() {
                         enabled = true
                     ),
                 ),
-                selection = TabSelectionIndicator.TOP,
+                selection = TabSelectionIndicatorPosition.TOP,
                 selectedIndex = 0,
                 onTabSelected = {})
         }

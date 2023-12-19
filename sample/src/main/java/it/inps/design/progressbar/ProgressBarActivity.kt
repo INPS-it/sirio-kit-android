@@ -24,8 +24,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import it.inps.sirio.ui.progressbar.SirioProgressBar
 import it.inps.sirio.theme.SirioTheme
+import it.inps.sirio.ui.progressbar.SirioProgressBar
 
 class ProgressBarActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,7 +48,7 @@ fun ProgressBarDemoContent() {
             )
         }) {
         val label = "Label"
-        var prog by remember { mutableStateOf(0) }
+        var prog by remember { mutableIntStateOf(0) }
         Column(
             Modifier
                 .background(Color(0xFFE5E5E5))

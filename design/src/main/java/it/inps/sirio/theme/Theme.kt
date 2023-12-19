@@ -13,7 +13,11 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.material.ripple.RippleAlpha
 import androidx.compose.material.ripple.RippleTheme
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
@@ -44,7 +48,7 @@ fun SirioTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable 
 //    }
 
     CompositionLocalProvider(
-        LocalSirioColors provides colors,
+        localSirioColors provides colors,
         LocalSirioTypography provides Typography,
         LocalRippleTheme provides ClearRippleTheme,
 //        LocalSirioElevation provides Elevation,
@@ -55,7 +59,7 @@ fun SirioTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable 
 object SirioTheme {
     val colors: SirioColors
         @Composable
-        get() = LocalSirioColors.current
+        get() = localSirioColors.current
 
     val typography: SirioTypography
         @Composable
@@ -282,7 +286,7 @@ data class SirioColorState(
     }
 }
 
-private val LocalSirioColors = staticCompositionLocalOf {
+private val localSirioColors = staticCompositionLocalOf {
     SirioColors(
         brand = Color.Unspecified,
         fabDefaultBackground = Color.Unspecified,

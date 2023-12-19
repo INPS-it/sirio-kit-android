@@ -15,7 +15,12 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.interaction.collectIsPressedAsState
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
@@ -26,9 +31,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
 import com.guru.fontawesomecomposelib.FaIcons
-import it.inps.sirio.theme.*
+import it.inps.sirio.theme.SirioTheme
+import it.inps.sirio.theme.checkboxBorderWidth
+import it.inps.sirio.theme.checkboxCheckSize
+import it.inps.sirio.theme.checkboxCornerRadius
+import it.inps.sirio.theme.checkboxFocusBorderPadding
+import it.inps.sirio.theme.checkboxFocusExtraBorderWidth
+import it.inps.sirio.theme.checkboxSafeAreaPadding
+import it.inps.sirio.theme.checkboxSize
 import it.inps.sirio.ui.text.SirioTextCommon
 import it.inps.sirio.utils.SirioIcon
 
@@ -91,6 +104,66 @@ internal fun SirioCheckboxCommon(
                 typography = SirioTheme.typography.checkboxLabelText,
             )
         }
+    }
+}
+
+/**
+ * Sirio checkbox implementation
+ *
+ * @param text The string on the checkbox right
+ * @param checked Whether the checkbox is checked
+ * @param enabled Whether the checkbox is enabled
+ * @param onCheckedChange The callback when the checkbox state change
+ */
+@Composable
+internal fun SirioCheckboxCommon(
+    text: AnnotatedString,
+    checked: Boolean,
+    enabled: Boolean = true,
+    onCheckedChange: (Boolean) -> Unit,
+) {
+    val interactionSource = remember { MutableInteractionSource() }
+    val isPressed by interactionSource.collectIsPressedAsState()
+    val isFocused by interactionSource.collectIsFocusedAsState()
+    val isHovered by interactionSource.collectIsHoveredAsState()
+
+    val borderColor = if (!enabled) SirioTheme.colors.checkboxDisabled else when {
+        isFocused -> SirioTheme.colors.checkboxFocusContent
+        isPressed -> SirioTheme.colors.checkboxPressed
+        isHovered -> SirioTheme.colors.checkboxHoverContent
+        else -> SirioTheme.colors.checkboxPressed
+    }
+    val textColor =
+        if (!enabled) SirioTheme.colors.checkboxDisabledContent else if (checked) SirioTheme.colors.checkboxPressedText else borderColor
+    val checkColor =
+        if (enabled) SirioTheme.colors.checkboxPressed else SirioTheme.colors.checkboxDisabledContent
+
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .focusable(enabled = enabled, interactionSource = interactionSource)
+            .toggleable(
+                value = checked,
+                interactionSource = interactionSource,
+                indication = null,
+                role = Role.Checkbox,
+                enabled = enabled
+            ) {
+                onCheckedChange(it)
+            }
+    )
+    {
+        CustomCheckbox(
+            checked = checked,
+            checkColor = checkColor,
+            isFocused = isFocused,
+            borderColor = borderColor
+        )
+        SirioTextCommon(
+            text = text,
+            color = textColor,
+            typography = SirioTheme.typography.checkboxLabelText,
+        )
     }
 }
 

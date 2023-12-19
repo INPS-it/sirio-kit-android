@@ -7,6 +7,7 @@
 //
 package it.inps.sirio.ui.card
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -29,6 +30,7 @@ import it.inps.sirio.theme.SirioTheme
  * @param modifier The [Modifier] for the card (optional).
  * @param category The category of the card (optional).
  * @param icon The FA icon of the card (optional), used if no category is provided.
+ * @param iconResId The resource id of the image to be used as the icon if no [icon] is provided
  * @param date The date of the card (optional).
  * @param buttonText The text for the button (optional).
  * @param onClickButton The action to be performed when the button is clicked (optional).
@@ -44,6 +46,7 @@ fun SirioProcessCard(
     modifier: Modifier = Modifier,
     category: String? = null,
     icon: FaIconType? = null,
+    @DrawableRes iconResId: Int? = null,
     date: String? = null,
     item: SirioCardItemData? = null,
     onClickCard: () -> Unit,
@@ -59,6 +62,7 @@ fun SirioProcessCard(
         type = SirioCardType.PROCESS,
         category = category,
         icon = icon,
+        iconResId = iconResId,
         date = date,
         items = buildList { item?.let { add(it) } },
         onClickCard = onClickCard,

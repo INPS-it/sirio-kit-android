@@ -30,12 +30,12 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.guru.fontawesomecomposelib.FaIcons
+import it.inps.design.ui.DemoMenuItem
 import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.ui.tabs.SirioTab
 import it.inps.sirio.ui.tabs.SirioTabGroup
 import it.inps.sirio.ui.tabs.TabItemData
-import it.inps.sirio.ui.tabs.TabSelectionIndicator
-import it.inps.design.ui.DemoMenuItem
+import it.inps.sirio.ui.tabs.TabSelectionIndicatorPosition
 
 class TabActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -106,7 +106,7 @@ fun TabDemoSingle() {
             icon = FaIcons.Check,
             enabled = true,
             selected = true,
-            selection = TabSelectionIndicator.TOP,
+            selection = TabSelectionIndicatorPosition.TOP,
             onSelect = {},
         )
         Text(text = "Default - Top")
@@ -115,7 +115,7 @@ fun TabDemoSingle() {
             icon = FaIcons.Check,
             enabled = true,
             selected = false,
-            selection = TabSelectionIndicator.TOP,
+            selection = TabSelectionIndicatorPosition.TOP,
             onSelect = {},
         )
         Text(text = "Disabled - Top")
@@ -124,7 +124,7 @@ fun TabDemoSingle() {
             icon = FaIcons.Check,
             enabled = false,
             selected = false,
-            selection = TabSelectionIndicator.TOP,
+            selection = TabSelectionIndicatorPosition.TOP,
             onSelect = {},
         )
         Text(text = "Selected - Bottom")
@@ -133,7 +133,7 @@ fun TabDemoSingle() {
             icon = FaIcons.Check,
             enabled = true,
             selected = true,
-            selection = TabSelectionIndicator.BOTTOM,
+            selection = TabSelectionIndicatorPosition.BOTTOM,
             onSelect = {},
         )
         Text(text = "Default - Bottom")
@@ -142,7 +142,7 @@ fun TabDemoSingle() {
             icon = FaIcons.Check,
             enabled = true,
             selected = false,
-            selection = TabSelectionIndicator.BOTTOM,
+            selection = TabSelectionIndicatorPosition.BOTTOM,
             onSelect = {},
         )
         Text(text = "Disabled - Bottom")
@@ -151,7 +151,7 @@ fun TabDemoSingle() {
             icon = FaIcons.Check,
             enabled = false,
             selected = false,
-            selection = TabSelectionIndicator.BOTTOM,
+            selection = TabSelectionIndicatorPosition.BOTTOM,
             onSelect = {},
         )
     }
@@ -170,8 +170,8 @@ fun TabDemoGroup() {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(30.dp),
     ) {
-        var selectedIndexTop by remember { mutableStateOf(0) }
-        var selectedIndexBottom by remember { mutableStateOf(0) }
+        var selectedIndexTop by remember { mutableIntStateOf(0) }
+        var selectedIndexBottom by remember { mutableIntStateOf(0) }
         Text(text = "Top")
         SirioTabGroup(
             items = listOf(
@@ -201,7 +201,7 @@ fun TabDemoGroup() {
                     enabled = true
                 ),
             ),
-            selection = TabSelectionIndicator.TOP,
+            selection = TabSelectionIndicatorPosition.TOP,
             selectedIndex = selectedIndexTop,
             onTabSelected = { selectedIndexTop = it },
         )
@@ -234,7 +234,7 @@ fun TabDemoGroup() {
                     enabled = true
                 ),
             ),
-            selection = TabSelectionIndicator.BOTTOM,
+            selection = TabSelectionIndicatorPosition.BOTTOM,
             selectedIndex = selectedIndexBottom,
             onTabSelected = { selectedIndexBottom = it },
         )

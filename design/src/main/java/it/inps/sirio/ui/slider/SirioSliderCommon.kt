@@ -112,7 +112,7 @@ internal fun SirioSliderCommon(
             Spacer(modifier = Modifier.height(sliderTextPaddingBottom))
         }
         Row {
-            var currentValue by remember(value) { mutableStateOf(value) }
+            var currentValue by remember(value) { mutableIntStateOf(value) }
             val focusManager = LocalFocusManager.current
             Column(Modifier.weight(1f)) {
                 Slider(

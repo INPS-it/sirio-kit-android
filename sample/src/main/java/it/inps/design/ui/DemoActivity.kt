@@ -17,12 +17,12 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.*
 import androidx.compose.ui.tooling.preview.Preview
 import com.guru.fontawesomecomposelib.FaIcons
+import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.ui.appnavigation.AppNavigationItemData
 import it.inps.sirio.ui.appnavigation.AppNavigationLongTitle
 import it.inps.sirio.ui.appnavigation.AppNavigationSearch
 import it.inps.sirio.ui.appnavigation.AppNavigationSelection
 import it.inps.sirio.ui.tabbar.TabBarItemData
-import it.inps.sirio.theme.SirioTheme
 
 class DemoActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,7 +49,6 @@ enum class TopAppBarDemoType {
     LOGGED_IN
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun DemoView() {
 //    val decayAnimationSpec = rememberSplineBasedDecay<Float>()

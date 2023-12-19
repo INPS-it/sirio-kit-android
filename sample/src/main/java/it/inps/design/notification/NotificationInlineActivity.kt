@@ -18,21 +18,24 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.ui.notification.NotificationInline
 import it.inps.sirio.ui.notification.NotificationInlineSnackbarHost
 import it.inps.sirio.ui.notification.NotificationInlineVisuals
 import it.inps.sirio.ui.notification.NotificationType
-import it.inps.sirio.theme.SirioTheme
 import kotlinx.coroutines.launch
 
 class NotificationInlineActivity : ComponentActivity() {
@@ -46,7 +49,6 @@ class NotificationInlineActivity : ComponentActivity() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter", "UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun NotificationInlineDemoContent() {

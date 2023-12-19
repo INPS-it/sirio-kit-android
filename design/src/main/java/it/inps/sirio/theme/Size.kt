@@ -163,9 +163,8 @@ internal val tabHeight = 44.dp
 internal val tabIndicatorHeight = 4.dp
 internal val tabIconSize = 16.dp
 internal val tabEdgePadding = 0.dp
-internal val tabHorizontalTextPadding = 12.dp
-internal val tabWithIconHorizontalPadding = 40.dp
-internal val tabDividerWidth = 2.dp
+internal const val tabHorizontalPadding = 16
+internal const val tabWithIconHorizontalSpacing = 4
 
 internal val searchBarQueriesVerticalPadding = 9.dp
 internal val searchBarQueriesPadding = 8.dp

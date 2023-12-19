@@ -20,6 +20,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.guru.fontawesomecomposelib.FaIconType
@@ -42,7 +44,7 @@ import it.inps.sirio.theme.SirioTheme
  * @param helperText The optionl text on bottom of text field
  * @param type The semantic [TextFieldSemantic] of text field
  * @param enabled Whether the text field can be edited by user
- * @param keyboardOptions software keyboard options that contains configuration such as [KeyboardOptions.KeyboardType] and [KeyboardOptions.ImeAction].
+ * @param keyboardOptions software keyboard options that contains configuration such as [KeyboardType] and [ImeAction].
  * @param keyboardActions when the input service emits an IME action, the corresponding callback is called. Note that this IME action may be different from what you specified in [KeyboardOptions.imeAction].
  * @param onIconClick The callback on [icon] click
  */

@@ -27,8 +27,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import it.inps.sirio.ui.fileupload.FileUpload
 import it.inps.sirio.theme.SirioTheme
+import it.inps.sirio.ui.fileupload.FileUpload
 
 class FileUploadActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,7 +61,7 @@ fun FileUploadDemoContent() {
             val title = "Slider label"
             val text = "*Info upload file"
             val items = remember { mutableStateListOf(elements = arrayOf<String>()) }
-            var progress by remember { mutableStateOf(0) }
+            var progress by remember { mutableIntStateOf(0) }
             Text(text = "Enabled")
             FileUpload(
                 title = title,

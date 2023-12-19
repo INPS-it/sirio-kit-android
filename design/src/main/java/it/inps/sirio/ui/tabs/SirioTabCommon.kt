@@ -14,10 +14,22 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.interaction.collectIsPressedAsState
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredWidth
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.LeadingIconTab
+import androidx.compose.material3.Tab
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
@@ -29,7 +41,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.guru.fontawesomecomposelib.FaIconType
 import com.guru.fontawesomecomposelib.FaIcons
-import it.inps.sirio.theme.*
+import it.inps.sirio.theme.SirioColorState
+import it.inps.sirio.theme.SirioTheme
+import it.inps.sirio.theme.tabHeight
+import it.inps.sirio.theme.tabHorizontalPadding
+import it.inps.sirio.theme.tabIconSize
+import it.inps.sirio.theme.tabIndicatorHeight
+import it.inps.sirio.theme.tabWithIconHorizontalSpacing
 import it.inps.sirio.ui.text.SirioTextCommon
 import it.inps.sirio.utils.SirioIcon
 
@@ -40,7 +58,7 @@ import it.inps.sirio.utils.SirioIcon
  * @param icon The tab optional FA icon [FaIcons]
  * @param enabled Whether the tab can be selected by user
  * @param selected Whether the tab is the selected one
- * @param selection A [TabSelectionIndicator] for top or bottom selection indicator
+ * @param selection A [TabSelectionIndicatorPosition] for top or bottom selection indicator
  * @param onSelect The selection callback
  */
 @Composable
@@ -49,7 +67,7 @@ internal fun SirioTabCommon(
     icon: FaIconType?,
     enabled: Boolean,
     selected: Boolean,
-    selection: TabSelectionIndicator,
+    selection: TabSelectionIndicatorPosition,
     onSelect: () -> Unit,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
@@ -60,10 +78,10 @@ internal fun SirioTabCommon(
     val tabsParams = getTabsParams(enabled, isFocused, isPressed, isHovered, selected)
     val backgroundColor = when {
         selected -> SirioTheme.colors.tabs.backgroundSelected
-        !enabled && selection == TabSelectionIndicator.BOTTOM -> SirioTheme.colors.tabs.backgroundBottomSelectionDisabled
-        !enabled && selection == TabSelectionIndicator.TOP -> SirioTheme.colors.tabs.backgroundTopSelectionDisabled
-        selection == TabSelectionIndicator.BOTTOM -> SirioTheme.colors.tabs.backgroundBottomSelection
-        selection == TabSelectionIndicator.TOP -> SirioTheme.colors.tabs.backgroundTopSelection
+        !enabled && selection == TabSelectionIndicatorPosition.BOTTOM -> SirioTheme.colors.tabs.backgroundBottomSelectionDisabled
+        !enabled && selection == TabSelectionIndicatorPosition.TOP -> SirioTheme.colors.tabs.backgroundTopSelectionDisabled
+        selection == TabSelectionIndicatorPosition.BOTTOM -> SirioTheme.colors.tabs.backgroundBottomSelection
+        selection == TabSelectionIndicatorPosition.TOP -> SirioTheme.colors.tabs.backgroundTopSelection
         else -> SirioTheme.colors.tabs.backgroundSelected
     }
 
@@ -71,32 +89,38 @@ internal fun SirioTabCommon(
         modifier = Modifier
             .height(tabHeight)
             .width(IntrinsicSize.Max),
-        contentAlignment = if (selection == TabSelectionIndicator.TOP) Alignment.TopCenter else Alignment.BottomCenter
+        contentAlignment = if (selection == TabSelectionIndicatorPosition.TOP) Alignment.TopCenter else Alignment.BottomCenter
     ) {
-        LeadingIconTab(
+        Tab(
             selected = selected,
             onClick = onSelect,
-            text = {
-                SirioTextCommon(
-                    text = label,
-                    color = tabsParams.labelColor,
-                    typography = if (selected) SirioTheme.typography.tabTextSelected else SirioTheme.typography.tabTextDefault
-                )
-            },
-            icon = {
-                SirioIcon(
-                    faIcon = icon,
-                    iconColor = tabsParams.iconColor,
-                    size = tabIconSize
-                )
-            },
             modifier = Modifier
                 .height(tabHeight)
                 .wrapContentWidth()
                 .background(backgroundColor),
             enabled = enabled,
             interactionSource = interactionSource,
-        )
+        ) {
+            Row(
+                modifier = Modifier.padding(horizontal = tabHorizontalPadding.dp),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                icon?.let {
+                    SirioIcon(
+                        faIcon = icon,
+                        iconColor = tabsParams.iconColor,
+                        size = tabIconSize
+                    )
+                    Spacer(Modifier.requiredWidth(tabWithIconHorizontalSpacing.dp))
+                }
+                SirioTextCommon(
+                    text = label,
+                    color = tabsParams.labelColor,
+                    typography = if (selected) SirioTheme.typography.tabTextSelected else SirioTheme.typography.tabTextDefault
+                )
+            }
+        }
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -104,6 +128,16 @@ internal fun SirioTabCommon(
                 .background(color = tabsParams.selectionColor)
         )
     }
+}
+
+@Composable
+private fun TabSelectionIndicator(color: Color) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(tabIndicatorHeight)
+            .background(color = color)
+    )
 }
 
 /**
@@ -122,21 +156,25 @@ private fun getTabsParams(
         iconColor = SirioTheme.colors.tabs.icon.disabled,
         selectionColor = SirioTheme.colors.tabs.selection.disabled,
     )
+
     isFocused -> TabsParams(
         labelColor = SirioTheme.colors.tabs.text.focused,
         iconColor = SirioTheme.colors.tabs.icon.focused,
         selectionColor = SirioTheme.colors.tabs.selection.focused,
     )
+
     isPressed || isSelected -> TabsParams(
         labelColor = SirioTheme.colors.tabs.text.pressed,
         iconColor = SirioTheme.colors.tabs.icon.pressed,
         selectionColor = SirioTheme.colors.tabs.selection.pressed,
     )
+
     isHovered -> TabsParams(
         labelColor = SirioTheme.colors.tabs.text.hovered,
         iconColor = SirioTheme.colors.tabs.icon.hovered,
         selectionColor = SirioTheme.colors.tabs.selection.hovered,
     )
+
     else -> TabsParams(
         labelColor = SirioTheme.colors.tabs.text.default,
         iconColor = SirioTheme.colors.tabs.icon.default,
@@ -179,7 +217,7 @@ data class SirioTabsColors(
 /**
  * Indicate if selection is placed on top or bottom of tab item
  */
-enum class TabSelectionIndicator {
+enum class TabSelectionIndicatorPosition {
     TOP,
     BOTTOM,
 }
@@ -202,7 +240,7 @@ private fun TabsCommonPreview() {
                 enabled = true,
                 selected = true,
                 onSelect = {},
-                selection = TabSelectionIndicator.TOP,
+                selection = TabSelectionIndicatorPosition.TOP,
             )
         }
     }

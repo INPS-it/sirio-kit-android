@@ -25,8 +25,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import it.inps.sirio.ui.slider.SirioSlider
 import it.inps.sirio.theme.SirioTheme
+import it.inps.sirio.ui.slider.SirioSlider
 
 class SliderActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,8 +57,8 @@ fun SliderDemoContent() {
         ) {
             val title = "Slider label"
             val text = "*Info upload file"
-            var value1 by remember { mutableStateOf(20) }
-            var value2 by remember { mutableStateOf(20) }
+            var value1 by remember { mutableIntStateOf(20) }
+            var value2 by remember { mutableIntStateOf(20) }
             Text(text = "Enabled")
             SirioSlider(
                 title = title,

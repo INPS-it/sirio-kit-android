@@ -25,8 +25,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import it.inps.sirio.ui.radiobutton.SirioRadioButton
 import it.inps.sirio.theme.SirioTheme
+import it.inps.sirio.ui.radiobutton.SirioRadioButton
 
 class RadioButtonActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,8 +55,8 @@ fun RadioButtonDemoContent() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(30.dp),
         ) {
-            var checkedWithoutText by remember { mutableStateOf(1)}
-            var checkedWithText by remember { mutableStateOf(1)}
+            var checkedWithoutText by remember { mutableIntStateOf(1) }
+            var checkedWithText by remember { mutableIntStateOf(1)}
             val text = "Title"
             Text(text = "Box Only")
             SirioRadioButton(selected = checkedWithoutText == 0, onClick = {checkedWithoutText = 0}, enabled = true)

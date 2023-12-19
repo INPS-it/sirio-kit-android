@@ -31,7 +31,7 @@ import it.inps.sirio.theme.SirioTheme
  * @param icon The tab optional FA icon [FaIcons]
  * @param enabled Whether the tab can be selected by user
  * @param selected Whether the tab is the selected one
- * @param selection A [TabSelectionIndicator] for top or bottom selection indicator
+ * @param selection A [TabSelectionIndicatorPosition] for top or bottom selection indicator
  * @param onSelect The selection callback
  */
 @Composable
@@ -40,7 +40,7 @@ fun SirioTab(
     icon: FaIconType? = null,
     enabled: Boolean = true,
     selected: Boolean = false,
-    selection: TabSelectionIndicator = TabSelectionIndicator.TOP,
+    selection: TabSelectionIndicatorPosition = TabSelectionIndicatorPosition.TOP,
     onSelect: () -> Unit,
 ) {
     SirioTabCommon(
@@ -71,7 +71,7 @@ private fun TabsPreview() {
                 enabled = true,
                 selected = true,
                 onSelect = {},
-                selection = TabSelectionIndicator.TOP,
+                selection = TabSelectionIndicatorPosition.TOP,
             )
         }
     }
