@@ -1,7 +1,7 @@
 //
 // SirioTextFieldCommon.kt
 //
-// SPDX-FileCopyrightText: 2023 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2024 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -9,21 +9,36 @@
 package it.inps.sirio.ui.textfield
 
 import androidx.annotation.Keep
-import androidx.compose.foundation.*
+import androidx.compose.foundation.LocalIndication
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.interaction.collectIsPressedAsState
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextFieldDefaults
-import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
@@ -33,7 +48,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.semantics.*
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -44,7 +58,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.guru.fontawesomecomposelib.FaIconType
 import com.guru.fontawesomecomposelib.FaIcons
-import it.inps.sirio.theme.*
+import it.inps.sirio.theme.Shapes
+import it.inps.sirio.theme.SirioColorState
+import it.inps.sirio.theme.SirioTheme
+import it.inps.sirio.theme.textFieldBorderWidth
+import it.inps.sirio.theme.textFieldDropdownBorderWidth
+import it.inps.sirio.theme.textFieldDropdownMaxHeight
+import it.inps.sirio.theme.textFieldDropdownOptionHeight
+import it.inps.sirio.theme.textFieldDropdownOptionHorizontalPadding
+import it.inps.sirio.theme.textFieldFocusedBorderPadding
+import it.inps.sirio.theme.textFieldFocusedExtraBorderWidth
+import it.inps.sirio.theme.textFieldIconSize
+import it.inps.sirio.theme.textFieldInfoIconSize
+import it.inps.sirio.theme.textFieldLabelVerticalPadding
+import it.inps.sirio.theme.textFieldPaddingBottom
 import it.inps.sirio.ui.button.ButtonSize
 import it.inps.sirio.ui.button.ButtonStyle
 import it.inps.sirio.ui.button.SirioButton
@@ -116,7 +143,7 @@ internal fun SirioTextFieldCommon(
 
     val textFieldParams = getTextFieldParams(enabled, type, isFocused, isPressed, isHovered)
 
-    Column {
+    Column(modifier = modifier) {
         label?.let {
             Row(Modifier.wrapContentSize(), verticalAlignment = Alignment.CenterVertically) {
                 SirioTextCommon(
@@ -187,12 +214,7 @@ internal fun SirioTextFieldCommon(
                     .onFocusChanged {
                         onDropdownStateChange?.invoke(it.hasFocus && optionValues.isNotEmpty())
                     }
-                    .defaultMinSize(
-                        minWidth = TextFieldDefaults.MinWidth,
-                        minHeight = TextFieldDefaults.MinHeight
-                    )
-                    .then(clickable)
-                    .then(modifier),
+                    .then(clickable),
                 enabled = enabled && onTextFieldClick == null,
                 readOnly = onTextFieldClick != null,
                 textStyle = SirioTheme.typography.textFieldText.merge(TextStyle(color = textFieldParams.textColor)),
@@ -219,17 +241,20 @@ internal fun SirioTextFieldCommon(
                                 )
                             }
                         },
-                        trailingIcon = {
-                            TrailingIcon(
-                                icon = icon,
-                                iconColor = textFieldParams.iconColor,
-                                iconButton = iconButton,
-                                iconContentDescription = iconContentDescription,
-                                iconButtonContentDescription = iconButtonContentDescription,
-                                enabled = enabled,
-                                onIconClick = onIconClick,
-                                onIconButtonClick = { onIconButtonClick?.invoke(text) },
-                            )
+                        trailingIcon = if (icon == null && iconButton == null) null
+                        else {
+                            {
+                                TrailingIcon(
+                                    icon = icon,
+                                    iconColor = textFieldParams.iconColor,
+                                    iconButton = iconButton,
+                                    iconContentDescription = iconContentDescription,
+                                    iconButtonContentDescription = iconButtonContentDescription,
+                                    enabled = enabled,
+                                    onIconClick = onIconClick,
+                                    onIconButtonClick = { onIconButtonClick?.invoke(text) },
+                                )
+                            }
                         },
                         colors = colors,
                         contentPadding = OutlinedTextFieldDefaults.contentPadding(),
@@ -662,6 +687,33 @@ private fun TextFieldCommonPreview() {
                 onInfoClick = {},
                 icon = FaIcons.Calendar,
                 enabled = false,
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun TextFieldInRowPreview() {
+    SirioTheme {
+        Row(Modifier.background(Color.White)) {
+            SirioTextFieldCommon(
+                text = "",
+                onValueChange = {},
+                label = "XX",
+                modifier = Modifier.weight(1f),
+            )
+            Text(
+                text = "/",
+                modifier = Modifier
+                    .padding(16.dp)
+                    .align(Alignment.Bottom)
+            )
+            SirioTextFieldCommon(
+                text = "",
+                onValueChange = {},
+                label = "YYYY",
+                modifier = Modifier.weight(2f),
             )
         }
     }

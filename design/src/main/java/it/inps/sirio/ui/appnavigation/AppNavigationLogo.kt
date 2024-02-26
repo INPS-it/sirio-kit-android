@@ -1,7 +1,7 @@
 //
 // AppNavigationLogo.kt
 //
-// SPDX-FileCopyrightText: 2023 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2024 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -44,7 +44,7 @@ fun AppNavigationLogo(
     CenterAlignedTopAppBar(
         title = {
             Icon(
-                painter = painterResource(id = if (SirioTheme.colors.isDark) R.drawable.inps_125_with_logo_horizontal_dark else R.drawable.inps_125_with_logo_horizontal),
+                painter = painterResource(id = if (SirioTheme.colors.isDark) R.drawable.inps_logotipo_negativo_colore_rgb else R.drawable.inps_logotipo_positivo_colore_rgb),
                 contentDescription = null,
                 modifier = Modifier.size(appNavigationLogoSize),
                 tint = Color.Unspecified,

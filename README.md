@@ -19,7 +19,7 @@ repositories {
    }
 }
 dependencies {
-    implementation 'it.inps.sirio:library:7.0.0'
+    implementation 'it.inps.sirio:library:7.0.2'
 }
 ```
 2. Add following repository in your gradle file (es. settings.gradle)

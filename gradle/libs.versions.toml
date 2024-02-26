@@ -6,7 +6,7 @@ sdkTarget = "33"
 # @keep
 sdkMin = "21"
 
-gradleAndroid = "8.2.0"
+gradleAndroid = "8.2.2"
 
 androidxCore = "1.12.0"
 androidxAppcompat = "1.6.1"
