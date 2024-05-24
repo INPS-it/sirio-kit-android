@@ -130,16 +130,6 @@ internal fun SirioTabCommon(
     }
 }
 
-@Composable
-private fun TabSelectionIndicator(color: Color) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(tabIndicatorHeight)
-            .background(color = color)
-    )
-}
-
 /**
  * Tab colors based on current state
  */
@@ -190,14 +180,14 @@ data class TabsParams(
 
 @Keep
 data class SirioTabsColors(
-    var backgroundBottomSelection: Color,
-    var backgroundTopSelection: Color,
-    var backgroundSelected: Color,
-    var backgroundBottomSelectionDisabled: Color,
-    var backgroundTopSelectionDisabled: Color,
-    var text: SirioColorState,
-    var icon: SirioColorState,
-    var selection: SirioColorState,
+    val backgroundBottomSelection: Color,
+    val backgroundTopSelection: Color,
+    val backgroundSelected: Color,
+    val backgroundBottomSelectionDisabled: Color,
+    val backgroundTopSelectionDisabled: Color,
+    val text: SirioColorState,
+    val icon: SirioColorState,
+    val selection: SirioColorState,
 ) {
     companion object {
         @Stable

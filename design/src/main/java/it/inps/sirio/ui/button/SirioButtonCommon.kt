@@ -24,23 +24,29 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredWidth
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.guru.fontawesomecomposelib.FaIconType
 import com.guru.fontawesomecomposelib.FaIcons
@@ -51,20 +57,19 @@ import it.inps.sirio.theme.buttonBorderWidth
 import it.inps.sirio.theme.buttonCornerRadius
 import it.inps.sirio.theme.buttonFocusedBorderPadding
 import it.inps.sirio.theme.buttonFocusedExtraBorderWidth
-import it.inps.sirio.theme.buttonIconSize
-import it.inps.sirio.theme.buttonLargeWithTextHorizontalPadding
-import it.inps.sirio.theme.buttonLargeWithTextVerticalPadding
-import it.inps.sirio.theme.buttonLargeWithoutTextHorizontalPadding
-import it.inps.sirio.theme.buttonLargeWithoutTextVerticalPadding
-import it.inps.sirio.theme.buttonMediumWithTextHorizontalPadding
-import it.inps.sirio.theme.buttonMediumWithTextVerticalPadding
-import it.inps.sirio.theme.buttonMediumWithoutTextHorizontalPadding
-import it.inps.sirio.theme.buttonMediumWithoutTextVerticalPadding
-import it.inps.sirio.theme.buttonSmallWithTextHorizontalPadding
-import it.inps.sirio.theme.buttonSmallWithTextVerticalPadding
-import it.inps.sirio.theme.buttonSmallWithoutTextHorizontalPadding
-import it.inps.sirio.theme.buttonSmallWithoutTextVerticalPadding
+import it.inps.sirio.theme.buttonHeightLarge
+import it.inps.sirio.theme.buttonHeightMedium
+import it.inps.sirio.theme.buttonHeightSmall
+import it.inps.sirio.theme.buttonIconOnlyLargePaddingHorizontal
+import it.inps.sirio.theme.buttonIconOnlyMediumPaddingHorizontal
+import it.inps.sirio.theme.buttonIconOnlySmallPaddingHorizontal
+import it.inps.sirio.theme.buttonIconSizeLarge
+import it.inps.sirio.theme.buttonIconSizeMedium
+import it.inps.sirio.theme.buttonIconSizeSmall
 import it.inps.sirio.theme.buttonTextIconSpacerWidth
+import it.inps.sirio.theme.buttonTextLargePaddingHorizontal
+import it.inps.sirio.theme.buttonTextMediumPaddingHorizontal
+import it.inps.sirio.theme.buttonTextSmallPaddingHorizontal
 import it.inps.sirio.ui.text.SirioTextCommon
 import it.inps.sirio.utils.SirioIcon
 
@@ -99,39 +104,58 @@ internal fun SirioButtonCommon(
     val isHovered by interactionSource.collectIsHoveredAsState()
     val buttonParams = getButtonParams(enabled, colors, isFocused, isPressed, isHovered)
 
+    val height = when (size) {
+        ButtonSize.Large -> buttonHeightLarge
+        ButtonSize.Medium -> buttonHeightMedium
+        ButtonSize.Small -> buttonHeightSmall
+    }
+    val iconSize = when (size) {
+        ButtonSize.Large -> buttonIconSizeLarge
+        ButtonSize.Medium -> buttonIconSizeMedium
+        ButtonSize.Small -> buttonIconSizeSmall
+    }
+    val contentHorizontalPadding =
+        getContentHorizontalPadding(size, isFocused, text.isNullOrEmpty())
+
+    val heightModifier = modifier
+        .height(height.dp)
+        .minimumInteractiveComponentSize()
     Box(
         modifier = if (isFocused) {
-            modifier
+            heightModifier
                 .border(
-                    width = buttonFocusedExtraBorderWidth,
+                    width = buttonFocusedExtraBorderWidth.dp,
                     color = SirioTheme.colors.buttons.focusExtraBorder,
                     shape = Shapes.small,
                 )
-                .padding(buttonFocusedBorderPadding)
+                .padding(buttonFocusedBorderPadding.dp)
         } else {
-            modifier
+            heightModifier
         },
+        propagateMinConstraints = true,
     ) {
         OutlinedButton(
-            onClick = {
-                onClick()
-            },
-            modifier = modifier.focusable(true, interactionSource = interactionSource),
+            onClick = onClick,
+            modifier = Modifier
+                .fillMaxHeight()
+                .widthIn(min = (iconSize + 2 * contentHorizontalPadding).dp)
+                .focusable(true, interactionSource = interactionSource),
             enabled = enabled,
             interactionSource = interactionSource,
-            shape = RoundedCornerShape(buttonCornerRadius),
-            border = BorderStroke(width = buttonBorderWidth, color = buttonParams.borderColor),
+            shape = RoundedCornerShape(buttonCornerRadius.dp),
+            border = BorderStroke(width = buttonBorderWidth.dp, color = buttonParams.borderColor),
             colors = ButtonDefaults.outlinedButtonColors(
                 containerColor = buttonParams.backgroundColor,
                 disabledContainerColor = buttonParams.backgroundColor,
             ),
-            contentPadding = getContentPadding(size, isFocused, text.isNullOrEmpty()),
+            contentPadding = PaddingValues(horizontal = contentHorizontalPadding.dp),
             content = {
                 ButtonContent(
                     text = text,
                     textColor = buttonParams.textColor,
                     icon = faIcon,
                     iconResId = iconResId,
+                    iconSize = iconSize.dp,
                     iconColor = buttonParams.iconColor,
                     iconContentDescription = iconContentDescription,
                 )
@@ -194,79 +218,25 @@ private fun getButtonParams(
 }
 
 /**
- * The internal padding depends on size, focused state and text in button
+ * The internal horizontal padding depends on size, focused state and text in button
  *
  * @param size The [ButtonSize]
  * @param isFocused Whether the button has focus
- * @param noText Whether the button is only icon
+ * @param iconOnly Whether the button is icon only
  */
 @Composable
-private fun getContentPadding(
+private fun getContentHorizontalPadding(
     size: ButtonSize,
     isFocused: Boolean,
-    noText: Boolean,
-): PaddingValues =
-    when (size) {
-        ButtonSize.Large -> {
-            if (isFocused)
-                if (noText) PaddingValues(
-                    horizontal = buttonLargeWithoutTextHorizontalPadding - buttonFocusedBorderPadding,
-                    vertical = buttonLargeWithoutTextVerticalPadding - buttonFocusedBorderPadding,
-                ) else PaddingValues(
-                    horizontal = buttonLargeWithTextHorizontalPadding - buttonFocusedBorderPadding,
-                    vertical = buttonLargeWithTextVerticalPadding - buttonFocusedBorderPadding,
-                )
-            else {
-                if (noText) PaddingValues(
-                    horizontal = buttonLargeWithoutTextHorizontalPadding,
-                    vertical = buttonLargeWithoutTextVerticalPadding
-                ) else PaddingValues(
-                    horizontal = buttonLargeWithTextHorizontalPadding,
-                    vertical = buttonLargeWithTextVerticalPadding
-                )
-            }
-        }
-
-        ButtonSize.Medium -> {
-            if (isFocused)
-                if (noText) PaddingValues(
-                    horizontal = buttonMediumWithoutTextHorizontalPadding - buttonFocusedBorderPadding,
-                    vertical = buttonMediumWithoutTextVerticalPadding - buttonFocusedBorderPadding,
-                ) else PaddingValues(
-                    horizontal = buttonMediumWithTextHorizontalPadding - buttonFocusedBorderPadding,
-                    vertical = buttonMediumWithTextVerticalPadding - buttonFocusedBorderPadding,
-                )
-            else {
-                if (noText) PaddingValues(
-                    horizontal = buttonMediumWithoutTextHorizontalPadding,
-                    vertical = buttonMediumWithoutTextVerticalPadding
-                ) else PaddingValues(
-                    horizontal = buttonMediumWithTextHorizontalPadding,
-                    vertical = buttonMediumWithTextVerticalPadding
-                )
-            }
-        }
-
-        ButtonSize.Small -> {
-            if (isFocused)
-                if (noText) PaddingValues(
-                    horizontal = buttonSmallWithoutTextHorizontalPadding - buttonFocusedBorderPadding,
-                    vertical = buttonSmallWithoutTextVerticalPadding - buttonFocusedBorderPadding,
-                ) else PaddingValues(
-                    horizontal = buttonSmallWithTextHorizontalPadding - buttonFocusedBorderPadding,
-                    vertical = buttonSmallWithTextVerticalPadding - buttonFocusedBorderPadding,
-                )
-            else {
-                if (noText) PaddingValues(
-                    horizontal = buttonSmallWithoutTextHorizontalPadding,
-                    vertical = buttonSmallWithoutTextVerticalPadding
-                ) else PaddingValues(
-                    horizontal = buttonSmallWithTextHorizontalPadding,
-                    vertical = buttonSmallWithTextVerticalPadding
-                )
-            }
-        }
+    iconOnly: Boolean,
+): Int {
+    val horizontalPadding = when (size) {
+        ButtonSize.Large -> if (iconOnly) buttonIconOnlyLargePaddingHorizontal else buttonTextLargePaddingHorizontal
+        ButtonSize.Medium -> if (iconOnly) buttonIconOnlyMediumPaddingHorizontal else buttonTextMediumPaddingHorizontal
+        ButtonSize.Small -> if (iconOnly) buttonIconOnlySmallPaddingHorizontal else buttonTextSmallPaddingHorizontal
     }
+    return if (isFocused) horizontalPadding - buttonFocusedBorderPadding else horizontalPadding
+}
 
 /**
  * The button content in row
@@ -284,10 +254,12 @@ private fun ButtonContent(
     textColor: Color,
     icon: FaIconType?,
     @DrawableRes iconResId: Int?,
+    iconSize: Dp,
     iconColor: Color,
     iconContentDescription: String? = null,
 ) {
-    val withIcon = icon != null || iconResId != null
+    val withIcon: Boolean
+            by remember(icon, iconResId) { derivedStateOf { icon != null || iconResId != null } }
     if (!text.isNullOrEmpty()) {
         SirioTextCommon(
             text = text,
@@ -296,14 +268,14 @@ private fun ButtonContent(
         )
     }
     if (!text.isNullOrEmpty() && withIcon) {
-        Spacer(Modifier.requiredWidth(buttonTextIconSpacerWidth))
+        Spacer(Modifier.requiredWidth(buttonTextIconSpacerWidth.dp))
     }
     if (withIcon) {
         SirioIcon(
             faIcon = icon,
             iconResId = iconResId,
             iconColor = iconColor,
-            size = buttonIconSize,
+            size = iconSize,
             contentDescription = iconContentDescription,
         )
     }
@@ -318,10 +290,10 @@ data class ButtonParams(
 
 @Keep
 data class SirioButtonColors(
-    var background: SirioColorState,
-    var border: SirioColorState? = null,
-    var icon: SirioColorState,
-    var text: SirioColorState,
+    val background: SirioColorState,
+    val border: SirioColorState? = null,
+    val icon: SirioColorState,
+    val text: SirioColorState,
 ) {
     constructor(
         background: SirioColorState,

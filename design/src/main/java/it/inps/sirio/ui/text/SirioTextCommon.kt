@@ -48,7 +48,7 @@ internal fun SirioTextCommon(
 ) {
     Text(
         text = text,
-        modifier = modifier.offset(y = (-2).dp),
+        modifier = modifier,
         color = color,
         textDecoration = textDecoration,
         textAlign = textAlign,

@@ -6,23 +6,23 @@ sdkTarget = "33"
 # @keep
 sdkMin = "21"
 
-gradleAndroid = "8.2.2"
+gradleAndroid = "8.4.0"
 
-androidxCore = "1.12.0"
+androidxCore = "1.13.1"
 androidxAppcompat = "1.6.1"
-androidxRuntimeKtx = "2.6.2"
-androidxActivityCompose = "1.8.2"
+androidxRuntimeKtx = "2.7.0"
+androidxActivityCompose = "1.9.0"
 androidxConstraintlayoutCompose = "1.0.1"
 
-kotlin = "1.9.20"
-material = "1.10.0"
-accompanist = "0.30.1"
+kotlin = "1.9.23"
+material = "1.11.0"
+accompanist = "0.34.0"
 
-composeBom = "2023.10.01"
-composeCompiler = "1.5.5"
-composeNavigation = "2.7.6"
+composeBom = "2024.05.00"
+composeCompiler = "1.5.13"
+composeNavigation = "2.7.7"
 
-coil = "2.5.0"
+coil = "2.6.0"
 fontawesome-compose = "1.1.0"
 
 [libraries]

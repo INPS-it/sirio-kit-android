@@ -10,8 +10,14 @@ package it.inps.sirio.ui.appnavigation
 
 import android.content.res.Configuration
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -49,8 +55,9 @@ fun AppNavigation(
             leftItem?.let {
                 AppNavigationIconButton(
                     icon = it.icon,
-                    action = it.action,
                     contentDescription = it.contentDescription,
+                    badge = it.badge,
+                    action = it.action,
                 )
             }
         },
@@ -89,8 +96,8 @@ private fun AppNavigationPreview() {
             AppNavigation(
                 title = title,
                 leftItem = AppNavigationItemData(icon = FaIcons.AngleLeft, action = {}),
-                rightFirstItem = AppNavigationItemData(icon = FaIcons.User, action = {}),
-                rightSecondItem = AppNavigationItemData(icon = FaIcons.Bell, action = {}),
+                rightFirstItem = AppNavigationItemData(icon = FaIcons.User,badge = true, action = {}),
+                rightSecondItem = AppNavigationItemData(icon = FaIcons.Bell,badge = true, action = {}),
             )
             Spacer(modifier = Modifier.height(8.dp))
         }

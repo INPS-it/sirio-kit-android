@@ -10,11 +10,21 @@ package it.inps.sirio.ui.fab
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.focusable
-import androidx.compose.foundation.interaction.*
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsFocusedAsState
+import androidx.compose.foundation.interaction.collectIsHoveredAsState
+import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CornerSize
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -22,8 +32,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import com.guru.fontawesomecomposelib.*
-import it.inps.sirio.theme.*
+import com.guru.fontawesomecomposelib.FaIconType
+import com.guru.fontawesomecomposelib.FaIcons
+import it.inps.sirio.theme.SirioTheme
+import it.inps.sirio.theme.fabCornerSizePercent
+import it.inps.sirio.theme.fabExtendedFocusedBorderPadding
+import it.inps.sirio.theme.fabExtendedHorizontalPadding
+import it.inps.sirio.theme.fabExtendedSpacerWidth
+import it.inps.sirio.theme.fabExtendedVerticalPadding
+import it.inps.sirio.theme.fabFocusedBorderPadding
+import it.inps.sirio.theme.fabFocusedBorderWidth
+import it.inps.sirio.theme.fabIconSize
+import it.inps.sirio.theme.fabRegularPadding
+import it.inps.sirio.theme.fabSmallPadding
+import it.inps.sirio.theme.fabSmallSize
 import it.inps.sirio.ui.text.SirioTextCommon
 import it.inps.sirio.utils.SirioIcon
 

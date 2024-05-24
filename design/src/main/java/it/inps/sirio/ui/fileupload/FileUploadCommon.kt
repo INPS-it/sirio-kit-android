@@ -6,21 +6,26 @@
 // SPDX-License-Identifier: BSD-3-Clause
 //
 
+@file:OptIn(ExperimentalLayoutApi::class)
+
 package it.inps.sirio.ui.fileupload
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import com.google.accompanist.flowlayout.FlowMainAxisAlignment
-import com.google.accompanist.flowlayout.FlowRow
+import androidx.compose.ui.unit.dp
 import com.guru.fontawesomecomposelib.FaIcons
 import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.theme.fileUploadItemsPadding
@@ -60,7 +65,7 @@ internal fun FileUploadCommon(
                 color = SirioTheme.colors.fileUploadTitle,
                 typography = SirioTheme.typography.sliderTitle,
             )
-            Spacer(modifier = Modifier.height(fileUploadTitlePaddingBottom))
+            Spacer(modifier = Modifier.height(fileUploadTitlePaddingBottom.dp))
         }
         text?.let {
             SirioTextCommon(
@@ -68,7 +73,7 @@ internal fun FileUploadCommon(
                 color = SirioTheme.colors.fileUploadText,
                 typography = SirioTheme.typography.sliderText,
             )
-            Spacer(modifier = Modifier.height(fileUploadTextPaddingBottom))
+            Spacer(modifier = Modifier.height(fileUploadTextPaddingBottom.dp))
         }
         SirioButton(
             text = "Upload",
@@ -78,15 +83,17 @@ internal fun FileUploadCommon(
             size = ButtonSize.Large,
             style = ButtonStyle.Primary,
         )
-        Spacer(modifier = Modifier.height(fileUploadItemsPadding))
+        Spacer(modifier = Modifier.height(fileUploadItemsPadding.dp))
         FlowRow(
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight(),
-            mainAxisSpacing = fileUploadItemsPadding,
-            crossAxisSpacing = fileUploadItemsPadding,
-            mainAxisAlignment = FlowMainAxisAlignment.Start,
-            lastLineMainAxisAlignment = FlowMainAxisAlignment.Start,
+            horizontalArrangement = Arrangement.spacedBy(
+                fileUploadItemsPadding.dp,
+                Alignment.Start
+            ),
+            verticalArrangement = Arrangement.spacedBy(fileUploadItemsPadding.dp, Alignment.Top),
+//            lastLineMainAxisAlignment = FlowMainAxisAlignment.Start,
         ) {
             uploadList.forEachIndexed { index, item ->
                 ChipLabelClose(
@@ -110,7 +117,13 @@ private fun FileUploadCommonPreview() {
                 title = "Label",
                 text = "*Info upload file",
                 enabled = true,
-                uploadList = listOf("Nome file", "Nome file 2"),
+                uploadList = listOf(
+                    "Nome file",
+                    "Nome file 2",
+                    "Nome file 3",
+                    "Nome file 4",
+                    "Nome file 5"
+                ),
                 onDeleteClick = { _, _ -> },
                 onUploadClick = {}
             )

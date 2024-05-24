@@ -6,23 +6,41 @@
 // SPDX-License-Identifier: BSD-3-Clause
 //
 
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package it.inps.design.fab
 
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.guru.fontawesomecomposelib.FaIcons
-import it.inps.sirio.ui.fab.*
 import it.inps.sirio.theme.SirioTheme
+import it.inps.sirio.ui.fab.FabExtended
+import it.inps.sirio.ui.fab.FabExtendedItemData
+import it.inps.sirio.ui.fab.FabItemData
+import it.inps.sirio.ui.fab.FabRegular
+import it.inps.sirio.ui.fab.FabSmall
 
 class FabActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,12 +60,15 @@ fun FabDemoContent() {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Fab") }, backgroundColor = SirioTheme.colors.brand
+                title = { Text("Fab") },
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = SirioTheme.colors.brand),
             )
-        }) {
+        },
+    ) {
         Column(
             Modifier
                 .fillMaxSize()
+                .padding(it)
                 .padding(10.dp, 20.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(30.dp),

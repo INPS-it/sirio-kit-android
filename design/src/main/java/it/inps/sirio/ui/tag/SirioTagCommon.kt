@@ -10,19 +10,22 @@ package it.inps.sirio.ui.tag
 
 import androidx.annotation.Keep
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Surface
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.theme.tagElevation
-import it.inps.sirio.theme.tagHorizontalPadding
-import it.inps.sirio.theme.tagVerticalPadding
+import it.inps.sirio.theme.tagHeight
+import it.inps.sirio.theme.tagPaddingHorizontal
 import it.inps.sirio.ui.text.SirioTextCommon
 
 /**
@@ -33,24 +36,27 @@ import it.inps.sirio.ui.text.SirioTextCommon
  * @param modifier A [Modifier] for customizing the appearance and behavior of the tag component
  */
 @Composable
-internal fun TagCommon(
+internal fun SirioTagCommon(
     text: String,
     colors: SirioTagColors,
     modifier: Modifier = Modifier,
 ) {
     Surface(
         modifier = modifier,
-        elevation = tagElevation,
         shape = CircleShape,
-        color = colors.background
+        color = colors.background,
+        shadowElevation = tagElevation.dp,
     ) {
         Row(
-            modifier = Modifier.padding(tagHorizontalPadding, tagVerticalPadding),
+            modifier = Modifier
+                .height(tagHeight.dp)
+                .padding(horizontal = tagPaddingHorizontal.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             SirioTextCommon(
                 text = text,
                 color = colors.text,
+                overflow = TextOverflow.Ellipsis,
                 typography = SirioTheme.typography.tagText,
             )
         }
@@ -59,12 +65,12 @@ internal fun TagCommon(
 
 @Keep
 data class SirioTagsColors(
-    var gray: SirioTagColors,
-    var blue: SirioTagColors,
-    var red: SirioTagColors,
-    var orange: SirioTagColors,
-    var green: SirioTagColors,
-    var white: SirioTagColors,
+    val gray: SirioTagColors,
+    val blue: SirioTagColors,
+    val red: SirioTagColors,
+    val orange: SirioTagColors,
+    val green: SirioTagColors,
+    val white: SirioTagColors,
 ) {
     companion object {
         @Stable
@@ -81,8 +87,8 @@ data class SirioTagsColors(
 
 @Keep
 data class SirioTagColors(
-    var background: Color,
-    var text: Color,
+    val background: Color,
+    val text: Color,
 ) {
     companion object {
         @Stable
@@ -97,7 +103,7 @@ data class SirioTagColors(
 @Composable
 private fun TagCommonPreview() {
     SirioTheme {
-        TagCommon("Label Tag", SirioTheme.colors.tag.red)
+        SirioTagCommon("Label Tag", SirioTheme.colors.tag.red)
     }
 }
 

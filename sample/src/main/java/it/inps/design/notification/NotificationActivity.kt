@@ -6,6 +6,8 @@
 // SPDX-License-Identifier: BSD-3-Clause
 //
 
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package it.inps.design.notification
 
 import android.annotation.SuppressLint
@@ -13,26 +15,34 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Divider
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
-import androidx.compose.runtime.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import it.inps.design.ui.DemoMenuItem
+import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.ui.notification.NotificationInline
 import it.inps.sirio.ui.notification.NotificationToast
 import it.inps.sirio.ui.notification.NotificationType
-import it.inps.sirio.theme.SirioTheme
-import it.inps.design.ui.DemoMenuItem
 
 class NotificationActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,10 +68,15 @@ fun NotificationDemoView() {
     Scaffold(
         Modifier.fillMaxSize(),
         topBar = {
-            TopAppBar(title = { Text(text = title) }, backgroundColor = SirioTheme.colors.brand)
+            TopAppBar(
+                title = { Text(text = title) },
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = SirioTheme.colors.brand)
+            )
         },
     ) {
-        NotificationNavigationGraph(navController = navController)
+        Box(modifier = Modifier.padding(it)) {
+            NotificationNavigationGraph(navController = navController)
+        }
     }
 
 }
@@ -139,35 +154,35 @@ fun NotificationMenuDemo(navController: NavController) {
         DemoMenuItem(NotificationDestinations.NOTIFICATION_INLINE_ALERT_ROUTE) {
             navController.navigate(NotificationDestinations.NOTIFICATION_INLINE_ALERT_ROUTE)
         }
-        Divider()
+        HorizontalDivider()
         DemoMenuItem(NotificationDestinations.NOTIFICATION_INLINE_INFO_ROUTE) {
             navController.navigate(NotificationDestinations.NOTIFICATION_INLINE_INFO_ROUTE)
         }
-        Divider()
+        HorizontalDivider()
         DemoMenuItem(NotificationDestinations.NOTIFICATION_INLINE_SUCCESS_ROUTE) {
             navController.navigate(NotificationDestinations.NOTIFICATION_INLINE_SUCCESS_ROUTE)
         }
-        Divider()
+        HorizontalDivider()
         DemoMenuItem(NotificationDestinations.NOTIFICATION_INLINE_WARNING_ROUTE) {
             navController.navigate(NotificationDestinations.NOTIFICATION_INLINE_WARNING_ROUTE)
         }
-        Divider()
+        HorizontalDivider()
         DemoMenuItem(NotificationDestinations.NOTIFICATION_TOAST_ALERT_ROUTE) {
             navController.navigate(NotificationDestinations.NOTIFICATION_TOAST_ALERT_ROUTE)
         }
-        Divider()
+        HorizontalDivider()
         DemoMenuItem(NotificationDestinations.NOTIFICATION_TOAST_INFO_ROUTE) {
             navController.navigate(NotificationDestinations.NOTIFICATION_TOAST_INFO_ROUTE)
         }
-        Divider()
+        HorizontalDivider()
         DemoMenuItem(NotificationDestinations.NOTIFICATION_TOAST_SUCCESS_ROUTE) {
             navController.navigate(NotificationDestinations.NOTIFICATION_TOAST_SUCCESS_ROUTE)
         }
-        Divider()
+        HorizontalDivider()
         DemoMenuItem(NotificationDestinations.NOTIFICATION_TOAST_WARNING_ROUTE) {
             navController.navigate(NotificationDestinations.NOTIFICATION_TOAST_WARNING_ROUTE)
         }
-        Divider()
+        HorizontalDivider()
     }
 }
 

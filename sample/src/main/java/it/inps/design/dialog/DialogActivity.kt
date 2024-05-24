@@ -6,6 +6,8 @@
 // SPDX-License-Identifier: BSD-3-Clause
 //
 
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package it.inps.design.dialog
 
 import android.annotation.SuppressLint
@@ -17,17 +19,23 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Divider
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
-import androidx.compose.runtime.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import it.inps.design.ui.DemoMenuItem
 import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.ui.dialog.DialogSemantic
 import it.inps.sirio.ui.dialog.SirioDialog
-import it.inps.design.ui.DemoMenuItem
 
 class DialogActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,7 +54,8 @@ fun DialogMenuDemo() {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Dialog") }, backgroundColor = SirioTheme.colors.brand,
+                title = { Text("Dialog") },
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = SirioTheme.colors.brand),
             )
         }) {
         Column(
@@ -146,31 +155,31 @@ fun DialogMenuDemo() {
             DemoMenuItem("Dialog 1") {
                 dialogType = DemoDialogType.ACTION_ICON_TITLE_TEXT_2_INPUT
             }
-            Divider()
+            HorizontalDivider()
             DemoMenuItem("Dialog 2") {
                 dialogType = DemoDialogType.ACTION_ICON_TITLE_TEXT_1_INPUT
             }
-            Divider()
+            HorizontalDivider()
             DemoMenuItem("Dialog 3") {
                 dialogType = DemoDialogType.ACTION_ICON_TITLE_TEXT
             }
-            Divider()
+            HorizontalDivider()
             DemoMenuItem("Dialog 4") {
                 dialogType = DemoDialogType.ACTION_ICON_TITLE
             }
-            Divider()
+            HorizontalDivider()
             DemoMenuItem("Dialog 5") {
                 dialogType = DemoDialogType.PASSIVE_ICON
             }
-            Divider()
+            HorizontalDivider()
             DemoMenuItem("Dialog Alert") {
                 dialogType = DemoDialogType.SEMANTIC_ALERT_ICON
             }
-            Divider()
+            HorizontalDivider()
             DemoMenuItem("Dialog Warning") {
                 dialogType = DemoDialogType.SEMANTIC_WARNING_ICON
             }
-            Divider()
+            HorizontalDivider()
             val title = "Titolo finestra di dialogo"
             val text =
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
@@ -198,6 +207,7 @@ fun DialogMenuDemo() {
                         onNeutral = { dialogType = DemoDialogType.NONE },
                         onDismiss = { dialogType = DemoDialogType.NONE },
                     )
+
                 DemoDialogType.ACTION_TITLE_TEXT_2_INPUT ->
                     SirioDialog(
                         title = title,
@@ -213,6 +223,7 @@ fun DialogMenuDemo() {
                         onNeutral = { dialogType = DemoDialogType.NONE },
                         onDismiss = { dialogType = DemoDialogType.NONE },
                     )
+
                 DemoDialogType.ACTION_ICON_TITLE_TEXT_1_INPUT ->
                     SirioDialog(
                         title = title,
@@ -227,6 +238,7 @@ fun DialogMenuDemo() {
                         onNeutral = { dialogType = DemoDialogType.NONE },
                         onDismiss = { dialogType = DemoDialogType.NONE },
                     )
+
                 DemoDialogType.ACTION_TITLE_TEXT_1_INPUT ->
                     SirioDialog(
                         title = title,
@@ -240,6 +252,7 @@ fun DialogMenuDemo() {
                         onNeutral = { dialogType = DemoDialogType.NONE },
                         onDismiss = { dialogType = DemoDialogType.NONE },
                     )
+
                 DemoDialogType.ACTION_ICON_TITLE_TEXT ->
                     SirioDialog(
                         title = title,
@@ -252,6 +265,7 @@ fun DialogMenuDemo() {
                         onNeutral = { dialogType = DemoDialogType.NONE },
                         onDismiss = { dialogType = DemoDialogType.NONE },
                     )
+
                 DemoDialogType.ACTION_TITLE_TEXT ->
                     SirioDialog(
                         title = title,
@@ -263,6 +277,7 @@ fun DialogMenuDemo() {
                         onNeutral = { dialogType = DemoDialogType.NONE },
                         onDismiss = { dialogType = DemoDialogType.NONE },
                     )
+
                 DemoDialogType.ACTION_ICON_TITLE ->
                     SirioDialog(
                         title = title,
@@ -274,6 +289,7 @@ fun DialogMenuDemo() {
                         onNeutral = { dialogType = DemoDialogType.NONE },
                         onDismiss = { dialogType = DemoDialogType.NONE },
                     )
+
                 DemoDialogType.ACTION_TITLE ->
                     SirioDialog(
                         title = title,
@@ -284,6 +300,7 @@ fun DialogMenuDemo() {
                         onNeutral = { dialogType = DemoDialogType.NONE },
                         onDismiss = { dialogType = DemoDialogType.NONE },
                     )
+
                 DemoDialogType.CONFIRM_ICON_TITLE_TEXT_2_INPUT ->
                     SirioDialog(
                         title = title,
@@ -298,6 +315,7 @@ fun DialogMenuDemo() {
                         onPositive = { dialogType = DemoDialogType.NONE },
                         onDismiss = { dialogType = DemoDialogType.NONE },
                     )
+
                 DemoDialogType.CONFIRM_TITLE_TEXT_2_INPUT ->
                     SirioDialog(
                         title = title,
@@ -311,6 +329,7 @@ fun DialogMenuDemo() {
                         onPositive = { dialogType = DemoDialogType.NONE },
                         onDismiss = { dialogType = DemoDialogType.NONE },
                     )
+
                 DemoDialogType.CONFIRM_ICON_TITLE_TEXT_1_INPUT ->
                     SirioDialog(
                         title = title,
@@ -323,6 +342,7 @@ fun DialogMenuDemo() {
                         onPositive = { dialogType = DemoDialogType.NONE },
                         onDismiss = { dialogType = DemoDialogType.NONE },
                     )
+
                 DemoDialogType.CONFIRM_TITLE_TEXT_1_INPUT ->
                     SirioDialog(
                         title = title,
@@ -334,6 +354,7 @@ fun DialogMenuDemo() {
                         onPositive = { dialogType = DemoDialogType.NONE },
                         onDismiss = { dialogType = DemoDialogType.NONE },
                     )
+
                 DemoDialogType.CONFIRM_ICON_TITLE_TEXT ->
                     SirioDialog(
                         title = title,
@@ -344,6 +365,7 @@ fun DialogMenuDemo() {
                         onPositive = { dialogType = DemoDialogType.NONE },
                         onDismiss = { dialogType = DemoDialogType.NONE },
                     )
+
                 DemoDialogType.CONFIRM_TITLE_TEXT ->
                     SirioDialog(
                         title = title,
@@ -353,6 +375,7 @@ fun DialogMenuDemo() {
                         onPositive = { dialogType = DemoDialogType.NONE },
                         onDismiss = { dialogType = DemoDialogType.NONE },
                     )
+
                 DemoDialogType.CONFIRM_ICON_TITLE ->
                     SirioDialog(
                         title = title,
@@ -362,6 +385,7 @@ fun DialogMenuDemo() {
                         onPositive = { dialogType = DemoDialogType.NONE },
                         onDismiss = { dialogType = DemoDialogType.NONE },
                     )
+
                 DemoDialogType.CONFIRM_TITLE ->
                     SirioDialog(
                         title = title,
@@ -370,6 +394,7 @@ fun DialogMenuDemo() {
                         onPositive = { dialogType = DemoDialogType.NONE },
                         onDismiss = { dialogType = DemoDialogType.NONE },
                     )
+
                 DemoDialogType.PASSIVE_ICON ->
                     SirioDialog(
                         title = title,
@@ -378,6 +403,7 @@ fun DialogMenuDemo() {
                         semantic = DialogSemantic.INFO,
                         onDismiss = { dialogType = DemoDialogType.NONE },
                     )
+
                 DemoDialogType.PASSIVE ->
                     SirioDialog(
                         title = title,
@@ -385,6 +411,7 @@ fun DialogMenuDemo() {
                         icon = false,
                         onDismiss = { dialogType = DemoDialogType.NONE },
                     )
+
                 DemoDialogType.SEMANTIC_ALERT_ICON ->
                     SirioDialog(
                         title = title,
@@ -397,6 +424,7 @@ fun DialogMenuDemo() {
                         onNeutral = { dialogType = DemoDialogType.NONE },
                         onDismiss = { dialogType = DemoDialogType.NONE },
                     )
+
                 DemoDialogType.SEMANTIC_ALERT ->
                     SirioDialog(
                         title = title,
@@ -422,6 +450,7 @@ fun DialogMenuDemo() {
                         onNeutral = { dialogType = DemoDialogType.NONE },
                         onDismiss = { dialogType = DemoDialogType.NONE },
                     )
+
                 DemoDialogType.SEMANTIC_WARNING ->
                     SirioDialog(
                         title = title,

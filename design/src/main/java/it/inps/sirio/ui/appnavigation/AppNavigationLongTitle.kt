@@ -10,7 +10,9 @@ package it.inps.sirio.ui.appnavigation
 
 import android.content.res.Configuration
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -54,6 +56,7 @@ fun AppNavigationLongTitle(
                 AppNavigationIconButton(
                     icon = it.icon,
                     contentDescription = it.contentDescription,
+                    badge = it.badge,
                     action = it.action,
                 )
             }

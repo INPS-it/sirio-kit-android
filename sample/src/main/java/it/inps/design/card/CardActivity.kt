@@ -6,7 +6,7 @@
 // SPDX-License-Identifier: BSD-3-Clause
 //
 
-@file:OptIn(ExperimentalLayoutApi::class)
+@file:OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 
 package it.inps.design.card
 
@@ -24,11 +24,17 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Divider
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
-import androidx.compose.runtime.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
@@ -58,7 +64,8 @@ class CardActivity : ComponentActivity() {
                 Scaffold(
                     topBar = {
                         TopAppBar(
-                            title = { Text("Card") }, backgroundColor = SirioTheme.colors.brand,
+                            title = { Text("Card") },
+                            colors = TopAppBarDefaults.topAppBarColors(containerColor = SirioTheme.colors.brand),
                         )
                     }) {
                     val navController = rememberNavController()
@@ -96,7 +103,7 @@ fun CardMenuDemo(navController: NavController) {
         DemoMenuItem(EDITORIAL_CARD) {
             navController.navigate(EDITORIAL_CARD)
         }
-        Divider()
+        HorizontalDivider()
         DemoMenuItem(PROCESS_CARD) {
             navController.navigate(PROCESS_CARD)
         }
@@ -137,7 +144,7 @@ fun EditorialCardDemo() {
             title = titleValue,
             text = textValue,
             date = dateValue,
-            imageUrl="https://www.inps.it/content/dam/inps-site/immagini/immagini-news/Cedolino_delle_pensioni.jpg",
+            imageUrl = "https://www.inps.it/content/dam/inps-site/immagini/immagini-news/Cedolino_delle_pensioni.jpg",
             category = categoryValue,
             subtitle = subtitleValue,
             signature = signatureValue,

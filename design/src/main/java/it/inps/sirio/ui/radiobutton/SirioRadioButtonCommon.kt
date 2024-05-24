@@ -7,6 +7,7 @@
 //
 package it.inps.sirio.ui.radiobutton
 
+import androidx.annotation.Keep
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.focusable
@@ -14,10 +15,16 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.interaction.collectIsPressedAsState
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -25,8 +32,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
-import it.inps.sirio.theme.*
+import it.inps.sirio.theme.SirioColorState
+import it.inps.sirio.theme.SirioTheme
+import it.inps.sirio.theme.radioBorderWidth
+import it.inps.sirio.theme.radioDotSize
+import it.inps.sirio.theme.radioFocusBorderPadding
+import it.inps.sirio.theme.radioFocusExtraBorderWidth
+import it.inps.sirio.theme.radioSafeAreaPadding
+import it.inps.sirio.theme.radioSize
 import it.inps.sirio.ui.text.SirioTextCommon
 
 /**
@@ -49,16 +64,14 @@ internal fun SirioRadioButtonCommon(
     val isFocused by interactionSource.collectIsFocusedAsState()
     val isHovered by interactionSource.collectIsHoveredAsState()
 
-    val borderColor = if (!enabled) SirioTheme.colors.radioDisabledBorder else when {
-        isFocused -> SirioTheme.colors.radioFocus
-        isPressed -> SirioTheme.colors.radioPressed
-        isHovered -> SirioTheme.colors.radioHover
-        else -> SirioTheme.colors.radioDefault
-    }
-    val dotColor =
-        if (enabled) SirioTheme.colors.radioPressed else SirioTheme.colors.radioDisabled
+    val backgroundColor =
+        SirioTheme.colors.radio.background.get(enabled.not(), isFocused, isPressed, isHovered)
+    val borderColor =
+        SirioTheme.colors.radio.border.get(enabled.not(), isFocused, isPressed, isHovered)
     val textColor =
-        if (!enabled) SirioTheme.colors.radioDisabled else borderColor
+        SirioTheme.colors.radio.text.get(enabled.not(), isFocused, isPressed, isHovered)
+    val dotColor =
+        SirioTheme.colors.radio.dot.get(enabled.not(), isFocused, isPressed, isHovered)
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -77,6 +90,7 @@ internal fun SirioRadioButtonCommon(
         CustomRadioButton(
             selected = isSelected,
             isFocused = isFocused,
+            backgroundColor = backgroundColor,
             dotColor = dotColor,
             borderColor = borderColor
         )
@@ -84,7 +98,7 @@ internal fun SirioRadioButtonCommon(
             SirioTextCommon(
                 text = it,
                 color = textColor,
-                typography = SirioTheme.typography.radioLabelText,
+                typography = SirioTheme.typography.radio.text,
             )
         }
     }
@@ -102,6 +116,7 @@ internal fun SirioRadioButtonCommon(
 private fun CustomRadioButton(
     selected: Boolean,
     isFocused: Boolean,
+    backgroundColor: Color,
     dotColor: Color,
     borderColor: Color,
 ) {
@@ -117,7 +132,7 @@ private fun CustomRadioButton(
             size
                 .border(
                     radioFocusExtraBorderWidth,
-                    color = SirioTheme.colors.radioFocusBorder,
+                    color = SirioTheme.colors.radio.borderFocusExtra,
                     shape = CircleShape,
                 )
                 .padding(focusPadding)
@@ -129,7 +144,7 @@ private fun CustomRadioButton(
                 .clip(CircleShape)
                 .fillMaxSize()
                 .border(width = radioBorderWidth, color = borderColor, shape = CircleShape)
-                .background(SirioTheme.colors.radioBackground),
+                .background(backgroundColor),
             contentAlignment = Alignment.Center
         ) {
             if (selected) {
@@ -143,12 +158,43 @@ private fun CustomRadioButton(
     }
 }
 
+@Keep
+data class SirioRadioButtonColors(
+    val background: SirioColorState,
+    val border: SirioColorState,
+    val borderFocusExtra: Color,
+    val dot: SirioColorState,
+    val text: SirioColorState,
+) {
+    companion object {
+        @Stable
+        val Unspecified = SirioRadioButtonColors(
+            background = SirioColorState.Unspecified,
+            border = SirioColorState.Unspecified,
+            borderFocusExtra = Color.Unspecified,
+            dot = SirioColorState.Unspecified,
+            text = SirioColorState.Unspecified,
+        )
+    }
+}
+
+@Keep
+data class SirioRadioButtonTypography(
+    val text: TextStyle,
+) {
+    companion object {
+        @Stable
+        val Default = SirioRadioButtonTypography(
+            text = TextStyle.Default,
+        )
+    }
+}
 
 @Preview
 @Composable
 private fun RadioCommonPreview() {
     SirioTheme {
-        Column(Modifier.background(Color(0xFFE5E5E5))) {
+        Column(Modifier.background(Color.White)) {
             val text = "Title"
             SirioRadioButtonCommon(isSelected = false, onClick = {}, enabled = true)
             SirioRadioButtonCommon(isSelected = true, onClick = {}, enabled = true)

@@ -6,6 +6,8 @@
 // SPDX-License-Identifier: BSD-3-Clause
 //
 
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package it.inps.design
 
 import android.annotation.SuppressLint
@@ -13,25 +15,32 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import it.inps.design.accordion.AccordionActivity
 import it.inps.design.appnavigation.AppNavigationActivity
 import it.inps.design.button.ButtonActivity
 import it.inps.design.card.CardActivity
+import it.inps.design.carousel.CarouselActivity
 import it.inps.design.checkbox.CheckboxActivity
 import it.inps.design.chip.ChipActivity
 import it.inps.design.dialog.DialogActivity
 import it.inps.design.fab.FabActivity
 import it.inps.design.fileupload.FileUploadActivity
+import it.inps.design.hero.HeroActivity
 import it.inps.design.notification.NotificationActivity
 import it.inps.design.pagination.PaginationActivity
 import it.inps.design.progressbar.ProgressBarActivity
@@ -41,6 +50,7 @@ import it.inps.design.slider.SliderActivity
 import it.inps.design.tabbar.TabBarActivity
 import it.inps.design.tabs.TabActivity
 import it.inps.design.tag.TagActivity
+import it.inps.design.textarea.TextAreaActivity
 import it.inps.design.textfield.TextFieldActivity
 import it.inps.design.toggle.ToggleActivity
 import it.inps.design.ui.DemoMenuItem
@@ -66,56 +76,64 @@ fun DemoContent() {
         topBar = {
             TopAppBar(
                 title = { Text("INPS Sirio Kit") },
-                backgroundColor = SirioTheme.colors.brand
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = SirioTheme.colors.brand),
             )
         },
         content = {
             val context = LocalContext.current
             Column(
                 modifier = Modifier
-                    .padding(0.dp, 16.dp)
+                    .padding(it)
                     .verticalScroll(rememberScrollState()),
             ) {
                 DemoMenuItem("Accordion") {
                     context.startActivity(Intent(context, AccordionActivity::class.java))
                 }
-                Divider()
+                HorizontalDivider()
                 DemoMenuItem("App Navigation") {
                     context.startActivity(Intent(context, AppNavigationActivity::class.java))
                 }
-                Divider()
+                HorizontalDivider()
                 DemoMenuItem("Buttons") {
                     context.startActivity(Intent(context, ButtonActivity::class.java))
                 }
-                Divider()
+                HorizontalDivider()
                 DemoMenuItem("Card") {
                     context.startActivity(Intent(context, CardActivity::class.java))
                 }
-                Divider()
+                HorizontalDivider()
+                DemoMenuItem("Carousel") {
+                    context.startActivity(Intent(context, CarouselActivity::class.java))
+                }
+                HorizontalDivider()
                 DemoMenuItem("Checkbox") {
                     context.startActivity(Intent(context, CheckboxActivity::class.java))
                 }
-                Divider()
+                HorizontalDivider()
                 DemoMenuItem("Chips") {
                     context.startActivity(Intent(context, ChipActivity::class.java))
                 }
-                Divider()
+                HorizontalDivider()
                 DemoMenuItem("Dialog") {
                     context.startActivity(Intent(context, DialogActivity::class.java))
                 }
-                Divider()
+                HorizontalDivider()
                 DemoMenuItem(title = "Fab") {
                     context.startActivity(Intent(context, FabActivity::class.java))
                 }
-                Divider()
+                HorizontalDivider()
                 DemoMenuItem("File upload") {
                     context.startActivity(Intent(context, FileUploadActivity::class.java))
                 }
-                Divider()
+                HorizontalDivider()
+                DemoMenuItem("Hero") {
+                    context.startActivity(Intent(context, HeroActivity::class.java))
+                }
+                HorizontalDivider()
                 DemoMenuItem("Notification") {
                     context.startActivity(Intent(context, NotificationActivity::class.java))
                 }
-                Divider()
+                HorizontalDivider()
 //                DemoMenuItem("Notification inline") {
 //                    context.startActivity(Intent(context, NotificationInlineActivity::class.java))
 //                }
@@ -127,39 +145,43 @@ fun DemoContent() {
                 DemoMenuItem("Pagination") {
                     context.startActivity(Intent(context, PaginationActivity::class.java))
                 }
-                Divider()
+                HorizontalDivider()
                 DemoMenuItem("Progress bar") {
                     context.startActivity(Intent(context, ProgressBarActivity::class.java))
                 }
-                Divider()
+                HorizontalDivider()
                 DemoMenuItem("Radio button") {
                     context.startActivity(Intent(context, RadioButtonActivity::class.java))
                 }
-                Divider()
+                HorizontalDivider()
                 DemoMenuItem("Search Bar") {
                     context.startActivity(Intent(context, SearchBarActivity::class.java))
                 }
-                Divider()
+                HorizontalDivider()
                 DemoMenuItem("Slider") {
                     context.startActivity(Intent(context, SliderActivity::class.java))
                 }
-                Divider()
+                HorizontalDivider()
                 DemoMenuItem("Tab") {
                     context.startActivity(Intent(context, TabActivity::class.java))
                 }
-                Divider()
+                HorizontalDivider()
                 DemoMenuItem("Tab Bar") {
                     context.startActivity(Intent(context, TabBarActivity::class.java))
                 }
-                Divider()
+                HorizontalDivider()
                 DemoMenuItem("Tag") {
                     context.startActivity(Intent(context, TagActivity::class.java))
                 }
-                Divider()
+                HorizontalDivider()
+                DemoMenuItem("TextArea") {
+                    context.startActivity(Intent(context, TextAreaActivity::class.java))
+                }
+                HorizontalDivider()
                 DemoMenuItem("TextField") {
                     context.startActivity(Intent(context, TextFieldActivity::class.java))
                 }
-                Divider()
+                HorizontalDivider()
                 DemoMenuItem("Toggle") {
                     context.startActivity(Intent(context, ToggleActivity::class.java))
                 }

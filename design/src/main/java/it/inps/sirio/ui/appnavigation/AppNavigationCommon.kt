@@ -14,11 +14,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.material.ripple.RippleAlpha
 import androidx.compose.material.ripple.RippleTheme
+import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.TextButton
@@ -33,10 +35,12 @@ import androidx.compose.ui.unit.dp
 import com.guru.fontawesomecomposelib.FaIconType
 import com.guru.fontawesomecomposelib.FaIcons
 import it.inps.sirio.theme.SirioTheme
+import it.inps.sirio.theme.appNavigationBadgePadding
 import it.inps.sirio.theme.appNavigationIconSize
 import it.inps.sirio.theme.appNavigationTitleLongMaxLines
 import it.inps.sirio.theme.appNavigationTitleMaxLines
 import it.inps.sirio.theme.appNavigationUsernameButtonSize
+import it.inps.sirio.ui.badge.SirioBadgeCommon
 import it.inps.sirio.ui.text.SirioTextCommon
 import it.inps.sirio.utils.SirioIcon
 
@@ -98,6 +102,7 @@ internal fun AppNavigationButton(
             AppNavigationIconButton(
                 icon = data.icon,
                 contentDescription = data.contentDescription,
+                badge = data.badge,
                 action = data.action
             )
     }
@@ -107,21 +112,36 @@ internal fun AppNavigationButton(
  * A button with an icon
  *
  * @param icon The icon to show
+ * @param badge If the icon has a badge
  * @param action The click action callback
  */
 @Composable
 internal fun AppNavigationIconButton(
     icon: FaIconType,
     contentDescription: String? = null,
+    badge: Boolean = false,
     action: () -> Unit,
 ) {
     IconButton(onClick = action) {
-        SirioIcon(
-            faIcon = icon,
-            iconColor = SirioTheme.colors.appNavigationIcon,
-            size = appNavigationIconSize,
-            contentDescription = contentDescription,
-        )
+        BadgedBox(
+            badge = {
+                if (badge) {
+                    SirioBadgeCommon(
+                        modifier = Modifier.padding(
+                            top = appNavigationBadgePadding.dp,
+                            end = appNavigationBadgePadding.dp
+                        )
+                    )
+                }
+            },
+        ) {
+            SirioIcon(
+                faIcon = icon,
+                iconColor = SirioTheme.colors.appNavigationIcon,
+                size = appNavigationIconSize,
+                contentDescription = contentDescription,
+            )
+        }
     }
 }
 
@@ -193,7 +213,7 @@ private fun AppNavigationTitlePreview() {
             SirioTheme(darkTheme = true) {
                 AppNavigationTitle(title = title)
             }
-            AppNavigationIconButton(icon = FaIcons.Home) {}
+            AppNavigationIconButton(icon = FaIcons.Home, badge = true) {}
         }
     }
 }

@@ -1,5 +1,5 @@
 //
-// SmallTag.kt
+// SirioTag.kt
 //
 // SPDX-FileCopyrightText: 2024 Istituto Nazionale Previdenza Sociale
 //
@@ -22,7 +22,7 @@ import it.inps.sirio.theme.SirioTheme
  * @param modifier A [Modifier] for customizing the appearance and behavior of the tag component
  */
 @Composable
-fun SmallTag(
+fun SirioTag(
     text: String,
     tagType: TagType,
     modifier: Modifier = Modifier,
@@ -35,7 +35,7 @@ fun SmallTag(
         TagType.GREEN -> SirioTheme.colors.tag.green
         TagType.WHITE -> SirioTheme.colors.tag.white
     }
-    TagCommon(
+    SirioTagCommon(
         text = text,
         colors = sirioTagColors,
         modifier = modifier,
@@ -47,12 +47,12 @@ fun SmallTag(
 private fun SmallTagPreview() {
     SirioTheme {
         Column {
-            SmallTag(text = "Label Tag", tagType = TagType.GRAY)
-            SmallTag(text = "Label Tag", tagType = TagType.BLUE)
-            SmallTag(text = "Label Tag", tagType = TagType.RED)
-            SmallTag(text = "Label Tag", tagType = TagType.ORANGE)
-            SmallTag(text = "Label Tag", tagType = TagType.GREEN)
-            SmallTag(text = "Label Tag", tagType = TagType.WHITE)
+            SirioTag(text = "Label Tag", tagType = TagType.GRAY)
+            SirioTag(text = "Label Tag", tagType = TagType.BLUE)
+            SirioTag(text = "Label Tag", tagType = TagType.RED)
+            SirioTag(text = "Label Tag", tagType = TagType.ORANGE)
+            SirioTag(text = "Label Tag", tagType = TagType.GREEN)
+            SirioTag(text = "Label Tag", tagType = TagType.WHITE)
         }
     }
 }

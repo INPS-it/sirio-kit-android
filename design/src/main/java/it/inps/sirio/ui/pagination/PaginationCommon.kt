@@ -271,10 +271,10 @@ data class PaginationParams(
 
 @Keep
 data class SirioPaginationColors(
-    var background: Color,
-    var tile: SirioColorState,
-    var number: SirioColorState,
-    var tileBorder: SirioColorState,
+    val background: Color,
+    val tile: SirioColorState,
+    val number: SirioColorState,
+    val tileBorder: SirioColorState,
 ) {
     companion object {
         @Stable

@@ -6,6 +6,8 @@
 // SPDX-License-Identifier: BSD-3-Clause
 //
 
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package it.inps.design.toggle
 
 import android.annotation.SuppressLint
@@ -16,10 +18,17 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
-import androidx.compose.runtime.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -52,13 +61,16 @@ private fun ToggleDemoView() {
     Scaffold(
         Modifier.fillMaxSize(),
         topBar = {
-            TopAppBar(title = { Text(text = title) }, backgroundColor = SirioTheme.colors.brand)
+            TopAppBar(
+                title = { Text(text = title) },
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = SirioTheme.colors.brand)
+            )
         }
-
     ) {
         Column(
             Modifier
                 .fillMaxSize()
+                .padding(it)
                 .padding(10.dp, 20.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(20.dp),

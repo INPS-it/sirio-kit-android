@@ -9,7 +9,15 @@
 package it.inps.sirio.ui.notification
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -21,7 +29,14 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import com.guru.fontawesomecomposelib.FaIconType
 import com.guru.fontawesomecomposelib.FaIcons
-import it.inps.sirio.theme.*
+import it.inps.sirio.theme.SirioTheme
+import it.inps.sirio.theme.notificationInlineCloseSize
+import it.inps.sirio.theme.notificationInlineHeight
+import it.inps.sirio.theme.notificationInlineHorizontalPadding
+import it.inps.sirio.theme.notificationInlineIconSize
+import it.inps.sirio.theme.notificationInlineStateWidth
+import it.inps.sirio.theme.notificationInlineVerticalPadding
+import it.inps.sirio.theme.notificationInlineVerticalSpacer
 import it.inps.sirio.ui.text.SirioTextCommon
 import it.inps.sirio.utils.SirioIcon
 

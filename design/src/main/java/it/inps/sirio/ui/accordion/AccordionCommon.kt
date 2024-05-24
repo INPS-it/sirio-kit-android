@@ -30,7 +30,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.material.Text
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
@@ -159,18 +159,21 @@ private fun getAccordionParams(
             SirioTheme.colors.accordion.border.focused,
             accordionFocusBorderWidth
         )
+
         isPressed -> AccordionParams(
             SirioTheme.colors.accordion.background.pressed,
             SirioTheme.colors.accordion.content.pressed,
             SirioTheme.colors.accordion.border.pressed,
             accordionDefaultBorderWidth
         )
+
         isHovered -> AccordionParams(
             SirioTheme.colors.accordion.background.hovered,
             SirioTheme.colors.accordion.background.hovered,
             SirioTheme.colors.accordion.border.hovered,
             accordionDefaultBorderWidth
         )
+
         else -> if (expanded) AccordionParams(
             SirioTheme.colors.accordion.activedBackground,
             SirioTheme.colors.accordion.content.default,
@@ -194,13 +197,13 @@ data class AccordionParams(
 
 @Keep
 data class SirioAccordionColors(
-    var background: SirioColorState,
-    var border: SirioColorState,
-    var content: SirioColorState,
-    var activedBackground: Color,
-    var activedBorder: Color,
-    var contentBackground: Color,
-    var contentBorder: Color,
+    val background: SirioColorState,
+    val border: SirioColorState,
+    val content: SirioColorState,
+    val activedBackground: Color,
+    val activedBorder: Color,
+    val contentBackground: Color,
+    val contentBorder: Color,
 ) {
     companion object {
         @Stable
@@ -229,16 +232,9 @@ private fun AccordionCommonPreview() {
             AccordionCommon(text = "Accordion Item #1", open = true) {
                 Column {
                     for (i in 1..5) {
-                        Text(
-                            text = "Content $i",
-                            Modifier.background(Color.Red)
-                        )
+                        Text(text = "Content $i", modifier = Modifier.background(Color.Red))
                     }
                 }
-//                Text(
-//                    text = "Content",
-//                    Modifier.background(Color.Red)
-//                )
             }
             AccordionCommon(
                 text = "Accordion Item #1",

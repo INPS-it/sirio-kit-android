@@ -30,8 +30,8 @@ fun SirioCheckbox(
     onCheckedChange: (Boolean) -> Unit,
 ) {
     SirioCheckboxCommon(
-        text = text,
         checked = checked,
+        text = text,
         enabled = enabled,
         onCheckedChange = onCheckedChange,
     )
@@ -53,8 +53,8 @@ fun SirioCheckbox(
     onCheckedChange: (Boolean) -> Unit,
 ) {
     SirioCheckboxCommon(
-        text = text,
         checked = checked,
+        text = text,
         enabled = enabled,
         onCheckedChange = onCheckedChange,
     )

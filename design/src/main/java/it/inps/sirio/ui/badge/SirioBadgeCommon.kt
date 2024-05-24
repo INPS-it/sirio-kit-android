@@ -1,10 +1,3 @@
-//
-// SirioBadgeCommon.kt
-//
-// SPDX-FileCopyrightText: 2024 Istituto Nazionale Previdenza Sociale
-//
-// SPDX-License-Identifier: BSD-3-Clause
-//
 package it.inps.sirio.ui.badge
 
 import androidx.annotation.Keep
@@ -25,9 +18,9 @@ import it.inps.sirio.theme.badgeBorderSize
 import it.inps.sirio.theme.badgeSize
 
 @Composable
-internal fun SirioBadgeCommon() {
+internal fun SirioBadgeCommon(modifier: Modifier = Modifier) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .size(badgeSize.dp)
             .clip(CircleShape)
             .background(SirioTheme.colors.badge.border)
@@ -39,8 +32,8 @@ internal fun SirioBadgeCommon() {
 
 @Keep
 data class SirioBadgeColors(
-    var background: Color,
-    var border: Color,
+    val background: Color,
+    val border: Color,
 ) {
     companion object {
         @Stable
@@ -54,7 +47,7 @@ data class SirioBadgeColors(
 
 @Preview
 @Composable
-fun SirioBadgeCommonPreview() {
+internal fun SirioBadgeCommonPreview() {
     SirioTheme {
         SirioBadgeCommon()
     }

@@ -196,12 +196,12 @@ private fun Modifier.placeToBottom() = layout { measurable, constraints ->
 
 @Keep
 data class SirioDialogColors(
-    var background: Color,
-    var semanticDefault: Color,
-    var semanticAlert: Color,
-    var semanticWarning: Color,
-    var title: Color,
-    var text: Color,
+    val background: Color,
+    val semanticDefault: Color,
+    val semanticAlert: Color,
+    val semanticWarning: Color,
+    val title: Color,
+    val text: Color,
 ) {
     companion object {
         @Stable

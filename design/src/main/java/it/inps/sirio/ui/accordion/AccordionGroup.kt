@@ -13,9 +13,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Text
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,12 +29,12 @@ import it.inps.sirio.theme.SirioTheme
  */
 @Composable
 fun AccordionGroup(data: List<AccordionData>) {
-    LazyColumn(
+    Column(
         Modifier
             .fillMaxWidth()
-            .wrapContentHeight()
+            .wrapContentHeight(),
     ) {
-        items(data) { itemData ->
+        data.forEach { itemData ->
             AccordionCommon(
                 text = itemData.text,
                 open = itemData.open,

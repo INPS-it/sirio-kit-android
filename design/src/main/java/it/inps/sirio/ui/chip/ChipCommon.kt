@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -156,7 +157,8 @@ internal fun ChipCommon(
                     text = text,
                     modifier = Modifier
                         .wrapContentHeight()
-                        .weight(1f, false),
+                        .weight(1f, false)
+                        .offset(y = (-2).dp),
                     color = contentColor,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,

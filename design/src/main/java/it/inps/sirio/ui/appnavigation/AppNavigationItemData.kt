@@ -19,6 +19,7 @@ import com.guru.fontawesomecomposelib.FaIcons
  * @param action The onClick callback
  * @param username The string for the username item data
  * @param contentDescription The content description for the item
+ * @param badge If the item's icon has a badge
  */
 @Keep
 data class AppNavigationItemData(
@@ -26,4 +27,5 @@ data class AppNavigationItemData(
     val action: () -> Unit,
     val username: String = "",
     val contentDescription: String? = null,
+    val badge: Boolean = false,
 )

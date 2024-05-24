@@ -6,6 +6,8 @@
 // SPDX-License-Identifier: BSD-3-Clause
 //
 
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package it.inps.design.tabs
 
 import android.annotation.SuppressLint
@@ -13,14 +15,28 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Divider
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
-import androidx.compose.runtime.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -61,12 +77,16 @@ fun TabDemoView() {
     Scaffold(
         Modifier.fillMaxSize(),
         topBar = {
-            TopAppBar(title = { Text(text = title) }, backgroundColor = SirioTheme.colors.brand)
+            TopAppBar(
+                title = { Text(text = title) },
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = SirioTheme.colors.brand),
+            )
         },
     ) {
-        TabNavigationGraph(navController = navController)
+        Box(modifier = Modifier.padding(it)) {
+            TabNavigationGraph(navController = navController)
+        }
     }
-
 }
 
 @Composable
@@ -79,14 +99,13 @@ fun TabMenuDemo(navController: NavController) {
         DemoMenuItem(TabDestinations.TAB_SINGLE) {
             navController.navigate(TabDestinations.TAB_SINGLE)
         }
-        Divider()
+        HorizontalDivider()
         DemoMenuItem(TabDestinations.TAB_GROUP) {
             navController.navigate(TabDestinations.TAB_GROUP)
         }
-        Divider()
+        HorizontalDivider()
     }
 }
-
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable

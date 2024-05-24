@@ -6,6 +6,8 @@
 // SPDX-License-Identifier: BSD-3-Clause
 //
 
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package it.inps.design.checkbox
 
 import android.annotation.SuppressLint
@@ -16,9 +18,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.remember
@@ -27,8 +31,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import it.inps.sirio.ui.checkbox.SirioCheckbox
 import it.inps.sirio.theme.SirioTheme
+import it.inps.sirio.ui.checkbox.SirioCheckbox
 
 class CheckboxActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,12 +51,14 @@ fun CheckboxDemoContent() {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Checkbox") }, backgroundColor = SirioTheme.colors.brand,
+                title = { Text("Checkbox") },
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = SirioTheme.colors.brand),
             )
         }) {
         Column(
             Modifier
                 .fillMaxSize()
+                .padding(it)
                 .padding(10.dp, 20.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(30.dp),

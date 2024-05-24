@@ -46,6 +46,7 @@ fun AppNavigationSelection(
                 leftItem?.let {
                     AppNavigationIconButton(
                         icon = it.icon,
+                        badge = it.badge,
                         action = it.action,
                     )
                 }

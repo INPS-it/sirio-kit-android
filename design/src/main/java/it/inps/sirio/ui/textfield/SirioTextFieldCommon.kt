@@ -93,7 +93,7 @@ import it.inps.sirio.utils.SirioIcon
  * @param label The optional text on top of text field
  * @param onInfoClick The optional callback on info icon click
  * @param infoContentDescription The content description for the info icon
- * @param helperText The optionl text on bottom of text field
+ * @param helperText The optional text on bottom of text field
  * @param optionValues An array of string as hints for user
  * @param onOptionValueSelected The callback when user select an option value from [optionValues]
  * @param type The semantic [TextFieldSemantic] of text field

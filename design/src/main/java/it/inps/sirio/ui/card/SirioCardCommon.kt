@@ -6,10 +6,6 @@
 // SPDX-License-Identifier: BSD-3-Clause
 //
 
-@file:OptIn(
-    ExperimentalMaterial3Api::class,
-)
-
 package it.inps.sirio.ui.card
 
 import androidx.annotation.DrawableRes
@@ -25,7 +21,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
@@ -43,12 +38,23 @@ import coil.request.ImageRequest
 import com.guru.fontawesomecomposelib.FaIconType
 import com.guru.fontawesomecomposelib.FaIcons
 import it.inps.sirio.styleDictionary.StyleDictionaryBoxShadow
-import it.inps.sirio.theme.*
+import it.inps.sirio.theme.Shapes
+import it.inps.sirio.theme.SirioTheme
+import it.inps.sirio.theme.cardButtonPaddingHorizontal
+import it.inps.sirio.theme.cardButtonPaddingTop
+import it.inps.sirio.theme.cardIconSize
+import it.inps.sirio.theme.cardImageHeight
+import it.inps.sirio.theme.cardImagePaddingBottom
+import it.inps.sirio.theme.cardPaddingHorizontal
+import it.inps.sirio.theme.cardPaddingVertical
+import it.inps.sirio.theme.cardSignaturePaddingTop
+import it.inps.sirio.theme.cardSubtitlePaddingTop
+import it.inps.sirio.theme.cardTextPaddingTop
 import it.inps.sirio.ui.button.ButtonSize
 import it.inps.sirio.ui.button.SirioButtonColors
 import it.inps.sirio.ui.button.SirioButtonCommon
 import it.inps.sirio.ui.tag.SirioTagColors
-import it.inps.sirio.ui.tag.TagCommon
+import it.inps.sirio.ui.tag.SirioTagCommon
 import it.inps.sirio.ui.text.SirioText
 import it.inps.sirio.utils.SirioIcon
 
@@ -133,7 +139,7 @@ internal fun SirioCardCommon(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 category?.let {
-                    TagCommon(
+                    SirioTagCommon(
                         text = category,
                         colors = colors.category,
                     )
@@ -228,8 +234,8 @@ enum class SirioCardType {
 
 @Keep
 data class SirioCardsColors(
-    var editorial: SirioCardColors,
-    var process: SirioCardColors,
+    val editorial: SirioCardColors,
+    val process: SirioCardColors,
 ) {
     companion object {
         @Stable
@@ -242,16 +248,16 @@ data class SirioCardsColors(
 
 @Keep
 data class SirioCardColors(
-    var background: Color,
-    var category: SirioTagColors,
-    var icon: Color,
-    var date: Color,
-    var title: Color,
-    var subtitle: Color,
-    var text: Color,
-    var signature: Color,
-    var button: SirioButtonColors,
-    var iconButton: SirioButtonColors,
+    val background: Color,
+    val category: SirioTagColors,
+    val icon: Color,
+    val date: Color,
+    val title: Color,
+    val subtitle: Color,
+    val text: Color,
+    val signature: Color,
+    val button: SirioButtonColors,
+    val iconButton: SirioButtonColors,
 ) {
     companion object {
         @Stable
@@ -272,8 +278,8 @@ data class SirioCardColors(
 
 @Keep
 data class SirioCardsTypography(
-    var editorial: SirioCardTypography,
-    var process: SirioCardTypography,
+    val editorial: SirioCardTypography,
+    val process: SirioCardTypography,
 ) {
     companion object {
         @Stable
@@ -286,11 +292,11 @@ data class SirioCardsTypography(
 
 @Keep
 data class SirioCardTypography(
-    var date: TextStyle,
-    var title: TextStyle,
-    var subtitle: TextStyle,
-    var text: TextStyle,
-    var signature: TextStyle,
+    val date: TextStyle,
+    val title: TextStyle,
+    val subtitle: TextStyle,
+    val text: TextStyle,
+    val signature: TextStyle,
 ) {
     companion object {
         @Stable

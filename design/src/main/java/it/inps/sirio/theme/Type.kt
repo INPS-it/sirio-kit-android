@@ -9,17 +9,24 @@
 package it.inps.sirio.theme
 
 import androidx.annotation.Keep
+import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import it.inps.sirio.styleDictionary.StyleDictionaryColor
 import it.inps.sirio.styleDictionary.StyleDictionarySize
 import it.inps.sirio.styleDictionary.StyleDictionaryTypography
 import it.inps.sirio.ui.card.SirioCardTypography
 import it.inps.sirio.ui.card.SirioCardsTypography
+import it.inps.sirio.ui.checkbox.SirioCheckboxTypography
+import it.inps.sirio.ui.hero.SirioHeroTypography
+import it.inps.sirio.ui.radiobutton.SirioRadioButtonTypography
+import it.inps.sirio.ui.toggle.SirioToggleTypography
 
 internal val Titillium_Web = TitilliumWebFamily
 internal val Lora = LoraFamily
@@ -64,10 +71,10 @@ val labelMd700 = TextStyle(
 
 val labelMd600 = TextStyle(
     fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
-    fontSize = StyleDictionarySize.typographySpecificAppNavigationTitleMdSize.sp,
+    fontSize = StyleDictionarySize.typographyAliasLabelMdSize04.sp,
     lineHeight = StyleDictionarySize.typographyAliasLabelLineHeight04.sp,
-    fontWeight = StyleDictionaryTypography.typographySpecificAppNavigationTitleFontWeight600.getFontWeight(),
-    fontStyle = StyleDictionaryTypography.typographySpecificAppNavigationTitleFontWeight600.getFontStyle(),
+    fontWeight = StyleDictionaryTypography.typographyAliasLabelFontWeight600.getFontWeight(),
+    fontStyle = StyleDictionaryTypography.typographyAliasLabelFontWeight600.getFontStyle(),
 )
 
 val tabBarLabelXs = TextStyle(
@@ -85,6 +92,11 @@ val helperTextXs400 = TextStyle(
     lineHeight = StyleDictionarySize.typographyAliasLabelXsSize02.sp,
     fontWeight = StyleDictionaryTypography.typographyAliasLabelFontWeight400.getFontWeight(),
     fontStyle = StyleDictionaryTypography.typographyAliasLabelFontWeight400.getFontStyle(),
+    platformStyle = PlatformTextStyle(includeFontPadding = false),
+    lineHeightStyle = LineHeightStyle(
+        alignment = LineHeightStyle.Alignment.Center,
+        trim = LineHeightStyle.Trim.Both
+    ),
 )
 
 val labelMdNumber400 = TextStyle(
@@ -151,9 +163,22 @@ val labelMd400 = TextStyle(
 val placeholderMd400 = TextStyle(
     fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
     fontSize = StyleDictionarySize.typographyAliasLabelMdSize04.sp,
-    lineHeight = StyleDictionarySize.typographyAliasLabelLineHeight01.sp,
+    lineHeight = 1.em,
     fontWeight = StyleDictionaryTypography.typographyAliasLabelFontWeight400.getFontWeight(),
     fontStyle = StyleDictionaryTypography.typographyAliasLabelFontWeight400.getFontStyle(),
+    platformStyle = PlatformTextStyle(includeFontPadding = false),
+    lineHeightStyle = LineHeightStyle(
+        alignment = LineHeightStyle.Alignment.Center,
+        trim = LineHeightStyle.Trim.Both
+    ),
+)
+
+val h2Md = TextStyle(
+    fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
+    fontSize = StyleDictionarySize.typographyAliasH2MdSize11.sp,
+    lineHeight = StyleDictionarySize.typographyAliasH2MdLineHeight11.sp,
+    fontWeight = StyleDictionaryTypography.typographyAliasH2FontWeight700.getFontWeight(),
+    fontStyle = StyleDictionaryTypography.typographyAliasH2FontWeight700.getFontStyle(),
 )
 
 val h4Md = TextStyle(
@@ -162,6 +187,14 @@ val h4Md = TextStyle(
     lineHeight = StyleDictionarySize.typographyAliasH4MdLineHeight07.sp,
     fontWeight = StyleDictionaryTypography.typographyAliasLabelFontWeight700.getFontWeight(),
     fontStyle = StyleDictionaryTypography.typographyAliasLabelFontWeight700.getFontStyle(),
+)
+
+val h5Md = TextStyle(
+    fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
+    fontSize = StyleDictionarySize.typographyAliasH5MdSize06.sp,
+    lineHeight = StyleDictionarySize.typographyAliasH5MdLineHeight06.sp,
+    fontWeight = StyleDictionaryTypography.typographyAliasH5FontWeight600.getFontWeight(),
+    fontStyle = StyleDictionaryTypography.typographyAliasH5FontWeight600.getFontStyle(),
 )
 
 val h6Md = TextStyle(
@@ -181,41 +214,13 @@ val signaturePMd02 = TextStyle(
 )
 
 internal val Typography = SirioTypography(
+    accordionText = labelMd600,
+    appNavigationSearch = labelMd600,
+    appNavigationSearchPlaceholder = labelMd600,
     appNavigationTitle = appNavigationTitleMd,
     appNavigationTitleBig = appNavigationTitleXl,
     appNavigationUsername = labelMd700,
-    appNavigationSearchPlaceholder = labelMd600,
-    appNavigationSearch = labelMd600,
-    fabText = labelMd700,
-    tabBarItemText = tabBarLabelXs,
-    accordionText = labelMd600,
-    chipText = labelMd700,
-    tagText = labelMd700,
-    checkboxLabelText = labelMd400,
-    radioLabelText = labelMd400,
-    toggleLabelText = labelMd400,
-    sliderTitle = labelMd600,
-    sliderText = helperTextXs400,
-    sliderNumber = labelMdNumber400,
-    progressBarLabel = labelMd600,
-    progressBarNumber = labelProgressBarNumber,
     buttonText = labelMd700,
-    fileUploadTitle = labelMd600,
-    fileUploadText = helperTextXs400,
-    notificationToastTitle = labelMd700,
-    notificationToastText = pMd01,
-    notificationInlineTitle = mPMd01_700,
-    notificationInlineText = pMd01,
-    textFieldLabel = labelMd600,
-    textFieldPlaceholder = placeholderMd400,
-    textFieldText = placeholderMd400,
-    textFieldHelperText = helperTextXs400,
-    textFieldDropdownLabel = placeholderMd400,
-    paginationTileNumber = labelMdNumber400,
-    tabTextDefault = labelMd400,
-    tabTextSelected = labelMd700,
-    dialogTitle = h4Md,
-    dialogText = pMd01,
     card = SirioCardsTypography(
         editorial = SirioCardTypography(
             date = labelMdNumber400,
@@ -232,6 +237,43 @@ internal val Typography = SirioTypography(
             signature = signaturePMd02,
         ),
     ),
+    checkbox = SirioCheckboxTypography(text = labelMd400),
+    chipText = labelMd700,
+    dialogText = pMd01,
+    dialogTitle = h4Md,
+    fabText = labelMd700,
+    fileUploadText = helperTextXs400,
+    fileUploadTitle = labelMd600,
+    hero = SirioHeroTypography(
+        title = h2Md,
+        subtitle = h4Md,
+        text = pMd01,
+    ),
+    notificationInlineText = pMd01,
+    notificationInlineTitle = mPMd01_700,
+    notificationToastText = pMd01,
+    notificationToastTitle = labelMd700,
+    paginationTileNumber = labelMdNumber400,
+    progressBarLabel = labelMd600,
+    progressBarNumber = labelProgressBarNumber,
+    radio = SirioRadioButtonTypography(text = labelMd400),
+    sliderNumber = labelMdNumber400,
+    sliderText = helperTextXs400,
+    sliderTitle = labelMd600,
+    tabBarItemText = tabBarLabelXs,
+    tabTextDefault = labelMd400,
+    tabTextSelected = labelMd700,
+    tagText = labelMd700,
+    textAreaHelperText = helperTextXs400,
+    textAreaLabel = labelMd600,
+    textAreaPlaceholder = placeholderMd400,
+    textAreaText = placeholderMd400,
+    textFieldDropdownLabel = placeholderMd400,
+    textFieldHelperText = helperTextXs400,
+    textFieldLabel = labelMd600,
+    textFieldPlaceholder = placeholderMd400,
+    textFieldText = placeholderMd400,
+    toggle = SirioToggleTypography(text = labelMd400),
 )
 
 @Keep
