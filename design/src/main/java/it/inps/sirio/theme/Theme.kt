@@ -22,6 +22,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import it.inps.sirio.ui.accordion.SirioAccordionColors
+import it.inps.sirio.ui.avviso.SirioAvvisoColors
+import it.inps.sirio.ui.avviso.SirioAvvisoTypography
 import it.inps.sirio.ui.badge.SirioBadgeColors
 import it.inps.sirio.ui.card.SirioCardsColors
 import it.inps.sirio.ui.card.SirioCardsTypography
@@ -29,16 +31,30 @@ import it.inps.sirio.ui.carousel.SirioCarouselColors
 import it.inps.sirio.ui.checkbox.SirioCheckboxColors
 import it.inps.sirio.ui.checkbox.SirioCheckboxTypography
 import it.inps.sirio.ui.dialog.SirioDialogColors
+import it.inps.sirio.ui.dropdown.SirioDropdownColors
+import it.inps.sirio.ui.dropdown.SirioDropdownTypography
+import it.inps.sirio.ui.filter.SirioFilterColors
+import it.inps.sirio.ui.filter.SirioFilterTypography
 import it.inps.sirio.ui.hero.SirioHeroColors
 import it.inps.sirio.ui.hero.SirioHeroTypography
+import it.inps.sirio.ui.menuspalla.SirioMenuSpallaColors
+import it.inps.sirio.ui.menuspalla.SirioMenuSpallaTypography
+import it.inps.sirio.ui.notification.NotificationColors
+import it.inps.sirio.ui.notification.SirioNotificationTypography
 import it.inps.sirio.ui.pagination.SirioPaginationColors
 import it.inps.sirio.ui.radiobutton.SirioRadioButtonColors
 import it.inps.sirio.ui.radiobutton.SirioRadioButtonTypography
 import it.inps.sirio.ui.searchbar.SirioSearchBarColors
+import it.inps.sirio.ui.stepprogressbar.SirioStepProgressBarColors
+import it.inps.sirio.ui.stepprogressbar.SirioStepProgressBarTypography
+import it.inps.sirio.ui.table.SirioTableColors
+import it.inps.sirio.ui.table.SirioTableTypography
 import it.inps.sirio.ui.tabs.SirioTabsColors
 import it.inps.sirio.ui.tag.SirioTagsColors
 import it.inps.sirio.ui.textarea.SirioTextAreaColors
 import it.inps.sirio.ui.textfield.SirioTextFieldColors
+import it.inps.sirio.ui.titlebar.SirioTitleBarColors
+import it.inps.sirio.ui.titlebar.SirioTitleBarTypography
 import it.inps.sirio.ui.toggle.SirioToggleColors
 import it.inps.sirio.ui.toggle.SirioToggleTypography
 
@@ -88,20 +104,21 @@ data class SirioTypography(
     val appNavigationTitle: TextStyle,
     val appNavigationTitleBig: TextStyle,
     val appNavigationUsername: TextStyle,
+    val avviso: SirioAvvisoTypography,
     val buttonText: TextStyle,
     val card: SirioCardsTypography,
     val checkbox: SirioCheckboxTypography,
     val chipText: TextStyle,
     val dialogText: TextStyle,
     val dialogTitle: TextStyle,
+    val dropdown: SirioDropdownTypography,
     val fabText: TextStyle,
     val fileUploadText: TextStyle,
     val fileUploadTitle: TextStyle,
+    val filter: SirioFilterTypography,
     val hero: SirioHeroTypography,
-    val notificationInlineText: TextStyle,
-    val notificationInlineTitle: TextStyle,
-    val notificationToastText: TextStyle,
-    val notificationToastTitle: TextStyle,
+    val menuSpalla: SirioMenuSpallaTypography,
+    val notification: SirioNotificationTypography,
     val paginationTileNumber: TextStyle,
     val progressBarLabel: TextStyle,
     val progressBarNumber: TextStyle,
@@ -109,7 +126,9 @@ data class SirioTypography(
     val sliderNumber: TextStyle,
     val sliderText: TextStyle,
     val sliderTitle: TextStyle,
+    val stepProgressBar: SirioStepProgressBarTypography,
     val tabBarItemText: TextStyle,
+    val table: SirioTableTypography,
     val tabTextDefault: TextStyle,
     val tabTextSelected: TextStyle,
     val tagText: TextStyle,
@@ -122,6 +141,7 @@ data class SirioTypography(
     val textFieldLabel: TextStyle,
     val textFieldPlaceholder: TextStyle,
     val textFieldText: TextStyle,
+    val titleBar: SirioTitleBarTypography,
     val toggle: SirioToggleTypography,
 )
 
@@ -142,6 +162,7 @@ data class SirioColors(
     val appNavigationText: Color,
     val appNavigationUsernameBackground: Color,
     val appNavigationUsernameText: Color,
+    val avviso: SirioAvvisoColors,
     val badge: SirioBadgeColors,
     val buttons: ButtonColors,
     val card: SirioCardsColors,
@@ -168,6 +189,7 @@ data class SirioColors(
     val chipWithCloseHoverBackground: Color,
     val chipWithClosePressedBackground: Color,
     val dialog: SirioDialogColors,
+    val dropdown: SirioDropdownColors,
     val fabBorderFocus: Color,
     val fabContent: Color,
     val fabDefaultBackground: Color,
@@ -176,7 +198,9 @@ data class SirioColors(
     val fabPressedBackground: Color,
     val fileUploadText: Color,
     val fileUploadTitle: Color,
+    val filter: SirioFilterColors,
     val hero: SirioHeroColors,
+    val menuSpalla: SirioMenuSpallaColors,
     val notificationColors: NotificationColors,
     val pagination: SirioPaginationColors,
     val progressBarBackground: Color,
@@ -208,13 +232,16 @@ data class SirioColors(
     val sliderText: Color,
     val sliderThumb: Color,
     val sliderTitle: Color,
+    val stepProgressBar: SirioStepProgressBarColors,
     val tabBarActive: Color,
     val tabBarBackground: Color,
     val tabBarContent: Color,
+    val table: SirioTableColors,
     val tabs: SirioTabsColors,
     val tag: SirioTagsColors,
     val textArea: SirioTextAreaColors,
     val textField: SirioTextFieldColors,
+    val titleBar: SirioTitleBarColors,
     val toggle: SirioToggleColors,
     val isDark: Boolean,
 )
@@ -232,35 +259,45 @@ data class SirioColorState(
     val focused: Color,
     val hovered: Color,
     val pressed: Color,
+    val valued: Color,
     val alert: Color,
     val warning: Color,
     val success: Color,
     val info: Color,
 ) {
     constructor(
-        default: Color,
-        disabled: Color,
-        focused: Color,
-        hovered: Color,
-        pressed: Color,
+        default: Color = Color.Unspecified,
+        disabled: Color = Color.Unspecified,
+        focused: Color = Color.Unspecified,
+        hovered: Color = Color.Unspecified,
+        pressed: Color = Color.Unspecified,
+        valued: Color = Color.Unspecified,
     ) : this(
         default = default,
         disabled = disabled,
         focused = focused,
         hovered = hovered,
         pressed = pressed,
+        valued = valued,
         alert = Color.Unspecified,
         warning = Color.Unspecified,
         success = Color.Unspecified,
         info = Color.Unspecified,
     )
 
-    fun get(disabled: Boolean, focused: Boolean, pressed: Boolean, hovered: Boolean): Color =
+    fun get(
+        disabled: Boolean,
+        focused: Boolean,
+        pressed: Boolean,
+        hovered: Boolean,
+        valued: Boolean = false,
+    ): Color =
         when {
             disabled -> this.disabled
             focused -> this.focused
             pressed -> this.pressed
             hovered -> this.hovered
+            valued -> this.valued
             else -> this.default
         }
 
@@ -282,6 +319,7 @@ data class SirioColorState(
                 focused = color,
                 hovered = color,
                 pressed = color,
+                valued = color,
                 alert = color,
                 warning = color,
                 success = color,
@@ -304,6 +342,7 @@ private val localSirioColors = staticCompositionLocalOf {
         appNavigationText = Color.Unspecified,
         appNavigationUsernameBackground = Color.Unspecified,
         appNavigationUsernameText = Color.Unspecified,
+        avviso = SirioAvvisoColors.Unspecified,
         badge = SirioBadgeColors.Unspecified,
         buttons = ButtonColors.Unspecified,
         card = SirioCardsColors.Unspecified,
@@ -330,6 +369,7 @@ private val localSirioColors = staticCompositionLocalOf {
         chipWithCloseHoverBackground = Color.Unspecified,
         chipWithClosePressedBackground = Color.Unspecified,
         dialog = SirioDialogColors.Unspecified,
+        dropdown = SirioDropdownColors.Unspecified,
         fabBorderFocus = Color.Unspecified,
         fabContent = Color.Unspecified,
         fabDefaultBackground = Color.Unspecified,
@@ -338,7 +378,9 @@ private val localSirioColors = staticCompositionLocalOf {
         fabPressedBackground = Color.Unspecified,
         fileUploadText = Color.Unspecified,
         fileUploadTitle = Color.Unspecified,
+        filter = SirioFilterColors.Unspecified,
         hero = SirioHeroColors.Unspecified,
+        menuSpalla = SirioMenuSpallaColors.Unspecified,
         notificationColors = NotificationColors.Unspecified,
         pagination = SirioPaginationColors.Unspecified,
         progressBarBackground = Color.Unspecified,
@@ -370,13 +412,16 @@ private val localSirioColors = staticCompositionLocalOf {
         sliderText = Color.Unspecified,
         sliderThumb = Color.Unspecified,
         sliderTitle = Color.Unspecified,
+        stepProgressBar = SirioStepProgressBarColors.Unspecified,
         tabBarActive = Color.Unspecified,
         tabBarBackground = Color.Unspecified,
         tabBarContent = Color.Unspecified,
+        table = SirioTableColors.Unspecified,
         tabs = SirioTabsColors.Unspecified,
         tag = SirioTagsColors.Unspecified,
         textArea = SirioTextAreaColors.Unspecified,
         textField = SirioTextFieldColors.Unspecified,
+        titleBar = SirioTitleBarColors.Unspecified,
         toggle = SirioToggleColors.Unspecified,
         isDark = false,
     )
@@ -390,20 +435,21 @@ internal val LocalSirioTypography = staticCompositionLocalOf {
         appNavigationTitle = TextStyle.Default,
         appNavigationTitleBig = TextStyle.Default,
         appNavigationUsername = TextStyle.Default,
+        avviso = SirioAvvisoTypography.Default,
         buttonText = TextStyle.Default,
         card = SirioCardsTypography.Default,
         checkbox = SirioCheckboxTypography.Default,
         chipText = TextStyle.Default,
         dialogText = TextStyle.Default,
         dialogTitle = TextStyle.Default,
+        dropdown = SirioDropdownTypography.Default,
         fabText = TextStyle.Default,
         fileUploadText = TextStyle.Default,
         fileUploadTitle = TextStyle.Default,
+        filter = SirioFilterTypography.Default,
         hero = SirioHeroTypography.Default,
-        notificationInlineText = TextStyle.Default,
-        notificationInlineTitle = TextStyle.Default,
-        notificationToastText = TextStyle.Default,
-        notificationToastTitle = TextStyle.Default,
+        menuSpalla = SirioMenuSpallaTypography.Default,
+        notification = SirioNotificationTypography.Default,
         paginationTileNumber = TextStyle.Default,
         progressBarLabel = TextStyle.Default,
         progressBarNumber = TextStyle.Default,
@@ -411,7 +457,9 @@ internal val LocalSirioTypography = staticCompositionLocalOf {
         sliderNumber = TextStyle.Default,
         sliderText = TextStyle.Default,
         sliderTitle = TextStyle.Default,
+        stepProgressBar = SirioStepProgressBarTypography.Default,
         tabBarItemText = TextStyle.Default,
+        table = SirioTableTypography.Default,
         tabTextDefault = TextStyle.Default,
         tabTextSelected = TextStyle.Default,
         tagText = TextStyle.Default,
@@ -424,6 +472,7 @@ internal val LocalSirioTypography = staticCompositionLocalOf {
         textFieldLabel = TextStyle.Default,
         textFieldPlaceholder = TextStyle.Default,
         textFieldText = TextStyle.Default,
+        titleBar = SirioTitleBarTypography.Default,
         toggle = SirioToggleTypography.Default,
     )
 }

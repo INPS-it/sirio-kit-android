@@ -15,17 +15,11 @@ import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredWidth
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -46,7 +40,6 @@ import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.theme.tabHeight
 import it.inps.sirio.theme.tabHorizontalPadding
 import it.inps.sirio.theme.tabIconSize
-import it.inps.sirio.theme.tabIndicatorHeight
 import it.inps.sirio.theme.tabWithIconHorizontalSpacing
 import it.inps.sirio.ui.text.SirioTextCommon
 import it.inps.sirio.utils.SirioIcon
@@ -75,7 +68,11 @@ internal fun SirioTabCommon(
     val isFocused by interactionSource.collectIsFocusedAsState()
     val isHovered by interactionSource.collectIsHoveredAsState()
 
-    val tabsParams = getTabsParams(enabled, isFocused, isPressed, isHovered, selected)
+    val labelColor =
+        SirioTheme.colors.tabs.text.get(enabled.not(), isFocused, isPressed || selected, isHovered)
+    val iconColor =
+        SirioTheme.colors.tabs.icon.get(enabled.not(), isFocused, isPressed || selected, isHovered)
+
     val backgroundColor = when {
         selected -> SirioTheme.colors.tabs.backgroundSelected
         !enabled && selection == TabSelectionIndicatorPosition.BOTTOM -> SirioTheme.colors.tabs.backgroundBottomSelectionDisabled
@@ -85,98 +82,37 @@ internal fun SirioTabCommon(
         else -> SirioTheme.colors.tabs.backgroundSelected
     }
 
-    Box(
+    Tab(
+        selected = selected,
+        onClick = onSelect,
         modifier = Modifier
             .height(tabHeight)
-            .width(IntrinsicSize.Max),
-        contentAlignment = if (selection == TabSelectionIndicatorPosition.TOP) Alignment.TopCenter else Alignment.BottomCenter
+            .wrapContentWidth()
+            .background(backgroundColor),
+        enabled = enabled,
+        interactionSource = interactionSource,
     ) {
-        Tab(
-            selected = selected,
-            onClick = onSelect,
-            modifier = Modifier
-                .height(tabHeight)
-                .wrapContentWidth()
-                .background(backgroundColor),
-            enabled = enabled,
-            interactionSource = interactionSource,
+        Row(
+            modifier = Modifier.padding(horizontal = tabHorizontalPadding.dp),
+            horizontalArrangement = Arrangement
+                .spacedBy(tabWithIconHorizontalSpacing.dp, Alignment.CenterHorizontally),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
-            Row(
-                modifier = Modifier.padding(horizontal = tabHorizontalPadding.dp),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                icon?.let {
-                    SirioIcon(
-                        faIcon = icon,
-                        iconColor = tabsParams.iconColor,
-                        size = tabIconSize
-                    )
-                    Spacer(Modifier.requiredWidth(tabWithIconHorizontalSpacing.dp))
-                }
-                SirioTextCommon(
-                    text = label,
-                    color = tabsParams.labelColor,
-                    typography = if (selected) SirioTheme.typography.tabTextSelected else SirioTheme.typography.tabTextDefault
+            icon?.let {
+                SirioIcon(
+                    faIcon = icon,
+                    iconColor = iconColor,
+                    size = tabIconSize
                 )
             }
+            SirioTextCommon(
+                text = label,
+                color = labelColor,
+                typography = if (selected) SirioTheme.typography.tabTextSelected else SirioTheme.typography.tabTextDefault
+            )
         }
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(tabIndicatorHeight)
-                .background(color = tabsParams.selectionColor)
-        )
     }
 }
-
-/**
- * Tab colors based on current state
- */
-@Composable
-private fun getTabsParams(
-    enabled: Boolean,
-    isFocused: Boolean,
-    isPressed: Boolean,
-    isHovered: Boolean,
-    isSelected: Boolean,
-): TabsParams = when {
-    !enabled -> TabsParams(
-        labelColor = SirioTheme.colors.tabs.text.disabled,
-        iconColor = SirioTheme.colors.tabs.icon.disabled,
-        selectionColor = SirioTheme.colors.tabs.selection.disabled,
-    )
-
-    isFocused -> TabsParams(
-        labelColor = SirioTheme.colors.tabs.text.focused,
-        iconColor = SirioTheme.colors.tabs.icon.focused,
-        selectionColor = SirioTheme.colors.tabs.selection.focused,
-    )
-
-    isPressed || isSelected -> TabsParams(
-        labelColor = SirioTheme.colors.tabs.text.pressed,
-        iconColor = SirioTheme.colors.tabs.icon.pressed,
-        selectionColor = SirioTheme.colors.tabs.selection.pressed,
-    )
-
-    isHovered -> TabsParams(
-        labelColor = SirioTheme.colors.tabs.text.hovered,
-        iconColor = SirioTheme.colors.tabs.icon.hovered,
-        selectionColor = SirioTheme.colors.tabs.selection.hovered,
-    )
-
-    else -> TabsParams(
-        labelColor = SirioTheme.colors.tabs.text.default,
-        iconColor = SirioTheme.colors.tabs.icon.default,
-        selectionColor = SirioTheme.colors.tabs.selection.default,
-    )
-}
-
-data class TabsParams(
-    val labelColor: Color,
-    val iconColor: Color,
-    val selectionColor: Color,
-)
 
 @Keep
 data class SirioTabsColors(

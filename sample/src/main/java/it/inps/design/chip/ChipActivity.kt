@@ -48,10 +48,10 @@ import androidx.navigation.compose.rememberNavController
 import com.guru.fontawesomecomposelib.FaIcons
 import it.inps.design.ui.DemoMenuItem
 import it.inps.sirio.theme.SirioTheme
-import it.inps.sirio.ui.chip.ChipLabel
-import it.inps.sirio.ui.chip.ChipLabelClose
-import it.inps.sirio.ui.chip.ChipLabelIcon
-import it.inps.sirio.ui.chip.ChipLabelIconClose
+import it.inps.sirio.ui.chip.SirioChipLabel
+import it.inps.sirio.ui.chip.SirioChipLabelClose
+import it.inps.sirio.ui.chip.SirioChipLabelIcon
+import it.inps.sirio.ui.chip.SirioChipLabelIconClose
 
 class ChipActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -95,18 +95,18 @@ private fun ChipDemoView() {
             var isActive4 by remember { mutableStateOf(false) }
             val label = "Chips"
             Text(text = "Big Chips Label + Icon + Close")
-            ChipLabelIconClose(label = label, icon = FaIcons.User, enabled = true) {}
+            SirioChipLabelIconClose(label = label, icon = FaIcons.User, enabled = true) {}
             Text(text = "Big Chips Label + Close")
-            ChipLabelClose(label = label, enabled = true) {}
+            SirioChipLabelClose(label = label, enabled = true) {}
             Text(text = "Big Chips Label + Icon")
-            ChipLabelIcon(
+            SirioChipLabelIcon(
                 label = label,
                 icon = FaIcons.Check,
                 enabled = true,
                 isActive = isActive3,
                 onStateChange = { isActive3 = it })
             Text(text = "Big Chips Only Label")
-            ChipLabel(
+            SirioChipLabel(
                 label = label,
                 enabled = true,
                 active = isActive4,
@@ -183,8 +183,8 @@ fun ChipLabelIconCloseDemoContent() {
             .padding(0.dp, 4.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        ChipLabelIconClose(label = title, icon = FaIcons.User, enabled = true) {}
-        ChipLabelIconClose(label = title, icon = FaIcons.User, enabled = false) {}
+        SirioChipLabelIconClose(label = title, icon = FaIcons.User, enabled = true) {}
+        SirioChipLabelIconClose(label = title, icon = FaIcons.User, enabled = false) {}
     }
 }
 
@@ -199,8 +199,8 @@ fun ChipLabelCloseDemoContent() {
             .padding(0.dp, 4.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        ChipLabelClose(label = title, enabled = true) {}
-        ChipLabelClose(label = title, enabled = false) {}
+        SirioChipLabelClose(label = title, enabled = true) {}
+        SirioChipLabelClose(label = title, enabled = false) {}
     }
 }
 
@@ -218,19 +218,19 @@ fun ChipLabelIconDemoContent() {
         var isActive1 by remember { mutableStateOf(true) }
         var isActive2 by remember { mutableStateOf(true) }
         var isActive3 by remember { mutableStateOf(false) }
-        ChipLabelIcon(
+        SirioChipLabelIcon(
             label = title,
             icon = FaIcons.User,
             enabled = true,
             isActive = isActive1,
             onStateChange = { isActive1 = it })
-        ChipLabelIcon(
+        SirioChipLabelIcon(
             label = title,
             icon = FaIcons.User,
             enabled = false,
             isActive = isActive2,
             onStateChange = { isActive2 = it })
-        ChipLabelIcon(
+        SirioChipLabelIcon(
             label = title,
             icon = FaIcons.User,
             enabled = true,
@@ -253,17 +253,17 @@ fun ChipLabelDemoContent() {
         var isActive1 by remember { mutableStateOf(true) }
         var isActive2 by remember { mutableStateOf(true) }
         var isActive3 by remember { mutableStateOf(false) }
-        ChipLabel(
+        SirioChipLabel(
             label = title,
             enabled = true,
             active = isActive1,
             onStateChange = { isActive1 = it })
-        ChipLabel(
+        SirioChipLabel(
             label = title,
             enabled = false,
             active = isActive2,
             onStateChange = { isActive2 = it })
-        ChipLabel(
+        SirioChipLabel(
             label = title,
             enabled = true,
             active = isActive3,

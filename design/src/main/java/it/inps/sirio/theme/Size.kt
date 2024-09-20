@@ -8,7 +8,6 @@
 
 package it.inps.sirio.theme
 
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 internal const val tabBarHeight = 56
@@ -74,21 +73,21 @@ internal const val checkboxCornerRadius = 4
 internal const val checkboxFocusExtraBorderWidth = 1
 internal const val checkboxFocusBorderPadding = 1
 
-internal val radioSafeAreaPadding = 10.dp
-internal val radioSize = 24.dp
-internal val radioDotSize = 14.dp
-internal val radioBorderWidth = 1.dp
-internal val radioFocusExtraBorderWidth = 1.dp
-internal val radioFocusBorderPadding = 1.dp
+internal const val radioSize = 24
+internal const val radioPaddingText = 10
+internal const val radioDotSize = 14
+internal const val radioBorderWidth = 1
+internal const val radioFocusExtraBorderWidth = 1
+internal const val radioFocusBorderPadding = 1
 
-internal val toggleHeight = 26.dp
-internal val toggleWidth: Dp = 54.dp
-internal val toggleIndicatorSize = 18.dp
+internal const val toggleHeight = 26
+internal const val toggleWidth = 54
+internal const val togglePaddingText = 8
+internal const val toggleIndicatorSize = 18
 internal const val toggleIndicatorHorizontalOffset = 14
-internal val toggleBorderWidth = 1.dp
-internal val toggleFocusExtraBorderWidth = 1.dp
-internal val toggleFocusExtraBorderPadding = 1.dp
-internal val toggleSafeAreaPadding = 10.dp
+internal const val toggleBorderWidth = 1
+internal const val toggleFocusExtraBorderWidth = 1
+internal const val toggleFocusExtraBorderPadding = 1
 
 internal val sliderTitlePaddingBottom = 8.dp
 internal val sliderTextPaddingBottom = 22.dp
@@ -122,22 +121,22 @@ internal const val fileUploadTitlePaddingBottom = 8
 internal const val fileUploadTextPaddingBottom = 8
 internal const val fileUploadItemsPadding = 8
 
-internal val notificationInlineIconSize = 24.dp
-internal val notificationInlineHeight = 68.dp
-internal val notificationInlineStateWidth = 68.dp
-internal val notificationInlineHorizontalPadding = 16.dp
-internal val notificationInlineVerticalPadding = 8.dp
-internal val notificationInlineVerticalSpacer = 4.dp
-internal val notificationInlineCloseSize = 18.dp
+internal const val notificationInlineIconSize = 24
+internal const val notificationInlineIconPaddingTop = 20
+internal const val notificationInlineStateWidth = 62
+internal const val notificationInlinePaddingHorizontal = 20
+internal const val notificationInlinePaddingVertical = 20
+internal const val notificationInlineSpacerVertical = 16
+internal const val notificationInlineCloseSize = 16
 
-internal val notificationToastIconSize = 24.dp
-internal val notificationToastStateWidth = 24.dp
-internal val notificationToastHorizontalPadding = 24.dp
-internal val notificationToastVerticalPadding = 26.dp
-internal val notificationToastTitleBottomSpacer = 8.dp
-internal val notificationToastTextBottomSpacer = 24.dp
-internal val notificationToastCloseSize = 23.dp
-internal val notificationToastPadding = 0.dp
+internal const val notificationToastIconSize = 24
+internal const val notificationToastStateWidth = 62
+internal const val notificationToastHorizontalPadding = 24
+internal const val notificationToastVerticalPadding = 26
+internal const val notificationToastTitleBottomSpacer = 8
+internal const val notificationToastTextBottomSpacer = 24
+internal const val notificationToastCloseSize = 23
+internal const val notificationToastPadding = 0
 
 internal val textFieldInfoIconSize = 14.dp
 internal val textFieldIconSize = 16.dp
@@ -218,3 +217,88 @@ internal const val carouselPaddingBottom = 24
 internal const val carouselContentPaddingHorizontal = 36
 internal const val carouselPaddingIntra = 16
 internal const val carouselPageSpacing = 16
+
+internal const val titleBarHeight = 48
+internal const val titleBarPaddingHorizontal = 16
+internal const val titleBarItemSpacing = 16
+internal const val titleBarItemPadding = 8
+internal const val titleBarIconSize = 16
+
+internal const val tableComponentBorderWidth = 1
+internal const val tableComponentHeightLarge = 72
+internal const val tableComponentHeightMedium = 56
+internal const val tableComponentHeightSmall = 40
+internal const val tableComponentHeightExtraSmall = 36
+internal const val tableComponentPaddingHorizontalLarge = 16
+internal const val tableComponentPaddingHorizontalMedium = 12
+internal const val tableComponentPaddingHorizontalSmall = 8
+internal const val tableComponentPaddingHorizontalExtraSmall = 8
+internal const val tableComponentScrollIndicatorWidth = 4
+internal const val tableHeaderIconSize = 16
+internal const val tableHeaderSpacingCheckBoxTitle = 10
+internal const val tableHeaderSpacingTitleIcon = 16
+internal const val tableCellAvatarImageTextSpacing = 8
+internal const val tableDrawerPaddingHorizontal = 16
+internal const val tableDrawerPaddingTop = 32
+internal const val tableDrawerPaddingTitle = 24
+internal const val tableDrawerItemPaddingVertical = 24
+internal const val tableDrawerItemPaddingInternal = 16
+internal const val tableDrawerItemBorderWidth = 1
+internal const val tableDrawerIconsPaddingVertical = 8
+internal const val tableDrawerIconsPaddingHorizontal = 16
+internal const val tableVerticalItemPadding = 8
+internal const val tableVerticalItemBorderWidth = 1
+internal const val tableVerticalItemTagPadding = 4
+internal const val tableVerticalPaddingHorizontal = 16
+internal const val tableVerticalPaddingCells = 18
+
+internal const val avvisoPaddingHorizontal = 16
+internal const val avvisoPaddingTop = 16
+internal const val avvisoPaddingBottom = 24
+internal const val avvisoIconPaddingTop = 12
+internal const val avvisoIconPaddingEnd = 16
+internal const val avvisoSpacerTitleText = 8
+internal const val avvisoSpacerTextButton = 24
+
+internal const val menuSpallaDrawerItemBorderWidth = 1
+internal const val menuSpallaDrawerItemHeight = 72
+internal const val menuSpallaDrawerItemIconSize = 24
+internal const val menuSpallaDrawerItemPaddingHorizontal = 24
+internal const val menuSpallaDrawerItemInfoBorderWidth = 1
+internal const val menuSpallaDrawerItemInfoHeight = 87
+internal const val menuSpallaDrawerItemInfoIconSize = 24
+internal const val menuSpallaDrawerItemInfoPaddingHorizontal = 24
+internal const val menuSpallaItemTitleSectionBorderWidth = 4
+internal const val menuSpallaItemTitleSectionHeight = 49
+internal const val menuSpallaItemTitleSectionPaddingHorizontal = 16
+internal const val menuSpallaItemTitleSectionPaddingTop = 4
+internal const val menuSpallaItemHeight = 49
+internal const val menuSpallaItemIndicatorWidth = 4
+internal const val menuSpallaItemDividerHeight = 1
+internal const val menuSpallaItemBorderWidth = 1
+internal const val menuSpallaItemPaddingEnd = 16
+internal const val menuSpallaItemPrimaryPaddingStart = 16
+internal const val menuSpallaItemSecondaryPaddingStart = 24
+internal const val menuSpallaItemTertiaryPaddingStart = 32
+internal const val menuSpallaSectionPaddingTop = 16
+
+internal const val filterPadding = 16
+internal const val filterChipsPadding = 16
+internal const val filterFooterPaddingHorizontal = 10
+internal const val filterFooterPaddingVertical = 24
+internal const val filterFooterButtonSpacing = 16
+internal const val filterHeaderPaddingHorizontal = 16
+internal const val filterHeaderPaddingVertical = 24
+internal const val filterHeaderCloseSize = 24
+internal const val filterSelectedPaddingVertical = 24
+internal const val filterInfoPadding = 8
+internal const val filterInfoSize = 16
+
+internal const val dropdownBorderWidth = 1
+internal const val dropdownCornerSize = 4
+
+internal const val stepSelectionHeight = 56
+internal const val stepSelectionPaddingHorizontal = 16
+internal const val stepControlsHeight = 56
+internal const val stepControlsIconSize = 16
+internal const val stepControlsHorizontalPadding = 20

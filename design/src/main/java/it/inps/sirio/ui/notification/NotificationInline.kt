@@ -43,7 +43,7 @@ fun NotificationInline(
     onClose: () -> Unit,
 ) {
     val (icon: FaIconType, color: Color) = paramsByType(type)
-    NotificationInlineCommon(
+    NotificationCommon(
         title = title,
         text = text,
         icon = icon,

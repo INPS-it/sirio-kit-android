@@ -21,5 +21,5 @@ import com.guru.fontawesomecomposelib.FaIconType
 data class TabItemData(
     val label: String,
     val icon: FaIconType? = null,
-    val enabled: Boolean = false,
+    val enabled: Boolean = true,
 )

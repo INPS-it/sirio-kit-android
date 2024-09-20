@@ -252,20 +252,23 @@ private fun ButtonDemoContent(text: String, style: ButtonStyle, size: ButtonSize
                 enabled = true,
                 style = style,
                 size = size,
-                onClick = {})
+                onClick = {},
+            )
             SirioButton(
                 text = text,
                 icon = FaIcons.ArrowRight,
                 enabled = true,
                 style = style,
                 size = size,
-                onClick = {})
+                onClick = {},
+            )
             SirioButton(
                 icon = FaIcons.ArrowRight,
                 enabled = true,
                 style = style,
                 size = size,
-                onClick = {})
+                onClick = {},
+            )
         }
         Spacer(modifier = Modifier.width(8.dp))
         Column(

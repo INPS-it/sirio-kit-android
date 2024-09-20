@@ -109,7 +109,14 @@ internal fun SirioTextAreaCommon(
     val isFocused by interactionSource.collectIsFocusedAsState()
     val isHovered by interactionSource.collectIsHoveredAsState()
 
-    val textAreaParams = getTextAreaParams(enabled, type, isFocused, isPressed, isHovered)
+    val textAreaParams = getTextAreaParams(
+        enabled = enabled,
+        type = type,
+        isFocused = isFocused,
+        isPressed = isPressed,
+        isHovered = isHovered,
+        isValued = text.isNotEmpty()
+    )
 
     Column {
         label?.let {
@@ -271,6 +278,7 @@ private fun getTextAreaParams(
     isFocused: Boolean,
     isPressed: Boolean,
     isHovered: Boolean,
+    isValued: Boolean,
 ): TextAreaParams = when {
     !enabled -> TextAreaParams(
         backgroundColor = SirioTheme.colors.textArea.background.disabled,
@@ -320,16 +328,16 @@ private fun getTextAreaParams(
         dropdownBorderColor = SirioTheme.colors.textArea.dropdown.focused,
     )
 
-    isPressed -> TextAreaParams(
-        backgroundColor = SirioTheme.colors.textArea.background.pressed,
-        infoIconColor = SirioTheme.colors.textArea.label.pressed,
-        labelColor = SirioTheme.colors.textArea.label.pressed,
-        helperTextColor = SirioTheme.colors.textArea.helperText.pressed,
-        placeholderTextColor = SirioTheme.colors.textArea.placeholder.pressed,
-        textColor = SirioTheme.colors.textArea.text.pressed,
-        iconColor = SirioTheme.colors.textArea.icon.pressed,
-        borderColor = SirioTheme.colors.textArea.border.pressed,
-        dropdownBorderColor = SirioTheme.colors.textArea.dropdown.pressed,
+    isValued -> TextAreaParams(
+        backgroundColor = SirioTheme.colors.textArea.background.valued,
+        infoIconColor = SirioTheme.colors.textArea.label.valued,
+        labelColor = SirioTheme.colors.textArea.label.valued,
+        helperTextColor = SirioTheme.colors.textArea.helperText.valued,
+        placeholderTextColor = SirioTheme.colors.textArea.placeholder.valued,
+        textColor = SirioTheme.colors.textArea.text.valued,
+        iconColor = SirioTheme.colors.textArea.icon.valued,
+        borderColor = SirioTheme.colors.textArea.border.valued,
+        dropdownBorderColor = SirioTheme.colors.textArea.dropdown.valued,
     )
 
     isHovered -> TextAreaParams(

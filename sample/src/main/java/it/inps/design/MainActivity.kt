@@ -32,6 +32,7 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import it.inps.design.accordion.AccordionActivity
 import it.inps.design.appnavigation.AppNavigationActivity
+import it.inps.design.avviso.AvvisoActivity
 import it.inps.design.button.ButtonActivity
 import it.inps.design.card.CardActivity
 import it.inps.design.carousel.CarouselActivity
@@ -40,18 +41,23 @@ import it.inps.design.chip.ChipActivity
 import it.inps.design.dialog.DialogActivity
 import it.inps.design.fab.FabActivity
 import it.inps.design.fileupload.FileUploadActivity
+import it.inps.design.filter.FilterActivity
 import it.inps.design.hero.HeroActivity
+import it.inps.design.menuspalla.MenuSpallaActivity
 import it.inps.design.notification.NotificationActivity
 import it.inps.design.pagination.PaginationActivity
 import it.inps.design.progressbar.ProgressBarActivity
 import it.inps.design.radiobutton.RadioButtonActivity
 import it.inps.design.searchbar.SearchBarActivity
 import it.inps.design.slider.SliderActivity
+import it.inps.design.stepprogressbar.StepProgressBarActivity
 import it.inps.design.tabbar.TabBarActivity
+import it.inps.design.table.TableActivity
 import it.inps.design.tabs.TabActivity
 import it.inps.design.tag.TagActivity
 import it.inps.design.textarea.TextAreaActivity
 import it.inps.design.textfield.TextFieldActivity
+import it.inps.design.titlebar.TitleBarActivity
 import it.inps.design.toggle.ToggleActivity
 import it.inps.design.ui.DemoMenuItem
 import it.inps.sirio.theme.SirioTheme
@@ -94,6 +100,10 @@ fun DemoContent() {
                     context.startActivity(Intent(context, AppNavigationActivity::class.java))
                 }
                 HorizontalDivider()
+                DemoMenuItem("Avviso") {
+                    context.startActivity(Intent(context, AvvisoActivity::class.java))
+                }
+                HorizontalDivider()
                 DemoMenuItem("Buttons") {
                     context.startActivity(Intent(context, ButtonActivity::class.java))
                 }
@@ -126,8 +136,16 @@ fun DemoContent() {
                     context.startActivity(Intent(context, FileUploadActivity::class.java))
                 }
                 HorizontalDivider()
+                DemoMenuItem("Filtri") {
+                    context.startActivity(Intent(context, FilterActivity::class.java))
+                }
+                HorizontalDivider()
                 DemoMenuItem("Hero") {
                     context.startActivity(Intent(context, HeroActivity::class.java))
+                }
+                HorizontalDivider()
+                DemoMenuItem("Menu spalla") {
+                    context.startActivity(Intent(context, MenuSpallaActivity::class.java))
                 }
                 HorizontalDivider()
                 DemoMenuItem("Notification") {
@@ -162,12 +180,20 @@ fun DemoContent() {
                     context.startActivity(Intent(context, SliderActivity::class.java))
                 }
                 HorizontalDivider()
+                DemoMenuItem("Step progress bar") {
+                    context.startActivity(Intent(context, StepProgressBarActivity::class.java))
+                }
+                HorizontalDivider()
                 DemoMenuItem("Tab") {
                     context.startActivity(Intent(context, TabActivity::class.java))
                 }
                 HorizontalDivider()
                 DemoMenuItem("Tab Bar") {
                     context.startActivity(Intent(context, TabBarActivity::class.java))
+                }
+                HorizontalDivider()
+                DemoMenuItem("Table") {
+                    context.startActivity(Intent(context, TableActivity::class.java))
                 }
                 HorizontalDivider()
                 DemoMenuItem("Tag") {
@@ -180,6 +206,10 @@ fun DemoContent() {
                 HorizontalDivider()
                 DemoMenuItem("TextField") {
                     context.startActivity(Intent(context, TextFieldActivity::class.java))
+                }
+                HorizontalDivider()
+                DemoMenuItem("TitleBar") {
+                    context.startActivity(Intent(context, TitleBarActivity::class.java))
                 }
                 HorizontalDivider()
                 DemoMenuItem("Toggle") {

@@ -210,6 +210,7 @@ internal fun SirioTextFieldCommon(
                 value = text,
                 onValueChange = onValueChange,
                 modifier = Modifier
+                    .height(48.dp)
                     .fillMaxWidth()
                     .onFocusChanged {
                         onDropdownStateChange?.invoke(it.hasFocus && optionValues.isNotEmpty())
@@ -257,7 +258,10 @@ internal fun SirioTextFieldCommon(
                             }
                         },
                         colors = colors,
-                        contentPadding = OutlinedTextFieldDefaults.contentPadding(),
+                        contentPadding = OutlinedTextFieldDefaults.contentPadding(
+                            top = 0.dp,
+                            bottom = 0.dp
+                        ),
                         container = {
                             OutlinedTextFieldDefaults.ContainerBox(
                                 enabled = enabled,
@@ -322,7 +326,13 @@ private fun SirioTextFieldOptionItem(
     val isFocused by interactionSource.collectIsFocusedAsState()
     val isHovered by interactionSource.collectIsHoveredAsState()
 
-    val optionItemParams = getOptionItemParams(enabled, isFocused, isPressed, isHovered)
+    val optionItemParams = getOptionItemParams(
+        enabled = enabled,
+        isFocused = isFocused,
+        isPressed = isPressed,
+        isHovered = isHovered,
+        isValued = value.isNotEmpty()
+    )
 
     Box(
         modifier = Modifier
@@ -524,6 +534,7 @@ private fun getOptionItemParams(
     isFocused: Boolean,
     isPressed: Boolean,
     isHovered: Boolean,
+    isValued: Boolean,
 ): OptionItemParams = when {
     !enabled -> OptionItemParams(
         optionBackgroundColor = SirioTheme.colors.textField.optionBackground.disabled,
@@ -535,9 +546,9 @@ private fun getOptionItemParams(
         optionTextColor = SirioTheme.colors.textField.optionText.focused,
     )
 
-    isPressed -> OptionItemParams(
-        optionBackgroundColor = SirioTheme.colors.textField.optionBackground.pressed,
-        optionTextColor = SirioTheme.colors.textField.optionText.pressed,
+    isValued -> OptionItemParams(
+        optionBackgroundColor = SirioTheme.colors.textField.optionBackground.valued,
+        optionTextColor = SirioTheme.colors.textField.optionText.valued,
     )
 
     isHovered -> OptionItemParams(
@@ -700,7 +711,7 @@ private fun TextFieldInRowPreview() {
             SirioTextFieldCommon(
                 text = "",
                 onValueChange = {},
-                label = "XX",
+                label = "RC",
                 modifier = Modifier.weight(1f),
             )
             Text(
@@ -712,7 +723,7 @@ private fun TextFieldInRowPreview() {
             SirioTextFieldCommon(
                 text = "",
                 onValueChange = {},
-                label = "YYYY",
+                label = "ANNO",
                 modifier = Modifier.weight(2f),
             )
         }

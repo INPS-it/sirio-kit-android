@@ -15,20 +15,17 @@ import androidx.navigation.compose.composable
 
 @Composable
 fun NavigationGraph(navController: NavHostController) {
-    NavHost(navController, startDestination = HOME_TAB.route) {
-        composable(HOME_TAB.route) {
+    NavHost(navController, startDestination = Home) {
+        composable<Home> {
             HomeScreen()
         }
-        composable(NEWS_TAB.route) {
+        composable<Notizie> {
             NewsScreen()
         }
-        composable(MAP_TAB.route) {
+        composable<Mappa> {
             MapScreen()
         }
-        composable(CONTACTS_TAB.route) {
-            ContactsScreen()
-        }
-        composable(SERVICES_TAB.route) {
+        composable<Servizi> {
             ServicesScreen()
         }
     }

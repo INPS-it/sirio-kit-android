@@ -35,7 +35,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import it.inps.sirio.theme.SirioTheme
-import it.inps.sirio.ui.toggle.Toggle
+import it.inps.sirio.ui.toggle.SirioToggle
 
 class ToggleActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,17 +81,17 @@ private fun ToggleDemoView() {
             var isOn4 by remember { mutableStateOf(true) }
             val label = "Title"
             Text(text = "Toggle Only False")
-            Toggle(isOn = isOn1, onToggleChange = { isOn1 = it })
-            Toggle(isOn = false, onToggleChange = {}, enabled = false)
+            SirioToggle(isOn = isOn1, onToggleChange = { isOn1 = it })
+            SirioToggle(isOn = false, onToggleChange = {}, enabled = false)
             Text(text = "Toggle Only True")
-            Toggle(isOn = isOn2, onToggleChange = { isOn2 = it })
-            Toggle(isOn = true, onToggleChange = {}, enabled = false)
+            SirioToggle(isOn = isOn2, onToggleChange = { isOn2 = it })
+            SirioToggle(isOn = true, onToggleChange = {}, enabled = false)
             Text(text = "Toggle Text False")
-            Toggle(label = label, isOn = isOn3, onToggleChange = { isOn3 = it })
-            Toggle(label = label, isOn = false, onToggleChange = {}, enabled = false)
+            SirioToggle(label = label, isOn = isOn3, onToggleChange = { isOn3 = it })
+            SirioToggle(label = label, isOn = false, onToggleChange = {}, enabled = false)
             Text(text = "Toggle Text True")
-            Toggle(label = label, isOn = isOn4, onToggleChange = { isOn4 = it })
-            Toggle(label = label, isOn = true, onToggleChange = {}, enabled = false)
+            SirioToggle(label = label, isOn = isOn4, onToggleChange = { isOn4 = it })
+            SirioToggle(label = label, isOn = true, onToggleChange = {}, enabled = false)
         }
     }
 }

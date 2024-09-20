@@ -24,6 +24,9 @@ output.json
 # IntelliJ
 *.iml
 .idea/
+misc.xml
+deploymentTargetDropDown.xml
+render.experimental.xml
 
 # Keystore files
 *.jks
@@ -94,6 +97,10 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+### macOS Patch ###
+# iCloud generated files
+*.icloud
 
 ### AndroidStudio ###
 # Covers files to be ignored for android development using Android Studio.

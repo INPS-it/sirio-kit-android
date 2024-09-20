@@ -21,11 +21,30 @@ import androidx.compose.ui.unit.sp
 import it.inps.sirio.styleDictionary.StyleDictionaryColor
 import it.inps.sirio.styleDictionary.StyleDictionarySize
 import it.inps.sirio.styleDictionary.StyleDictionaryTypography
+import it.inps.sirio.ui.avviso.SirioAvvisoTypography
 import it.inps.sirio.ui.card.SirioCardTypography
 import it.inps.sirio.ui.card.SirioCardsTypography
 import it.inps.sirio.ui.checkbox.SirioCheckboxTypography
+import it.inps.sirio.ui.dropdown.SirioDropdownOptionTypography
+import it.inps.sirio.ui.dropdown.SirioDropdownTypography
+import it.inps.sirio.ui.filter.SirioFilterTypography
 import it.inps.sirio.ui.hero.SirioHeroTypography
+import it.inps.sirio.ui.menuspalla.SirioMenuSpallaDrawerItemInfoTypography
+import it.inps.sirio.ui.menuspalla.SirioMenuSpallaDrawerItemTypography
+import it.inps.sirio.ui.menuspalla.SirioMenuSpallaItemTitleSectionTypography
+import it.inps.sirio.ui.menuspalla.SirioMenuSpallaItemTypography
+import it.inps.sirio.ui.menuspalla.SirioMenuSpallaTypography
+import it.inps.sirio.ui.notification.SirioNotificationTypography
 import it.inps.sirio.ui.radiobutton.SirioRadioButtonTypography
+import it.inps.sirio.ui.stepprogressbar.SirioStepControlsTypography
+import it.inps.sirio.ui.stepprogressbar.SirioStepProgressBarTypography
+import it.inps.sirio.ui.stepprogressbar.SirioStepSelectionTypography
+import it.inps.sirio.ui.table.SirioTableHeaderTypography
+import it.inps.sirio.ui.table.SirioTableTypography
+import it.inps.sirio.ui.table.cell.SirioTableCellTypography
+import it.inps.sirio.ui.table.drawer.SirioTableDrawerTypography
+import it.inps.sirio.ui.table.vertical.SirioTableVerticalTypography
+import it.inps.sirio.ui.titlebar.SirioTitleBarTypography
 import it.inps.sirio.ui.toggle.SirioToggleTypography
 
 internal val Titillium_Web = TitilliumWebFamily
@@ -48,12 +67,33 @@ val appNavigationTitleXl = TextStyle(
     fontStyle = StyleDictionaryTypography.typographySpecificAppNavigationTitleFontWeight600.getFontStyle(),
 )
 
+val labelXl600 = TextStyle(
+    fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
+    fontSize = StyleDictionarySize.typographyAliasLabelXlSize06.sp,
+    lineHeight = StyleDictionarySize.typographyAliasLabelLineHeight06.sp,
+    fontWeight = StyleDictionaryTypography.typographyAliasLabelFontWeight700.getFontWeight(),
+    fontStyle = StyleDictionaryTypography.typographyAliasLabelFontWeight700.getFontStyle(),
+)
+
 val labelXl400 = TextStyle(
     fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
     fontSize = StyleDictionarySize.typographyAliasLabelXlSize06.sp,
     lineHeight = StyleDictionarySize.typographyAliasLabelLineHeight06.sp,
     fontWeight = StyleDictionaryTypography.typographyAliasLabelFontWeight400.getFontWeight(),
     fontStyle = StyleDictionaryTypography.typographyAliasLabelFontWeight400.getFontStyle(),
+)
+
+val labelLg700 = TextStyle(
+    fontSize = StyleDictionarySize.typographyAliasLabelLgSize05.sp,
+    fontWeight = StyleDictionaryTypography.typographyAliasLabelFontWeight700.getFontWeight(),
+    fontStyle = StyleDictionaryTypography.typographyAliasLabelFontWeight700.getFontStyle(),
+    fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
+    lineHeight = StyleDictionarySize.typographyAliasPLgLineHeight05.sp,
+//    platformStyle = PlatformTextStyle(includeFontPadding = false),
+//    lineHeightStyle = LineHeightStyle(
+//        alignment = LineHeightStyle.Alignment.Center,
+//        trim = LineHeightStyle.Trim.Both
+//    ),
 )
 
 val labelMd700 = TextStyle(
@@ -116,12 +156,30 @@ val labelProgressBarNumber = TextStyle(
     fontStyle = StyleDictionaryTypography.typographyAliasLabelFontWeight400.getFontStyle(),
 )
 
+val pLg01 = TextStyle(
+    fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
+    fontSize = StyleDictionarySize.typographyAliasLabelLgSize05.sp,
+    lineHeight = StyleDictionarySize.typographyAliasPLgLineHeight05.sp,
+    fontWeight = StyleDictionaryTypography.typographyAliasPFontWeight400.getFontWeight(),
+    fontStyle = StyleDictionaryTypography.typographyAliasPFontWeight400.getFontStyle(),
+)
+
 val pMd01 = TextStyle(
     fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
     fontSize = StyleDictionarySize.typographyGlobalFontSize04.sp,
     lineHeight = StyleDictionarySize.typographyAliasLinkPMdLineHeight04.sp,
     fontWeight = StyleDictionaryTypography.typographyAliasLabelFontWeight400.getFontWeight(),
     fontStyle = StyleDictionaryTypography.typographyAliasLabelFontWeight400.getFontStyle(),
+)
+
+
+val linkPLg01 = TextStyle(
+    fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
+    fontSize = StyleDictionarySize.typographyAliasLabelLgSize05.sp,
+    lineHeight = StyleDictionarySize.typographyAliasPLgLineHeight05.sp,
+    fontWeight = StyleDictionaryTypography.typographyAliasLinkFontWeight700.getFontWeight(),
+    fontStyle = StyleDictionaryTypography.typographyAliasLinkFontWeight700.getFontStyle(),
+    textDecoration = TextDecoration.Underline,
 )
 
 val linkPMd01 = TextStyle(
@@ -144,18 +202,10 @@ val linkH4Md01 = TextStyle(
     textDecoration = TextDecoration.Underline
 )
 
-val mPMd01_700 = TextStyle(
-    fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
-    fontSize = StyleDictionarySize.typographyGlobalFontSize04.sp,
-    lineHeight = StyleDictionarySize.typographyAliasLinkPMdLineHeight04.sp,
-    fontWeight = StyleDictionaryTypography.typographyAliasLabelFontWeight700.getFontWeight(),
-    fontStyle = StyleDictionaryTypography.typographyAliasLabelFontWeight700.getFontStyle(),
-)
-
 val labelMd400 = TextStyle(
     fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
     fontSize = StyleDictionarySize.typographyAliasLabelMdSize04.sp,
-    lineHeight = StyleDictionarySize.typographyAliasLabelLineHeight04.sp,
+    lineHeight = StyleDictionarySize.typographyAliasPMdLineHeight04.sp,
     fontWeight = StyleDictionaryTypography.typographyAliasLabelFontWeight400.getFontWeight(),
     fontStyle = StyleDictionaryTypography.typographyAliasLabelFontWeight400.getFontStyle(),
 )
@@ -179,6 +229,14 @@ val h2Md = TextStyle(
     lineHeight = StyleDictionarySize.typographyAliasH2MdLineHeight11.sp,
     fontWeight = StyleDictionaryTypography.typographyAliasH2FontWeight700.getFontWeight(),
     fontStyle = StyleDictionaryTypography.typographyAliasH2FontWeight700.getFontStyle(),
+)
+
+val h4Lg = TextStyle(
+    fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
+    fontSize = StyleDictionarySize.typographyAliasH4LgSize08.sp,
+    lineHeight = StyleDictionarySize.typographyAliasH4LgLineHeight08.sp,
+    fontWeight = StyleDictionaryTypography.typographyAliasH4FontWeight700.getFontWeight(),
+    fontStyle = StyleDictionaryTypography.typographyAliasH4FontWeight700.getFontStyle(),
 )
 
 val h4Md = TextStyle(
@@ -220,6 +278,10 @@ internal val Typography = SirioTypography(
     appNavigationTitle = appNavigationTitleMd,
     appNavigationTitleBig = appNavigationTitleXl,
     appNavigationUsername = labelMd700,
+    avviso = SirioAvvisoTypography(
+        title = h4Lg,
+        text = pLg01,
+    ),
     buttonText = labelMd700,
     card = SirioCardsTypography(
         editorial = SirioCardTypography(
@@ -241,18 +303,37 @@ internal val Typography = SirioTypography(
     chipText = labelMd700,
     dialogText = pMd01,
     dialogTitle = h4Md,
+    dropdown = SirioDropdownTypography(
+        option = SirioDropdownOptionTypography(
+            text = placeholderMd400,
+        )
+    ),
     fabText = labelMd700,
     fileUploadText = helperTextXs400,
     fileUploadTitle = labelMd600,
+    filter = SirioFilterTypography(header = h4Lg, title = labelLg700),
     hero = SirioHeroTypography(
         title = h2Md,
         subtitle = h4Md,
         text = pMd01,
     ),
-    notificationInlineText = pMd01,
-    notificationInlineTitle = mPMd01_700,
-    notificationToastText = pMd01,
-    notificationToastTitle = labelMd700,
+    menuSpalla = SirioMenuSpallaTypography(
+        drawerItem = SirioMenuSpallaDrawerItemTypography(
+            title = labelLg700,
+            subtitle = labelMd400,
+        ),
+        drawerItemInfo = SirioMenuSpallaDrawerItemInfoTypography(
+            title = labelLg700,
+            subtitle = labelMd400,
+        ),
+        itemTitleSection = SirioMenuSpallaItemTitleSectionTypography(title = labelXl600),
+        item = SirioMenuSpallaItemTypography(title = labelMd600),
+    ),
+    notification = SirioNotificationTypography(
+        title = labelMd700,
+        text = pMd01,
+        link = linkPMd01,
+    ),
     paginationTileNumber = labelMdNumber400,
     progressBarLabel = labelMd600,
     progressBarNumber = labelProgressBarNumber,
@@ -260,7 +341,41 @@ internal val Typography = SirioTypography(
     sliderNumber = labelMdNumber400,
     sliderText = helperTextXs400,
     sliderTitle = labelMd600,
+    stepProgressBar = SirioStepProgressBarTypography(
+        controls = SirioStepControlsTypography(
+            previous = labelLg700,
+            next = labelLg700,
+        ),
+        selection = SirioStepSelectionTypography(
+            progress = labelMd400,
+            currentStep = labelLg700,
+        )
+    ),
     tabBarItemText = tabBarLabelXs,
+    table = SirioTableTypography(
+        cell = SirioTableCellTypography(
+            text = labelMd400,
+            number = labelMdNumber400,
+            link = linkPMd01,
+            avatarTitle = placeholderMd400,
+            avatarSubtitle = helperTextXs400
+        ),
+        drawer = SirioTableDrawerTypography(
+            actionsText = labelMd700,
+            title = h5Md,
+            itemTitle = labelMd600,
+            itemText = pMd01,
+            itemNumber = labelMdNumber400,
+            itemLink = linkPMd01,
+        ),
+        header = SirioTableHeaderTypography(title = labelMd600),
+        vertical = SirioTableVerticalTypography(
+            itemTitle = labelMd700,
+            itemText = pMd01,
+            itemNumber = labelMdNumber400,
+            itemLink = linkPMd01,
+        )
+    ),
     tabTextDefault = labelMd400,
     tabTextSelected = labelMd700,
     tagText = labelMd700,
@@ -273,6 +388,7 @@ internal val Typography = SirioTypography(
     textFieldLabel = labelMd600,
     textFieldPlaceholder = placeholderMd400,
     textFieldText = placeholderMd400,
+    titleBar = SirioTitleBarTypography(title = h5Md, iconText = labelMd600),
     toggle = SirioToggleTypography(text = labelMd400),
 )
 

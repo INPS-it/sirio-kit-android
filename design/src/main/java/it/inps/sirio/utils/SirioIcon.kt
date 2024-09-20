@@ -1,6 +1,7 @@
 package it.inps.sirio.utils
 
 import androidx.annotation.DrawableRes
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
@@ -10,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.guru.fontawesomecomposelib.FaIconType
@@ -30,9 +32,21 @@ fun SirioIcon(
     iconColor: Color,
     size: Dp = 24.dp,
     contentDescription: String? = null,
+    onclick: (() -> Unit)? = null,
 ) {
     require(faIcon != null || iconResId != null) { "At least one of faIcon or iconResId must be non-null" }
-    Box(Modifier.requiredSize(size), contentAlignment = Alignment.Center) {
+    Box(
+        Modifier
+            .requiredSize(size)
+            .ifElse(
+                condition = onclick != null,
+                ifTrueModifier = Modifier.clickable(
+                    enabled = onclick != null,
+                    role = Role.Image,
+                    onClick = { onclick?.invoke() })
+            ),
+        contentAlignment = Alignment.Center
+    ) {
         faIcon?.let {
             SirioFaIcon(
                 faIcon = it,
@@ -49,4 +63,20 @@ fun SirioIcon(
             )
         }
     }
+}
+
+/**
+ * Creates a custom icon using a [SirioIconData] object.
+ *
+ * @param iconData The [SirioIconData] object containing the icon parameters.
+ */
+@Composable
+fun SirioIcon(iconData: SirioIconData) {
+    SirioIcon(
+        faIcon = iconData.faIcon,
+        iconResId = iconData.iconResId,
+        iconColor = iconData.iconColor,
+        size = iconData.size,
+        contentDescription = iconData.contentDescription
+    )
 }

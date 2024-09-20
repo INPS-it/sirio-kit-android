@@ -5,13 +5,11 @@
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
-@file:OptIn(ExperimentalFoundationApi::class)
 
 package it.inps.sirio.ui.carousel
 
 import androidx.annotation.Keep
 import androidx.compose.animation.animateContentSize
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -94,7 +92,9 @@ internal fun <T> SirioCarouselCommon(
             pageSpacing = carouselPageSpacing.dp,
         ) { content(items[it]) }
         Spacer(modifier = Modifier.height(carouselPaddingIntra.dp))
-        SirioCarouselIndicator(pagerState) { coroutineScope.launch { pagerState.scrollToPage(it) } }
+        SirioCarouselIndicator(pagerState) {
+            coroutineScope.launch { pagerState.animateScrollToPage(it) }
+        }
     }
 }
 
@@ -179,7 +179,7 @@ private fun SirioCarouselCommonPreview() {
             icon = FaIcons.Book,
             date = "13 Nov 2021",
             title = "Titolo della card 1",
-            text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.",
+            text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
             button = "Text"
         ),
         CarouselSampleData(
@@ -211,6 +211,7 @@ private fun SirioCarouselCommonPreview() {
             background = SirioCarouselBackground.MEDIUM,
         ) { sample ->
             SirioProcessCard(
+                modifier = Modifier.height(300.dp),
                 title = sample.title,
                 text = sample.text,
                 buttonText = sample.button,

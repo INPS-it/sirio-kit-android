@@ -5,7 +5,7 @@ package it.inps.sirio.styleDictionary
 
 object StyleDictionarySize {
     const val typographyAliasDisclaimerMdLineHeight04 = 24
-    const val typographyAliasDisclaimerMdSize04 = 16
+    const val typographyAliasDisclaimerMdSize04 = 14
     const val typographyAliasH1LgLineHeight14 = 78
     const val typographyAliasH1LgSize14 = 52
     const val typographyAliasH1MdLineHeight13 = 72

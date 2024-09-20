@@ -14,6 +14,7 @@ import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
 import it.inps.sirio.styleDictionary.StyleDictionaryColor
 import it.inps.sirio.ui.accordion.SirioAccordionColors
+import it.inps.sirio.ui.avviso.SirioAvvisoColors
 import it.inps.sirio.ui.badge.SirioBadgeColors
 import it.inps.sirio.ui.button.SirioButtonColors
 import it.inps.sirio.ui.card.SirioCardColors
@@ -22,15 +23,34 @@ import it.inps.sirio.ui.carousel.SirioCarouselColors
 import it.inps.sirio.ui.carousel.SirioCarouselIndicatorColors
 import it.inps.sirio.ui.checkbox.SirioCheckboxColors
 import it.inps.sirio.ui.dialog.SirioDialogColors
+import it.inps.sirio.ui.dropdown.SirioDropdownColors
+import it.inps.sirio.ui.dropdown.SirioDropdownOptionColors
+import it.inps.sirio.ui.filter.SirioFilterColors
 import it.inps.sirio.ui.hero.SirioHeroColors
+import it.inps.sirio.ui.menuspalla.SirioMenuSpallaColors
+import it.inps.sirio.ui.menuspalla.SirioMenuSpallaDrawerItemColors
+import it.inps.sirio.ui.menuspalla.SirioMenuSpallaDrawerItemInfoColors
+import it.inps.sirio.ui.menuspalla.SirioMenuSpallaItemColors
+import it.inps.sirio.ui.menuspalla.SirioMenuSpallaItemTitleSectionColors
+import it.inps.sirio.ui.notification.NotificationColors
 import it.inps.sirio.ui.pagination.SirioPaginationColors
 import it.inps.sirio.ui.radiobutton.SirioRadioButtonColors
 import it.inps.sirio.ui.searchbar.SirioSearchBarColors
+import it.inps.sirio.ui.stepprogressbar.SirioStepControlsColors
+import it.inps.sirio.ui.stepprogressbar.SirioStepProgressBarColors
+import it.inps.sirio.ui.stepprogressbar.SirioStepSelectionColors
+import it.inps.sirio.ui.table.SirioTableColors
+import it.inps.sirio.ui.table.SirioTableHeaderColors
+import it.inps.sirio.ui.table.cell.SirioTableCellColors
+import it.inps.sirio.ui.table.cell.SirioTableComponentColors
+import it.inps.sirio.ui.table.drawer.SirioTableDrawerColors
+import it.inps.sirio.ui.table.vertical.SirioTableVerticalColors
 import it.inps.sirio.ui.tabs.SirioTabsColors
 import it.inps.sirio.ui.tag.SirioTagColors
 import it.inps.sirio.ui.tag.SirioTagsColors
 import it.inps.sirio.ui.textarea.SirioTextAreaColors
 import it.inps.sirio.ui.textfield.SirioTextFieldColors
+import it.inps.sirio.ui.titlebar.SirioTitleBarColors
 import it.inps.sirio.ui.toggle.SirioToggleColors
 
 private val buttonsLightColors = ButtonColors(
@@ -113,6 +133,15 @@ private val buttonsLightColors = ButtonColors(
     ),
 )
 
+private val sirioFilterLightColors = SirioFilterColors(
+    background = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight0,
+    close = StyleDictionaryColor.colorAliasInteractivePrimaryDefault,
+    header = StyleDictionaryColor.colorGlobalDarkPrimary115,
+    info = StyleDictionaryColor.colorGlobalSemanticInfo100,
+    selectedBackground = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight40,
+    title = StyleDictionaryColor.colorSpecificDataEntryLabelColorDefault,
+)
+
 private val tagLightColors = SirioTagsColors(
     gray = SirioTagColors(
         background = StyleDictionaryColor.colorAliasInteractiveSecondaryDefault,
@@ -137,6 +166,127 @@ private val tagLightColors = SirioTagsColors(
     white = SirioTagColors(
         background = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight0,
         text = StyleDictionaryColor.colorAliasInteractiveSecondaryDefault,
+    ),
+)
+
+private val menuSpallaLightColors = SirioMenuSpallaColors(
+    background = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight0,
+    drawerItem = SirioMenuSpallaDrawerItemColors(
+        background = SirioColorState(
+            default = StyleDictionaryColor.colorAliasInteractivePrimaryDefault,
+            focused = StyleDictionaryColor.colorAliasInteractivePrimaryFocus,
+            hovered = StyleDictionaryColor.colorAliasInteractivePrimaryHover,
+            pressed = StyleDictionaryColor.colorAliasInteractivePrimaryPressed,
+        ),
+        border = SirioColorState(
+            focused = StyleDictionaryColor.colorAliasInteractiveBorderFocus,
+        ),
+        content = SirioColorState.all(StyleDictionaryColor.colorAliasTextColorPrimaryLight0)
+    ),
+    drawerItemInfo = SirioMenuSpallaDrawerItemInfoColors(
+        background = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight50,
+        border = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight60,
+        content = StyleDictionaryColor.colorAliasTextColorPrimaryDark110,
+    ),
+    itemTitleSection = SirioMenuSpallaItemTitleSectionColors(
+        background = Color.Transparent,
+        border = StyleDictionaryColor.colorAliasInteractivePrimaryDefault,
+        content = StyleDictionaryColor.colorAliasInteractivePrimaryDefault,
+    ),
+    itemPrimary = SirioMenuSpallaItemColors(
+        background = SirioColorState(
+            default = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight0,
+            disabled = StyleDictionaryColor.colorAliasBackgroundColorDisabled,
+            focused = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight0,
+            hovered = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight0,
+            pressed = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight50,
+        ),
+        border = SirioColorState(
+            focused = StyleDictionaryColor.colorAliasInteractiveBorderFocus,
+        ),
+        indicator = SirioColorState(
+            default = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight0,
+            disabled = StyleDictionaryColor.colorAliasBackgroundColorDisabled,
+            focused = StyleDictionaryColor.colorAliasInteractivePrimaryDefault,
+            hovered = StyleDictionaryColor.colorAliasInteractivePrimaryHover,
+            pressed = StyleDictionaryColor.colorAliasInteractivePrimaryPressed,
+        ),
+        divider = SirioColorState(
+            default = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight60,
+            disabled = StyleDictionaryColor.colorAliasBackgroundColorDisabled,
+            focused = StyleDictionaryColor.colorAliasInteractiveBorderFocus,
+            hovered = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight60,
+            pressed = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight50,
+        ),
+        content = SirioColorState(
+            default = StyleDictionaryColor.colorAliasInteractiveSecondaryDefault,
+            disabled = StyleDictionaryColor.colorAliasTextColorDisabled,
+            focused = StyleDictionaryColor.colorAliasInteractivePrimaryDefault,
+            hovered = StyleDictionaryColor.colorAliasInteractivePrimaryHover,
+            pressed = StyleDictionaryColor.colorAliasInteractivePrimaryPressed,
+        ),
+        tag = tagLightColors.green,
+        tagDisabled = tagLightColors.gray,
+    ),
+    itemSecondary = SirioMenuSpallaItemColors(
+        background = SirioColorState(
+            default = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight40,
+            disabled = StyleDictionaryColor.colorAliasBackgroundColorDisabled,
+            focused = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight40,
+            hovered = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight40,
+            pressed = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight50,
+        ),
+        border = SirioColorState(
+            focused = StyleDictionaryColor.colorAliasInteractiveBorderFocus,
+        ),
+        indicator = SirioColorState(
+            focused = StyleDictionaryColor.colorAliasInteractivePrimaryDefault,
+            hovered = StyleDictionaryColor.colorAliasInteractivePrimaryHover,
+            pressed = StyleDictionaryColor.colorAliasInteractivePrimaryPressed,
+        ),
+        divider = SirioColorState(
+            default = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight60,
+            disabled = StyleDictionaryColor.colorAliasBackgroundColorDisabled,
+            focused = StyleDictionaryColor.colorAliasInteractiveBorderFocus,
+            hovered = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight60,
+            pressed = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight50,
+        ),
+        content = SirioColorState(
+            default = StyleDictionaryColor.colorAliasInteractiveSecondaryDefault,
+            disabled = StyleDictionaryColor.colorAliasTextColorDisabled,
+            focused = StyleDictionaryColor.colorAliasInteractivePrimaryDefault,
+            hovered = StyleDictionaryColor.colorAliasInteractivePrimaryHover,
+            pressed = StyleDictionaryColor.colorAliasInteractivePrimaryPressed,
+        ),
+    ),
+    itemTertiary = SirioMenuSpallaItemColors(
+        background = SirioColorState(
+            default = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight40,
+            disabled = StyleDictionaryColor.colorAliasBackgroundColorDisabled,
+            focused = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight40,
+            hovered = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight40,
+            pressed = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight40,
+        ),
+        border = SirioColorState(
+            focused = StyleDictionaryColor.colorAliasInteractiveBorderFocus,
+        ),
+        indicator = SirioColorState(
+            pressed = StyleDictionaryColor.colorAliasInteractivePrimaryPressed,
+        ),
+        divider = SirioColorState(
+            default = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight60,
+            disabled = StyleDictionaryColor.colorAliasBackgroundColorDisabled,
+            focused = StyleDictionaryColor.colorAliasInteractiveBorderFocus,
+            hovered = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight60,
+            pressed = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight50,
+        ),
+        content = SirioColorState(
+            default = StyleDictionaryColor.colorAliasInteractiveSecondaryDefault,
+            disabled = StyleDictionaryColor.colorAliasTextColorDisabled,
+            focused = StyleDictionaryColor.colorAliasInteractivePrimaryDefault,
+            hovered = StyleDictionaryColor.colorAliasInteractivePrimaryHover,
+            pressed = StyleDictionaryColor.colorAliasInteractivePrimaryPressed,
+        ),
     ),
 )
 
@@ -176,6 +326,13 @@ internal val LightColorPalette = SirioColors(
     appNavigationText = StyleDictionaryColor.colorAliasTextColorPrimaryDark110,
     appNavigationUsernameBackground = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight50,
     appNavigationUsernameText = StyleDictionaryColor.colorAliasInteractivePrimaryDefault,
+    avviso = SirioAvvisoColors(
+        background = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight50,
+        borderBottom = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight50,
+        icon = StyleDictionaryColor.colorAliasTextColorSecondaryDark100,
+        text = StyleDictionaryColor.colorGlobalDarkPrimary130,
+        title = StyleDictionaryColor.colorAliasTextColorSecondaryDark100,
+    ),
     badge = SirioBadgeColors(
         background = StyleDictionaryColor.colorGlobalSemanticAlert100,
         border = StyleDictionaryColor.colorGlobalPrimary000
@@ -265,6 +422,34 @@ internal val LightColorPalette = SirioColors(
         title = StyleDictionaryColor.colorAliasTextColorSecondaryDark100,
         text = StyleDictionaryColor.colorAliasTextColorSecondaryDark100,
     ),
+    dropdown = SirioDropdownColors(
+        option = SirioDropdownOptionColors(
+            background = SirioColorState(
+                default = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight0,
+                disabled = StyleDictionaryColor.colorAliasBackgroundColorDisabled,
+                focused = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight0,
+                hovered = StyleDictionaryColor.colorSpecificOptionBackgroundColorHover,
+                pressed = StyleDictionaryColor.colorSpecificOptionBackgroundColorPressed,
+                valued = StyleDictionaryColor.colorSpecificOptionBackgroundColorValued,
+            ),
+            border = SirioColorState(
+                default = StyleDictionaryColor.colorSpecificDataEntryBorderColorDefault,
+                disabled = StyleDictionaryColor.colorAliasTextColorDisabled,
+                focused = StyleDictionaryColor.colorSpecificDataEntryBorderColorFocus,
+                hovered = StyleDictionaryColor.colorSpecificDataEntryBorderColorHover,
+                pressed = StyleDictionaryColor.colorSpecificOptionBackgroundColorPressed,
+                valued = StyleDictionaryColor.colorSpecificOptionBackgroundColorValued,
+            ),
+            content = SirioColorState(
+                default = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorDefault,
+                disabled = StyleDictionaryColor.colorAliasTextColorDisabled,
+                focused = StyleDictionaryColor.colorSpecificDataEntryLabelColorDefault,
+                hovered = StyleDictionaryColor.colorAliasTextColorPrimaryLight0,
+                pressed = StyleDictionaryColor.colorAliasTextColorPrimaryLight0,
+                valued = StyleDictionaryColor.colorAliasTextColorPrimaryLight0,
+            )
+        )
+    ),
     fabBorderFocus = StyleDictionaryColor.colorAliasInteractiveBorderFocus,
     fabContent = StyleDictionaryColor.colorAliasTextColorPrimaryLight0,
     fabDefaultBackground = StyleDictionaryColor.colorAliasInteractivePrimaryDefault,
@@ -273,6 +458,7 @@ internal val LightColorPalette = SirioColors(
     fabPressedBackground = StyleDictionaryColor.colorAliasInteractivePrimaryPressed,
     fileUploadText = StyleDictionaryColor.colorAliasInteractiveSecondaryDefault,
     fileUploadTitle = StyleDictionaryColor.colorSpecificDataEntryLabelColorDefault,
+    filter = sirioFilterLightColors,
     hero = SirioHeroColors(
         background = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight0,
         title = StyleDictionaryColor.colorGlobalDarkPrimary115,
@@ -280,10 +466,12 @@ internal val LightColorPalette = SirioColors(
         text = StyleDictionaryColor.colorAliasTextColorSecondaryDark100,
         borderBottom = StyleDictionaryColor.colorAliasTextColorPrimaryLight50,
     ),
+    menuSpalla = menuSpallaLightColors,
     notificationColors = NotificationColors(
         background = StyleDictionaryColor.colorAliasBackgroundColorPrimaryDark120,
         title = StyleDictionaryColor.colorAliasTextColorPrimaryLight0,
         text = StyleDictionaryColor.colorAliasTextColorPrimaryLight0,
+        link = StyleDictionaryColor.colorAliasInteractiveAccentDefault,
         icon = StyleDictionaryColor.colorAliasTextColorPrimaryLight0,
         close = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight0,
         alert = StyleDictionaryColor.colorGlobalSemanticAlert100,
@@ -370,9 +558,61 @@ internal val LightColorPalette = SirioColors(
     sliderText = StyleDictionaryColor.colorAliasInteractiveSecondaryDefault,
     sliderThumb = StyleDictionaryColor.colorAliasInteractivePrimaryDefault,
     sliderTitle = StyleDictionaryColor.colorSpecificDataEntryLabelColorDefault,
+    stepProgressBar = SirioStepProgressBarColors(
+        action = StyleDictionaryColor.colorAliasAppInteractiveSecondaryDefault,
+        controls = SirioStepControlsColors(
+            background = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight40,
+            next = StyleDictionaryColor.colorAliasInteractivePrimaryDefault,
+            previous = StyleDictionaryColor.colorGlobalSecondary100,
+        ),
+        selection = SirioStepSelectionColors(
+            background = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight40,
+            progress = StyleDictionaryColor.colorGlobalSecondary100,
+            currentStep = StyleDictionaryColor.colorAliasInteractivePrimaryDefault,
+        )
+    ),
     tabBarActive = StyleDictionaryColor.colorAliasAppInteractivePrimaryActive,
     tabBarBackground = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight0,
     tabBarContent = StyleDictionaryColor.colorAliasAppInteractiveSecondaryDefault,
+    table = SirioTableColors(
+        cell = SirioTableCellColors(
+            avatarSubtitle = StyleDictionaryColor.colorSpecificDataEntryLabelColorDefault,
+            avatarTitle = StyleDictionaryColor.colorAliasTextColorSecondaryDark130,
+            background = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight0,
+            icon = StyleDictionaryColor.colorAliasInteractivePrimaryDefault,
+            link = StyleDictionaryColor.colorAliasInteractivePrimaryDefault,
+            number = StyleDictionaryColor.colorAliasTextColorSecondaryDark130,
+            title = StyleDictionaryColor.colorSpecificDataEntryLabelColorDefault,
+        ),
+        component = SirioTableComponentColors(
+            border = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight50,
+            scrollIndicator = StyleDictionaryColor.colorAliasInteractiveAccentDefault,
+        ),
+        drawer = SirioTableDrawerColors(
+            actionsText = StyleDictionaryColor.colorAliasTextColorPrimaryLight0,
+            background = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight0,
+            border = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight50,
+            title = StyleDictionaryColor.colorAliasTextColorPrimary100,
+            iconsBackground = StyleDictionaryColor.colorGlobalPrimary100,
+            itemTitle = StyleDictionaryColor.colorSpecificDataEntryLabelColorDefault,
+            itemText = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorDefault,
+            itemNumber = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorDefault,
+            itemLink = StyleDictionaryColor.colorAliasInteractivePrimaryDefault,
+        ),
+        header = SirioTableHeaderColors(
+            background = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight40,
+            icon = StyleDictionaryColor.colorAliasInteractivePrimaryDefault,
+            title = StyleDictionaryColor.colorSpecificDataEntryLabelColorDefault,
+        ),
+        vertical = SirioTableVerticalColors(
+            background = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight0,
+            border = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight50,
+            itemTitle = StyleDictionaryColor.colorSpecificDataEntryLabelColorDefault,
+            itemText = StyleDictionaryColor.colorSpecificDataEntryLabelColorDefault,
+            itemNumber = StyleDictionaryColor.colorAliasTextColorSecondaryDark130,
+            itemLink = StyleDictionaryColor.colorAliasInteractivePrimaryDefault,
+        ),
+    ),
     tabs = SirioTabsColors(
         backgroundBottomSelection = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight0,
         backgroundTopSelection = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight40,
@@ -411,7 +651,8 @@ internal val LightColorPalette = SirioColors(
             focused = StyleDictionaryColor.colorSpecificDataEntryBorderColorFocus,
             hovered = StyleDictionaryColor.colorSpecificDataEntryBorderColorHover,
             pressed = StyleDictionaryColor.colorSpecificDataEntryBorderColorValued,
-            alert = StyleDictionaryColor.colorSpecificDataEntryBorderColorError,
+            valued = StyleDictionaryColor.colorSpecificDataEntryBorderColorValued,
+            alert = StyleDictionaryColor.colorGlobalSemanticAlert100,
             warning = StyleDictionaryColor.colorSpecificDataEntryBorderColorWarning,
             success = StyleDictionaryColor.colorSpecificDataEntryBorderColorSuccess,
             info = StyleDictionaryColor.colorSpecificDataEntryBorderColorDefault,
@@ -437,9 +678,10 @@ internal val LightColorPalette = SirioColors(
             focused = StyleDictionaryColor.colorSpecificDataEntryLabelColorFocus,
             hovered = StyleDictionaryColor.colorSpecificDataEntryLabelColorHover,
             pressed = StyleDictionaryColor.colorSpecificDataEntryLabelColorValued,
-            alert = StyleDictionaryColor.colorSpecificDataEntryBorderColorError,
+            valued = StyleDictionaryColor.colorSpecificDataEntryLabelColorValued,
+            alert = StyleDictionaryColor.colorSpecificDataEntryLabelColorAlert,
             warning = StyleDictionaryColor.colorSpecificDataEntryBorderColorWarning,
-            success = StyleDictionaryColor.colorSpecificDataEntryBorderColorSuccess,
+            success = StyleDictionaryColor.colorSpecificDataEntryLabelColorSuccess,
             info = StyleDictionaryColor.colorSpecificDataEntryLabelColorDefault,
         ),
         icon = SirioColorState(
@@ -448,7 +690,8 @@ internal val LightColorPalette = SirioColors(
             focused = StyleDictionaryColor.colorAliasInteractivePrimaryDefault,
             hovered = StyleDictionaryColor.colorAliasInteractivePrimaryHover,
             pressed = StyleDictionaryColor.colorAliasInteractiveSecondaryDefault,
-            alert = StyleDictionaryColor.colorSpecificDataEntryBorderColorError,
+            valued = StyleDictionaryColor.colorAliasInteractiveSecondaryDefault,
+            alert = StyleDictionaryColor.colorGlobalSemanticAlert100,
             warning = StyleDictionaryColor.colorSpecificDataEntryBorderColorWarning,
             success = StyleDictionaryColor.colorSpecificDataEntryBorderColorSuccess,
             info = StyleDictionaryColor.colorAliasInteractiveSecondaryDefault,
@@ -459,6 +702,7 @@ internal val LightColorPalette = SirioColors(
             focused = StyleDictionaryColor.colorAliasInteractivePrimaryDefault,
             hovered = StyleDictionaryColor.colorAliasInteractivePrimaryHover,
             pressed = StyleDictionaryColor.colorAliasInteractiveSecondaryDefault,
+            valued = StyleDictionaryColor.colorAliasInteractiveSecondaryDefault,
             alert = StyleDictionaryColor.colorGlobalSemanticAlert100,
             warning = StyleDictionaryColor.colorGlobalSemanticWarning100,
             success = StyleDictionaryColor.colorGlobalSemanticSuccess100,
@@ -470,9 +714,10 @@ internal val LightColorPalette = SirioColors(
             focused = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorFocus,
             hovered = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorHover,
             pressed = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorValued,
-            alert = StyleDictionaryColor.colorSpecificDataEntryBorderColorError,
+            valued = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorValued,
+            alert = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorDefault,
             warning = StyleDictionaryColor.colorSpecificDataEntryBorderColorWarning,
-            success = StyleDictionaryColor.colorSpecificDataEntryBorderColorSuccess,
+            success = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorDefault,
             info = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorDefault,
         ),
         text = SirioColorState(
@@ -481,7 +726,8 @@ internal val LightColorPalette = SirioColors(
             focused = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorFocus,
             hovered = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorHover,
             pressed = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorValued,
-            alert = StyleDictionaryColor.colorSpecificDataEntryBorderColorError,
+            valued = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorValued,
+            alert = StyleDictionaryColor.colorGlobalSemanticAlert100,
             warning = StyleDictionaryColor.colorSpecificDataEntryBorderColorWarning,
             success = StyleDictionaryColor.colorSpecificDataEntryBorderColorSuccess,
             info = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorDefault,
@@ -496,7 +742,8 @@ internal val LightColorPalette = SirioColors(
             focused = StyleDictionaryColor.colorSpecificDataEntryBorderColorFocus,
             hovered = StyleDictionaryColor.colorSpecificDataEntryBorderColorHover,
             pressed = StyleDictionaryColor.colorSpecificDataEntryBorderColorValued,
-            alert = StyleDictionaryColor.colorSpecificDataEntryBorderColorError,
+            valued = StyleDictionaryColor.colorSpecificDataEntryBorderColorValued,
+            alert = StyleDictionaryColor.colorGlobalSemanticAlert100,
             warning = StyleDictionaryColor.colorSpecificDataEntryBorderColorWarning,
             success = StyleDictionaryColor.colorSpecificDataEntryBorderColorSuccess,
             info = StyleDictionaryColor.colorSpecificDataEntryBorderColorDefault,
@@ -522,9 +769,10 @@ internal val LightColorPalette = SirioColors(
             focused = StyleDictionaryColor.colorSpecificDataEntryLabelColorFocus,
             hovered = StyleDictionaryColor.colorSpecificDataEntryLabelColorHover,
             pressed = StyleDictionaryColor.colorSpecificDataEntryLabelColorValued,
-            alert = StyleDictionaryColor.colorSpecificDataEntryBorderColorError,
-            warning = StyleDictionaryColor.colorSpecificDataEntryBorderColorWarning,
-            success = StyleDictionaryColor.colorSpecificDataEntryBorderColorSuccess,
+            valued = StyleDictionaryColor.colorSpecificDataEntryLabelColorValued,
+            alert = StyleDictionaryColor.colorSpecificDataEntryLabelColorAlert,
+            warning = StyleDictionaryColor.colorSpecificDataEntryLabelColorWarning,
+            success = StyleDictionaryColor.colorSpecificDataEntryLabelColorSuccess,
             info = StyleDictionaryColor.colorSpecificDataEntryLabelColorDefault,
         ),
         icon = SirioColorState(
@@ -533,7 +781,8 @@ internal val LightColorPalette = SirioColors(
             focused = StyleDictionaryColor.colorAliasInteractivePrimaryDefault,
             hovered = StyleDictionaryColor.colorAliasInteractivePrimaryHover,
             pressed = StyleDictionaryColor.colorAliasInteractiveSecondaryDefault,
-            alert = StyleDictionaryColor.colorSpecificDataEntryBorderColorError,
+            valued = StyleDictionaryColor.colorAliasInteractiveSecondaryDefault,
+            alert = StyleDictionaryColor.colorGlobalSemanticAlert100,
             warning = StyleDictionaryColor.colorSpecificDataEntryBorderColorWarning,
             success = StyleDictionaryColor.colorSpecificDataEntryBorderColorSuccess,
             info = StyleDictionaryColor.colorAliasInteractiveSecondaryDefault,
@@ -544,6 +793,7 @@ internal val LightColorPalette = SirioColors(
             focused = StyleDictionaryColor.colorAliasInteractivePrimaryDefault,
             hovered = StyleDictionaryColor.colorAliasInteractivePrimaryHover,
             pressed = StyleDictionaryColor.colorAliasInteractiveSecondaryDefault,
+            valued = StyleDictionaryColor.colorAliasInteractiveSecondaryDefault,
             alert = StyleDictionaryColor.colorGlobalSemanticAlert100,
             warning = StyleDictionaryColor.colorGlobalSemanticWarning100,
             success = StyleDictionaryColor.colorGlobalSemanticSuccess100,
@@ -555,9 +805,10 @@ internal val LightColorPalette = SirioColors(
             focused = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorFocus,
             hovered = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorHover,
             pressed = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorValued,
-            alert = StyleDictionaryColor.colorSpecificDataEntryBorderColorError,
-            warning = StyleDictionaryColor.colorSpecificDataEntryBorderColorWarning,
-            success = StyleDictionaryColor.colorSpecificDataEntryBorderColorSuccess,
+            valued = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorValued,
+            alert = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorDefault,
+            warning = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorDefault,
+            success = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorDefault,
             info = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorDefault,
         ),
         text = SirioColorState(
@@ -566,11 +817,16 @@ internal val LightColorPalette = SirioColors(
             focused = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorFocus,
             hovered = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorHover,
             pressed = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorValued,
-            alert = StyleDictionaryColor.colorSpecificDataEntryBorderColorError,
+            valued = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorValued,
+            alert = StyleDictionaryColor.colorGlobalSemanticAlert100,
             warning = StyleDictionaryColor.colorSpecificDataEntryBorderColorWarning,
             success = StyleDictionaryColor.colorSpecificDataEntryBorderColorSuccess,
             info = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorDefault,
         ),
+    ),
+    titleBar = SirioTitleBarColors(
+        container = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight40,
+        content = StyleDictionaryColor.colorAliasInteractivePrimaryDefault,
     ),
     toggle = SirioToggleColors(
         background = SirioColorState.all(
@@ -676,6 +932,136 @@ private val buttonsDarkColors = ButtonColors(
     ),
 )
 
+private val sirioFilterDarkColors = SirioFilterColors(
+    background = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight40,
+    close = StyleDictionaryColor.colorAliasInteractivePrimaryDefault,
+    header = StyleDictionaryColor.colorGlobalDarkPrimary115,
+    info = StyleDictionaryColor.colorGlobalSemanticInfo100,
+    selectedBackground = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight40,
+    title = StyleDictionaryColor.colorSpecificDataEntryLabelColorDefault,
+)
+
+private val menuSpallaDarkColors = SirioMenuSpallaColors(
+    background = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight0,
+    drawerItem = SirioMenuSpallaDrawerItemColors(
+        background = SirioColorState(
+            default = StyleDictionaryColor.colorAliasInteractivePrimaryDefault,
+            focused = StyleDictionaryColor.colorAliasInteractivePrimaryFocus,
+            hovered = StyleDictionaryColor.colorAliasInteractivePrimaryHover,
+            pressed = StyleDictionaryColor.colorAliasInteractivePrimaryPressed,
+        ),
+        border = SirioColorState(
+            focused = StyleDictionaryColor.colorAliasInteractiveBorderFocus,
+        ),
+        content = SirioColorState.all(StyleDictionaryColor.colorAliasTextColorPrimaryLight0)
+    ),
+    drawerItemInfo = SirioMenuSpallaDrawerItemInfoColors(
+        background = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight50,
+        border = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight60,
+        content = StyleDictionaryColor.colorAliasTextColorPrimaryDark110,
+    ),
+    itemTitleSection = SirioMenuSpallaItemTitleSectionColors(
+        background = Color.Transparent,
+        border = StyleDictionaryColor.colorAliasInteractivePrimaryDefault,
+        content = StyleDictionaryColor.colorAliasInteractivePrimaryDefault,
+    ),
+    itemPrimary = SirioMenuSpallaItemColors(
+        background = SirioColorState(
+            default = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight0,
+            disabled = StyleDictionaryColor.colorAliasBackgroundColorDisabled,
+            focused = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight0,
+            hovered = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight0,
+            pressed = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight50,
+        ),
+        border = SirioColorState(
+            focused = StyleDictionaryColor.colorAliasInteractiveBorderFocus,
+        ),
+        indicator = SirioColorState(
+            default = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight0,
+            disabled = StyleDictionaryColor.colorAliasBackgroundColorDisabled,
+            focused = StyleDictionaryColor.colorAliasInteractivePrimaryDefault,
+            hovered = StyleDictionaryColor.colorAliasInteractivePrimaryHover,
+            pressed = StyleDictionaryColor.colorAliasInteractivePrimaryPressed,
+        ),
+        divider = SirioColorState(
+            default = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight60,
+            disabled = StyleDictionaryColor.colorAliasBackgroundColorDisabled,
+            focused = StyleDictionaryColor.colorAliasInteractiveBorderFocus,
+            hovered = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight60,
+            pressed = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight50,
+        ),
+        content = SirioColorState(
+            default = StyleDictionaryColor.colorAliasInteractiveSecondaryDefault,
+            disabled = StyleDictionaryColor.colorAliasTextColorDisabled,
+            focused = StyleDictionaryColor.colorAliasInteractivePrimaryDefault,
+            hovered = StyleDictionaryColor.colorAliasInteractivePrimaryHover,
+            pressed = StyleDictionaryColor.colorAliasInteractivePrimaryPressed,
+        ),
+        tag = tagLightColors.green,
+        tagDisabled = tagLightColors.gray,
+    ),
+    itemSecondary = SirioMenuSpallaItemColors(
+        background = SirioColorState(
+            default = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight40,
+            disabled = StyleDictionaryColor.colorAliasBackgroundColorDisabled,
+            focused = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight40,
+            hovered = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight40,
+            pressed = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight50,
+        ),
+        border = SirioColorState(
+            focused = StyleDictionaryColor.colorAliasInteractiveBorderFocus,
+        ),
+        indicator = SirioColorState(
+            focused = StyleDictionaryColor.colorAliasInteractivePrimaryDefault,
+            hovered = StyleDictionaryColor.colorAliasInteractivePrimaryHover,
+            pressed = StyleDictionaryColor.colorAliasInteractivePrimaryPressed,
+        ),
+        divider = SirioColorState(
+            default = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight60,
+            disabled = StyleDictionaryColor.colorAliasBackgroundColorDisabled,
+            focused = StyleDictionaryColor.colorAliasInteractiveBorderFocus,
+            hovered = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight60,
+            pressed = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight50,
+        ),
+        content = SirioColorState(
+            default = StyleDictionaryColor.colorAliasInteractiveSecondaryDefault,
+            disabled = StyleDictionaryColor.colorAliasTextColorDisabled,
+            focused = StyleDictionaryColor.colorAliasInteractivePrimaryDefault,
+            hovered = StyleDictionaryColor.colorAliasInteractivePrimaryHover,
+            pressed = StyleDictionaryColor.colorAliasInteractivePrimaryPressed,
+        ),
+    ),
+    itemTertiary = SirioMenuSpallaItemColors(
+        background = SirioColorState(
+            default = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight40,
+            disabled = StyleDictionaryColor.colorAliasBackgroundColorDisabled,
+            focused = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight40,
+            hovered = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight40,
+            pressed = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight40,
+        ),
+        border = SirioColorState(
+            focused = StyleDictionaryColor.colorAliasInteractiveBorderFocus,
+        ),
+        indicator = SirioColorState(
+            pressed = StyleDictionaryColor.colorAliasInteractivePrimaryPressed,
+        ),
+        divider = SirioColorState(
+            default = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight60,
+            disabled = StyleDictionaryColor.colorAliasBackgroundColorDisabled,
+            focused = StyleDictionaryColor.colorAliasInteractiveBorderFocus,
+            hovered = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight60,
+            pressed = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight50,
+        ),
+        content = SirioColorState(
+            default = StyleDictionaryColor.colorAliasInteractiveSecondaryDefault,
+            disabled = StyleDictionaryColor.colorAliasTextColorDisabled,
+            focused = StyleDictionaryColor.colorAliasInteractivePrimaryDefault,
+            hovered = StyleDictionaryColor.colorAliasInteractivePrimaryHover,
+            pressed = StyleDictionaryColor.colorAliasInteractivePrimaryPressed,
+        ),
+    ),
+)
+
 private val tagDarkColors = SirioTagsColors(
     gray = SirioTagColors(
         background = StyleDictionaryColor.colorAliasInteractiveSecondaryDefault,
@@ -702,6 +1088,7 @@ private val tagDarkColors = SirioTagsColors(
         text = StyleDictionaryColor.colorAliasInteractiveSecondaryDefault,
     ),
 )
+
 
 internal val DarkColorPalette = SirioColors(
     brand = StyleDictionaryColor.colorGlobalPrimary000,
@@ -739,6 +1126,13 @@ internal val DarkColorPalette = SirioColors(
     appNavigationText = StyleDictionaryColor.colorAliasTextColorPrimaryLight50,
     appNavigationUsernameBackground = StyleDictionaryColor.colorAliasBackgroundColorPrimaryDark115,
     appNavigationUsernameText = StyleDictionaryColor.colorAliasInteractivePrimary000Default,
+    avviso = SirioAvvisoColors(
+        background = StyleDictionaryColor.colorAliasBackgroundColorPrimaryDark115,
+        borderBottom = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight50,
+        icon = StyleDictionaryColor.colorAliasTextColorPrimaryLight40,
+        text = StyleDictionaryColor.colorAliasTextColorPrimaryLight40,
+        title = StyleDictionaryColor.colorAliasTextColorPrimaryLight40,
+    ),
     badge = SirioBadgeColors(
         background = StyleDictionaryColor.colorGlobalSemanticAlert100,
         border = StyleDictionaryColor.colorGlobalPrimary000
@@ -828,6 +1222,34 @@ internal val DarkColorPalette = SirioColors(
         title = StyleDictionaryColor.colorAliasTextColorSecondaryDark100,
         text = StyleDictionaryColor.colorAliasTextColorSecondaryDark100,
     ),
+    dropdown = SirioDropdownColors(
+        option = SirioDropdownOptionColors(
+            background = SirioColorState(
+                default = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight0,
+                disabled = StyleDictionaryColor.colorAliasBackgroundColorDisabled,
+                focused = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight0,
+                hovered = StyleDictionaryColor.colorSpecificOptionBackgroundColorHover,
+                pressed = StyleDictionaryColor.colorSpecificOptionBackgroundColorPressed,
+                valued = StyleDictionaryColor.colorSpecificOptionBackgroundColorValued,
+            ),
+            border = SirioColorState(
+                default = StyleDictionaryColor.colorSpecificDataEntryBorderColorDefault,
+                disabled = StyleDictionaryColor.colorAliasTextColorDisabled,
+                focused = StyleDictionaryColor.colorSpecificDataEntryBorderColorFocus,
+                hovered = StyleDictionaryColor.colorSpecificDataEntryBorderColorHover,
+                pressed = StyleDictionaryColor.colorSpecificOptionBackgroundColorPressed,
+                valued = StyleDictionaryColor.colorSpecificOptionBackgroundColorValued,
+            ),
+            content = SirioColorState(
+                default = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorDefault,
+                disabled = StyleDictionaryColor.colorAliasTextColorDisabled,
+                focused = StyleDictionaryColor.colorSpecificDataEntryLabelColorDefault,
+                hovered = StyleDictionaryColor.colorAliasTextColorPrimaryLight0,
+                pressed = StyleDictionaryColor.colorAliasTextColorPrimaryLight0,
+                valued = StyleDictionaryColor.colorAliasTextColorPrimaryLight0,
+            )
+        )
+    ),
     fabBorderFocus = StyleDictionaryColor.colorAliasInteractiveBorderFocus,
     fabContent = StyleDictionaryColor.colorAliasTextColorPrimaryDark110,
     fabDefaultBackground = StyleDictionaryColor.colorAliasAppInteractivePrimary000Default,
@@ -836,6 +1258,7 @@ internal val DarkColorPalette = SirioColors(
     fabPressedBackground = StyleDictionaryColor.colorAliasInteractiveAccentDefault,
     fileUploadText = StyleDictionaryColor.colorAliasInteractiveSecondaryDefault,
     fileUploadTitle = StyleDictionaryColor.colorSpecificDataEntryLabelColorDefault,
+    filter = sirioFilterDarkColors,
     hero = SirioHeroColors(
         background = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight0,
         title = StyleDictionaryColor.colorGlobalDarkPrimary115,
@@ -843,10 +1266,12 @@ internal val DarkColorPalette = SirioColors(
         text = StyleDictionaryColor.colorAliasTextColorSecondaryDark100,
         borderBottom = StyleDictionaryColor.colorAliasTextColorPrimaryLight50,
     ),
+    menuSpalla = menuSpallaDarkColors,
     notificationColors = NotificationColors(
         background = StyleDictionaryColor.colorAliasBackgroundColorPrimaryDark120,
         title = StyleDictionaryColor.colorAliasTextColorPrimaryLight0,
         text = StyleDictionaryColor.colorAliasTextColorPrimaryLight0,
+        link = StyleDictionaryColor.colorAliasInteractiveAccentDefault,
         icon = StyleDictionaryColor.colorAliasTextColorPrimaryLight0,
         close = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight0,
         alert = StyleDictionaryColor.colorGlobalSemanticAlert100,
@@ -933,9 +1358,61 @@ internal val DarkColorPalette = SirioColors(
     sliderText = StyleDictionaryColor.colorAliasInteractiveSecondaryDefault,
     sliderThumb = StyleDictionaryColor.colorAliasInteractivePrimaryDefault,
     sliderTitle = StyleDictionaryColor.colorSpecificDataEntryLabelColorDefault,
+    stepProgressBar = SirioStepProgressBarColors(
+        action = StyleDictionaryColor.colorAliasAppInteractiveSecondaryDefault,
+        controls = SirioStepControlsColors(
+            background = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight40,
+            next = StyleDictionaryColor.colorAliasInteractivePrimaryDefault,
+            previous = StyleDictionaryColor.colorGlobalSecondary100,
+        ),
+        selection = SirioStepSelectionColors(
+            background = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight40,
+            progress = StyleDictionaryColor.colorGlobalSecondary100,
+            currentStep = StyleDictionaryColor.colorAliasInteractivePrimaryDefault,
+        ),
+    ),
     tabBarActive = StyleDictionaryColor.colorAliasAppInteractivePrimaryActive,
     tabBarBackground = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight0,
     tabBarContent = StyleDictionaryColor.colorAliasAppInteractiveSecondaryDefault,
+    table = SirioTableColors(
+        cell = SirioTableCellColors(
+            avatarSubtitle = StyleDictionaryColor.colorSpecificDataEntryLabelColorDefault,
+            avatarTitle = StyleDictionaryColor.colorAliasTextColorSecondaryDark130,
+            background = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight0,
+            icon = StyleDictionaryColor.colorAliasInteractivePrimaryDefault,
+            link = StyleDictionaryColor.colorAliasInteractivePrimaryDefault,
+            number = StyleDictionaryColor.colorAliasTextColorSecondaryDark130,
+            title = StyleDictionaryColor.colorSpecificDataEntryLabelColorDefault,
+        ),
+        component = SirioTableComponentColors(
+            border = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight50,
+            scrollIndicator = StyleDictionaryColor.colorAliasInteractiveAccentDefault,
+        ),
+        drawer = SirioTableDrawerColors(
+            actionsText = StyleDictionaryColor.colorAliasTextColorPrimaryLight0,
+            background = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight0,
+            border = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight50,
+            iconsBackground = StyleDictionaryColor.colorGlobalPrimary100,
+            title = StyleDictionaryColor.colorAliasTextColorPrimary100,
+            itemTitle = StyleDictionaryColor.colorSpecificDataEntryLabelColorDefault,
+            itemText = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorDefault,
+            itemNumber = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorDefault,
+            itemLink = StyleDictionaryColor.colorAliasInteractivePrimaryDefault,
+        ),
+        header = SirioTableHeaderColors(
+            background = StyleDictionaryColor.colorAliasBackgroundColorPrimaryDark115,
+            icon = StyleDictionaryColor.colorAliasInteractiveAccentDefault,
+            title = StyleDictionaryColor.colorAliasTextColorPrimaryLight0,
+        ),
+        vertical = SirioTableVerticalColors(
+            background = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight40,
+            border = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight50,
+            itemTitle = StyleDictionaryColor.colorSpecificDataEntryLabelColorDefault,
+            itemText = StyleDictionaryColor.colorSpecificDataEntryLabelColorDefault,
+            itemNumber = StyleDictionaryColor.colorAliasTextColorSecondaryDark130,
+            itemLink = StyleDictionaryColor.colorAliasInteractivePrimaryDefault,
+        )
+    ),
     tabs = SirioTabsColors(
         backgroundBottomSelection = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight0,
         backgroundTopSelection = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight40,
@@ -971,17 +1448,18 @@ internal val DarkColorPalette = SirioColors(
         border = SirioColorState(
             default = StyleDictionaryColor.colorSpecificDataEntryBorderColorDefault,
             disabled = StyleDictionaryColor.colorAliasBackgroundColorDisabled,
-            focused = StyleDictionaryColor.colorSpecificDataEntryLabelColorFocus,
+            focused = StyleDictionaryColor.colorSpecificDataEntryBorderColorFocus,
             hovered = StyleDictionaryColor.colorSpecificDataEntryBorderColorHover,
             pressed = StyleDictionaryColor.colorSpecificDataEntryBorderColorValued,
-            alert = StyleDictionaryColor.colorSpecificDataEntryBorderColorError,
+            valued = StyleDictionaryColor.colorSpecificDataEntryBorderColorValued,
+            alert = StyleDictionaryColor.colorGlobalSemanticAlert100,
             warning = StyleDictionaryColor.colorSpecificDataEntryBorderColorWarning,
             success = StyleDictionaryColor.colorSpecificDataEntryBorderColorSuccess,
             info = StyleDictionaryColor.colorSpecificDataEntryBorderColorDefault,
         ),
         dropdown = SirioColorState.all(StyleDictionaryColor.colorAliasInteractiveSecondaryDefault),
         optionBackground = SirioColorState(
-            default = Color.Transparent,
+            default = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight0,
             disabled = StyleDictionaryColor.colorAliasBackgroundColorDisabled,
             focused = StyleDictionaryColor.colorSpecificOptionBackgroundColorFocus,
             hovered = StyleDictionaryColor.colorSpecificOptionBackgroundColorHover,
@@ -1000,9 +1478,10 @@ internal val DarkColorPalette = SirioColors(
             focused = StyleDictionaryColor.colorSpecificDataEntryLabelColorFocus,
             hovered = StyleDictionaryColor.colorSpecificDataEntryLabelColorHover,
             pressed = StyleDictionaryColor.colorSpecificDataEntryLabelColorValued,
-            alert = StyleDictionaryColor.colorSpecificDataEntryBorderColorError,
+            valued = StyleDictionaryColor.colorSpecificDataEntryLabelColorValued,
+            alert = StyleDictionaryColor.colorSpecificDataEntryLabelColorAlert,
             warning = StyleDictionaryColor.colorSpecificDataEntryBorderColorWarning,
-            success = StyleDictionaryColor.colorSpecificDataEntryBorderColorSuccess,
+            success = StyleDictionaryColor.colorSpecificDataEntryLabelColorSuccess,
             info = StyleDictionaryColor.colorSpecificDataEntryLabelColorDefault,
         ),
         icon = SirioColorState(
@@ -1011,7 +1490,8 @@ internal val DarkColorPalette = SirioColors(
             focused = StyleDictionaryColor.colorAliasInteractivePrimaryDefault,
             hovered = StyleDictionaryColor.colorAliasInteractivePrimaryHover,
             pressed = StyleDictionaryColor.colorAliasInteractiveSecondaryDefault,
-            alert = StyleDictionaryColor.colorSpecificDataEntryBorderColorError,
+            valued = StyleDictionaryColor.colorAliasInteractiveSecondaryDefault,
+            alert = StyleDictionaryColor.colorGlobalSemanticAlert100,
             warning = StyleDictionaryColor.colorSpecificDataEntryBorderColorWarning,
             success = StyleDictionaryColor.colorSpecificDataEntryBorderColorSuccess,
             info = StyleDictionaryColor.colorAliasInteractiveSecondaryDefault,
@@ -1022,6 +1502,7 @@ internal val DarkColorPalette = SirioColors(
             focused = StyleDictionaryColor.colorAliasInteractivePrimaryDefault,
             hovered = StyleDictionaryColor.colorAliasInteractivePrimaryHover,
             pressed = StyleDictionaryColor.colorAliasInteractiveSecondaryDefault,
+            valued = StyleDictionaryColor.colorAliasInteractiveSecondaryDefault,
             alert = StyleDictionaryColor.colorGlobalSemanticAlert100,
             warning = StyleDictionaryColor.colorGlobalSemanticWarning100,
             success = StyleDictionaryColor.colorGlobalSemanticSuccess100,
@@ -1033,9 +1514,10 @@ internal val DarkColorPalette = SirioColors(
             focused = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorFocus,
             hovered = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorHover,
             pressed = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorValued,
-            alert = StyleDictionaryColor.colorSpecificDataEntryBorderColorError,
+            valued = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorValued,
+            alert = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorDefault,
             warning = StyleDictionaryColor.colorSpecificDataEntryBorderColorWarning,
-            success = StyleDictionaryColor.colorSpecificDataEntryBorderColorSuccess,
+            success = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorDefault,
             info = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorDefault,
         ),
         text = SirioColorState(
@@ -1044,7 +1526,8 @@ internal val DarkColorPalette = SirioColors(
             focused = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorFocus,
             hovered = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorHover,
             pressed = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorValued,
-            alert = StyleDictionaryColor.colorSpecificDataEntryBorderColorError,
+            valued = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorValued,
+            alert = StyleDictionaryColor.colorGlobalSemanticAlert100,
             warning = StyleDictionaryColor.colorSpecificDataEntryBorderColorWarning,
             success = StyleDictionaryColor.colorSpecificDataEntryBorderColorSuccess,
             info = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorDefault,
@@ -1056,17 +1539,18 @@ internal val DarkColorPalette = SirioColors(
         border = SirioColorState(
             default = StyleDictionaryColor.colorSpecificDataEntryBorderColorDefault,
             disabled = StyleDictionaryColor.colorAliasBackgroundColorDisabled,
-            focused = StyleDictionaryColor.colorSpecificDataEntryLabelColorFocus,
+            focused = StyleDictionaryColor.colorSpecificDataEntryBorderColorFocus,
             hovered = StyleDictionaryColor.colorSpecificDataEntryBorderColorHover,
             pressed = StyleDictionaryColor.colorSpecificDataEntryBorderColorValued,
-            alert = StyleDictionaryColor.colorSpecificDataEntryBorderColorError,
+            valued = StyleDictionaryColor.colorSpecificDataEntryBorderColorValued,
+            alert = StyleDictionaryColor.colorGlobalSemanticAlert100,
             warning = StyleDictionaryColor.colorSpecificDataEntryBorderColorWarning,
             success = StyleDictionaryColor.colorSpecificDataEntryBorderColorSuccess,
             info = StyleDictionaryColor.colorSpecificDataEntryBorderColorDefault,
         ),
         dropdown = SirioColorState.all(StyleDictionaryColor.colorAliasInteractiveSecondaryDefault),
         optionBackground = SirioColorState(
-            default = Color.Transparent,
+            default = StyleDictionaryColor.colorAliasBackgroundColorPrimaryLight0,
             disabled = StyleDictionaryColor.colorAliasBackgroundColorDisabled,
             focused = StyleDictionaryColor.colorSpecificOptionBackgroundColorFocus,
             hovered = StyleDictionaryColor.colorSpecificOptionBackgroundColorHover,
@@ -1085,9 +1569,10 @@ internal val DarkColorPalette = SirioColors(
             focused = StyleDictionaryColor.colorSpecificDataEntryLabelColorFocus,
             hovered = StyleDictionaryColor.colorSpecificDataEntryLabelColorHover,
             pressed = StyleDictionaryColor.colorSpecificDataEntryLabelColorValued,
-            alert = StyleDictionaryColor.colorSpecificDataEntryBorderColorError,
-            warning = StyleDictionaryColor.colorSpecificDataEntryBorderColorWarning,
-            success = StyleDictionaryColor.colorSpecificDataEntryBorderColorSuccess,
+            valued = StyleDictionaryColor.colorSpecificDataEntryLabelColorValued,
+            alert = StyleDictionaryColor.colorSpecificDataEntryLabelColorAlert,
+            warning = StyleDictionaryColor.colorSpecificDataEntryLabelColorWarning,
+            success = StyleDictionaryColor.colorSpecificDataEntryLabelColorSuccess,
             info = StyleDictionaryColor.colorSpecificDataEntryLabelColorDefault,
         ),
         icon = SirioColorState(
@@ -1096,7 +1581,8 @@ internal val DarkColorPalette = SirioColors(
             focused = StyleDictionaryColor.colorAliasInteractivePrimaryDefault,
             hovered = StyleDictionaryColor.colorAliasInteractivePrimaryHover,
             pressed = StyleDictionaryColor.colorAliasInteractiveSecondaryDefault,
-            alert = StyleDictionaryColor.colorSpecificDataEntryBorderColorError,
+            valued = StyleDictionaryColor.colorAliasInteractiveSecondaryDefault,
+            alert = StyleDictionaryColor.colorGlobalSemanticAlert100,
             warning = StyleDictionaryColor.colorSpecificDataEntryBorderColorWarning,
             success = StyleDictionaryColor.colorSpecificDataEntryBorderColorSuccess,
             info = StyleDictionaryColor.colorAliasInteractiveSecondaryDefault,
@@ -1107,6 +1593,7 @@ internal val DarkColorPalette = SirioColors(
             focused = StyleDictionaryColor.colorAliasInteractivePrimaryDefault,
             hovered = StyleDictionaryColor.colorAliasInteractivePrimaryHover,
             pressed = StyleDictionaryColor.colorAliasInteractiveSecondaryDefault,
+            valued = StyleDictionaryColor.colorAliasInteractiveSecondaryDefault,
             alert = StyleDictionaryColor.colorGlobalSemanticAlert100,
             warning = StyleDictionaryColor.colorGlobalSemanticWarning100,
             success = StyleDictionaryColor.colorGlobalSemanticSuccess100,
@@ -1118,9 +1605,10 @@ internal val DarkColorPalette = SirioColors(
             focused = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorFocus,
             hovered = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorHover,
             pressed = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorValued,
-            alert = StyleDictionaryColor.colorSpecificDataEntryBorderColorError,
-            warning = StyleDictionaryColor.colorSpecificDataEntryBorderColorWarning,
-            success = StyleDictionaryColor.colorSpecificDataEntryBorderColorSuccess,
+            valued = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorValued,
+            alert = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorDefault,
+            warning = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorDefault,
+            success = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorDefault,
             info = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorDefault,
         ),
         text = SirioColorState(
@@ -1129,11 +1617,16 @@ internal val DarkColorPalette = SirioColors(
             focused = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorFocus,
             hovered = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorHover,
             pressed = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorValued,
-            alert = StyleDictionaryColor.colorSpecificDataEntryBorderColorError,
+            valued = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorValued,
+            alert = StyleDictionaryColor.colorGlobalSemanticAlert100,
             warning = StyleDictionaryColor.colorSpecificDataEntryBorderColorWarning,
             success = StyleDictionaryColor.colorSpecificDataEntryBorderColorSuccess,
             info = StyleDictionaryColor.colorSpecificDataEntryPlaceholderColorDefault,
         ),
+    ),
+    titleBar = SirioTitleBarColors(
+        container = StyleDictionaryColor.colorAliasInteractivePrimaryDefault,
+        content = StyleDictionaryColor.colorAliasInteractivePrimary000Default,
     ),
     toggle = SirioToggleColors(
         background = SirioColorState.all(
@@ -1178,35 +1671,6 @@ data class ButtonColors(
             secondary = SirioButtonColors.Unspecified,
             tertiary = SirioButtonColors.Unspecified,
             ghost = SirioButtonColors.Unspecified,
-        )
-    }
-}
-
-@Keep
-@Immutable
-data class NotificationColors(
-    val background: Color,
-    val title: Color,
-    val text: Color,
-    val icon: Color,
-    val close: Color,
-    val alert: Color,
-    val info: Color,
-    val warning: Color,
-    val success: Color,
-) {
-    companion object {
-        @Stable
-        val Unspecified = NotificationColors(
-            background = Color.Unspecified,
-            title = Color.Unspecified,
-            text = Color.Unspecified,
-            icon = Color.Unspecified,
-            close = Color.Unspecified,
-            alert = Color.Unspecified,
-            info = Color.Unspecified,
-            warning = Color.Unspecified,
-            success = Color.Unspecified,
         )
     }
 }

@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Sirio</string>
+    <string name="sirio_step_selection_progress">Passaggio %1$d di %2$d</string>
+    <string name="sirio_step_controls_previous">Indietro</string>
+    <string name="sirio_step_controls_next">Avanti</string>
 </resources>

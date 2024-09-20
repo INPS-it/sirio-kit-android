@@ -20,7 +20,9 @@ import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
@@ -29,6 +31,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Surface
+import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
@@ -53,7 +56,7 @@ import it.inps.sirio.theme.toggleFocusExtraBorderWidth
 import it.inps.sirio.theme.toggleHeight
 import it.inps.sirio.theme.toggleIndicatorHorizontalOffset
 import it.inps.sirio.theme.toggleIndicatorSize
-import it.inps.sirio.theme.toggleSafeAreaPadding
+import it.inps.sirio.theme.togglePaddingText
 import it.inps.sirio.theme.toggleWidth
 import it.inps.sirio.ui.text.SirioTextCommon
 import androidx.compose.animation.core.Animatable as AnimatableF
@@ -62,14 +65,16 @@ import androidx.compose.animation.core.Animatable as AnimatableF
  * Sirio toggle implementation
  *
  * @param text The string on the toggle right
+ * @param modifier the Modifier to be applied to this toggle
  * @param isOn Whether the toggle is selected
  * @param enabled Whether the toggle is enabled
  * @param onToggleChange The callback when the toggle state change
  */
 @Composable
 internal fun SirioToggleCommon(
-    text: String? = null,
     isOn: Boolean,
+    modifier: Modifier = Modifier,
+    text: String? = null,
     enabled: Boolean = true,
     onToggleChange: (Boolean) -> Unit,
 ) {
@@ -78,7 +83,7 @@ internal fun SirioToggleCommon(
     val isFocused by interactionSource.collectIsFocusedAsState()
     val isHovered by interactionSource.collectIsHoveredAsState()
 
-    Row(verticalAlignment = Alignment.CenterVertically) {
+    Row(verticalAlignment = Alignment.CenterVertically, modifier = modifier) {
         val backgroundColor =
             SirioTheme.colors.toggle.background.get(enabled.not(), isFocused, isPressed, isHovered)
         val onColor =
@@ -94,20 +99,20 @@ internal fun SirioToggleCommon(
         val offset: Float = with(LocalDensity.current) {
             toggleIndicatorHorizontalOffset.dp.toPx()
         }
-        val modifier = Modifier
-            .padding(toggleSafeAreaPadding)
-            .height(height = toggleHeight)
-            .width(width = toggleWidth)
+        val sizeModifier = Modifier
+            .height(height = toggleHeight.dp)
+            .width(width = toggleWidth.dp)
+            .minimumInteractiveComponentSize()
         Box(
             modifier = if (isFocused) {
-                modifier
+                sizeModifier
                     .border(
-                        toggleFocusExtraBorderWidth,
+                        toggleFocusExtraBorderWidth.dp,
                         color = SirioTheme.colors.toggle.borderFocusExtra,
                         shape = CircleShape,
                     )
-                    .padding(toggleFocusExtraBorderPadding)
-            } else modifier,
+                    .padding(toggleFocusExtraBorderPadding.dp)
+            } else sizeModifier,
         ) {
             Surface(
                 modifier = Modifier
@@ -122,7 +127,7 @@ internal fun SirioToggleCommon(
                     ),
                 shape = CircleShape,
                 color = backgroundColor,
-                border = BorderStroke(width = toggleBorderWidth, color = borderColor)
+                border = BorderStroke(width = toggleBorderWidth.dp, color = borderColor)
             ) {
                 val currentX = if (isOn) offset else -offset
                 val animatedColor = remember { Animatable(stateColor) }
@@ -135,13 +140,14 @@ internal fun SirioToggleCommon(
                     Modifier
                         .align(Alignment.CenterStart)
                         .offset { IntOffset(xPos.value.toInt(), 0) }
-                        .requiredSize(toggleIndicatorSize)
+                        .requiredSize(toggleIndicatorSize.dp)
                         .clip(CircleShape)
                         .background(animatedColor.value)
                 )
             }
         }
         text?.let {
+            Spacer(modifier = Modifier.width(togglePaddingText.dp))
             SirioTextCommon(
                 text = it,
                 color = stateColor,
@@ -186,10 +192,14 @@ data class SirioToggleTypography(
 private fun ToggleCommonPreview() {
     SirioTheme {
         Column {
-            SirioToggleCommon(text = "Title", isOn = false, onToggleChange = {})
-            SirioToggleCommon(text = "Title", isOn = true, onToggleChange = {})
-            SirioToggleCommon(text = "Title", isOn = false, enabled = false, onToggleChange = {})
-            SirioToggleCommon(text = "Title", isOn = true, enabled = false, onToggleChange = {})
+            SirioToggleCommon(
+                isOn = false,
+                modifier = Modifier.fillMaxWidth(),
+                text = "Title",
+                onToggleChange = {})
+            SirioToggleCommon(isOn = true, text = "Title", onToggleChange = {})
+            SirioToggleCommon(isOn = false, text = "Title", enabled = false, onToggleChange = {})
+            SirioToggleCommon(isOn = true, text = "Title", enabled = false, onToggleChange = {})
         }
     }
 }

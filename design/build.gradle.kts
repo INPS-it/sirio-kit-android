@@ -2,6 +2,7 @@ plugins {
 //    alias(libs.plugins.android.application)
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.compose.compiler)
     id("maven-publish")
 }
 
@@ -26,9 +27,6 @@ android {
     }
     buildFeatures {
         compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
     packaging {
         resources.excludes.add("/META-INF/{AL2.0,LGPL2.1}")

@@ -34,7 +34,7 @@ import it.inps.sirio.theme.fileUploadTitlePaddingBottom
 import it.inps.sirio.ui.button.ButtonSize
 import it.inps.sirio.ui.button.ButtonStyle
 import it.inps.sirio.ui.button.SirioButton
-import it.inps.sirio.ui.chip.ChipLabelClose
+import it.inps.sirio.ui.chip.SirioChipLabelClose
 import it.inps.sirio.ui.text.SirioTextCommon
 
 /**
@@ -96,7 +96,7 @@ internal fun FileUploadCommon(
 //            lastLineMainAxisAlignment = FlowMainAxisAlignment.Start,
         ) {
             uploadList.forEachIndexed { index, item ->
-                ChipLabelClose(
+                SirioChipLabelClose(
                     label = item,
                     enabled = enabled,
                     closeContentDescription = closeContentDescription,

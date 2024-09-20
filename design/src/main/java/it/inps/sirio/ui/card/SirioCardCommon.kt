@@ -29,7 +29,9 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -100,16 +102,19 @@ internal fun SirioCardCommon(
     items: List<SirioCardItemData> = listOf(),
     onClickCard: () -> Unit = {},
 ) {
+    val elevation =
+        with(LocalDensity.current) { StyleDictionaryBoxShadow.elevationElevation01.blurRadius.toDp() }
+
     Card(
         onClick = onClickCard,
         modifier = Modifier
             .shadow(
                 ambientColor = StyleDictionaryBoxShadow.elevationElevation01.color,
-                elevation = StyleDictionaryBoxShadow.elevationElevation01.blurRadius.dp
+                elevation = elevation
             )
             .then(modifier),
         shape = Shapes.small,
-        colors = CardDefaults.cardColors(containerColor = colors.background)
+        colors = CardDefaults.cardColors(containerColor = colors.background),
     ) {
         imageUrl?.let {
             AsyncImage(
@@ -166,6 +171,7 @@ internal fun SirioCardCommon(
                 text = title,
                 modifier = Modifier.padding(top = cardTextPaddingTop.dp),
                 color = colors.title,
+                overflow = TextOverflow.Ellipsis,
                 maxLines = 2,
                 typography = typography.title,
             )

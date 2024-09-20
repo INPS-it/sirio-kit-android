@@ -84,6 +84,20 @@ fun CarouselDemoContent() {
             text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.",
             button = "Text"
         ),
+        CarouselSampleData(
+            icon = FaIcons.Book,
+            date = "13 Nov 2021",
+            title = "Titolo della card 3",
+            text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.",
+            button = "Text"
+        ),
+        CarouselSampleData(
+            icon = FaIcons.Book,
+            date = "13 Nov 2021",
+            title = "Titolo della card 4",
+            text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.",
+            button = "Text"
+        ),
     )
     Scaffold(
         topBar = {

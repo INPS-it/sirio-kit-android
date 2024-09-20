@@ -28,8 +28,8 @@ fun SirioRadioButton(
     onClick: () -> Unit,
 ) {
     SirioRadioButtonCommon(
+        selected = selected,
         text = text,
-        isSelected = selected,
         enabled = enabled,
         onClick = onClick,
     )

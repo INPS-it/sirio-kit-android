@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -58,6 +59,7 @@ import it.inps.sirio.utils.SirioIcon
  * Sirio checkbox implementation
  *
  * @param text The string on the checkbox right
+ * @param modifier the Modifier to be applied to this checkbox
  * @param checked Whether the checkbox is checked
  * @param enabled Whether the checkbox is enabled
  * @param onCheckedChange The callback when the checkbox state change
@@ -65,6 +67,7 @@ import it.inps.sirio.utils.SirioIcon
 @Composable
 internal fun SirioCheckboxCommon(
     checked: Boolean,
+    modifier: Modifier = Modifier,
     text: String? = null,
     enabled: Boolean = true,
     overflow: TextOverflow = TextOverflow.Clip,
@@ -73,6 +76,7 @@ internal fun SirioCheckboxCommon(
 ) {
     SirioCheckboxWithText(
         checked = checked,
+        modifier = modifier,
         text = text,
         enabled = enabled,
         overflow = overflow,
@@ -85,6 +89,7 @@ internal fun SirioCheckboxCommon(
  * Sirio checkbox implementation
  *
  * @param text The string on the checkbox right
+ * @param modifier the Modifier to be applied to this checkbox
  * @param checked Whether the checkbox is checked
  * @param enabled Whether the checkbox is enabled
  * @param onCheckedChange The callback when the checkbox state change
@@ -93,6 +98,7 @@ internal fun SirioCheckboxCommon(
 internal fun SirioCheckboxCommon(
     checked: Boolean,
     text: AnnotatedString,
+    modifier: Modifier = Modifier,
     enabled: Boolean = true,
     overflow: TextOverflow = TextOverflow.Clip,
     maxLines: Int = Int.MAX_VALUE,
@@ -100,6 +106,7 @@ internal fun SirioCheckboxCommon(
 ) {
     SirioCheckboxWithText(
         checked = checked,
+        modifier = modifier,
         annotatedText = text,
         enabled = enabled,
         overflow = overflow,
@@ -111,6 +118,7 @@ internal fun SirioCheckboxCommon(
 @Composable
 private fun SirioCheckboxWithText(
     checked: Boolean,
+    modifier: Modifier = Modifier,
     text: String? = null,
     annotatedText: AnnotatedString? = null,
     enabled: Boolean = true,
@@ -134,14 +142,14 @@ private fun SirioCheckboxWithText(
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
+        modifier = modifier
             .focusable(enabled = enabled, interactionSource = interactionSource)
             .toggleable(
                 value = checked,
                 interactionSource = interactionSource,
                 indication = null,
+                enabled = enabled,
                 role = Role.Checkbox,
-                enabled = enabled
             ) {
                 onCheckedChange(it)
             }
@@ -164,6 +172,7 @@ private fun SirioCheckboxWithText(
                 typography = SirioTheme.typography.checkbox.text,
             )
         } ?: annotatedText?.let {
+            Spacer(modifier = Modifier.width(checkboxPaddingText.dp))
             SirioTextCommon(
                 text = it,
                 color = textColor,
@@ -275,19 +284,15 @@ private fun CheckboxCommonPreview() {
             SirioCheckboxCommon(checked = true, enabled = true) {}
             SirioCheckboxCommon(checked = false, enabled = false) {}
             SirioCheckboxCommon(checked = true, enabled = false) {}
-            SirioCheckboxCommon(checked = false, text = text, enabled = true) {}
+            SirioCheckboxCommon(
+                checked = false,
+                modifier = Modifier.fillMaxWidth(),
+                text = text,
+                enabled = true
+            ) {}
             SirioCheckboxCommon(checked = true, text = text, enabled = true) {}
             SirioCheckboxCommon(checked = false, text = text, enabled = false) {}
             SirioCheckboxCommon(checked = true, text = text, enabled = false) {}
-        }
-    }
-}
-
-@Preview
-@Composable
-private fun SirioCustomCheckboxPreview() {
-    SirioTheme {
-        Column {
         }
     }
 }

@@ -49,17 +49,19 @@ fun NotificationToast(
     closeContentDescription: String? = null,
     onClose: () -> Unit,
 ) {
-    val (icon: FaIconType, color: Color) = paramsByType(type)
-    NotificationToastCommon(
-        title = title,
-        text = text,
-        icon = icon,
-        buttonText = buttonText,
-        stateColor = color,
-        closeContentDescription = closeContentDescription,
-        onAction = onAction,
-        onClose = onClose,
-    )
+    SirioTheme(darkTheme = true) {
+        val (icon: FaIconType, color: Color) = paramsByType(type)
+        NotificationCommon(
+            title = title,
+            text = text,
+            icon = icon,
+            buttonText = buttonText,
+            stateColor = color,
+            closeContentDescription = closeContentDescription,
+            onAction = onAction,
+            onClose = onClose,
+        )
+    }
 }
 
 /**
@@ -72,7 +74,7 @@ fun NotificationToastSnackbarHost(snackbarHostState: SnackbarHostState) {
     Box(
         Modifier
             .fillMaxSize()
-            .padding(notificationToastPadding), Alignment.Center
+            .padding(notificationToastPadding.dp), Alignment.Center
     ) {
         SnackbarHost(
             hostState = snackbarHostState

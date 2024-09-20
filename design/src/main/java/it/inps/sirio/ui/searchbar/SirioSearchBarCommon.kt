@@ -29,7 +29,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -44,7 +43,7 @@ import com.guru.fontawesomecomposelib.FaIcons
 import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.theme.searchBarQueriesPadding
 import it.inps.sirio.theme.searchBarQueriesVerticalPadding
-import it.inps.sirio.ui.chip.ChipLabelClose
+import it.inps.sirio.ui.chip.SirioChipLabelClose
 import it.inps.sirio.ui.textfield.SirioTextFieldCommon
 
 /**
@@ -60,6 +59,7 @@ import it.inps.sirio.ui.textfield.SirioTextFieldCommon
  * @param onQueriesChange The callback invoked when the [queries] list change
  * @param onQueryAdded The callback invoked when the user add a query by search bar
  * @param enabled Whether the search bar allow to insert/remove [queries]
+ * @param onSearch The callback invoked when the user click on search button
  */
 @Composable
 internal fun SirioSearchBarCommon(
@@ -73,12 +73,21 @@ internal fun SirioSearchBarCommon(
     onQueriesChange: (queries: Array<String>) -> Unit,
     onQueryAdded: ((newQuery: String) -> Unit)? = null,
     enabled: Boolean,
-//    onSearchBarClick: (() -> Unit)? = null,
+    onSearch: ((text: String) -> Unit)? = null,
 ) {
     val focusManager = LocalFocusManager.current
-    val chips = remember { mutableStateListOf(elements = queries) }
     var showChips by remember { mutableStateOf(true) }
 
+    fun addQuery(value: String) {
+        if (value.isNotBlank()) {
+            focusManager.clearFocus()
+            showChips = true
+            if (!queries.contains(value)) {
+                onQueryAdded?.invoke(value)
+                onQueriesChange((queries.plus(value)))
+            }
+        }
+    }
     Column {
         SirioTextFieldCommon(
             text = searchText,
@@ -93,46 +102,27 @@ internal fun SirioSearchBarCommon(
             onInfoClick = null,
             helperText = helperText,
             optionValues = optionValues,
-            onOptionValueSelected = {
-                if (it.isNotBlank()) {
-                    focusManager.clearFocus()
-                    showChips = true
-                    if (!chips.contains(it)) {
-                        onQueryAdded?.invoke(it)
-                        chips.add(it)
-                        onQueriesChange(chips.toTypedArray())
-                    }
-                }
-            },
+            onOptionValueSelected = { addQuery(it) },
             type = null,
             enabled = enabled,
             disableExtraBorder = true,
             backgroundColor = SirioTheme.colors.searchBar.background,
             onDropdownStateChange = { open -> showChips = !open },
-            onIconClick = { onSearchTextChange("") },
+            onIconClick = {
+                onSearchTextChange("")
+                showChips = true
+            },
             onIconButtonClick = {
-                if (it.isNotBlank()) {
-                    focusManager.clearFocus()
-                    showChips = true
-                    if (!chips.contains(it)) {
-                        onQueryAdded?.invoke(it)
-                        chips.add(it)
-                        onQueriesChange(chips.toTypedArray())
-                    }
-                }
+                onSearch?.invoke(it)
+                addQuery(it)
             },
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-            keyboardActions = KeyboardActions(onAny = {
-                if (searchText.isNotBlank()) {
-                    focusManager.clearFocus()
-                    showChips = true
-                    if (!chips.contains(searchText)) {
-                        onQueryAdded?.invoke(searchText)
-                        chips.add(searchText)
-                        onQueriesChange(chips.toTypedArray())
-                    }
+            keyboardActions = KeyboardActions(
+                onAny = {
+                    onSearch?.invoke(searchText)
+                    addQuery(searchText)
                 }
-            }),
+            ),
         )
         if (showChips) {
             Spacer(modifier = Modifier.height(searchBarQueriesVerticalPadding.dp))
@@ -140,14 +130,18 @@ internal fun SirioSearchBarCommon(
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentHeight(),
-                horizontalArrangement = Arrangement.spacedBy(searchBarQueriesPadding.dp, Alignment.Start),
-                verticalArrangement = Arrangement.spacedBy(searchBarQueriesPadding.dp, Alignment.Top)
-//                lastLineMainAxisAlignment = FlowMainAxisAlignment.Start,
+                horizontalArrangement = Arrangement.spacedBy(
+                    searchBarQueriesPadding.dp,
+                    Alignment.Start
+                ),
+                verticalArrangement = Arrangement.spacedBy(
+                    searchBarQueriesPadding.dp,
+                    Alignment.Top
+                )
             ) {
-                chips.forEachIndexed { index, item ->
-                    ChipLabelClose(label = item, enabled = enabled) {
-                        chips.removeAt(index)
-                        onQueriesChange(chips.toTypedArray())
+                queries.forEach { item ->
+                    SirioChipLabelClose(label = item, enabled = enabled) {
+                        onQueriesChange(queries.filter { it != item }.toTypedArray())
                     }
                 }
             }

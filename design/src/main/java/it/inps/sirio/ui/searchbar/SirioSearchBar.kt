@@ -33,6 +33,7 @@ import it.inps.sirio.theme.SirioTheme
  * @param optionValues The hints based on current [searchText]
  * @param queries The list of already searched queries
  * @param onQueriesChange The callback invoked when the [queries] list change
+ * @param onSearch The callback invoked when the user click on search button
  */
 @Composable
 fun SirioSearchBar(
@@ -44,6 +45,7 @@ fun SirioSearchBar(
     optionValues: Array<String> = emptyArray(),
     queries: Array<String> = emptyArray(),
     onQueriesChange: (queries: Array<String>) -> Unit,
+    onSearch: ((text: String) -> Unit)? = null,
 ) {
     SirioSearchBarCommon(
         searchText = searchText,
@@ -54,7 +56,8 @@ fun SirioSearchBar(
         optionValues = optionValues,
         queries = queries,
         onQueriesChange = onQueriesChange,
-        enabled = true
+        enabled = true,
+        onSearch = onSearch,
     )
 }
 

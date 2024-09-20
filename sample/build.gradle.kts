@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -11,8 +13,8 @@ android {
         applicationId = "it.inps.design.sample"
         minSdk = libs.versions.sdkMin.get().toInt()
         targetSdk = libs.versions.sdkTarget.get().toInt()
-        versionCode = 8
-        versionName = "8.0.0"
+        versionCode = 9
+        versionName = "8.1.0"
 
         vectorDrawables {
             useSupportLibrary = true
@@ -35,9 +37,6 @@ android {
     buildFeatures {
         compose = true
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
-    }
     packaging {
         resources.excludes.add("/META-INF/{AL2.0,LGPL2.1}")
     }
@@ -50,4 +49,5 @@ dependencies {
     implementation(libs.bundles.appcompat)
     implementation(libs.bundles.material)
     implementation(libs.bundles.compose)
+    implementation(libs.jetbrains.kotlinx.serialization.json)
 }
