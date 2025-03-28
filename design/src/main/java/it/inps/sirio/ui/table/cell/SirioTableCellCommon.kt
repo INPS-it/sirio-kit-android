@@ -1,7 +1,7 @@
 //
 // SirioTableCellCommon.kt
 //
-// SPDX-FileCopyrightText: 2022 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -10,7 +10,10 @@ package it.inps.sirio.ui.table.cell
 import androidx.annotation.Keep
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Surface
@@ -24,10 +27,10 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import it.inps.sirio.theme.SirioTheme
-import it.inps.sirio.theme.tableComponentHeightExtraSmall
-import it.inps.sirio.theme.tableComponentHeightLarge
-import it.inps.sirio.theme.tableComponentHeightMedium
-import it.inps.sirio.theme.tableComponentHeightSmall
+import it.inps.sirio.theme.tableCellPaddingVerticalExtraSmall
+import it.inps.sirio.theme.tableCellPaddingVerticalLarge
+import it.inps.sirio.theme.tableCellPaddingVerticalMedium
+import it.inps.sirio.theme.tableCellPaddingVerticalSmall
 import it.inps.sirio.theme.tableComponentPaddingHorizontalExtraSmall
 import it.inps.sirio.theme.tableComponentPaddingHorizontalLarge
 import it.inps.sirio.theme.tableComponentPaddingHorizontalMedium
@@ -36,17 +39,18 @@ import it.inps.sirio.ui.table.SirioTableContentSize
 import it.inps.sirio.ui.text.SirioTextCommon
 
 @Composable
-internal fun SirioTableCellCommon(
+internal fun RowScope.SirioTableCellCommon(
     size: SirioTableContentSize,
+    weight: Float = 1f,
     scroll: Boolean = false,
     content: @Composable () -> Unit,
 ) {
-    val height = remember(size) {
+    val verticalPadding = remember(size) {
         when (size) {
-            SirioTableContentSize.EXTRASMALL -> tableComponentHeightExtraSmall
-            SirioTableContentSize.SMALL -> tableComponentHeightSmall
-            SirioTableContentSize.MEDIUM -> tableComponentHeightMedium
-            SirioTableContentSize.LARGE -> tableComponentHeightLarge
+            SirioTableContentSize.EXTRASMALL -> tableCellPaddingVerticalExtraSmall
+            SirioTableContentSize.SMALL -> tableCellPaddingVerticalSmall
+            SirioTableContentSize.MEDIUM -> tableCellPaddingVerticalMedium
+            SirioTableContentSize.LARGE -> tableCellPaddingVerticalLarge
         }
     }
     val horizontalPadding = remember(size) {
@@ -57,15 +61,16 @@ internal fun SirioTableCellCommon(
             SirioTableContentSize.LARGE -> tableComponentPaddingHorizontalLarge
         }
     }
-    SirioTableComponentCommon(scroll = scroll) {
+    SirioTableComponentCommon(weight = weight, scroll = scroll) {
         Surface(
-            modifier = Modifier
-                .height(height.dp)
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxSize(),
             color = SirioTheme.colors.table.cell.background,
         ) {
             Box(
-                modifier = Modifier.padding(horizontal = horizontalPadding.dp),
+                modifier = Modifier.padding(
+                    horizontal = horizontalPadding.dp,
+                    vertical = verticalPadding.dp
+                ),
                 contentAlignment = Alignment.CenterStart,
             ) {
                 content()
@@ -123,16 +128,20 @@ data class SirioTableCellTypography(
 private fun SirioTableCellCommonPreview() {
     SirioTheme {
         Column {
-            SirioTableCellCommon(
-                size = SirioTableContentSize.LARGE,
-            ) {
-                SirioTextCommon(text = "Test", Modifier.weight(1f))
+            Row(Modifier.height(IntrinsicSize.Max)) {
+                SirioTableCellCommon(
+                    size = SirioTableContentSize.LARGE,
+                ) {
+                    SirioTextCommon(text = "Test", Modifier.weight(1f))
+                }
             }
-            SirioTableCellCommon(
-                size = SirioTableContentSize.LARGE,
-                scroll = true
-            ) {
-                SirioTextCommon(text = "Test")
+            Row(Modifier.height(IntrinsicSize.Max)) {
+                SirioTableCellCommon(
+                    size = SirioTableContentSize.LARGE,
+                    scroll = true
+                ) {
+                    SirioTextCommon(text = "Test")
+                }
             }
         }
     }

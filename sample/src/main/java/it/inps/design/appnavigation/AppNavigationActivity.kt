@@ -1,7 +1,7 @@
 //
 // AppNavigationActivity.kt
 //
-// SPDX-FileCopyrightText: 2024 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -14,6 +14,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,6 +22,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -28,8 +30,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -39,7 +39,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -48,16 +47,16 @@ import androidx.navigation.compose.rememberNavController
 import com.guru.fontawesomecomposelib.FaIcons
 import it.inps.design.ui.DemoMenuItem
 import it.inps.sirio.theme.SirioTheme
-import it.inps.sirio.ui.appnavigation.AppNavigation
-import it.inps.sirio.ui.appnavigation.AppNavigationBig
-import it.inps.sirio.ui.appnavigation.AppNavigationItemData
-import it.inps.sirio.ui.appnavigation.AppNavigationLogo
-import it.inps.sirio.ui.appnavigation.AppNavigationLongTitle
-import it.inps.sirio.ui.appnavigation.AppNavigationSearch
-import it.inps.sirio.ui.appnavigation.AppNavigationSelection
+import it.inps.sirio.ui.appnavigation.SirioAppNavigation
+import it.inps.sirio.ui.appnavigation.SirioAppNavigationItemData
+import it.inps.sirio.ui.appnavigation.SirioAppNavigationLogo
+import it.inps.sirio.ui.appnavigation.SirioAppNavigationSearch
+import it.inps.sirio.ui.appnavigation.SirioAppNavigationSelection
+import it.inps.sirio.ui.appnavigation.SirioFunction
 
 class AppNavigationActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         setContent {
             SirioTheme {
@@ -78,12 +77,11 @@ private fun AppNavigationDemoView() {
         }
     }
     Scaffold(
-        Modifier.fillMaxSize(),
+        Modifier
+            .safeDrawingPadding()
+            .fillMaxSize(),
         topBar = {
-            TopAppBar(
-                title = { Text(text = title) },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = SirioTheme.colors.brand),
-            )
+            SirioAppNavigation(title = title)
         }
 
     ) {
@@ -100,29 +98,26 @@ fun AppNavigationMenuDemo(navController: NavController) {
             .padding(0.dp, 16.dp)
             .verticalScroll(rememberScrollState()),
     ) {
-        DemoMenuItem("Logo") {
+        DemoMenuItem(AppNavigationDestinations.APPNAVIGATION_LOGO_ROUTE) {
             navController.navigate(AppNavigationDestinations.APPNAVIGATION_LOGO_ROUTE)
         }
         HorizontalDivider()
-        DemoMenuItem("Standard Title") {
+        DemoMenuItem(AppNavigationDestinations.APPNAVIGATION_STANDARD_ROUTE) {
             navController.navigate(AppNavigationDestinations.APPNAVIGATION_STANDARD_ROUTE)
         }
         HorizontalDivider()
-        DemoMenuItem(title = "Long Title") {
-            navController.navigate(AppNavigationDestinations.APPNAVIGATION_LONG_TITLE_ROUTE)
-        }
-        HorizontalDivider()
-        DemoMenuItem("Big Title") {
-            navController.navigate(AppNavigationDestinations.APPNAVIGATION_BIG_ROUTE)
-        }
-        HorizontalDivider()
-        DemoMenuItem("Selection") {
+        DemoMenuItem(AppNavigationDestinations.APPNAVIGATION_SELECTION_ROUTE) {
             navController.navigate(AppNavigationDestinations.APPNAVIGATION_SELECTION_ROUTE)
         }
         HorizontalDivider()
-        DemoMenuItem("Search") {
+        DemoMenuItem(AppNavigationDestinations.APPNAVIGATION_SEARCH_ROUTE) {
             navController.navigate(AppNavigationDestinations.APPNAVIGATION_SEARCH_ROUTE)
         }
+        HorizontalDivider()
+        DemoMenuItem(AppNavigationDestinations.APPNAVIGATION_FUNCTION_ROUTE) {
+            navController.navigate(AppNavigationDestinations.APPNAVIGATION_FUNCTION_ROUTE)
+        }
+        HorizontalDivider()
     }
 }
 
@@ -158,31 +153,21 @@ fun AppNavigationDemo(content: @Composable () -> Unit) {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppNavigationLogoDemoContent() {
     Column(
         Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .background(Color(0xFFE5E5E5))
-            .padding(0.dp, 4.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+            .background(Color(0xFFE5E5E5)),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        AppNavigationLogo(
-            rightFirstItem = AppNavigationItemData(
+        SirioAppNavigationLogo(
+            rightFirstItem = SirioAppNavigationItemData(
                 icon = FaIcons.User,
-                action = {}),
-            rightSecondItem = AppNavigationItemData(
-                icon = FaIcons.Bell,
                 action = {},
-            )
-        )
-        AppNavigationLogo(
-            rightFirstItem = AppNavigationItemData(
-                username = "MC",
-                action = {}),
-            rightSecondItem = AppNavigationItemData(
+            ),
+            rightSecondItem = SirioAppNavigationItemData(
                 icon = FaIcons.Bell,
                 action = {},
             )
@@ -190,113 +175,55 @@ fun AppNavigationLogoDemoContent() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppNavigationStandardDemoContent() {
+fun AppNavigationTitleDemoContent() {
     val title = "Titolo pagina"
+    val longTitle =
+        "Titolo di pagina molto molto molto lungo su due righe con sospensione del testo"
     Column(
         Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .background(Color(0xFFE5E5E5))
-            .padding(0.dp, 4.dp),
+            .background(Color(0xFFE5E5E5)),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        AppNavigation(
+        SirioAppNavigation(
             title = title,
-            rightFirstItem = AppNavigationItemData(icon = FaIcons.User, action = {}),
-            rightSecondItem = AppNavigationItemData(icon = FaIcons.Bell, action = {}),
+            rightFirstItem = SirioAppNavigationItemData(username = "MC", action = {}),
+            rightSecondItem = SirioAppNavigationItemData(icon = FaIcons.Bell, action = {}),
         )
-        AppNavigation(
+        SirioAppNavigation(
             title = title,
-            leftItem = AppNavigationItemData(icon = FaIcons.AngleLeft, action = {}),
-            rightFirstItem = AppNavigationItemData(icon = FaIcons.User, action = {}),
-            rightSecondItem = AppNavigationItemData(icon = FaIcons.Bell, action = {}),
+            leftItem = SirioAppNavigationItemData(icon = FaIcons.ChevronLeft, action = {}),
+            rightFirstItem = SirioAppNavigationItemData(icon = FaIcons.User, action = {}),
+            rightSecondItem = SirioAppNavigationItemData(icon = FaIcons.Bell, action = {}),
         )
-        AppNavigation(
-            title = title,
-            rightFirstItem = AppNavigationItemData(username = "MC", action = {}),
-            rightSecondItem = AppNavigationItemData(icon = FaIcons.Bell, action = {}),
+        SirioAppNavigation(
+            title = longTitle,
+            rightFirstItem = SirioAppNavigationItemData(username = "MC", action = {}),
+            rightSecondItem = SirioAppNavigationItemData(icon = FaIcons.Bell, action = {}),
         )
-        AppNavigation(
-            title = title,
-            leftItem = AppNavigationItemData(icon = FaIcons.AngleLeft, action = {}),
-            rightFirstItem = AppNavigationItemData(username = "MC", action = {}),
-            rightSecondItem = AppNavigationItemData(icon = FaIcons.Bell, action = {}),
+        SirioAppNavigation(
+            title = longTitle,
+            leftItem = SirioAppNavigationItemData(icon = FaIcons.ChevronLeft, action = {}),
+            rightFirstItem = SirioAppNavigationItemData(icon = FaIcons.User, action = {}),
+            rightSecondItem = SirioAppNavigationItemData(icon = FaIcons.Bell, action = {}),
         )
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppNavigationLongTitleDemoContent() {
-    val title = "Titolo pagina molto lungo\nsu due righe"
+fun AppNavigationFunctionDemoContent() {
+    val title = "Titolo funzione"
     Column(
         Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .background(Color(0xFFE5E5E5))
-            .padding(0.dp, 4.dp),
+            .background(Color(0xFFE5E5E5)),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        AppNavigationLongTitle(
+        SirioFunction(
             title = title,
-            rightFirstItem = AppNavigationItemData(icon = FaIcons.User, action = {}),
-            rightSecondItem = AppNavigationItemData(icon = FaIcons.Bell, action = {}),
-        )
-        AppNavigationLongTitle(
-            title = title,
-            leftItem = AppNavigationItemData(icon = FaIcons.AngleLeft, action = {}),
-            rightFirstItem = AppNavigationItemData(icon = FaIcons.User, action = {}),
-            rightSecondItem = AppNavigationItemData(icon = FaIcons.Bell, action = {}),
-        )
-        AppNavigationLongTitle(
-            title = title,
-            rightFirstItem = AppNavigationItemData(username = "MC", action = {}),
-            rightSecondItem = AppNavigationItemData(icon = FaIcons.Bell, action = {}),
-        )
-        AppNavigationLongTitle(
-            title = title,
-            leftItem = AppNavigationItemData(icon = FaIcons.AngleLeft, action = {}),
-            rightFirstItem = AppNavigationItemData(username = "MC", action = {}),
-            rightSecondItem = AppNavigationItemData(icon = FaIcons.Bell, action = {}),
-        )
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun AppNavigationBigDemoContent() {
-    val title = "Titolo Grande"
-    Column(
-        Modifier
-            .fillMaxWidth()
-            .wrapContentHeight()
-            .background(Color(0xFFE5E5E5))
-            .padding(0.dp, 4.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        AppNavigationBig(
-            title = title,
-            rightFirstItem = AppNavigationItemData(icon = FaIcons.User, action = {}),
-            rightSecondItem = AppNavigationItemData(icon = FaIcons.Bell, action = {}),
-        )
-        AppNavigationBig(
-            title = title,
-            leftItem = AppNavigationItemData(icon = FaIcons.AngleLeft, action = {}),
-            rightFirstItem = AppNavigationItemData(icon = FaIcons.User, action = {}),
-            rightSecondItem = AppNavigationItemData(icon = FaIcons.Bell, action = {}),
-        )
-        AppNavigationBig(
-            title = title,
-            rightFirstItem = AppNavigationItemData(username = "MC", action = {}),
-            rightSecondItem = AppNavigationItemData(icon = FaIcons.Bell, action = {}),
-        )
-        AppNavigationBig(
-            title = title,
-            leftItem = AppNavigationItemData(icon = FaIcons.AngleLeft, action = {}),
-            rightFirstItem = AppNavigationItemData(username = "MC", action = {}),
-            rightSecondItem = AppNavigationItemData(icon = FaIcons.Bell, action = {}),
         )
     }
 }
@@ -307,78 +234,84 @@ fun AppNavigationSelectionDemoContent() {
         Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .background(Color(0xFFE5E5E5))
-            .padding(0.dp, 4.dp),
+            .background(Color(0xFFE5E5E5)),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        AppNavigationSelection(
-            title = "1 Elemento",
-            rightFirstItem = AppNavigationItemData(icon = FaIcons.Download, action = {}),
-            rightSecondItem = AppNavigationItemData(icon = FaIcons.Trash, action = {}),
-        )
-        AppNavigationSelection(
-            title = "1 Elemento",
-            leftItem = AppNavigationItemData(icon = FaIcons.AngleLeft, action = {}),
-            rightFirstItem = AppNavigationItemData(icon = FaIcons.Download, action = {}),
-            rightSecondItem = AppNavigationItemData(icon = FaIcons.Trash, action = {}),
+        val title = "1 Elemento Selezionato"
+        SirioAppNavigationSelection(
+            title = title,
+            rightFirstItem = SirioAppNavigationItemData(username = "MC", action = {}),
+            rightSecondItem = SirioAppNavigationItemData(icon = FaIcons.Trash, action = {}),
         )
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppNavigationSearchDemoContent() {
     Column(
         Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .background(Color(0xFFE5E5E5))
-            .padding(0.dp, 4.dp),
+            .background(Color(0xFFE5E5E5)),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         val title = "Titolo pagina"
-        AppNavigationSearch(
+        SirioAppNavigationSearch(
             title = title,
-            rightFirstItem = AppNavigationItemData(icon = FaIcons.User, action = {}),
-            rightSecondItem = AppNavigationItemData(icon = FaIcons.Bell, action = {}),
+            rightFirstItem = SirioAppNavigationItemData(icon = FaIcons.User, action = {}),
+            rightSecondItem = SirioAppNavigationItemData(icon = FaIcons.Bell, action = {}),
             searchText = "",
             placeholderText = "Placeholder search bar",
             onSearchTextChanged = {},
         )
-//        AppNavigationSearch(
-//            title = title,
-//            rightFirstItem = AppNavigationItemData(icon = FaIcons.User, action = {}),
-//            rightSecondItem = AppNavigationItemData(icon = FaIcons.Bell, action = {}),
-//            searchText = "Lorem ipsum ",
-//            placeholderText = "Ricerca",
-//            onSearchTextChanged = {},
-//        )
+        SirioAppNavigationSearch(
+            title = title,
+            rightFirstItem = SirioAppNavigationItemData(username = "MC", action = {}),
+            rightSecondItem = SirioAppNavigationItemData(icon = FaIcons.Bell, action = {}),
+            searchText = "Lorem ipsum ",
+            placeholderText = "Placeholder search bar",
+            onSearchTextChanged = {},
+        )
     }
 }
 
-@Preview(device = Devices.NEXUS_10)
-@Preview(showBackground = true, heightDp = 2000)
+@Preview(showBackground = true)
 @Composable
-private fun AppNavigationPreview() {
-    Column(
-        Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-    ) {
-        SirioTheme(darkTheme = false) {
-            AppNavigationLogoDemoContent()
-            AppNavigationStandardDemoContent()
-            AppNavigationLongTitleDemoContent()
-            AppNavigationBigDemoContent()
-            AppNavigationSelectionDemoContent()
-        }
-        SirioTheme(darkTheme = true) {
-            AppNavigationLogoDemoContent()
-            AppNavigationStandardDemoContent()
-            AppNavigationLongTitleDemoContent()
-            AppNavigationBigDemoContent()
-            AppNavigationSelectionDemoContent()
-        }
+private fun AppNavigationLogoPreview() {
+    AppNavigationDemo {
+        AppNavigationLogoDemoContent()
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun AppNavigationTitlePreview() {
+    AppNavigationDemo {
+        AppNavigationTitleDemoContent()
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun AppNavigationSearchPreview() {
+    AppNavigationDemo {
+        AppNavigationSearchDemoContent()
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun AppNavigationSelectionPreview() {
+    AppNavigationDemo {
+        AppNavigationSelectionDemoContent()
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun AppNavigationFunctionPreview() {
+    AppNavigationDemo {
+        AppNavigationFunctionDemoContent()
     }
 }
 

@@ -13,8 +13,8 @@ android {
         applicationId = "it.inps.design.sample"
         minSdk = libs.versions.sdkMin.get().toInt()
         targetSdk = libs.versions.sdkTarget.get().toInt()
-        versionCode = 9
-        versionName = "8.1.0"
+        versionCode = 10
+        versionName = "9.0.0"
 
         vectorDrawables {
             useSupportLibrary = true

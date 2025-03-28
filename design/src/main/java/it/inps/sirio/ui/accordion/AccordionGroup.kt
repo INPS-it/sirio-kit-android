@@ -1,7 +1,7 @@
 //
 // AccordionGroup.kt
 //
-// SPDX-FileCopyrightText: 2024 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -9,14 +9,12 @@
 package it.inps.sirio.ui.accordion
 
 import android.content.res.Configuration
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import it.inps.sirio.theme.SirioTheme
@@ -71,10 +69,7 @@ private fun AccordionGroupPreview() {
                     onTapAccordion = {}) {
                     Column {
                         for (i in 1..5) {
-                            Text(
-                                text = "Content $i",
-                                Modifier.background(Color.Red)
-                            )
+                            Text(text = "Content $i")
                         }
                     }
                 },

@@ -1,3 +1,10 @@
+//
+// SirioBadgeCommon.kt
+//
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
+//
+// SPDX-License-Identifier: BSD-3-Clause
+//
 package it.inps.sirio.ui.badge
 
 import androidx.annotation.Keep
@@ -13,6 +20,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import it.inps.sirio.foundation.FoundationColor
 import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.theme.badgeBorderSize
 import it.inps.sirio.theme.badgeSize
@@ -44,6 +52,12 @@ data class SirioBadgeColors(
     }
 }
 
+internal val badgeLightColors = SirioBadgeColors(
+    background = FoundationColor.colorGlobalSemanticAlert100,
+    border = FoundationColor.colorGlobalPrimary000,
+)
+
+internal val badgeDarkColors = badgeLightColors
 
 @Preview
 @Composable

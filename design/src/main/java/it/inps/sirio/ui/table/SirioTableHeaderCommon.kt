@@ -1,7 +1,7 @@
 //
 // SirioTableHeaderCommon.kt
 //
-// SPDX-FileCopyrightText: 2022 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -11,8 +11,9 @@ import androidx.annotation.Keep
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -26,15 +27,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.guru.fontawesomecomposelib.FaIconType
 import com.guru.fontawesomecomposelib.FaIcons
 import it.inps.sirio.theme.SirioTheme
-import it.inps.sirio.theme.tableComponentHeightLarge
 import it.inps.sirio.theme.tableComponentPaddingHorizontalLarge
 import it.inps.sirio.theme.tableHeaderIconSize
+import it.inps.sirio.theme.tableHeaderPaddingVerticalLarge
 import it.inps.sirio.theme.tableHeaderSpacingCheckBoxTitle
 import it.inps.sirio.theme.tableHeaderSpacingTitleIcon
 import it.inps.sirio.ui.checkbox.SirioCheckboxCommon
@@ -43,11 +43,12 @@ import it.inps.sirio.ui.text.SirioTextCommon
 import it.inps.sirio.utils.SirioIcon
 
 @Composable
-internal fun SirioTableHeaderCommon(
+internal fun RowScope.SirioTableHeaderCommon(
     title: String,
-    height: Int,
+    verticalPadding: Int,
     horizontalPadding: Int,
     alignment: SirioTableContentAlignment,
+    weight: Float = 1f,
     scroll: Boolean = false,
     withCheckBox: Boolean = false,
     checked: Boolean = false,
@@ -55,18 +56,16 @@ internal fun SirioTableHeaderCommon(
     onCheckedChange: (Boolean) -> Unit,
     onIconClick: () -> Unit,
 ) {
-    SirioTableComponentCommon(scroll = scroll) {
+    SirioTableComponentCommon(weight = weight, scroll = scroll) {
         Surface(
-            modifier = Modifier
-                .height(height.dp)
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxSize(),
             color = SirioTheme.colors.table.header.background,
             contentColor = SirioTheme.colors.table.header.title,
         ) {
             Row(
                 modifier = Modifier
-                    .width(IntrinsicSize.Max)
-                    .padding(start = horizontalPadding.dp),
+                    .padding(start = horizontalPadding.dp)
+                    .padding(vertical = verticalPadding.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 if (withCheckBox) {
@@ -78,8 +77,6 @@ internal fun SirioTableHeaderCommon(
                     modifier = Modifier.weight(1f),
                     color = LocalContentColor.current,
                     textAlign = if (alignment == SirioTableContentAlignment.START || scroll) TextAlign.Start else TextAlign.End,
-                    overflow = TextOverflow.Ellipsis,
-                    maxLines = 1,
                     typography = SirioTheme.typography.table.header.title,
                 )
                 iconButton?.let {
@@ -142,80 +139,116 @@ data class SirioTableHeaderTypography(
 private fun SirioTableHeaderCommonPreview() {
     Column {
         SirioTheme {
-            SirioTableHeaderCommon(
-                title = "Header",
-                height = tableComponentHeightLarge,
-                horizontalPadding = tableComponentPaddingHorizontalLarge,
-                alignment = SirioTableContentAlignment.START,
-                withCheckBox = true,
-                iconButton = FaIcons.Sort,
-                onCheckedChange = {},
-                onIconClick = {},
-            )
-            SirioTableHeaderCommon(
-                title = "Header",
-                height = tableComponentHeightLarge,
-                horizontalPadding = tableComponentPaddingHorizontalLarge,
-                alignment = SirioTableContentAlignment.END,
-                withCheckBox = true,
-                iconButton = FaIcons.Sort,
-                onCheckedChange = {},
-                onIconClick = {},
-            )
-            SirioTableHeaderCommon(
-                title = "Header",
-                height = tableComponentHeightLarge,
-                horizontalPadding = tableComponentPaddingHorizontalLarge,
-                alignment = SirioTableContentAlignment.START,
-                scroll = true,
-                withCheckBox = true,
-                iconButton = FaIcons.Sort,
-                onCheckedChange = {},
-                onIconClick = {},
-            )
+            Row(Modifier.height(IntrinsicSize.Max)) {
+                SirioTableHeaderCommon(
+                    title = "Header\nheader\nheader",
+                    verticalPadding = tableHeaderPaddingVerticalLarge,
+                    horizontalPadding = tableComponentPaddingHorizontalLarge,
+                    alignment = SirioTableContentAlignment.START,
+                    withCheckBox = true,
+                    iconButton = FaIcons.Sort,
+                    onCheckedChange = {},
+                    onIconClick = {},
+                )
+                SirioTableHeaderCommon(
+                    title = "Header",
+                    verticalPadding = tableHeaderPaddingVerticalLarge,
+                    horizontalPadding = tableComponentPaddingHorizontalLarge,
+                    alignment = SirioTableContentAlignment.START,
+                    withCheckBox = true,
+                    iconButton = FaIcons.Sort,
+                    onCheckedChange = {},
+                    onIconClick = {},
+                )
+            }
+            Row(Modifier.height(IntrinsicSize.Max)) {
+                SirioTableHeaderCommon(
+                    title = "Header",
+                    verticalPadding = tableHeaderPaddingVerticalLarge,
+                    horizontalPadding = tableComponentPaddingHorizontalLarge,
+                    alignment = SirioTableContentAlignment.START,
+                    withCheckBox = true,
+                    iconButton = FaIcons.Sort,
+                    onCheckedChange = {},
+                    onIconClick = {},
+                )
+            }
+            Row(Modifier.height(IntrinsicSize.Max)) {
+                SirioTableHeaderCommon(
+                    title = "Header",
+                    verticalPadding = tableHeaderPaddingVerticalLarge,
+                    horizontalPadding = tableComponentPaddingHorizontalLarge,
+                    alignment = SirioTableContentAlignment.END,
+                    withCheckBox = true,
+                    iconButton = FaIcons.Sort,
+                    onCheckedChange = {},
+                    onIconClick = {},
+                )
+            }
+            Row(Modifier.height(IntrinsicSize.Max)) {
+                SirioTableHeaderCommon(
+                    title = "Header",
+                    verticalPadding = tableHeaderPaddingVerticalLarge,
+                    horizontalPadding = tableComponentPaddingHorizontalLarge,
+                    alignment = SirioTableContentAlignment.START,
+                    scroll = true,
+                    withCheckBox = true,
+                    iconButton = FaIcons.Sort,
+                    onCheckedChange = {},
+                    onIconClick = {},
+                )
+            }
         }
         SirioTheme(darkTheme = true) {
-            SirioTableHeaderCommon(
-                title = "Header",
-                height = tableComponentHeightLarge,
-                horizontalPadding = tableComponentPaddingHorizontalLarge,
-                alignment = SirioTableContentAlignment.START,
-                withCheckBox = true,
-                iconButton = FaIcons.Sort,
-                onCheckedChange = {},
-                onIconClick = {},
-            )
-            SirioTableHeaderCommon(
-                title = "Header",
-                height = tableComponentHeightLarge,
-                horizontalPadding = tableComponentPaddingHorizontalLarge,
-                alignment = SirioTableContentAlignment.END,
-                withCheckBox = true,
-                iconButton = FaIcons.Sort,
-                onCheckedChange = {},
-                onIconClick = {},
-            )
-            SirioTableHeaderCommon(
-                title = "Header",
-                height = tableComponentHeightLarge,
-                horizontalPadding = tableComponentPaddingHorizontalLarge,
-                alignment = SirioTableContentAlignment.START,
-                scroll = true,
-                withCheckBox = true,
-                iconButton = FaIcons.Sort,
-                onCheckedChange = {},
-                onIconClick = {},
-            )
-            SirioTableHeaderCommon(
-                title = "Header",
-                height = tableComponentHeightLarge,
-                horizontalPadding = tableComponentPaddingHorizontalLarge,
-                alignment = SirioTableContentAlignment.END,
-                scroll = true,
-                withCheckBox = true,
-                onCheckedChange = {},
-                onIconClick = {},
-            )
+            Row(Modifier.height(IntrinsicSize.Max)) {
+                SirioTableHeaderCommon(
+                    title = "Header",
+                    verticalPadding = tableHeaderPaddingVerticalLarge,
+                    horizontalPadding = tableComponentPaddingHorizontalLarge,
+                    alignment = SirioTableContentAlignment.START,
+                    withCheckBox = true,
+                    iconButton = FaIcons.Sort,
+                    onCheckedChange = {},
+                    onIconClick = {},
+                )
+            }
+            Row(Modifier.height(IntrinsicSize.Max)) {
+                SirioTableHeaderCommon(
+                    title = "Header",
+                    verticalPadding = tableHeaderPaddingVerticalLarge,
+                    horizontalPadding = tableComponentPaddingHorizontalLarge,
+                    alignment = SirioTableContentAlignment.END,
+                    withCheckBox = true,
+                    iconButton = FaIcons.Sort,
+                    onCheckedChange = {},
+                    onIconClick = {},
+                )
+            }
+            Row(Modifier.height(IntrinsicSize.Max)) {
+                SirioTableHeaderCommon(
+                    title = "Header",
+                    verticalPadding = tableHeaderPaddingVerticalLarge,
+                    horizontalPadding = tableComponentPaddingHorizontalLarge,
+                    alignment = SirioTableContentAlignment.START,
+                    scroll = true,
+                    withCheckBox = true,
+                    iconButton = FaIcons.Sort,
+                    onCheckedChange = {},
+                    onIconClick = {},
+                )
+            }
+            Row(Modifier.height(IntrinsicSize.Max)) {
+                SirioTableHeaderCommon(
+                    title = "Header",
+                    verticalPadding = tableHeaderPaddingVerticalLarge,
+                    horizontalPadding = tableComponentPaddingHorizontalLarge,
+                    alignment = SirioTableContentAlignment.END,
+                    scroll = true,
+                    withCheckBox = true,
+                    onCheckedChange = {},
+                    onIconClick = {},
+                )
+            }
         }
     }
 }

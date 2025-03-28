@@ -1,7 +1,7 @@
 //
 // Accordion.kt
 //
-// SPDX-FileCopyrightText: 2024 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -43,7 +43,7 @@ private fun AccordionPreview() {
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Accordion(
                 data = AccordionData(
-                    "Accordion Item #1",
+                    "Accordion Item #1\nRiga 2",
                     open = false,
                     enabled = true,
                     onTapAccordion = {}) { Text(text = content) })

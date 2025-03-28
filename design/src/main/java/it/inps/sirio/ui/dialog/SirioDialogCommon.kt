@@ -1,7 +1,7 @@
 //
 // SirioDialogCommon.kt
 //
-// SPDX-FileCopyrightText: 2024 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -46,9 +46,9 @@ import it.inps.sirio.theme.dialogPositiveButtonTopPadding
 import it.inps.sirio.theme.dialogSemanticIconBottomPadding
 import it.inps.sirio.theme.dialogShape
 import it.inps.sirio.theme.dialogTextTopPadding
-import it.inps.sirio.ui.button.ButtonSize
-import it.inps.sirio.ui.button.SirioButtonColors
 import it.inps.sirio.ui.button.SirioButtonCommon
+import it.inps.sirio.ui.button.SirioButtonLegacyColors
+import it.inps.sirio.ui.button.SirioButtonSize
 import it.inps.sirio.ui.text.SirioTextCommon
 import it.inps.sirio.ui.textfield.SirioTextFieldCommon
 import it.inps.sirio.utils.SirioIcon
@@ -83,7 +83,7 @@ internal fun SirioDialogCommon(
     secondInputTitle: String?,
     secondInputText: String?,
     positiveButtonText: String?,
-    positiveButtonColor: SirioButtonColors,
+    positiveButtonColor: SirioButtonLegacyColors,
     neutralButtonText: String?,
     closeContentDescription: String? = null,
     onPositive: (Pair<String?, String?>) -> Unit,
@@ -117,8 +117,8 @@ internal fun SirioDialogCommon(
                 ) {
                     SirioButtonCommon(
                         modifier = Modifier.align(Alignment.End),
-                        size = ButtonSize.Large,
-                        colors = SirioTheme.colors.buttons.ghost,
+                        size = SirioButtonSize.Large,
+                        colors = SirioTheme.colors.buttonLegacy.ghost,
                         faIcon = FaIcons.Times,
                         iconContentDescription = closeContentDescription,
                         onClick = onDismiss,
@@ -161,7 +161,7 @@ internal fun SirioDialogCommon(
                     positiveButtonText?.let {
                         Spacer(modifier = Modifier.height(dialogPositiveButtonTopPadding))
                         SirioButtonCommon(
-                            size = ButtonSize.Large,
+                            size = SirioButtonSize.Large,
                             colors = positiveButtonColor,
                             modifier = Modifier.fillMaxWidth(),
                             text = it,
@@ -171,8 +171,8 @@ internal fun SirioDialogCommon(
                     neutralButtonText?.let {
                         Spacer(modifier = Modifier.height(dialogNeutralButtonTopPadding))
                         SirioButtonCommon(
-                            size = ButtonSize.Large,
-                            colors = SirioTheme.colors.buttons.ghost,
+                            size = SirioButtonSize.Large,
+                            colors = SirioTheme.colors.buttonLegacy.ghost,
                             modifier = Modifier.fillMaxWidth(),
                             text = it,
                             onClick = { onNeutral(Pair(firstInput, secondInput)) },
@@ -187,7 +187,7 @@ internal fun SirioDialogCommon(
 /**
  * Custom modifier to place dialog on bottom of screen
  */
-private fun Modifier.placeToBottom() = layout { measurable, constraints ->
+internal fun Modifier.placeToBottom() = layout { measurable, constraints ->
     val placeable = measurable.measure(constraints)
     layout(constraints.maxWidth, constraints.maxHeight) {
         placeable.place(0, constraints.maxHeight - placeable.height, 10f)
@@ -240,7 +240,7 @@ fun SirioDialogPreview() {
             secondInputTitle = secondInputTitle,
             secondInputText = secondInputText,
             positiveButtonText = positiveButtonText,
-            positiveButtonColor = SirioTheme.colors.buttons.primary,
+            positiveButtonColor = SirioTheme.colors.buttonLegacy.primary,
             neutralButtonText = neutralButtonText,
             onPositive = {},
             onNeutral = {},

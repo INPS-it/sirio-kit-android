@@ -7,14 +7,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import it.inps.sirio.theme.SirioTheme
-import it.inps.sirio.ui.button.ButtonSize
 import it.inps.sirio.ui.button.ButtonStyle
 import it.inps.sirio.ui.button.SirioButton
+import it.inps.sirio.ui.button.SirioButtonSize
 
 @Composable
 fun Example() {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        SirioButton(text = "Text", size = ButtonSize.Medium, style = ButtonStyle.Primary) {}
+        SirioButton(text = "Text", size = SirioButtonSize.Medium, style = ButtonStyle.Primary) {}
     }
 }
 

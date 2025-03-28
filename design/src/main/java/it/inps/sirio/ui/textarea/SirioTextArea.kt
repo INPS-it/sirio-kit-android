@@ -1,7 +1,7 @@
 //
 // SirioTextArea.kt
 //
-// SPDX-FileCopyrightText: 2024 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -36,7 +36,7 @@ import it.inps.sirio.theme.SirioTheme
  * @param onInfoClick The optional callback on info icon click
  * @param infoContentDescription The content description for the info icon
  * @param helperText The optional text on bottom of text area
- * @param type The semantic [TextAreaSemantic] of text area
+ * @param state The state [TextAreaState] of text area
  * @param enabled Whether the text area can be edited by user
  * @param keyboardOptions software keyboard options that contains configuration such as [KeyboardType] and [ImeAction].
  * @param keyboardActions when the input service emits an IME action, the corresponding callback is called. Note that this IME action may be different from what you specified in [KeyboardOptions.imeAction].
@@ -52,7 +52,7 @@ fun SirioTextArea(
     onInfoClick: (() -> Unit)? = null,
     infoContentDescription: String? = null,
     helperText: String? = null,
-    type: TextAreaSemantic? = null,
+    state: TextAreaState? = null,
     enabled: Boolean = true,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
@@ -67,7 +67,7 @@ fun SirioTextArea(
         onInfoClick = onInfoClick,
         infoContentDescription = infoContentDescription,
         helperText = helperText,
-        type = type,
+        state = state,
         enabled = enabled,
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
@@ -100,26 +100,17 @@ private fun TextAreaPreview() {
                 text = "Text",
                 onValueChange = { },
                 label = "Label",
-                helperText = "*Helper text",
+                helperText = "Helper text",
                 onInfoClick = null,
-                type = TextAreaSemantic.ALERT,
+                state = TextAreaState.Alert,
             )
             SirioTextArea(
                 text = "Text",
                 onValueChange = { },
                 label = "Label",
-                helperText = "*Helper text",
+                helperText = "Helper text",
                 onInfoClick = {},
-                type = TextAreaSemantic.SUCCESS,
-            )
-            SirioTextArea(
-                text = "Text",
-                onValueChange = { },
-                label = "Label",
-                helperText = "*Helper text",
-                onInfoClick = {},
-                enabled = false,
-                type = TextAreaSemantic.SUCCESS
+                state = TextAreaState.Success,
             )
         }
     }

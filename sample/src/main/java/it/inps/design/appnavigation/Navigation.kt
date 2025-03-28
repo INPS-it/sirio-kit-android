@@ -1,7 +1,7 @@
 //
 // Navigation.kt
 //
-// SPDX-FileCopyrightText: 2024 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -26,13 +26,10 @@ fun NavigationGraph(navController: NavHostController) {
             AppNavigationDemo { AppNavigationLogoDemoContent() }
         }
         composable(AppNavigationDestinations.APPNAVIGATION_STANDARD_ROUTE) {
-            AppNavigationDemo { AppNavigationStandardDemoContent() }
+            AppNavigationDemo { AppNavigationTitleDemoContent() }
         }
-        composable(AppNavigationDestinations.APPNAVIGATION_LONG_TITLE_ROUTE) {
-            AppNavigationDemo { AppNavigationLongTitleDemoContent() }
-        }
-        composable(AppNavigationDestinations.APPNAVIGATION_BIG_ROUTE) {
-            AppNavigationDemo { AppNavigationBigDemoContent() }
+        composable(AppNavigationDestinations.APPNAVIGATION_FUNCTION_ROUTE) {
+            AppNavigationDemo { AppNavigationFunctionDemoContent() }
         }
         composable(AppNavigationDestinations.APPNAVIGATION_SELECTION_ROUTE) {
             AppNavigationDemo { AppNavigationSelectionDemoContent() }
@@ -46,9 +43,8 @@ fun NavigationGraph(navController: NavHostController) {
 object AppNavigationDestinations {
     const val APPNAVIGATION_MENU_ROUTE = "App Navigation"
     const val APPNAVIGATION_LOGO_ROUTE = "Logo"
-    const val APPNAVIGATION_STANDARD_ROUTE = "Standard Title"
-    const val APPNAVIGATION_LONG_TITLE_ROUTE = "Long Titile"
-    const val APPNAVIGATION_BIG_ROUTE = "Big Title"
+    const val APPNAVIGATION_STANDARD_ROUTE = "Title"
     const val APPNAVIGATION_SELECTION_ROUTE = "Selection"
     const val APPNAVIGATION_SEARCH_ROUTE = "Search"
+    const val APPNAVIGATION_FUNCTION_ROUTE = "Function"
 }

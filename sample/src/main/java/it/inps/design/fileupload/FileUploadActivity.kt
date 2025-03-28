@@ -1,7 +1,7 @@
 //
 // FileUploadActivity.kt
 //
-// SPDX-FileCopyrightText: 2024 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -37,7 +37,7 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import it.inps.sirio.theme.SirioTheme
-import it.inps.sirio.ui.fileupload.FileUpload
+import it.inps.sirio.ui.fileupload.SirioFileUpload
 
 class FileUploadActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,13 +70,13 @@ fun FileUploadDemoContent() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(30.dp),
         ) {
-            val title = "Slider label"
-            val text = "*Info upload file"
+            val label = "Label"
+            val text = "Info upload file"
             val items = remember { mutableStateListOf(elements = arrayOf<String>()) }
             var progress by remember { mutableIntStateOf(0) }
             Text(text = "Enabled")
-            FileUpload(
-                title = title,
+            SirioFileUpload(
+                label = label,
                 text = text,
                 enabled = true,
                 uploadList = items,
@@ -85,9 +85,9 @@ fun FileUploadDemoContent() {
                 items.add("File ${++progress}")
             }
             Text(text = "Disabled")
-            FileUpload(
-                title,
-                text,
+            SirioFileUpload(
+                label = label,
+                text = text,
                 enabled = false,
                 uploadList = emptyList(),
                 onDeleteClick = { _, _ -> }) {}

@@ -1,7 +1,7 @@
 //
 // SirioFilterToggle.kt
 //
-// SPDX-FileCopyrightText: 2022 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -41,7 +41,7 @@ fun SirioFilterToggle(
             .padding(filterPadding.dp)
     ) {
         SirioToggleCommon(
-            isOn = isOn,
+            checked = isOn,
             modifier = Modifier.fillMaxWidth(),
             text = text,
             enabled = enabled,

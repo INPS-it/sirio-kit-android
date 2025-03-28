@@ -1,7 +1,7 @@
 //
 // Navigation.kt
 //
-// SPDX-FileCopyrightText: 2024 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -19,36 +19,17 @@ fun NavigationGraph(navController: NavHostController) {
         composable<Home> {
             HomeScreen()
         }
-        composable<Notizie> {
+        composable<News> {
             NewsScreen()
         }
-        composable<Mappa> {
+        composable<Maps> {
             MapScreen()
         }
-        composable<Servizi> {
+        composable<Contacts> {
+            ContactsScreen()
+        }
+        composable<Services> {
             ServicesScreen()
         }
     }
 }
-
-//const val TABBAR_ROUTE = "tabbar"
-//
-//fun NavGraphBuilder.tabBarGraph(navController: NavHostController) {
-//    navigation(route = TABBAR_ROUTE, startDestination = HOME_TAB.route) {
-//        composable(HOME_TAB.route) {
-//            HomeScreen()
-//        }
-//        composable(NEWS_TAB.route) {
-//            NewsScreen()
-//        }
-//        composable(MAP_TAB.route) {
-//            MapScreen()
-//        }
-//        composable(CONTACTS_TAB.route) {
-//            ContactsScreen()
-//        }
-//        composable(SERVICES_TAB.route) {
-//            ServicesScreen()
-//        }
-//    }
-//}

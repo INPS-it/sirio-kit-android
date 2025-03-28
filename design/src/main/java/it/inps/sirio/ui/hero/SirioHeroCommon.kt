@@ -1,7 +1,7 @@
 //
 // SirioHeroCommon.kt
 //
-// SPDX-FileCopyrightText: 2024 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -39,9 +39,9 @@ import it.inps.sirio.theme.heroPaddingVertical
 import it.inps.sirio.theme.heroSubtitlePaddingTop
 import it.inps.sirio.theme.heroTextPaddingBottom
 import it.inps.sirio.theme.heroTextPaddingTop
-import it.inps.sirio.ui.button.ButtonSize
 import it.inps.sirio.ui.button.ButtonStyle
 import it.inps.sirio.ui.button.SirioButton
+import it.inps.sirio.ui.button.SirioButtonSize
 import it.inps.sirio.ui.text.SirioText
 
 /**
@@ -111,7 +111,7 @@ internal fun SirioHeroCommon(
                 SirioButton(
                     modifier = Modifier.padding(bottom = if (imageUrl != null) heroImagePaddingBottomShort.dp else heroImagePaddingBottomLong.dp),
                     text = it,
-                    size = ButtonSize.Large,
+                    size = SirioButtonSize.Large,
                     style = ButtonStyle.Tertiary,
                     onClick = onButtonClick,
                 )

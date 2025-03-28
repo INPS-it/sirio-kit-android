@@ -1,7 +1,7 @@
 //
 // TextAreaActivity.kt
 //
-// SPDX-FileCopyrightText: 2024 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -36,7 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.ui.textarea.SirioTextArea
-import it.inps.sirio.ui.textarea.TextAreaSemantic
+import it.inps.sirio.ui.textarea.TextAreaState
 
 class TextAreaActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,7 +71,15 @@ fun TextAreaDemoContent() {
         ) {
             var text by remember { mutableStateOf("Text") }
             val label = "Label"
-            val helperText = "*Helper text"
+            val helperText = "Helper text"
+            SirioTextArea(
+                text = text,
+                placeholder = "Placeholder",
+                onValueChange = { text = it },
+                label = label,
+                helperText = helperText,
+            )
+            Text(text = "Info")
             SirioTextArea(
                 text = text,
                 placeholder = "Placeholder",
@@ -87,8 +95,7 @@ fun TextAreaDemoContent() {
                 label = label,
                 helperText = helperText,
                 onInfoClick = null,
-                type = TextAreaSemantic.ALERT,
-                onTextAreaClick = { text = "Click" }
+                state = TextAreaState.Alert,
             )
             Text(text = "Success")
             SirioTextArea(
@@ -96,8 +103,7 @@ fun TextAreaDemoContent() {
                 onValueChange = { text = it },
                 label = label,
                 helperText = helperText,
-                onInfoClick = {},
-                type = TextAreaSemantic.SUCCESS,
+                state = TextAreaState.Success,
             )
             Text(text = "Disabled")
             SirioTextArea(
@@ -105,9 +111,8 @@ fun TextAreaDemoContent() {
                 onValueChange = { text = it },
                 label = label,
                 helperText = helperText,
-                onInfoClick = {},
                 enabled = false,
-                type = TextAreaSemantic.SUCCESS
+                state = TextAreaState.Success,
             )
         }
     }

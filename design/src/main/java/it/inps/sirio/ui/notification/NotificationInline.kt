@@ -1,7 +1,7 @@
 //
 // NotificationInline.kt
 //
-// SPDX-FileCopyrightText: 2024 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -34,6 +34,7 @@ import it.inps.sirio.theme.SirioTheme
  * @param closeContentDescription The content description of the close button
  * @param onClose The callback when the close button is pressed
  */
+@Deprecated("Use SirioNotificaInLinea instead")
 @Composable
 fun NotificationInline(
     title: String,

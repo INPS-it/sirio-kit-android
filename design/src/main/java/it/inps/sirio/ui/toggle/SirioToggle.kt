@@ -1,7 +1,7 @@
 //
 // SirioToggle.kt
 //
-// SPDX-FileCopyrightText: 2024 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -17,19 +17,19 @@ import it.inps.sirio.theme.SirioTheme
  * Sirio toggle component
  *
  * @param label The optional string on the toggle right
- * @param isOn Whether the toggle is selected
+ * @param checked Whether the toggle is checked
  * @param enabled Whether the toggle is enabled
  * @param onToggleChange The callback when the toggle state change
  */
 @Composable
 fun SirioToggle(
+    checked: Boolean,
     label: String? = null,
-    isOn: Boolean,
     enabled: Boolean = true,
     onToggleChange: (on: Boolean) -> Unit
 ) {
     SirioToggleCommon(
-        isOn = isOn,
+        checked = checked,
         text = label,
         enabled = enabled,
         onToggleChange = onToggleChange,
@@ -42,8 +42,8 @@ private fun TogglePreview() {
     SirioTheme {
         Column {
             SirioToggle(
-                label = "Title",
-                isOn = true,
+                label = "Label",
+                checked = true,
                 enabled = true,
                 onToggleChange = {}
             )

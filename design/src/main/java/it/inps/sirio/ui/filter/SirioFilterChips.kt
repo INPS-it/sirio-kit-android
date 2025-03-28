@@ -1,7 +1,7 @@
 //
 // SirioFilterChips.kt
 //
-// SPDX-FileCopyrightText: 2022 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.theme.filterChipsPadding
 import it.inps.sirio.theme.filterPadding
-import it.inps.sirio.ui.chip.SirioChipLabel
+import it.inps.sirio.ui.chip.SirioChipsSelectable
 
 /**
  * A filter row of chips with horizontal scrolling.
@@ -48,8 +48,8 @@ fun SirioFilterChips(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         texts.forEach { text ->
-            SirioChipLabel(
-                label = text,
+            SirioChipsSelectable(
+                text = text,
                 enabled = true,
                 active = selectedTexts.contains(text),
                 onStateChange = {

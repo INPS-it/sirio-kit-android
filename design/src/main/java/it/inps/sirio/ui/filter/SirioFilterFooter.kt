@@ -1,7 +1,7 @@
 //
 // SirioFilterFooter.kt
 //
-// SPDX-FileCopyrightText: 2022 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -22,9 +22,9 @@ import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.theme.filterFooterButtonSpacing
 import it.inps.sirio.theme.filterFooterPaddingHorizontal
 import it.inps.sirio.theme.filterFooterPaddingVertical
-import it.inps.sirio.ui.button.ButtonSize
 import it.inps.sirio.ui.button.ButtonStyle
 import it.inps.sirio.ui.button.SirioButton
+import it.inps.sirio.ui.button.SirioButtonSize
 
 @Composable
 fun SirioFilterFooter(
@@ -44,14 +44,14 @@ fun SirioFilterFooter(
         SirioButton(
             modifier = Modifier.weight(1f),
             text = neutralText,
-            size = ButtonSize.Large,
+            size = SirioButtonSize.Large,
             style = ButtonStyle.Secondary,
             onClick = onNeutral,
         )
         SirioButton(
             modifier = Modifier.weight(1f),
             text = positiveText,
-            size = ButtonSize.Large,
+            size = SirioButtonSize.Large,
             style = ButtonStyle.Primary,
             onClick = onPositive,
         )

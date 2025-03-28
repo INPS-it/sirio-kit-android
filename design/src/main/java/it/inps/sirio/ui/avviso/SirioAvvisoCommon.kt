@@ -1,7 +1,7 @@
 //
 // SirioAvvisoCommon.kt
 //
-// SPDX-FileCopyrightText: 2024 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -9,152 +9,166 @@
 package it.inps.sirio.ui.avviso
 
 import androidx.annotation.Keep
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.guru.fontawesomecomposelib.FaIcons
+import it.inps.sirio.foundation.FoundationColor
 import it.inps.sirio.theme.SirioTheme
-import it.inps.sirio.theme.avvisoIconPaddingEnd
-import it.inps.sirio.theme.avvisoIconPaddingTop
-import it.inps.sirio.theme.avvisoPaddingBottom
-import it.inps.sirio.theme.avvisoPaddingHorizontal
-import it.inps.sirio.theme.avvisoPaddingTop
-import it.inps.sirio.theme.avvisoSpacerTextButton
-import it.inps.sirio.theme.avvisoSpacerTitleText
-import it.inps.sirio.ui.button.ButtonSize
-import it.inps.sirio.ui.button.SirioButtonCommon
+import it.inps.sirio.theme.avvisoContainerCornerRadius
+import it.inps.sirio.theme.avvisoIconSize
+import it.inps.sirio.theme.avvisoPadding
+import it.inps.sirio.theme.avvisoSpacingHorizontal
+import it.inps.sirio.theme.avvisoSpacingVertical
+import it.inps.sirio.ui.text.SirioText
 import it.inps.sirio.ui.text.SirioTextCommon
-import it.inps.sirio.utils.SirioFaIcon
+import it.inps.sirio.utils.SirioIcon
+import it.inps.sirio.utils.SirioIconData
+import it.inps.sirio.utils.SirioIconSource
 
+
+/**
+ * A composable for displaying an informational notice.
+ *
+ * This function creates a visually consistent container to display a title, a descriptive text,
+ * and an optional link.
+ *
+ * @param title The title of the notice, displayed in a headline style.
+ * @param text The main text content of the notice, providing details or context.
+ * @param link An optional link text. If provided, it's displayed as a clickable element.
+ * @param onLinkClick An optional callback function that is invoked when the link is clicked.
+ *                    If null, the link will be displayed as static text.
+ *
+ * Example Usage:
+ * ```
+ * SirioAvvisoCommon(
+ *     title = "Important Notice",
+ *     text = "Please review the latest terms and conditions.",
+ *     link = "Learn More",
+ *     onLinkClick = {
+ *         // Handle link click, e.g., navigate to a different screen
+ *     }
+ * )
+ * ```
+ **/
 @Composable
 internal fun SirioAvvisoCommon(
     title: String,
     text: String,
-    buttonText: String,
-    onButtonClick: () -> Unit,
+    link: String?,
+    onLinkClick: (() -> Unit)?,
 ) {
-    Box(
-        modifier = Modifier.background(SirioTheme.colors.avviso.background),
-        contentAlignment = Alignment.BottomCenter,
+    Surface(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(avvisoContainerCornerRadius.dp),
+        color = SirioTheme.colors.avviso.background,
     ) {
         Row(
             Modifier
                 .fillMaxWidth()
-                .padding(
-                    avvisoPaddingHorizontal.dp,
-                    avvisoPaddingTop.dp,
-                    avvisoPaddingHorizontal.dp,
-                    avvisoPaddingBottom.dp
-                )
+                .padding(avvisoPadding.dp),
+            horizontalArrangement = Arrangement.spacedBy(avvisoSpacingHorizontal.dp)
         ) {
-            SirioFaIcon(
-                faIcon = FaIcons.InfoCircle,
-                modifier = Modifier.padding(
-                    top = avvisoIconPaddingTop.dp,
-                    end = avvisoIconPaddingEnd.dp
-                ),
-                tint = SirioTheme.colors.avviso.icon,
+            SirioIcon(
+                iconData = SirioIconData(
+                    icon = SirioIconSource.FaIcon(FaIcons.InfoCircle),
+                    iconColor = SirioTheme.colors.avviso.icon,
+                    size = avvisoIconSize.dp,
+                )
             )
-            Column {
+            Column(verticalArrangement = Arrangement.spacedBy(avvisoSpacingVertical.dp)) {
                 SirioTextCommon(
                     text = title,
                     color = SirioTheme.colors.avviso.title,
-                    typography = SirioTheme.typography.avviso.title,
+                    typography = SirioTheme.foundationTypography.headlineSmHeavy,
                 )
-                Spacer(modifier = Modifier.height(avvisoSpacerTitleText.dp))
                 SirioTextCommon(
                     text = text,
                     color = SirioTheme.colors.avviso.text,
-                    typography = SirioTheme.typography.avviso.text,
+                    typography = SirioTheme.foundationTypography.bodySmRegular,
                 )
-                Spacer(modifier = Modifier.height(avvisoSpacerTextButton.dp))
-                SirioButtonCommon(
-                    size = ButtonSize.Large,
-                    colors = SirioTheme.colors.buttons.tertiary,
-                    text = buttonText,
-                    onClick = onButtonClick,
-                )
+                link?.let {
+                    SirioText(
+                        text = it,
+                        modifier = Modifier.clickable(
+                            enabled = onLinkClick != null,
+                            onClick = onLinkClick!!,
+                        ),
+                        color = SirioTheme.colors.avviso.link,
+                        textDecoration = TextDecoration.Underline,
+                        typography = SirioTheme.foundationTypography.linkSmHeavy,
+                    )
+                }
             }
         }
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(1.dp)
-                .background(SirioTheme.colors.avviso.borderBottom)
-        )
     }
 }
 
 @Keep
 data class SirioAvvisoColors(
     val background: Color,
-    val borderBottom: Color,
     val title: Color,
     val text: Color,
+    val link: Color,
     val icon: Color,
 ) {
     companion object {
         @Stable
         val Unspecified = SirioAvvisoColors(
             background = Color.Unspecified,
-            borderBottom = Color.Unspecified,
             title = Color.Unspecified,
             text = Color.Unspecified,
+            link = Color.Unspecified,
             icon = Color.Unspecified,
         )
     }
 }
 
-@Keep
-data class SirioAvvisoTypography(
-    val title: TextStyle,
-    val text: TextStyle,
-) {
-    companion object {
-        @Stable
-        val Default = SirioAvvisoTypography(
-            title = TextStyle.Default,
-            text = TextStyle.Default,
-        )
-    }
-}
+internal val avvisoLightColors = SirioAvvisoColors(
+    background = FoundationColor.colorAliasBackgroundColorPrimaryLight40,
+    title = FoundationColor.colorAliasTextColorSecondaryDark100,
+    text = FoundationColor.colorAliasTextColorSecondaryDark100,
+    link = FoundationColor.colorAliasInteractivePrimaryDefault,
+    icon = FoundationColor.colorGlobalSemanticInfo100,
+)
+
+internal val avvisoDarkColors = avvisoLightColors
 
 @Preview
 @Composable
 private fun SirioAvvisoCommonPreview() {
-    Column {
-        val title = "Titolo avviso"
-        val text =
-            "Ac iaculis posuere turpis diam mi non viverra tempus eget. Nunc volutpat nunc erat risus eleifend convallis viverra bibendum. Mattis ante mauris sit montes. Scelerisque dui arcu tempus proin massa massa ultricies nunc duis."
-        val buttonText = "Text"
-        val onButtonClick = {}
-        SirioTheme {
+    SirioTheme {
+        Column(Modifier.verticalScroll(rememberScrollState())) {
+            val title = "Titolo avviso"
+            val text =
+                "Lorem ipsum dolor sit amet consectetur. Amet mollis vestibulum in et ante tempor."
+            val linkText = "Link opzionale"
+            val onLinkClicked = {}
             SirioAvvisoCommon(
                 title = title,
                 text = text,
-                buttonText = buttonText,
-                onButtonClick = onButtonClick,
+                link = linkText,
+                onLinkClick = onLinkClicked,
             )
-        }
-        SirioTheme(darkTheme = true) {
             SirioAvvisoCommon(
                 title = title,
                 text = text,
-                buttonText = buttonText,
-                onButtonClick = onButtonClick,
+                link = null,
+                onLinkClick = null,
             )
         }
     }

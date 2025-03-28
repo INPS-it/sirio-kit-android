@@ -1,7 +1,7 @@
 //
 // NotificationToast.kt
 //
-// SPDX-FileCopyrightText: 2024 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -39,6 +39,7 @@ import it.inps.sirio.theme.notificationToastPadding
  * @param closeContentDescription The content description of the close button
  * @param onClose The callback when the close button is pressed
  */
+@Deprecated("Use SirioNotificaInLinea instead")
 @Composable
 fun NotificationToast(
     title: String,

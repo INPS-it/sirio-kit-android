@@ -1,3 +1,10 @@
+//
+// SirioIcon.kt
+//
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
+//
+// SPDX-License-Identifier: BSD-3-Clause
+//
 package it.inps.sirio.utils
 
 import androidx.annotation.DrawableRes
@@ -25,6 +32,7 @@ import com.guru.fontawesomecomposelib.FaIconType
  * @param contentDescription The content description for the icon
  * @return The custom icon
  */
+@Deprecated("Use SirioIcon with SirioIconSource instead")
 @Composable
 fun SirioIcon(
     faIcon: FaIconType? = null,
@@ -35,6 +43,34 @@ fun SirioIcon(
     onclick: (() -> Unit)? = null,
 ) {
     require(faIcon != null || iconResId != null) { "At least one of faIcon or iconResId must be non-null" }
+    val icon =
+        if (faIcon != null) SirioIconSource.FaIcon(faIcon) else SirioIconSource.Drawable(iconResId!!)
+    SirioIcon(
+        icon = icon,
+        iconColor,
+        size,
+        contentDescription,
+        onclick
+    )
+}
+
+/**
+ * A composable function that displays an icon from either a FontAwesome icon or a drawable resource.
+ *
+ * @param icon The source of the icon to display. Can be either a [SirioIconSource.FaIcon] or a [SirioIconSource.Drawable].
+ * @param iconColor The color of the icon.
+ * @param size The size of the icon. Defaults to 24.dp.
+ * @param contentDescription The content description for accessibility.
+ * @param onclick An optional lambda function to be executed when the icon is clicked. If null, the icon is not clickable.
+ */
+@Composable
+fun SirioIcon(
+    icon: SirioIconSource,
+    iconColor: Color,
+    size: Dp = 24.dp,
+    contentDescription: String? = null,
+    onclick: (() -> Unit)? = null,
+) {
     Box(
         Modifier
             .requiredSize(size)
@@ -42,21 +78,21 @@ fun SirioIcon(
                 condition = onclick != null,
                 ifTrueModifier = Modifier.clickable(
                     enabled = onclick != null,
-                    role = Role.Image,
+                    role = Role.Button,
                     onClick = { onclick?.invoke() })
             ),
         contentAlignment = Alignment.Center
     ) {
-        faIcon?.let {
-            SirioFaIcon(
-                faIcon = it,
+        when (icon) {
+            is SirioIconSource.FaIcon -> SirioFaIcon(
+                faIcon = icon.faIcon,
                 size = size,
                 tint = iconColor,
                 contentDescription = contentDescription,
             )
-        } ?: iconResId?.let {
-            Icon(
-                painter = painterResource(id = it),
+
+            is SirioIconSource.Drawable -> Icon(
+                painter = painterResource(id = icon.iconResId),
                 contentDescription = contentDescription,
                 modifier = Modifier.size(size),
                 tint = iconColor,
@@ -73,10 +109,10 @@ fun SirioIcon(
 @Composable
 fun SirioIcon(iconData: SirioIconData) {
     SirioIcon(
-        faIcon = iconData.faIcon,
-        iconResId = iconData.iconResId,
+        icon = iconData.icon,
         iconColor = iconData.iconColor,
         size = iconData.size,
-        contentDescription = iconData.contentDescription
+        contentDescription = iconData.contentDescription,
+        onclick = iconData.onclick,
     )
 }

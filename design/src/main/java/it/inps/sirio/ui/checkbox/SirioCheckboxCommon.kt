@@ -1,7 +1,7 @@
 //
 // SirioCheckboxCommon.kt
 //
-// SPDX-FileCopyrightText: 2024 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -11,26 +11,18 @@ package it.inps.sirio.ui.checkbox
 import androidx.annotation.Keep
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.focusable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsFocusedAsState
-import androidx.compose.foundation.interaction.collectIsHoveredAsState
-import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,22 +30,21 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.guru.fontawesomecomposelib.FaIcons
+import it.inps.sirio.foundation.FoundationColor
 import it.inps.sirio.theme.SirioColorState
 import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.theme.checkboxBorderWidth
 import it.inps.sirio.theme.checkboxCheckSize
 import it.inps.sirio.theme.checkboxCornerRadius
-import it.inps.sirio.theme.checkboxFocusBorderPadding
-import it.inps.sirio.theme.checkboxFocusExtraBorderWidth
 import it.inps.sirio.theme.checkboxPaddingText
 import it.inps.sirio.theme.checkboxSize
 import it.inps.sirio.ui.text.SirioTextCommon
 import it.inps.sirio.utils.SirioIcon
+import it.inps.sirio.utils.SirioIconSource
 
 /**
  * Sirio checkbox implementation
@@ -127,23 +118,15 @@ private fun SirioCheckboxWithText(
     onCheckedChange: (Boolean) -> Unit,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
-    val isPressed by interactionSource.collectIsPressedAsState()
-    val isFocused by interactionSource.collectIsFocusedAsState()
-    val isHovered by interactionSource.collectIsHoveredAsState()
 
-    val backgroundColor =
-        SirioTheme.colors.checkbox.background.get(enabled.not(), isFocused, isPressed, isHovered)
-    val borderColor =
-        SirioTheme.colors.checkbox.border.get(enabled.not(), isFocused, isPressed, isHovered)
-    val textColor =
-        SirioTheme.colors.checkbox.text.get(enabled.not(), isFocused, isPressed, isHovered)
-    val checkColor =
-        SirioTheme.colors.checkbox.check.get(enabled.not(), isFocused, isPressed, isHovered)
+    val backgroundColor = SirioTheme.colors.checkbox.background.get(disabled = enabled.not())
+    val borderColor = SirioTheme.colors.checkbox.border.get(disabled = enabled.not())
+    val textColor = SirioTheme.colors.checkbox.label.get(disabled = enabled.not())
+    val checkColor = SirioTheme.colors.checkbox.check.get(disabled = enabled.not())
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
-            .focusable(enabled = enabled, interactionSource = interactionSource)
             .toggleable(
                 value = checked,
                 interactionSource = interactionSource,
@@ -152,14 +135,13 @@ private fun SirioCheckboxWithText(
                 role = Role.Checkbox,
             ) {
                 onCheckedChange(it)
-            }
+            },
     )
     {
         CustomCheckbox(
             backgroundColor = backgroundColor,
             checked = checked,
             checkColor = checkColor,
-            isFocused = isFocused,
             borderColor = borderColor
         )
         text?.let {
@@ -169,7 +151,7 @@ private fun SirioCheckboxWithText(
                 color = textColor,
                 overflow = overflow,
                 maxLines = maxLines,
-                typography = SirioTheme.typography.checkbox.text,
+                typography = SirioTheme.foundationTypography.labelMdRegular,
             )
         } ?: annotatedText?.let {
             Spacer(modifier = Modifier.width(checkboxPaddingText.dp))
@@ -178,7 +160,7 @@ private fun SirioCheckboxWithText(
                 color = textColor,
                 overflow = overflow,
                 maxLines = maxLines,
-                typography = SirioTheme.typography.checkbox.text,
+                typography = SirioTheme.foundationTypography.labelMdRegular,
             )
         }
     }
@@ -188,7 +170,6 @@ private fun SirioCheckboxWithText(
  * The custom checkbox
  *
  * @param checked Whether the check is checked
- * @param isFocused Whether the check is focused
  * @param checkColor The color of the inner check
  * @param borderColor The color of the border
  */
@@ -196,48 +177,27 @@ private fun SirioCheckboxWithText(
 private fun CustomCheckbox(
     backgroundColor: Color,
     checked: Boolean,
-    isFocused: Boolean,
     checkColor: Color,
     borderColor: Color,
 ) {
-    val focusPadding = remember {
-        checkboxFocusBorderPadding + checkboxFocusExtraBorderWidth
-    }
-
-    val size = Modifier
-        .size(checkboxSize.dp)
-        .minimumInteractiveComponentSize()
     Box(
-        modifier = if (isFocused) {
-            size
-                .border(
-                    checkboxFocusExtraBorderWidth.dp,
-                    color = SirioTheme.colors.checkbox.borderFocusExtra,
-                    shape = RoundedCornerShape(checkboxCornerRadius.dp),
-                )
-                .padding(focusPadding.dp)
-        } else size,
+        modifier = Modifier
+            .size(checkboxSize.dp)
+            .clip(RoundedCornerShape(checkboxCornerRadius.dp))
+            .border(
+                width = checkboxBorderWidth.dp,
+                color = borderColor,
+                shape = RoundedCornerShape(checkboxCornerRadius.dp)
+            )
+            .background(backgroundColor),
         contentAlignment = Alignment.Center,
     ) {
-        Box(
-            modifier = Modifier
-                .clip(RoundedCornerShape(checkboxCornerRadius.dp))
-                .fillMaxSize()
-                .border(
-                    width = checkboxBorderWidth.dp,
-                    color = borderColor,
-                    shape = RoundedCornerShape(checkboxCornerRadius.dp)
-                )
-                .background(backgroundColor),
-            contentAlignment = Alignment.Center
-        ) {
-            if (checked) {
-                SirioIcon(
-                    faIcon = FaIcons.Check,
-                    size = checkboxCheckSize.dp,
-                    iconColor = checkColor,
-                )
-            }
+        if (checked) {
+            SirioIcon(
+                icon = SirioIconSource.FaIcon(FaIcons.Check),
+                size = checkboxCheckSize.dp,
+                iconColor = checkColor,
+            )
         }
     }
 }
@@ -246,33 +206,34 @@ private fun CustomCheckbox(
 data class SirioCheckboxColors(
     val background: SirioColorState,
     val border: SirioColorState,
-    val borderFocusExtra: Color,
     val check: SirioColorState,
-    val text: SirioColorState,
+    val label: SirioColorState,
 ) {
     companion object {
         @Stable
         val Unspecified = SirioCheckboxColors(
             background = SirioColorState.Unspecified,
             border = SirioColorState.Unspecified,
-            borderFocusExtra = Color.Unspecified,
             check = SirioColorState.Unspecified,
-            text = SirioColorState.Unspecified,
+            label = SirioColorState.Unspecified,
         )
     }
 }
 
-@Keep
-data class SirioCheckboxTypography(
-    val text: TextStyle,
-) {
-    companion object {
-        @Stable
-        val Default = SirioCheckboxTypography(
-            text = TextStyle.Default,
-        )
-    }
-}
+internal val checkboxLightColors = SirioCheckboxColors(
+    background = SirioColorState.all(
+        color = FoundationColor.colorAliasBackgroundColorPrimaryLight0,
+        disabled = FoundationColor.colorAliasBackgroundColorDisabled,
+    ),
+    border = SirioColorState.all(
+        color = FoundationColor.colorSpecificDataEntryBorderColorDefault,
+        disabled = FoundationColor.colorAliasBackgroundColorDisabled,
+    ),
+    check = SirioColorState.all(color = FoundationColor.colorAliasInteractiveSecondaryDefault),
+    label = SirioColorState.all(color = FoundationColor.colorSpecificDataEntryLabelColorDefault),
+)
+
+internal val checkboxDarkColors = checkboxLightColors
 
 @Preview
 @Composable

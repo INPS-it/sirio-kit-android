@@ -1,7 +1,7 @@
 //
 // SirioTextCommon.kt
 //
-// SPDX-FileCopyrightText: 2024 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -21,7 +21,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import it.inps.sirio.theme.SirioTheme
-import it.inps.sirio.theme.labelMd400
 
 /**
  * SirioTextCommon is a composable function that represents a text component using the typography provided by Sirio
@@ -44,7 +43,7 @@ internal fun SirioTextCommon(
     textAlign: TextAlign? = null,
     overflow: TextOverflow = TextOverflow.Clip,
     maxLines: Int = Int.MAX_VALUE,
-    typography: TextStyle = labelMd400,
+    typography: TextStyle = SirioTheme.foundationTypography.bodyMdRegular,
 ) {
     Text(
         text = text,
@@ -79,7 +78,7 @@ internal fun SirioTextCommon(
     textAlign: TextAlign? = null,
     overflow: TextOverflow = TextOverflow.Clip,
     maxLines: Int = Int.MAX_VALUE,
-    typography: TextStyle = labelMd400,
+    typography: TextStyle = SirioTheme.foundationTypography.bodyMdRegular,
 ) {
     Text(
         text = text,
@@ -97,6 +96,6 @@ internal fun SirioTextCommon(
 @Composable
 fun SirioTextCommonPreview() {
     SirioTheme {
-        SirioTextCommon(text = "Testo", typography = SirioTheme.typography.textFieldText)
+        SirioTextCommon(text = "Testo", typography = SirioTheme.foundationTypography.labelMdHeavy)
     }
 }

@@ -1,7 +1,7 @@
 //
 // TagCommon.kt
 //
-// SPDX-FileCopyrightText: 2024 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -10,7 +10,6 @@ package it.inps.sirio.ui.tag
 
 import androidx.annotation.Keep
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Surface
@@ -18,13 +17,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import it.inps.sirio.foundation.FoundationColor
+import it.inps.sirio.theme.SirioBaseColors
 import it.inps.sirio.theme.SirioTheme
-import it.inps.sirio.theme.tagElevation
-import it.inps.sirio.theme.tagHeight
 import it.inps.sirio.theme.tagPaddingHorizontal
 import it.inps.sirio.ui.text.SirioTextCommon
 
@@ -38,26 +36,25 @@ import it.inps.sirio.ui.text.SirioTextCommon
 @Composable
 internal fun SirioTagCommon(
     text: String,
-    colors: SirioTagColors,
+    colors: SirioBaseColors,
     modifier: Modifier = Modifier,
 ) {
     Surface(
         modifier = modifier,
         shape = CircleShape,
-        color = colors.background,
-        shadowElevation = tagElevation.dp,
+        color = colors.container,
     ) {
         Row(
             modifier = Modifier
-                .height(tagHeight.dp)
                 .padding(horizontal = tagPaddingHorizontal.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             SirioTextCommon(
                 text = text,
-                color = colors.text,
+                color = colors.content,
                 overflow = TextOverflow.Ellipsis,
-                typography = SirioTheme.typography.tagText,
+                maxLines = 1,
+                typography = SirioTheme.foundationTypography.labelMdHeavy,
             )
         }
     }
@@ -65,39 +62,56 @@ internal fun SirioTagCommon(
 
 @Keep
 data class SirioTagsColors(
-    val gray: SirioTagColors,
-    val blue: SirioTagColors,
-    val red: SirioTagColors,
-    val orange: SirioTagColors,
-    val green: SirioTagColors,
-    val white: SirioTagColors,
+    val gray: SirioBaseColors,
+    val blue: SirioBaseColors,
+    val red: SirioBaseColors,
+    val orange: SirioBaseColors,
+    val green: SirioBaseColors,
+    val white: SirioBaseColors,
 ) {
     companion object {
         @Stable
         val Unspecified = SirioTagsColors(
-            gray = SirioTagColors.Unspecified,
-            blue = SirioTagColors.Unspecified,
-            red = SirioTagColors.Unspecified,
-            orange = SirioTagColors.Unspecified,
-            green = SirioTagColors.Unspecified,
-            white = SirioTagColors.Unspecified,
+            gray = SirioBaseColors.Unspecified,
+            blue = SirioBaseColors.Unspecified,
+            red = SirioBaseColors.Unspecified,
+            orange = SirioBaseColors.Unspecified,
+            green = SirioBaseColors.Unspecified,
+            white = SirioBaseColors.Unspecified,
         )
     }
 }
 
-@Keep
-data class SirioTagColors(
-    val background: Color,
-    val text: Color,
-) {
-    companion object {
-        @Stable
-        val Unspecified = SirioTagColors(
-            background = Color.Unspecified,
-            text = Color.Unspecified,
-        )
-    }
-}
+
+internal val tagLightColors = SirioTagsColors(
+    gray = SirioBaseColors(
+        container = FoundationColor.colorAliasInteractiveSecondaryDefault,
+        content = FoundationColor.colorAliasBackgroundColorPrimaryLight0,
+    ),
+    blue = SirioBaseColors(
+        container = FoundationColor.colorAliasInteractivePrimaryDefault,
+        content = FoundationColor.colorAliasBackgroundColorPrimaryLight0,
+    ),
+    red = SirioBaseColors(
+        container = FoundationColor.colorAliasInteractiveAlertDefault,
+        content = FoundationColor.colorAliasBackgroundColorPrimaryLight0,
+    ),
+    orange = SirioBaseColors(
+        container = FoundationColor.colorGlobalSemanticWarning80,
+        content = FoundationColor.colorAliasTextColorSecondaryDark130,
+    ),
+    green = SirioBaseColors(
+        container = FoundationColor.colorGlobalSemanticSuccess100,
+        content = FoundationColor.colorAliasBackgroundColorPrimaryLight0,
+    ),
+    white = SirioBaseColors(
+        container = FoundationColor.colorAliasBackgroundColorPrimaryLight0,
+        content = FoundationColor.colorAliasInteractiveSecondaryDefault,
+    ),
+)
+
+internal
+val tagDarkColors = tagLightColors
 
 @Preview
 @Composable

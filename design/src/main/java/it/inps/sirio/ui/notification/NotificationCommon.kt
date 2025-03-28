@@ -1,7 +1,7 @@
 //
 // NotificationCommon.kt
 //
-// SPDX-FileCopyrightText: 2024 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -44,9 +44,9 @@ import it.inps.sirio.theme.notificationInlinePaddingHorizontal
 import it.inps.sirio.theme.notificationInlinePaddingVertical
 import it.inps.sirio.theme.notificationInlineSpacerVertical
 import it.inps.sirio.theme.notificationInlineStateWidth
-import it.inps.sirio.ui.button.ButtonSize
 import it.inps.sirio.ui.button.ButtonStyle
 import it.inps.sirio.ui.button.SirioButton
+import it.inps.sirio.ui.button.SirioButtonSize
 import it.inps.sirio.ui.text.SirioText
 import it.inps.sirio.ui.text.SirioTextCommon
 import it.inps.sirio.utils.SirioIcon
@@ -81,7 +81,7 @@ internal fun NotificationCommon(
     Row(
         Modifier
             .height(IntrinsicSize.Min)
-            .background(color = SirioTheme.colors.notificationColors.background)
+            .background(color = SirioTheme.colors.notification.background)
             .semantics(mergeDescendants = true) {
                 customActions = listOf(
                     CustomAccessibilityAction(
@@ -106,7 +106,7 @@ internal fun NotificationCommon(
             SirioIcon(
                 faIcon = icon,
                 size = notificationInlineIconSize.dp,
-                iconColor = SirioTheme.colors.notificationColors.icon,
+                iconColor = SirioTheme.colors.notification.icon,
             )
         }
         Column(
@@ -120,14 +120,14 @@ internal fun NotificationCommon(
         ) {
             SirioTextCommon(
                 text = title,
-                color = SirioTheme.colors.notificationColors.title,
+                color = SirioTheme.colors.notification.title,
                 maxLines = 1,
                 typography = SirioTheme.typography.notification.title,
             )
             Spacer(modifier = Modifier.height(notificationInlineSpacerVertical.dp))
             SirioTextCommon(
                 text = text,
-                color = SirioTheme.colors.notificationColors.text,
+                color = SirioTheme.colors.notification.text,
                 maxLines = 2,
                 typography = SirioTheme.typography.notification.text,
             )
@@ -136,7 +136,7 @@ internal fun NotificationCommon(
                 SirioText(
                     text = link,
                     modifier = Modifier.clickable(role = Role.Button, onClick = onLink),
-                    color = SirioTheme.colors.notificationColors.link,
+                    color = SirioTheme.colors.notification.link,
                     typography = SirioTheme.typography.notification.link,
                 )
             }
@@ -145,7 +145,7 @@ internal fun NotificationCommon(
                 SirioButton(
                     text = buttonText,
                     onClick = onAction,
-                    size = ButtonSize.Large,
+                    size = SirioButtonSize.Large,
                     style = ButtonStyle.Tertiary
                 )
             }
@@ -154,7 +154,7 @@ internal fun NotificationCommon(
             SirioIcon(
                 faIcon = FaIcons.Times,
                 size = notificationInlineCloseSize.dp,
-                iconColor = SirioTheme.colors.notificationColors.icon,
+                iconColor = SirioTheme.colors.notification.icon,
                 contentDescription = closeContentDescription,
             )
         }
@@ -169,22 +169,22 @@ internal fun paramsByType(type: NotificationType) =
     when (type) {
         NotificationType.Alert -> Pair(
             FaIcons.ExclamationTriangle,
-            SirioTheme.colors.notificationColors.alert
+            SirioTheme.colors.notification.alert
         )
 
         NotificationType.Info -> Pair(
             FaIcons.InfoCircle,
-            SirioTheme.colors.notificationColors.info
+            SirioTheme.colors.notification.info
         )
 
         NotificationType.Warning -> Pair(
             FaIcons.ExclamationCircle,
-            SirioTheme.colors.notificationColors.warning
+            SirioTheme.colors.notification.warning
         )
 
         NotificationType.Success -> Pair(
             FaIcons.Check,
-            SirioTheme.colors.notificationColors.success
+            SirioTheme.colors.notification.success
         )
     }
 
@@ -255,25 +255,25 @@ private fun NotificationInlineCommonPreview() {
                 title = "Titolo di Errore",
                 text = text,
                 icon = FaIcons.ExclamationTriangle,
-                stateColor = SirioTheme.colors.notificationColors.alert,
+                stateColor = SirioTheme.colors.notification.alert,
             ) {}
             NotificationCommon(
                 title = "Titolo Informativo",
                 text = text,
                 icon = FaIcons.InfoCircle,
-                stateColor = SirioTheme.colors.notificationColors.info,
+                stateColor = SirioTheme.colors.notification.info,
             ) {}
             NotificationCommon(
                 title = "Titolo di Avviso",
                 text = text,
                 icon = FaIcons.ExclamationCircle,
-                stateColor = SirioTheme.colors.notificationColors.warning,
+                stateColor = SirioTheme.colors.notification.warning,
             ) {}
             NotificationCommon(
                 title = "Titolo Successo",
                 text = text,
                 icon = FaIcons.Check,
-                stateColor = SirioTheme.colors.notificationColors.success,
+                stateColor = SirioTheme.colors.notification.success,
             ) {}
         }
     }
@@ -291,7 +291,7 @@ private fun NotificationToastCommonPreview() {
                 text = text,
                 icon = FaIcons.ExclamationTriangle,
                 buttonText = button,
-                stateColor = SirioTheme.colors.notificationColors.alert,
+                stateColor = SirioTheme.colors.notification.alert,
                 onAction = {},
             ) {}
             NotificationCommon(
@@ -299,7 +299,7 @@ private fun NotificationToastCommonPreview() {
                 text = text,
                 icon = FaIcons.InfoCircle,
                 buttonText = button,
-                stateColor = SirioTheme.colors.notificationColors.info,
+                stateColor = SirioTheme.colors.notification.info,
                 onAction = {},
             ) {}
             NotificationCommon(
@@ -307,7 +307,7 @@ private fun NotificationToastCommonPreview() {
                 text = text,
                 icon = FaIcons.ExclamationCircle,
                 buttonText = button,
-                stateColor = SirioTheme.colors.notificationColors.warning,
+                stateColor = SirioTheme.colors.notification.warning,
                 onAction = {},
             ) {}
             NotificationCommon(
@@ -315,7 +315,7 @@ private fun NotificationToastCommonPreview() {
                 text = text,
                 icon = FaIcons.Check,
                 buttonText = button,
-                stateColor = SirioTheme.colors.notificationColors.success,
+                stateColor = SirioTheme.colors.notification.success,
                 onAction = {},
             ) {}
         }
@@ -336,7 +336,7 @@ private fun NotificationToastLinkCommonPreview() {
                 icon = FaIcons.ExclamationTriangle,
                 link = link,
                 buttonText = button,
-                stateColor = SirioTheme.colors.notificationColors.alert,
+                stateColor = SirioTheme.colors.notification.alert,
                 onLink = {},
                 onAction = {},
                 onClose = {},
@@ -347,7 +347,7 @@ private fun NotificationToastLinkCommonPreview() {
                 icon = FaIcons.ExclamationCircle,
                 link = link,
                 buttonText = button,
-                stateColor = SirioTheme.colors.notificationColors.info,
+                stateColor = SirioTheme.colors.notification.info,
                 onLink = {},
                 onAction = {},
                 onClose = {},
@@ -358,7 +358,7 @@ private fun NotificationToastLinkCommonPreview() {
                 icon = FaIcons.ExclamationCircle,
                 link = link,
                 buttonText = button,
-                stateColor = SirioTheme.colors.notificationColors.warning,
+                stateColor = SirioTheme.colors.notification.warning,
                 onLink = {},
                 onAction = {},
                 onClose = {},
@@ -369,7 +369,7 @@ private fun NotificationToastLinkCommonPreview() {
                 icon = FaIcons.Check,
                 link = link,
                 buttonText = button,
-                stateColor = SirioTheme.colors.notificationColors.success,
+                stateColor = SirioTheme.colors.notification.success,
                 onLink = {},
                 onAction = {},
                 onClose = {},

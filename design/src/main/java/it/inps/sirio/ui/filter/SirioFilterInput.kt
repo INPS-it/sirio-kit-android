@@ -1,7 +1,7 @@
 //
 // SirioFilterInput.kt
 //
-// SPDX-FileCopyrightText: 2022 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -21,7 +21,7 @@ import com.guru.fontawesomecomposelib.FaIconType
 import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.theme.filterPadding
 import it.inps.sirio.ui.textfield.SirioTextFieldCommon
-import it.inps.sirio.ui.textfield.TextFieldSemantic
+import it.inps.sirio.ui.textfield.TextFieldState
 
 /**
  * A filter input component.
@@ -53,7 +53,7 @@ fun SirioFilterInput(
     onInfoClick: (() -> Unit)? = null,
     infoContentDescription: String? = null,
     helperText: String? = null,
-    type: TextFieldSemantic? = null,
+    type: TextFieldState? = null,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     onIconClick: (() -> Unit)? = null,
@@ -76,7 +76,7 @@ fun SirioFilterInput(
             onInfoClick = onInfoClick,
             infoContentDescription = infoContentDescription,
             helperText = helperText,
-            type = type,
+            state = type,
             keyboardOptions = keyboardOptions,
             keyboardActions = keyboardActions,
             onIconClick = onIconClick,

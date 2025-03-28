@@ -1,7 +1,7 @@
 //
 // SirioDialog.kt
 //
-// SPDX-FileCopyrightText: 2024 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -52,17 +52,17 @@ fun SirioDialog(
         DialogSemantic.INFO -> Triple(
             if (icon) FaIcons.InfoCircle else null,
             SirioTheme.colors.dialog.semanticDefault,
-            SirioTheme.colors.buttons.primary,
+            SirioTheme.colors.buttonLegacy.primary,
         )
         DialogSemantic.WARNING -> Triple(
             if (icon) FaIcons.ExclamationCircle else null,
             SirioTheme.colors.dialog.semanticWarning,
-            SirioTheme.colors.buttons.primary,
+            SirioTheme.colors.buttonLegacy.primary,
         )
         DialogSemantic.ALERT -> Triple(
             if (icon) FaIcons.ExclamationTriangle else null,
             SirioTheme.colors.dialog.semanticAlert,
-            SirioTheme.colors.buttons.danger,
+            SirioTheme.colors.buttonLegacy.danger,
         )
     }
     SirioDialogCommon(

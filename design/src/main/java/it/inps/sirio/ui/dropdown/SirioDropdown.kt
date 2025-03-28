@@ -1,144 +1,242 @@
 //
 // SirioDropdown.kt
 //
-// SPDX-FileCopyrightText: 2022 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
+
 package it.inps.sirio.ui.dropdown
 
 import androidx.annotation.Keep
-import androidx.compose.foundation.ScrollState
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.DropdownMenu
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.MenuAnchorType
+import androidx.compose.material3.MenuDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.layout
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.PopupProperties
+import com.guru.fontawesomecomposelib.FaIcons
+import it.inps.sirio.foundation.FoundationColor
 import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.theme.dropdownBorderWidth
-import it.inps.sirio.ui.button.ButtonSize
-import it.inps.sirio.ui.button.ButtonStyle
-import it.inps.sirio.ui.button.SirioButton
+import it.inps.sirio.theme.dropdownCornerSize
+import it.inps.sirio.ui.text.SirioText
+import it.inps.sirio.ui.textfield.SirioTextFieldCommon
+import it.inps.sirio.ui.textfield.TextFieldState
 
+/**
+ * A dropdown component that displays a list of selectable values.
+ *
+ * @param values The array of string values to be displayed in the dropdown.
+ * @param modifier Modifier to be applied to the dropdown layout.
+ * @param text The currently selected text or the text input in the dropdown.
+ * @param onValueChange A callback function invoked when the value changes.
+ * @param placeholder Placeholder text to be displayed when no value is selected.
+ * @param iconContentDescription Content description for the dropdown icon.
+ * @param label Label text for the dropdown field.
+ * @param onInfoClick Callback function invoked when the info icon is clicked.
+ * @param infoContentDescription Content description for the info icon.
+ * @param helperText Helper text to be displayed below the dropdown.
+ * @param error Whether the dropdown is in an error state.
+ * @param enabled Whether the dropdown is enabled or disabled.
+ *
+ * @see SirioTextFieldCommon
+ */
 @Composable
 fun SirioDropdown(
-    expanded: Boolean,
-    onDismissRequest: () -> Unit,
+    values: Array<String>,
     modifier: Modifier = Modifier,
-    offset: DpOffset = DpOffset(0.dp, 0.dp),
-    scrollState: ScrollState = rememberScrollState(),
-    properties: PopupProperties = PopupProperties(focusable = true),
-    content: @Composable ColumnScope.() -> Unit,
+    text: String = "",
+    onValueChange: (String) -> Unit = {},
+    placeholder: String? = null,
+    iconContentDescription: String? = null,
+    label: String? = null,
+    onInfoClick: (() -> Unit)? = null,
+    infoContentDescription: String? = null,
+    helperText: String? = null,
+    error: Boolean = false,
+    enabled: Boolean = true,
 ) {
-    DropdownMenu(
+    var expanded by remember { mutableStateOf(false) }
+    @OptIn(ExperimentalMaterial3Api::class)
+    ExposedDropdownMenuBox(
         expanded = expanded,
-        onDismissRequest = onDismissRequest,
-        modifier = modifier
-            .crop(vertical = 8.dp)
-            .border(
-                width = dropdownBorderWidth.dp,
-                color = SirioTheme.colors.dropdown.option.border.default,
-                shape = RoundedCornerShape(4.dp)
-            )
-//            .clip(RoundedCornerShape(4.dp))
-        ,
-        offset = offset,
-        scrollState = scrollState,
-        properties = properties,
-        content = content
-    )
-}
-
-fun Modifier.crop(
-    horizontal: Dp = 0.dp,
-    vertical: Dp = 0.dp,
-): Modifier = this.layout { measurable, constraints ->
-    val placeable = measurable.measure(constraints)
-    fun Dp.toPxInt(): Int = this.toPx().toInt()
-
-    layout(
-        placeable.width - (horizontal * 2).toPxInt(),
-        placeable.height - (vertical * 2).toPxInt()
+        onExpandedChange = { expanded = it },
     ) {
-        placeable.placeRelative(-horizontal.toPx().toInt(), -vertical.toPx().toInt())
+        SirioTextFieldCommon(
+            modifier = modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable),
+            text = text,
+            onValueChange = {},
+            placeholder = placeholder,
+            icon = FaIcons.ChevronDown,
+            iconContentDescription = iconContentDescription,
+            label = label,
+            onInfoClick = onInfoClick,
+            infoContentDescription = infoContentDescription,
+            helperText = helperText,
+            state = if (error) TextFieldState.Alert else null,
+            enabled = enabled,
+            onTextFieldClick = { expanded = values.isNotEmpty() },
+        )
+        ExposedDropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+            shape = RoundedCornerShape(dropdownCornerSize.dp),
+            containerColor = SirioTheme.colors.dropdown.item.container,
+            border = BorderStroke(
+                width = dropdownBorderWidth.dp,
+                color = SirioTheme.colors.dropdown.item.border,
+            )
+        ) {
+            values.forEach { selectionOption ->
+                DropdownMenuItem(
+                    text = {
+                        SirioText(
+                            text = selectionOption,
+                            typography = SirioTheme.foundationTypography.labelMdRegular,
+                        )
+                    },
+                    colors = MenuDefaults.itemColors(textColor = SirioTheme.colors.dropdown.item.content),
+                    onClick = {
+                        expanded = false
+                        onValueChange(selectionOption)
+                    }
+                )
+            }
+        }
     }
 }
 
 @Keep
 data class SirioDropdownColors(
-    val option: SirioDropdownOptionColors,
+    val item: SirioDropdownItemColors,
 ) {
     companion object {
         @Stable
         val Unspecified = SirioDropdownColors(
-            option = SirioDropdownOptionColors.Unspecified,
+            item = SirioDropdownItemColors.Unspecified,
         )
     }
 }
 
 @Keep
-data class SirioDropdownTypography(
-    val option: SirioDropdownOptionTypography,
+data class SirioDropdownItemColors(
+    val container: Color,
+    val border: Color,
+    val content: Color,
 ) {
     companion object {
         @Stable
-        val Default = SirioDropdownTypography(
-            option = SirioDropdownOptionTypography.Default,
+        val Unspecified = SirioDropdownItemColors(
+            container = Color.Unspecified,
+            border = Color.Unspecified,
+            content = Color.Unspecified,
         )
     }
 }
+
+internal val dropdownLightColors = SirioDropdownColors(
+    item = SirioDropdownItemColors(
+        container = FoundationColor.colorAliasBackgroundColorPrimaryLight0,
+        border = FoundationColor.colorSpecificDataEntryBorderColorDefault,
+        content = FoundationColor.colorSpecificDataEntryPlaceholderColorDefault,
+    )
+)
+
+internal val dropdownDarkColors = dropdownLightColors
 
 @Preview(showSystemUi = true)
 @Composable
 private fun SirioDropdownPreview() {
     SirioTheme {
-        var show by remember { mutableStateOf(false) }
-        Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            Box(Modifier.wrapContentSize(align = Alignment.TopEnd)) {
-                SirioButton(text = "Show", size = ButtonSize.Large, style = ButtonStyle.Primary) {
-                    show = true
-                }
-                SirioDropdown(show, { show = false }) {
-                    val text = "Option Value"
-                    SirioDropdownOptionItem(
-                        text = text,
-                        selected = false,
-                        enabled = true,
-                        onCLick = {})
-                    SirioDropdownOptionItem(
-                        text = text,
-                        selected = true,
-                        enabled = true,
-                        onCLick = {})
-                    SirioDropdownOptionItem(
-                        text = text,
-                        selected = false,
-                        enabled = false,
-                        onCLick = {})
-                    SirioDropdownOptionItem(
-                        text = text,
-                        selected = true,
-                        enabled = false,
-                        onCLick = {})
-                }
+        Column(
+            Modifier
+                .fillMaxSize()
+                .background(Color.White)
+                .verticalScroll(rememberScrollState())
+                .padding(10.dp),
+            verticalArrangement = Arrangement.spacedBy(20.dp)
+        ) {
+            val values by remember {
+                mutableStateOf(
+                    arrayOf(
+                        "Value 1\n2 lines",
+                        "Value 2",
+                        "Value 3"
+                    )
+                )
             }
+            var text by remember { mutableStateOf("") }
+            SirioDropdown(
+                values = values,
+                text = text,
+                onValueChange = { text = it },
+                placeholder = "Placeholder",
+                label = "Label",
+                onInfoClick = {},
+                helperText = "Helper text",
+                error = true,
+            )
+            SirioDropdown(
+                values = emptyArray(),
+                placeholder = "Placeholder",
+                onValueChange = { },
+                label = "Label",
+                helperText = "Helper text",
+                error = false,
+            )
+            SirioDropdown(
+                values = emptyArray(),
+                text = "Text",
+                onValueChange = { },
+                label = "Label",
+                helperText = "Helper text",
+                error = false,
+            )
+            SirioDropdown(
+                values = emptyArray(),
+                text = "Text",
+                onValueChange = { },
+                label = "Label",
+                helperText = "Helper text",
+                error = false,
+                enabled = false,
+            )
+            SirioDropdown(
+                values = emptyArray(),
+                text = "Text",
+                onValueChange = { },
+                label = "Label",
+                helperText = "Helper text",
+                error = true,
+            )
+            SirioDropdown(
+                values = emptyArray(),
+                text = "Text",
+                onValueChange = { },
+                label = "Label",
+                helperText = "Helper text",
+                error = false,
+                onInfoClick = {},
+            )
         }
     }
 }

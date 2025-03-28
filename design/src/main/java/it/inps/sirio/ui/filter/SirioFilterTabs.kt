@@ -1,7 +1,7 @@
 //
 // SirioFilterTabs.kt
 //
-// SPDX-FileCopyrightText: 2022 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -17,9 +17,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.guru.fontawesomecomposelib.FaIcons
 import it.inps.sirio.theme.SirioTheme
-import it.inps.sirio.ui.button.ButtonSize
 import it.inps.sirio.ui.button.ButtonStyle
 import it.inps.sirio.ui.button.SirioButton
+import it.inps.sirio.ui.button.SirioButtonSize
 import it.inps.sirio.ui.tabs.SirioTabGroupCommon
 import it.inps.sirio.ui.tabs.TabItemData
 import it.inps.sirio.ui.tabs.TabSelectionIndicatorPosition
@@ -47,7 +47,7 @@ fun SirioFilterTabs(
     ) {
         if (withScroll) {
             SirioButton(
-                size = ButtonSize.Medium,
+                size = SirioButtonSize.Medium,
                 style = ButtonStyle.Ghost,
                 icon = FaIcons.ChevronLeft,
                 enabled = selectedIndex != 0,
@@ -63,7 +63,7 @@ fun SirioFilterTabs(
         )
         if (withScroll) {
             SirioButton(
-                size = ButtonSize.Medium,
+                size = SirioButtonSize.Medium,
                 style = ButtonStyle.Ghost,
                 icon = FaIcons.ChevronRight,
                 enabled = selectedIndex != items.lastIndex,

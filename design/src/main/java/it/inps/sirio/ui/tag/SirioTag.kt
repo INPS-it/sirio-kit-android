@@ -1,7 +1,7 @@
 //
 // SirioTag.kt
 //
-// SPDX-FileCopyrightText: 2024 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -44,7 +44,7 @@ fun SirioTag(
 
 @Preview
 @Composable
-private fun SmallTagPreview() {
+private fun TagPreview() {
     SirioTheme {
         Column {
             SirioTag(text = "Label Tag", tagType = TagType.GRAY)

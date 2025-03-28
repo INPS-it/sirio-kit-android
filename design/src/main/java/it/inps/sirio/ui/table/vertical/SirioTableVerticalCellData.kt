@@ -1,7 +1,7 @@
 //
 // SirioTableVerticalCellData.kt
 //
-// SPDX-FileCopyrightText: 2022 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -12,4 +12,5 @@ import it.inps.sirio.ui.table.SirioTableIconData
 data class SirioTableVerticalCellData(
     val items: List<SirioTableVerticalCellItemData>,
     val icons: List<SirioTableIconData> = emptyList(),
+    val theme: SirioTableVerticalCellTheme = SirioTableVerticalCellTheme.Light,
 )

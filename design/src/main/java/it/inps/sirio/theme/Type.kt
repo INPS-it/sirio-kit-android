@@ -1,7 +1,7 @@
 //
 // Type.kt
 //
-// SPDX-FileCopyrightText: 2024 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -21,12 +21,11 @@ import androidx.compose.ui.unit.sp
 import it.inps.sirio.styleDictionary.StyleDictionaryColor
 import it.inps.sirio.styleDictionary.StyleDictionarySize
 import it.inps.sirio.styleDictionary.StyleDictionaryTypography
-import it.inps.sirio.ui.avviso.SirioAvvisoTypography
+import it.inps.sirio.ui.appnavigation.SirioAppNavigationTypography
 import it.inps.sirio.ui.card.SirioCardTypography
 import it.inps.sirio.ui.card.SirioCardsTypography
-import it.inps.sirio.ui.checkbox.SirioCheckboxTypography
-import it.inps.sirio.ui.dropdown.SirioDropdownOptionTypography
-import it.inps.sirio.ui.dropdown.SirioDropdownTypography
+import it.inps.sirio.ui.dropdownmenu.SirioDropdownMenuOptionTypography
+import it.inps.sirio.ui.dropdownmenu.SirioDropdownMenuTypography
 import it.inps.sirio.ui.filter.SirioFilterTypography
 import it.inps.sirio.ui.hero.SirioHeroTypography
 import it.inps.sirio.ui.menuspalla.SirioMenuSpallaDrawerItemInfoTypography
@@ -35,22 +34,24 @@ import it.inps.sirio.ui.menuspalla.SirioMenuSpallaItemTitleSectionTypography
 import it.inps.sirio.ui.menuspalla.SirioMenuSpallaItemTypography
 import it.inps.sirio.ui.menuspalla.SirioMenuSpallaTypography
 import it.inps.sirio.ui.notification.SirioNotificationTypography
-import it.inps.sirio.ui.radiobutton.SirioRadioButtonTypography
-import it.inps.sirio.ui.stepprogressbar.SirioStepControlsTypography
-import it.inps.sirio.ui.stepprogressbar.SirioStepProgressBarTypography
-import it.inps.sirio.ui.stepprogressbar.SirioStepSelectionTypography
 import it.inps.sirio.ui.table.SirioTableHeaderTypography
 import it.inps.sirio.ui.table.SirioTableTypography
 import it.inps.sirio.ui.table.cell.SirioTableCellTypography
 import it.inps.sirio.ui.table.drawer.SirioTableDrawerTypography
 import it.inps.sirio.ui.table.vertical.SirioTableVerticalTypography
 import it.inps.sirio.ui.titlebar.SirioTitleBarTypography
-import it.inps.sirio.ui.toggle.SirioToggleTypography
 
 internal val Titillium_Web = TitilliumWebFamily
 internal val Lora = LoraFamily
 internal val Roboto_Mono = RobotoMonoFamily
 
+@Deprecated(
+    "Use foundationTypography instead",
+    replaceWith = ReplaceWith(
+        "SirioTheme.foundationTypography.headlineSmMiddle",
+        "it.inps.sirio.theme.SirioTheme"
+    )
+)
 val appNavigationTitleMd = TextStyle(
     fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
     fontSize = StyleDictionarySize.typographyAliasH6MdSize05.sp,
@@ -59,6 +60,13 @@ val appNavigationTitleMd = TextStyle(
     fontStyle = StyleDictionaryTypography.typographySpecificAppNavigationTitleFontWeight600.getFontStyle(),
 )
 
+@Deprecated(
+    "Use foundationTypography instead",
+    replaceWith = ReplaceWith(
+        "SirioTheme.foundationTypography.headlineLgMiddle",
+        "it.inps.sirio.theme.SirioTheme"
+    )
+)
 val appNavigationTitleXl = TextStyle(
     fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
     fontSize = StyleDictionarySize.typographySpecificAppNavigationTitleXlSize.sp,
@@ -67,6 +75,13 @@ val appNavigationTitleXl = TextStyle(
     fontStyle = StyleDictionaryTypography.typographySpecificAppNavigationTitleFontWeight600.getFontStyle(),
 )
 
+@Deprecated(
+    "Use foundationTypography instead",
+    replaceWith = ReplaceWith(
+        "SirioTheme.foundationTypography.headlineMdHeavy",
+        "it.inps.sirio.theme.SirioTheme"
+    )
+)
 val labelXl600 = TextStyle(
     fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
     fontSize = StyleDictionarySize.typographyAliasLabelXlSize06.sp,
@@ -75,6 +90,13 @@ val labelXl600 = TextStyle(
     fontStyle = StyleDictionaryTypography.typographyAliasLabelFontWeight700.getFontStyle(),
 )
 
+@Deprecated(
+    "Use foundationTypography instead",
+    replaceWith = ReplaceWith(
+        "SirioTheme.foundationTypography.headlineMdRegular",
+        "it.inps.sirio.theme.SirioTheme"
+    )
+)
 val labelXl400 = TextStyle(
     fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
     fontSize = StyleDictionarySize.typographyAliasLabelXlSize06.sp,
@@ -83,6 +105,7 @@ val labelXl400 = TextStyle(
     fontStyle = StyleDictionaryTypography.typographyAliasLabelFontWeight400.getFontStyle(),
 )
 
+@Deprecated("Use foundationTypography instead")
 val labelLg700 = TextStyle(
     fontSize = StyleDictionarySize.typographyAliasLabelLgSize05.sp,
     fontWeight = StyleDictionaryTypography.typographyAliasLabelFontWeight700.getFontWeight(),
@@ -96,6 +119,13 @@ val labelLg700 = TextStyle(
 //    ),
 )
 
+@Deprecated(
+    "Use foundationTypography instead",
+    replaceWith = ReplaceWith(
+        "SirioTheme.foundationTypography.labelMdHeavy",
+        "it.inps.sirio.theme.SirioTheme"
+    )
+)
 val labelMd700 = TextStyle(
     fontSize = StyleDictionarySize.typographyAliasLabelMdSize04.sp,
     fontWeight = StyleDictionaryTypography.typographyAliasLabelFontWeight700.getFontWeight(),
@@ -109,6 +139,13 @@ val labelMd700 = TextStyle(
 //    ),
 )
 
+@Deprecated(
+    "Use foundationTypography instead",
+    replaceWith = ReplaceWith(
+        "SirioTheme.foundationTypography.labelMdMiddle",
+        "it.inps.sirio.theme.SirioTheme"
+    )
+)
 val labelMd600 = TextStyle(
     fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
     fontSize = StyleDictionarySize.typographyAliasLabelMdSize04.sp,
@@ -117,6 +154,13 @@ val labelMd600 = TextStyle(
     fontStyle = StyleDictionaryTypography.typographyAliasLabelFontWeight600.getFontStyle(),
 )
 
+@Deprecated(
+    "Use foundationTypography instead",
+    replaceWith = ReplaceWith(
+        "SirioTheme.foundationTypography.tabbarLabelXsRegular",
+        "it.inps.sirio.theme.SirioTheme"
+    )
+)
 val tabBarLabelXs = TextStyle(
     fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
     fontSize = StyleDictionarySize.typographyAliasLabelXsSize02.sp,
@@ -126,6 +170,13 @@ val tabBarLabelXs = TextStyle(
     textAlign = TextAlign.Center,
 )
 
+@Deprecated(
+    "Use foundationTypography instead",
+    replaceWith = ReplaceWith(
+        "SirioTheme.foundationTypography.labelSmRegular",
+        "it.inps.sirio.theme.SirioTheme"
+    )
+)
 val helperTextXs400 = TextStyle(
     fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
     fontSize = StyleDictionarySize.typographyAliasLabelXsSize02.sp,
@@ -139,6 +190,13 @@ val helperTextXs400 = TextStyle(
     ),
 )
 
+@Deprecated(
+    "Use foundationTypography instead",
+    replaceWith = ReplaceWith(
+        "SirioTheme.foundationTypography.labelNumberMdRegular",
+        "it.inps.sirio.theme.SirioTheme"
+    )
+)
 val labelMdNumber400 = TextStyle(
     fontFamily = StyleDictionaryTypography.typographyAliasFontFamilyNumber03,
     fontSize = StyleDictionarySize.typographyAliasLabelMdSize04.sp,
@@ -148,6 +206,7 @@ val labelMdNumber400 = TextStyle(
     textAlign = TextAlign.Center,
 )
 
+@Deprecated("Use foundationTypography instead")
 val labelProgressBarNumber = TextStyle(
     fontFamily = StyleDictionaryTypography.typographyAliasFontFamilyNumber03,
     fontSize = StyleDictionarySize.typographyGlobalFontSize02.sp,
@@ -156,6 +215,7 @@ val labelProgressBarNumber = TextStyle(
     fontStyle = StyleDictionaryTypography.typographyAliasLabelFontWeight400.getFontStyle(),
 )
 
+@Deprecated("Use foundationTypography instead")
 val pLg01 = TextStyle(
     fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
     fontSize = StyleDictionarySize.typographyAliasLabelLgSize05.sp,
@@ -164,6 +224,13 @@ val pLg01 = TextStyle(
     fontStyle = StyleDictionaryTypography.typographyAliasPFontWeight400.getFontStyle(),
 )
 
+@Deprecated(
+    "Use foundationTypography instead",
+    replaceWith = ReplaceWith(
+        "SirioTheme.foundationTypography.bodyMdRegular",
+        "it.inps.sirio.theme.SirioTheme"
+    )
+)
 val pMd01 = TextStyle(
     fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
     fontSize = StyleDictionarySize.typographyGlobalFontSize04.sp,
@@ -172,7 +239,13 @@ val pMd01 = TextStyle(
     fontStyle = StyleDictionaryTypography.typographyAliasLabelFontWeight400.getFontStyle(),
 )
 
-
+@Deprecated(
+    "Use foundationTypography instead",
+    replaceWith = ReplaceWith(
+        "SirioTheme.foundationTypography.labelMdHeavy.copy(textDecoration = TextDecoration.Underline,)",
+        "it.inps.sirio.theme.SirioTheme"
+    )
+)
 val linkPLg01 = TextStyle(
     fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
     fontSize = StyleDictionarySize.typographyAliasLabelLgSize05.sp,
@@ -182,6 +255,7 @@ val linkPLg01 = TextStyle(
     textDecoration = TextDecoration.Underline,
 )
 
+@Deprecated("Use foundationTypography instead")
 val linkPMd01 = TextStyle(
     fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
     fontSize = StyleDictionarySize.typographyGlobalFontSize04.sp,
@@ -192,6 +266,7 @@ val linkPMd01 = TextStyle(
     textDecoration = TextDecoration.Underline
 )
 
+@Deprecated("Use foundationTypography instead")
 val linkH4Md01 = TextStyle(
     fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
     fontSize = StyleDictionarySize.typographyAliasLinkH4MdSize07.sp,
@@ -202,6 +277,13 @@ val linkH4Md01 = TextStyle(
     textDecoration = TextDecoration.Underline
 )
 
+@Deprecated(
+    "Use foundationTypography instead",
+    replaceWith = ReplaceWith(
+        "SirioTheme.foundationTypography.labelMdRegular",
+        "it.inps.sirio.theme.SirioTheme"
+    )
+)
 val labelMd400 = TextStyle(
     fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
     fontSize = StyleDictionarySize.typographyAliasLabelMdSize04.sp,
@@ -210,6 +292,7 @@ val labelMd400 = TextStyle(
     fontStyle = StyleDictionaryTypography.typographyAliasLabelFontWeight400.getFontStyle(),
 )
 
+@Deprecated("Use foundationTypography instead")
 val placeholderMd400 = TextStyle(
     fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
     fontSize = StyleDictionarySize.typographyAliasLabelMdSize04.sp,
@@ -223,6 +306,7 @@ val placeholderMd400 = TextStyle(
     ),
 )
 
+@Deprecated("Use foundationTypography instead")
 val h2Md = TextStyle(
     fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
     fontSize = StyleDictionarySize.typographyAliasH2MdSize11.sp,
@@ -231,6 +315,7 @@ val h2Md = TextStyle(
     fontStyle = StyleDictionaryTypography.typographyAliasH2FontWeight700.getFontStyle(),
 )
 
+@Deprecated("Use foundationTypography instead")
 val h4Lg = TextStyle(
     fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
     fontSize = StyleDictionarySize.typographyAliasH4LgSize08.sp,
@@ -239,6 +324,13 @@ val h4Lg = TextStyle(
     fontStyle = StyleDictionaryTypography.typographyAliasH4FontWeight700.getFontStyle(),
 )
 
+@Deprecated(
+    "Use foundationTypography instead",
+    replaceWith = ReplaceWith(
+        "SirioTheme.foundationTypography.headlineLgHeavy",
+        "it.inps.sirio.theme.SirioTheme"
+    )
+)
 val h4Md = TextStyle(
     fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
     fontSize = StyleDictionarySize.typographyAliasH4MdSize07.sp,
@@ -247,6 +339,13 @@ val h4Md = TextStyle(
     fontStyle = StyleDictionaryTypography.typographyAliasLabelFontWeight700.getFontStyle(),
 )
 
+@Deprecated(
+    "Use foundationTypography instead",
+    replaceWith = ReplaceWith(
+        "SirioTheme.foundationTypography.headlineMdMiddle",
+        "it.inps.sirio.theme.SirioTheme"
+    )
+)
 val h5Md = TextStyle(
     fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
     fontSize = StyleDictionarySize.typographyAliasH5MdSize06.sp,
@@ -255,6 +354,13 @@ val h5Md = TextStyle(
     fontStyle = StyleDictionaryTypography.typographyAliasH5FontWeight600.getFontStyle(),
 )
 
+@Deprecated(
+    "Use foundationTypography instead",
+    replaceWith = ReplaceWith(
+        "SirioTheme.foundationTypography.headlineSmMiddle",
+        "it.inps.sirio.theme.SirioTheme"
+    )
+)
 val h6Md = TextStyle(
     fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
     fontSize = StyleDictionarySize.typographyAliasH6MdSize05.sp,
@@ -263,6 +369,7 @@ val h6Md = TextStyle(
     fontStyle = StyleDictionaryTypography.typographyAliasLabelFontWeight600.getFontStyle(),
 )
 
+@Deprecated("Use foundationTypography instead")
 val signaturePMd02 = TextStyle(
     fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily02,
     fontSize = StyleDictionarySize.typographyAliasLabelMdSize04.sp,
@@ -271,16 +378,15 @@ val signaturePMd02 = TextStyle(
     fontStyle = StyleDictionaryTypography.typographyGlobalFontWeights700I.getFontStyle(),
 )
 
+@Deprecated("Use foundationTypography instead")
 internal val Typography = SirioTypography(
     accordionText = labelMd600,
-    appNavigationSearch = labelMd600,
-    appNavigationSearchPlaceholder = labelMd600,
-    appNavigationTitle = appNavigationTitleMd,
-    appNavigationTitleBig = appNavigationTitleXl,
-    appNavigationUsername = labelMd700,
-    avviso = SirioAvvisoTypography(
-        title = h4Lg,
-        text = pLg01,
+    appNavigation = SirioAppNavigationTypography(
+        search = labelMd600,
+        searchPlaceholder = labelMd600,
+        title = appNavigationTitleMd,
+        titleBig = appNavigationTitleXl,
+        avatar = labelMd700,
     ),
     buttonText = labelMd700,
     card = SirioCardsTypography(
@@ -299,18 +405,13 @@ internal val Typography = SirioTypography(
             signature = signaturePMd02,
         ),
     ),
-    checkbox = SirioCheckboxTypography(text = labelMd400),
-    chipText = labelMd700,
     dialogText = pMd01,
     dialogTitle = h4Md,
-    dropdown = SirioDropdownTypography(
-        option = SirioDropdownOptionTypography(
+    dropdown = SirioDropdownMenuTypography(
+        option = SirioDropdownMenuOptionTypography(
             text = placeholderMd400,
         )
     ),
-    fabText = labelMd700,
-    fileUploadText = helperTextXs400,
-    fileUploadTitle = labelMd600,
     filter = SirioFilterTypography(header = h4Lg, title = labelLg700),
     hero = SirioHeroTypography(
         title = h2Md,
@@ -335,23 +436,6 @@ internal val Typography = SirioTypography(
         link = linkPMd01,
     ),
     paginationTileNumber = labelMdNumber400,
-    progressBarLabel = labelMd600,
-    progressBarNumber = labelProgressBarNumber,
-    radio = SirioRadioButtonTypography(text = labelMd400),
-    sliderNumber = labelMdNumber400,
-    sliderText = helperTextXs400,
-    sliderTitle = labelMd600,
-    stepProgressBar = SirioStepProgressBarTypography(
-        controls = SirioStepControlsTypography(
-            previous = labelLg700,
-            next = labelLg700,
-        ),
-        selection = SirioStepSelectionTypography(
-            progress = labelMd400,
-            currentStep = labelLg700,
-        )
-    ),
-    tabBarItemText = tabBarLabelXs,
     table = SirioTableTypography(
         cell = SirioTableCellTypography(
             text = labelMd400,
@@ -379,17 +463,7 @@ internal val Typography = SirioTypography(
     tabTextDefault = labelMd400,
     tabTextSelected = labelMd700,
     tagText = labelMd700,
-    textAreaHelperText = helperTextXs400,
-    textAreaLabel = labelMd600,
-    textAreaPlaceholder = placeholderMd400,
-    textAreaText = placeholderMd400,
-    textFieldDropdownLabel = placeholderMd400,
-    textFieldHelperText = helperTextXs400,
-    textFieldLabel = labelMd600,
-    textFieldPlaceholder = placeholderMd400,
-    textFieldText = placeholderMd400,
     titleBar = SirioTitleBarTypography(title = h5Md, iconText = labelMd600),
-    toggle = SirioToggleTypography(text = labelMd400),
 )
 
 @Keep

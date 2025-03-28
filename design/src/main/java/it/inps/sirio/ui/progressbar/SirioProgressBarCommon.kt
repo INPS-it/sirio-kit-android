@@ -1,13 +1,14 @@
 //
 // SirioProgressBarCommon.kt
 //
-// SPDX-FileCopyrightText: 2024 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
 
 package it.inps.sirio.ui.progressbar
 
+import androidx.annotation.Keep
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -19,14 +20,25 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import it.inps.sirio.foundation.FoundationColor
 import it.inps.sirio.theme.SirioTheme
+import it.inps.sirio.theme.progressBarHeight
+import it.inps.sirio.theme.progressBarLabelPaddingBottom
+import it.inps.sirio.theme.progressBarLabelPaddingStart
+import it.inps.sirio.theme.progressBarNumberPaddingTop
+import it.inps.sirio.theme.progressBarPaddingEnd
+import it.inps.sirio.theme.progressBarProgressHeight
+import it.inps.sirio.theme.progressBarProgressPaddingHorizontal
 import it.inps.sirio.ui.text.SirioTextCommon
 import java.lang.Float.min
 import kotlin.math.max
@@ -57,40 +69,68 @@ internal fun SirioProgressBarCommon(
     Column {
         SirioTextCommon(
             text = label,
-            modifier = Modifier.padding(start = 4.dp),
-            color = SirioTheme.colors.progressBarLabel,
-            typography = SirioTheme.typography.progressBarLabel,
+            modifier = Modifier.padding(start = progressBarLabelPaddingStart.dp),
+            color = SirioTheme.colors.progressBar.label,
+            typography = SirioTheme.foundationTypography.labelMdMiddle,
         )
-        Spacer(modifier = Modifier.height(4.dp))
+        Spacer(modifier = Modifier.height(progressBarLabelPaddingBottom.dp))
         Box(
             modifier = Modifier
-                .height(9.dp)
+                .height(progressBarHeight.dp)
                 .fillMaxWidth()
-                .padding(end = 4.dp)
+                .padding(end = progressBarPaddingEnd.dp)
                 .clip(CircleShape)
-                .background(color = SirioTheme.colors.progressBarBackground),
+                .background(color = SirioTheme.colors.progressBar.background),
             contentAlignment = Alignment.CenterStart,
         ) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth(if (fraction == 0f) 0.01f else fraction)
-                    .height(6.dp)
-                    .padding(horizontal = 1.5.dp)
+                    .height(progressBarProgressHeight.dp)
+                    .padding(horizontal = progressBarProgressPaddingHorizontal.dp)
                     .clip(CircleShape)
-                    .background(Brush.horizontalGradient(SirioTheme.colors.progressBarGradient))
+                    .background(Brush.horizontalGradient(SirioTheme.colors.progressBar.gradient))
             )
         }
         if (showPercentage) {
-            Spacer(modifier = Modifier.height(2.dp))
+            Spacer(modifier = Modifier.height(progressBarNumberPaddingTop.dp))
             SirioTextCommon(
                 text = "${(fraction * 100f).roundToInt()}%",
                 modifier = Modifier.align(Alignment.End),
-                color = SirioTheme.colors.progressBarNumber,
-                typography = SirioTheme.typography.progressBarNumber,
+                color = SirioTheme.colors.progressBar.number,
+                typography = SirioTheme.foundationTypography.labelNumberSmRegular
+                    .copy(fontSize = 10.sp, lineHeight = 12.sp),
             )
         }
     }
 }
+
+@Keep
+data class SirioProgressBarColors(
+    val label: Color,
+    val background: Color,
+    val gradient: List<Color>,
+    val number: Color,
+) {
+    companion object {
+        @Stable
+        val Unspecified = SirioProgressBarColors(
+            label = Color.Unspecified,
+            background = Color.Unspecified,
+            gradient = emptyList(),
+            number = Color.Unspecified,
+        )
+    }
+}
+
+internal val progressBarLightColors = SirioProgressBarColors(
+    label = FoundationColor.colorSpecificDataEntryLabelColorDefault,
+    background = Color(0xFFEDF4F7),
+    gradient = FoundationColor.colorSpecificProgressbarBackgroundColor,
+    number = FoundationColor.colorAliasInteractiveSecondaryDefault,
+)
+
+internal val progressBarDarkColors = progressBarLightColors
 
 @Preview
 @Composable

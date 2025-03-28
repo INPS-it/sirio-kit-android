@@ -1,7 +1,7 @@
 //
 // SirioFilterSelected.kt
 //
-// SPDX-FileCopyrightText: 2022 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -24,7 +24,7 @@ import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.theme.filterChipsPadding
 import it.inps.sirio.theme.filterPadding
 import it.inps.sirio.theme.filterSelectedPaddingVertical
-import it.inps.sirio.ui.chip.SirioChipLabelClose
+import it.inps.sirio.ui.chip.SirioChip
 
 /**
  * A composable function that displays a row of selected filter values as chips with close icons.
@@ -48,8 +48,8 @@ fun SirioFilterSelected(
         verticalArrangement = Arrangement.spacedBy(filterChipsPadding.dp),
     ) {
         values.forEach { text ->
-            SirioChipLabelClose(
-                label = text,
+            SirioChip(
+                text = text,
                 enabled = true,
                 closeContentDescription = closeContentDescription,
                 onClose = { onDeleteValue(text) },

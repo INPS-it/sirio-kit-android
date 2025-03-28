@@ -1,7 +1,7 @@
 //
 // MainActivity.kt
 //
-// SPDX-FileCopyrightText: 2024 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -39,16 +39,19 @@ import it.inps.design.carousel.CarouselActivity
 import it.inps.design.checkbox.CheckboxActivity
 import it.inps.design.chip.ChipActivity
 import it.inps.design.dialog.DialogActivity
+import it.inps.design.dropdown.DropdownActivity
 import it.inps.design.fab.FabActivity
 import it.inps.design.fileupload.FileUploadActivity
 import it.inps.design.filter.FilterActivity
+import it.inps.design.foundation.FoundationActivity
 import it.inps.design.hero.HeroActivity
 import it.inps.design.menuspalla.MenuSpallaActivity
-import it.inps.design.notification.NotificationActivity
+import it.inps.design.notifiche.NotificheActivity
 import it.inps.design.pagination.PaginationActivity
 import it.inps.design.progressbar.ProgressBarActivity
 import it.inps.design.radiobutton.RadioButtonActivity
 import it.inps.design.searchbar.SearchBarActivity
+import it.inps.design.segmentedcontrols.SegmentedControlsActivity
 import it.inps.design.slider.SliderActivity
 import it.inps.design.stepprogressbar.StepProgressBarActivity
 import it.inps.design.tabbar.TabBarActivity
@@ -92,6 +95,10 @@ fun DemoContent() {
                     .padding(it)
                     .verticalScroll(rememberScrollState()),
             ) {
+                DemoMenuItem("Foundation") {
+                    context.startActivity(Intent(context, FoundationActivity::class.java))
+                }
+                HorizontalDivider()
                 DemoMenuItem("Accordion") {
                     context.startActivity(Intent(context, AccordionActivity::class.java))
                 }
@@ -128,6 +135,10 @@ fun DemoContent() {
                     context.startActivity(Intent(context, DialogActivity::class.java))
                 }
                 HorizontalDivider()
+                DemoMenuItem("Dropdown") {
+                    context.startActivity(Intent(context, DropdownActivity::class.java))
+                }
+                HorizontalDivider()
                 DemoMenuItem(title = "Fab") {
                     context.startActivity(Intent(context, FabActivity::class.java))
                 }
@@ -148,18 +159,10 @@ fun DemoContent() {
                     context.startActivity(Intent(context, MenuSpallaActivity::class.java))
                 }
                 HorizontalDivider()
-                DemoMenuItem("Notification") {
-                    context.startActivity(Intent(context, NotificationActivity::class.java))
+                DemoMenuItem("Notifiche") {
+                    context.startActivity(Intent(context, NotificheActivity::class.java))
                 }
                 HorizontalDivider()
-//                DemoMenuItem("Notification inline") {
-//                    context.startActivity(Intent(context, NotificationInlineActivity::class.java))
-//                }
-//                Divider()
-//                DemoMenuItem("Notification toast") {
-//                    context.startActivity(Intent(context, NotificationToastActivity::class.java))
-//                }
-//                Divider()
                 DemoMenuItem("Pagination") {
                     context.startActivity(Intent(context, PaginationActivity::class.java))
                 }
@@ -182,6 +185,10 @@ fun DemoContent() {
                 HorizontalDivider()
                 DemoMenuItem("Step progress bar") {
                     context.startActivity(Intent(context, StepProgressBarActivity::class.java))
+                }
+                HorizontalDivider()
+                DemoMenuItem("Segmented controls") {
+                    context.startActivity(Intent(context, SegmentedControlsActivity::class.java))
                 }
                 HorizontalDivider()
                 DemoMenuItem("Tab") {

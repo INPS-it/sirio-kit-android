@@ -1,3 +1,10 @@
+//
+// SirioBadge.kt
+//
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
+//
+// SPDX-License-Identifier: BSD-3-Clause
+//
 package it.inps.sirio.ui.badge
 
 import androidx.compose.runtime.Composable

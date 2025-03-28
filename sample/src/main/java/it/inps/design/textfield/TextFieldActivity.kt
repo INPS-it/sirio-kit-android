@@ -1,7 +1,7 @@
 //
 // TextFieldActivity.kt
 //
-// SPDX-FileCopyrightText: 2024 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -38,7 +38,7 @@ import androidx.compose.ui.unit.dp
 import com.guru.fontawesomecomposelib.FaIcons
 import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.ui.textfield.SirioTextField
-import it.inps.sirio.ui.textfield.TextFieldSemantic
+import it.inps.sirio.ui.textfield.TextFieldState
 
 class TextFieldActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,27 +72,16 @@ fun TextFieldDemoContent() {
             verticalArrangement = Arrangement.spacedBy(30.dp),
         ) {
             var text by remember { mutableStateOf("Text") }
-            var secured by remember { mutableStateOf(true) }
             val label = "Label"
-            val helperText = "*Helper text"
+            val helperText = "Helper text"
             SirioTextField(
                 text = text,
                 placeholder = "Placeholder",
                 onValueChange = { text = it },
                 label = label,
                 helperText = helperText,
+                icon = FaIcons.CalendarDay,
                 onInfoClick = {},
-            )
-            Text(text = "Warning")
-            SirioTextField(
-                text = text,
-                onValueChange = { text = it },
-                label = label,
-                helperText = helperText,
-                onInfoClick = {},
-                icon = FaIcons.ExclamationCircle,
-                type = TextFieldSemantic.WARNING,
-                onTextFieldClick = { text = "Click" }
             )
             Text(text = "Alert")
             SirioTextField(
@@ -102,7 +91,17 @@ fun TextFieldDemoContent() {
                 helperText = helperText,
                 onInfoClick = {},
                 icon = FaIcons.ExclamationTriangle,
-                type = TextFieldSemantic.ALERT,
+                type = TextFieldState.Alert,
+            )
+            Text(text = "Warning")
+            SirioTextField(
+                text = text,
+                onValueChange = { text = it },
+                label = label,
+                helperText = helperText,
+                onInfoClick = {},
+                icon = FaIcons.ExclamationCircle,
+                type = TextFieldState.Warning,
             )
             Text(text = "Success")
             SirioTextField(
@@ -112,17 +111,7 @@ fun TextFieldDemoContent() {
                 helperText = helperText,
                 onInfoClick = {},
                 icon = FaIcons.Check,
-                type = TextFieldSemantic.SUCCESS,
-            )
-            Text(text = "Info")
-            SirioTextField(
-                text = text,
-                onValueChange = { text = it },
-                label = label,
-                helperText = helperText,
-                onInfoClick = {},
-                icon = FaIcons.Calendar,
-                type = TextFieldSemantic.INFO,
+                type = TextFieldState.Success,
             )
             Text(text = "Disabled")
             SirioTextField(
@@ -131,20 +120,8 @@ fun TextFieldDemoContent() {
                 label = label,
                 helperText = helperText,
                 onInfoClick = {},
-                icon = FaIcons.Calendar,
+                icon = FaIcons.CalendarDay,
                 enabled = false,
-            )
-            Text(text = "Secured")
-            SirioTextField(
-                text = text,
-                secureText = secured,
-                onValueChange = { text = it },
-                label = label,
-                helperText = helperText,
-                onInfoClick = {},
-                icon = if (secured) FaIcons.EyeSlash else FaIcons.Eye,
-                onIconClick = { secured = !secured },
-                enabled = true,
             )
         }
     }

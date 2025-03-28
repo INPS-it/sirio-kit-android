@@ -1,14 +1,17 @@
 //
 // SirioRadioButton.kt
 //
-// SPDX-FileCopyrightText: 2024 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
 package it.inps.sirio.ui.radiobutton
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import it.inps.sirio.theme.SirioTheme
 
@@ -39,12 +42,12 @@ fun SirioRadioButton(
 @Composable
 private fun ChipLabelPreview() {
     SirioTheme {
-        Column {
+        Column(Modifier.background(Color.White)) {
             SirioRadioButton(
-                text = "Title",
+                text = "Label",
                 selected = false,
                 onClick = {},
-                enabled = true
+                enabled = true,
             )
         }
     }

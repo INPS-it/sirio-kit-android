@@ -1,7 +1,7 @@
 //
 // SirioSearchBarCommon.kt
 //
-// SPDX-FileCopyrightText: 2024 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -43,7 +43,7 @@ import com.guru.fontawesomecomposelib.FaIcons
 import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.theme.searchBarQueriesPadding
 import it.inps.sirio.theme.searchBarQueriesVerticalPadding
-import it.inps.sirio.ui.chip.SirioChipLabelClose
+import it.inps.sirio.ui.chip.SirioChip
 import it.inps.sirio.ui.textfield.SirioTextFieldCommon
 
 /**
@@ -103,10 +103,16 @@ internal fun SirioSearchBarCommon(
             helperText = helperText,
             optionValues = optionValues,
             onOptionValueSelected = { addQuery(it) },
-            type = null,
-            enabled = enabled,
-            disableExtraBorder = true,
+            state = null,
             backgroundColor = SirioTheme.colors.searchBar.background,
+            enabled = enabled,
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+            keyboardActions = KeyboardActions(
+                onAny = {
+                    onSearch?.invoke(searchText)
+                    addQuery(searchText)
+                }
+            ),
             onDropdownStateChange = { open -> showChips = !open },
             onIconClick = {
                 onSearchTextChange("")
@@ -116,13 +122,6 @@ internal fun SirioSearchBarCommon(
                 onSearch?.invoke(it)
                 addQuery(it)
             },
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-            keyboardActions = KeyboardActions(
-                onAny = {
-                    onSearch?.invoke(searchText)
-                    addQuery(searchText)
-                }
-            ),
         )
         if (showChips) {
             Spacer(modifier = Modifier.height(searchBarQueriesVerticalPadding.dp))
@@ -140,7 +139,7 @@ internal fun SirioSearchBarCommon(
                 )
             ) {
                 queries.forEach { item ->
-                    SirioChipLabelClose(label = item, enabled = enabled) {
+                    SirioChip(text = item, enabled = enabled) {
                         onQueriesChange(queries.filter { it != item }.toTypedArray())
                     }
                 }

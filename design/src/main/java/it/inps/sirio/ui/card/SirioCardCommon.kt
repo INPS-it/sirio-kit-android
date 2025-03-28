@@ -1,7 +1,7 @@
 //
 // SirioCardCommon.kt
 //
-// SPDX-FileCopyrightText: 2024 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -41,6 +41,7 @@ import com.guru.fontawesomecomposelib.FaIconType
 import com.guru.fontawesomecomposelib.FaIcons
 import it.inps.sirio.styleDictionary.StyleDictionaryBoxShadow
 import it.inps.sirio.theme.Shapes
+import it.inps.sirio.theme.SirioBaseColors
 import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.theme.cardButtonPaddingHorizontal
 import it.inps.sirio.theme.cardButtonPaddingTop
@@ -52,10 +53,9 @@ import it.inps.sirio.theme.cardPaddingVertical
 import it.inps.sirio.theme.cardSignaturePaddingTop
 import it.inps.sirio.theme.cardSubtitlePaddingTop
 import it.inps.sirio.theme.cardTextPaddingTop
-import it.inps.sirio.ui.button.ButtonSize
-import it.inps.sirio.ui.button.SirioButtonColors
 import it.inps.sirio.ui.button.SirioButtonCommon
-import it.inps.sirio.ui.tag.SirioTagColors
+import it.inps.sirio.ui.button.SirioButtonLegacyColors
+import it.inps.sirio.ui.button.SirioButtonSize
 import it.inps.sirio.ui.tag.SirioTagCommon
 import it.inps.sirio.ui.text.SirioText
 import it.inps.sirio.utils.SirioIcon
@@ -210,7 +210,7 @@ internal fun SirioCardCommon(
                 ) {
                     buttonText?.let {
                         SirioButtonCommon(
-                            size = ButtonSize.Large,
+                            size = SirioButtonSize.Large,
                             colors = colors.button,
                             text = buttonText,
                             onClick = onClickButton,
@@ -218,7 +218,7 @@ internal fun SirioCardCommon(
                     }
                     items.forEachIndexed { index, cardItemData ->
                         SirioButtonCommon(
-                            size = ButtonSize.Large,
+                            size = SirioButtonSize.Large,
                             colors = colors.iconButton,
                             faIcon = cardItemData.icon,
                             iconContentDescription = cardItemData.contentDescription,
@@ -255,29 +255,29 @@ data class SirioCardsColors(
 @Keep
 data class SirioCardColors(
     val background: Color,
-    val category: SirioTagColors,
+    val category: SirioBaseColors,
     val icon: Color,
     val date: Color,
     val title: Color,
     val subtitle: Color,
     val text: Color,
     val signature: Color,
-    val button: SirioButtonColors,
-    val iconButton: SirioButtonColors,
+    val button: SirioButtonLegacyColors,
+    val iconButton: SirioButtonLegacyColors,
 ) {
     companion object {
         @Stable
         val Unspecified = SirioCardColors(
             background = Color.Unspecified,
-            category = SirioTagColors.Unspecified,
+            category = SirioBaseColors.Unspecified,
             icon = Color.Unspecified,
             date = Color.Unspecified,
             title = Color.Unspecified,
             subtitle = Color.Unspecified,
             text = Color.Unspecified,
             signature = Color.Unspecified,
-            button = SirioButtonColors.Unspecified,
-            iconButton = SirioButtonColors.Unspecified,
+            button = SirioButtonLegacyColors.Unspecified,
+            iconButton = SirioButtonLegacyColors.Unspecified,
         )
     }
 }

@@ -1,7 +1,7 @@
 //
 // ButtonActivity.kt
 //
-// SPDX-FileCopyrightText: 2024 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -50,9 +50,11 @@ import androidx.navigation.compose.rememberNavController
 import com.guru.fontawesomecomposelib.FaIcons
 import it.inps.design.ui.DemoMenuItem
 import it.inps.sirio.theme.SirioTheme
-import it.inps.sirio.ui.button.ButtonSize
-import it.inps.sirio.ui.button.ButtonStyle
+import it.inps.sirio.ui.button.ButtonIconPosition
 import it.inps.sirio.ui.button.SirioButton
+import it.inps.sirio.ui.button.SirioButtonHierarchy
+import it.inps.sirio.ui.button.SirioButtonSize
+import it.inps.sirio.utils.SirioIconSource
 
 class ButtonActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -129,14 +131,15 @@ fun ButtonPrimaryDemoContent() {
         Modifier
             .fillMaxSize()
             .background(Color.White)
+            .verticalScroll(rememberScrollState())
             .padding(0.dp, 10.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         val text = "Text"
-        ButtonDemoContent(text, ButtonStyle.Primary, ButtonSize.Large)
-        ButtonDemoContent(text, ButtonStyle.Primary, ButtonSize.Medium)
-        ButtonDemoContent(text, ButtonStyle.Primary, ButtonSize.Small)
+        ButtonDemoContent(text, SirioButtonHierarchy.Primary, SirioButtonSize.Large)
+        ButtonDemoContent(text, SirioButtonHierarchy.Primary, SirioButtonSize.Medium)
+        ButtonDemoContent(text, SirioButtonHierarchy.Primary, SirioButtonSize.Small)
     }
 }
 
@@ -146,14 +149,15 @@ fun ButtonDangerDemoContent() {
         Modifier
             .fillMaxSize()
             .background(Color.White)
+            .verticalScroll(rememberScrollState())
             .padding(0.dp, 10.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         val text = "Text"
-        ButtonDemoContent(text, ButtonStyle.Danger, ButtonSize.Large)
-        ButtonDemoContent(text, ButtonStyle.Danger, ButtonSize.Medium)
-        ButtonDemoContent(text, ButtonStyle.Danger, ButtonSize.Small)
+        ButtonDemoContent(text, SirioButtonHierarchy.Danger, SirioButtonSize.Large)
+        ButtonDemoContent(text, SirioButtonHierarchy.Danger, SirioButtonSize.Medium)
+        ButtonDemoContent(text, SirioButtonHierarchy.Danger, SirioButtonSize.Small)
     }
 }
 
@@ -163,14 +167,15 @@ fun ButtonSecondaryDemoContent() {
         Modifier
             .fillMaxSize()
             .background(Color.White)
+            .verticalScroll(rememberScrollState())
             .padding(0.dp, 10.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         val text = "Text"
-        ButtonDemoContent(text, ButtonStyle.Secondary, ButtonSize.Large)
-        ButtonDemoContent(text, ButtonStyle.Secondary, ButtonSize.Medium)
-        ButtonDemoContent(text, ButtonStyle.Secondary, ButtonSize.Small)
+        ButtonDemoContent(text, SirioButtonHierarchy.Secondary, SirioButtonSize.Large)
+        ButtonDemoContent(text, SirioButtonHierarchy.Secondary, SirioButtonSize.Medium)
+        ButtonDemoContent(text, SirioButtonHierarchy.Secondary, SirioButtonSize.Small)
     }
 }
 
@@ -180,15 +185,16 @@ fun ButtonTertiaryLightDemoContent() {
         Modifier
             .fillMaxSize()
             .background(Color.White)
+            .verticalScroll(rememberScrollState())
             .padding(0.dp, 10.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         SirioTheme(darkTheme = false) {
             val text = "Text"
-            ButtonDemoContent(text, ButtonStyle.Tertiary, ButtonSize.Large)
-            ButtonDemoContent(text, ButtonStyle.Tertiary, ButtonSize.Medium)
-            ButtonDemoContent(text, ButtonStyle.Tertiary, ButtonSize.Small)
+            ButtonDemoContent(text, SirioButtonHierarchy.TertiaryLight, SirioButtonSize.Large)
+            ButtonDemoContent(text, SirioButtonHierarchy.TertiaryLight, SirioButtonSize.Medium)
+            ButtonDemoContent(text, SirioButtonHierarchy.TertiaryLight, SirioButtonSize.Small)
         }
     }
 }
@@ -198,16 +204,17 @@ fun ButtonTertiaryDarkDemoContent() {
     Column(
         Modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(Color.Black)
+            .verticalScroll(rememberScrollState())
             .padding(0.dp, 10.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         SirioTheme(darkTheme = true) {
             val text = "Text"
-            ButtonDemoContent(text, ButtonStyle.Tertiary, ButtonSize.Large)
-            ButtonDemoContent(text, ButtonStyle.Tertiary, ButtonSize.Medium)
-            ButtonDemoContent(text, ButtonStyle.Tertiary, ButtonSize.Small)
+            ButtonDemoContent(text, SirioButtonHierarchy.TertiaryDark, SirioButtonSize.Large)
+            ButtonDemoContent(text, SirioButtonHierarchy.TertiaryDark, SirioButtonSize.Medium)
+            ButtonDemoContent(text, SirioButtonHierarchy.TertiaryDark, SirioButtonSize.Small)
         }
     }
 }
@@ -218,6 +225,7 @@ fun ButtonGhostDemoContent() {
         Modifier
             .fillMaxSize()
             .background(Color.White)
+            .verticalScroll(rememberScrollState())
             .padding(0.dp, 10.dp)
             .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(20.dp),
@@ -225,15 +233,15 @@ fun ButtonGhostDemoContent() {
     ) {
         SirioTheme(darkTheme = true) {
             val text = "Text"
-            ButtonDemoContent(text, ButtonStyle.Ghost, ButtonSize.Large)
-            ButtonDemoContent(text, ButtonStyle.Ghost, ButtonSize.Medium)
-            ButtonDemoContent(text, ButtonStyle.Ghost, ButtonSize.Small)
+            ButtonDemoContent(text, SirioButtonHierarchy.Ghost, SirioButtonSize.Large)
+            ButtonDemoContent(text, SirioButtonHierarchy.Ghost, SirioButtonSize.Medium)
+            ButtonDemoContent(text, SirioButtonHierarchy.Ghost, SirioButtonSize.Small)
         }
     }
 }
 
 @Composable
-private fun ButtonDemoContent(text: String, style: ButtonStyle, size: ButtonSize) {
+private fun ButtonDemoContent(text: String, hierarchy: SirioButtonHierarchy, size: SirioButtonSize) {
     Text(text = size.name)
     Row(
         modifier = Modifier
@@ -247,26 +255,35 @@ private fun ButtonDemoContent(text: String, style: ButtonStyle, size: ButtonSize
             horizontalAlignment = Alignment.End
         ) {
             SirioButton(
+                size = size,
+                hierarchy = hierarchy,
                 text = text,
                 icon = null,
                 enabled = true,
-                style = style,
-                size = size,
                 onClick = {},
             )
             SirioButton(
+                size = size,
+                hierarchy = hierarchy,
                 text = text,
-                icon = FaIcons.ArrowRight,
+                icon = SirioIconSource.FaIcon(FaIcons.ArrowRight),
                 enabled = true,
-                style = style,
-                size = size,
                 onClick = {},
             )
             SirioButton(
-                icon = FaIcons.ArrowRight,
-                enabled = true,
-                style = style,
                 size = size,
+                hierarchy = hierarchy,
+                text = text,
+                icon = SirioIconSource.FaIcon(FaIcons.ArrowLeft),
+                enabled = true,
+                iconPosition = ButtonIconPosition.Left,
+                onClick = {},
+            )
+            SirioButton(
+                size = size,
+                hierarchy = hierarchy,
+                icon = SirioIconSource.FaIcon(FaIcons.ArrowRight),
+                enabled = true,
                 onClick = {},
             )
         }
@@ -277,25 +294,37 @@ private fun ButtonDemoContent(text: String, style: ButtonStyle, size: ButtonSize
             horizontalAlignment = Alignment.Start
         ) {
             SirioButton(
+                size = size,
+                hierarchy = hierarchy,
                 text = text,
                 icon = null,
                 enabled = false,
-                style = style,
-                size = size,
-                onClick = {})
+                onClick = {},
+            )
             SirioButton(
+                size = size,
+                hierarchy = hierarchy,
                 text = text,
-                icon = FaIcons.ArrowRight,
+                icon = SirioIconSource.FaIcon(FaIcons.ArrowRight),
                 enabled = false,
-                style = style,
-                size = size,
-                onClick = {})
+                onClick = {},
+            )
             SirioButton(
-                icon = FaIcons.ArrowRight,
-                enabled = false,
-                style = style,
                 size = size,
-                onClick = {})
+                hierarchy = hierarchy,
+                text = text,
+                icon = SirioIconSource.FaIcon(FaIcons.ArrowLeft),
+                enabled = false,
+                iconPosition = ButtonIconPosition.Left,
+                onClick = {},
+            )
+            SirioButton(
+                size = size,
+                hierarchy = hierarchy,
+                icon = SirioIconSource.FaIcon(FaIcons.ArrowRight),
+                enabled = false,
+                onClick = {},
+            )
         }
     }
 }

@@ -1,7 +1,7 @@
 //
 // ButtonCommon.kt
 //
-// SPDX-FileCopyrightText: 2024 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -39,6 +39,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -77,7 +78,7 @@ import it.inps.sirio.utils.SirioIcon
 /**
  * The Sirio Button common component
  *
- * @param size The [ButtonSize]
+ * @param size The [SirioButtonSize]
  * @param colors The colors depends on [ButtonStyle]
  * @param modifier the Modifier to be applied to this button
  * @param text The string on the button
@@ -89,8 +90,8 @@ import it.inps.sirio.utils.SirioIcon
  */
 @Composable
 internal fun SirioButtonCommon(
-    size: ButtonSize,
-    colors: SirioButtonColors,
+    size: SirioButtonSize,
+    colors: SirioButtonLegacyColors,
     modifier: Modifier = Modifier,
     text: String? = null,
     faIcon: FaIconType? = null,
@@ -106,14 +107,14 @@ internal fun SirioButtonCommon(
     val buttonParams = getButtonParams(enabled, colors, isFocused, isPressed, isHovered)
 
     val height = when (size) {
-        ButtonSize.Large -> buttonHeightLarge
-        ButtonSize.Medium -> buttonHeightMedium
-        ButtonSize.Small -> buttonHeightSmall
+        SirioButtonSize.Large -> buttonHeightLarge
+        SirioButtonSize.Medium -> buttonHeightMedium
+        SirioButtonSize.Small -> buttonHeightSmall
     }
     val iconSize = when (size) {
-        ButtonSize.Large -> buttonIconSizeLarge
-        ButtonSize.Medium -> buttonIconSizeMedium
-        ButtonSize.Small -> buttonIconSizeSmall
+        SirioButtonSize.Large -> buttonIconSizeLarge
+        SirioButtonSize.Medium -> buttonIconSizeMedium
+        SirioButtonSize.Small -> buttonIconSizeSmall
     }
     val contentHorizontalPadding =
         getContentHorizontalPadding(size, isFocused, text.isNullOrEmpty())
@@ -126,7 +127,7 @@ internal fun SirioButtonCommon(
             heightModifier
                 .border(
                     width = buttonFocusedExtraBorderWidth.dp,
-                    color = SirioTheme.colors.buttons.focusExtraBorder,
+                    color = SirioTheme.colors.buttonLegacy.focusExtraBorder,
                     shape = Shapes.small,
                 )
                 .padding(buttonFocusedBorderPadding.dp)
@@ -177,7 +178,7 @@ internal fun SirioButtonCommon(
 @Composable
 private fun getButtonParams(
     enabled: Boolean,
-    colors: SirioButtonColors,
+    colors: SirioButtonLegacyColors,
     isFocused: Boolean,
     isPressed: Boolean,
     isHovered: Boolean,
@@ -221,20 +222,20 @@ private fun getButtonParams(
 /**
  * The internal horizontal padding depends on size, focused state and text in button
  *
- * @param size The [ButtonSize]
+ * @param size The [SirioButtonSize]
  * @param isFocused Whether the button has focus
  * @param iconOnly Whether the button is icon only
  */
 @Composable
 private fun getContentHorizontalPadding(
-    size: ButtonSize,
+    size: SirioButtonSize,
     isFocused: Boolean,
     iconOnly: Boolean,
 ): Int {
     val horizontalPadding = when (size) {
-        ButtonSize.Large -> if (iconOnly) buttonIconOnlyLargePaddingHorizontal else buttonTextLargePaddingHorizontal
-        ButtonSize.Medium -> if (iconOnly) buttonIconOnlyMediumPaddingHorizontal else buttonTextMediumPaddingHorizontal
-        ButtonSize.Small -> if (iconOnly) buttonIconOnlySmallPaddingHorizontal else buttonTextSmallPaddingHorizontal
+        SirioButtonSize.Large -> if (iconOnly) buttonIconOnlyLargePaddingHorizontal else buttonTextLargePaddingHorizontal
+        SirioButtonSize.Medium -> if (iconOnly) buttonIconOnlyMediumPaddingHorizontal else buttonTextMediumPaddingHorizontal
+        SirioButtonSize.Small -> if (iconOnly) buttonIconOnlySmallPaddingHorizontal else buttonTextSmallPaddingHorizontal
     }
     return if (isFocused) horizontalPadding - buttonFocusedBorderPadding else horizontalPadding
 }
@@ -291,7 +292,30 @@ data class ButtonParams(
 )
 
 @Keep
-data class SirioButtonColors(
+@Immutable
+data class ButtonLegacyColors(
+    val focusExtraBorder: Color,
+    val primary: SirioButtonLegacyColors,
+    val danger: SirioButtonLegacyColors,
+    val secondary: SirioButtonLegacyColors,
+    val tertiary: SirioButtonLegacyColors,
+    val ghost: SirioButtonLegacyColors,
+) {
+    companion object {
+        @Stable
+        val Unspecified = ButtonLegacyColors(
+            focusExtraBorder = Color.Unspecified,
+            primary = SirioButtonLegacyColors.Unspecified,
+            danger = SirioButtonLegacyColors.Unspecified,
+            secondary = SirioButtonLegacyColors.Unspecified,
+            tertiary = SirioButtonLegacyColors.Unspecified,
+            ghost = SirioButtonLegacyColors.Unspecified,
+        )
+    }
+}
+
+@Keep
+data class SirioButtonLegacyColors(
     val background: SirioColorState,
     val border: SirioColorState? = null,
     val icon: SirioColorState,
@@ -305,7 +329,7 @@ data class SirioButtonColors(
 
     companion object {
         @Stable
-        val Unspecified = SirioButtonColors(
+        val Unspecified = SirioButtonLegacyColors(
             background = SirioColorState.Unspecified,
             border = SirioColorState.Unspecified,
             icon = SirioColorState.Unspecified,
@@ -327,12 +351,6 @@ enum class ButtonStyle {
     Danger,
 }
 
-enum class ButtonSize {
-    Large,
-    Medium,
-    Small,
-}
-
 @Preview(showSystemUi = true, heightDp = 2000)
 @Composable
 private fun ButtonCommonPreview() {
@@ -345,16 +363,16 @@ private fun ButtonCommonPreview() {
                 .padding(vertical = 10.dp),
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
-            ButtonCommonPreviewContent(size = ButtonSize.Large)
-            ButtonCommonPreviewContent(size = ButtonSize.Medium)
-            ButtonCommonPreviewContent(size = ButtonSize.Small)
+            ButtonCommonPreviewContent(size = SirioButtonSize.Large)
+            ButtonCommonPreviewContent(size = SirioButtonSize.Medium)
+            ButtonCommonPreviewContent(size = SirioButtonSize.Small)
 
         }
     }
 }
 
 @Composable
-private fun ButtonCommonPreviewContent(size: ButtonSize) {
+private fun ButtonCommonPreviewContent(size: SirioButtonSize) {
     val text = "Text"
     Row(
         Modifier
@@ -364,18 +382,18 @@ private fun ButtonCommonPreviewContent(size: ButtonSize) {
     ) {
         SirioButtonCommon(
             text = text,
-            colors = SirioTheme.colors.buttons.primary,
+            colors = SirioTheme.colors.buttonLegacy.primary,
             size = size,
         ) {}
         SirioButtonCommon(
             text = text,
             faIcon = FaIcons.ArrowRight,
-            colors = SirioTheme.colors.buttons.primary,
+            colors = SirioTheme.colors.buttonLegacy.primary,
             size = size,
         ) {}
         SirioButtonCommon(
             faIcon = FaIcons.ArrowRight,
-            colors = SirioTheme.colors.buttons.primary,
+            colors = SirioTheme.colors.buttonLegacy.primary,
             size = size,
         ) {}
     }
@@ -387,69 +405,20 @@ private fun ButtonCommonPreviewContent(size: ButtonSize) {
     ) {
         SirioButtonCommon(
             text = text,
-            colors = SirioTheme.colors.buttons.primary,
+            colors = SirioTheme.colors.buttonLegacy.primary,
             enabled = false,
             size = size,
         ) {}
         SirioButtonCommon(
             text = text,
             faIcon = FaIcons.ArrowRight,
-            colors = SirioTheme.colors.buttons.primary,
+            colors = SirioTheme.colors.buttonLegacy.primary,
             enabled = false,
             size = size,
         ) {}
         SirioButtonCommon(
             faIcon = FaIcons.ArrowRight,
-            colors = SirioTheme.colors.buttons.primary,
-            enabled = false,
-            size = size,
-        ) {}
-    }
-    Row(
-        Modifier
-            .fillMaxWidth()
-            .wrapContentHeight(),
-        horizontalArrangement = Arrangement.SpaceEvenly
-    ) {
-        SirioButtonCommon(
-            text = text,
-            colors = SirioTheme.colors.buttons.tertiary,
-            size = size,
-        ) {}
-        SirioButtonCommon(
-            text = text,
-            faIcon = FaIcons.ArrowRight,
-            colors = SirioTheme.colors.buttons.tertiary,
-            size = size,
-        ) {}
-        SirioButtonCommon(
-            faIcon = FaIcons.ArrowRight,
-            colors = SirioTheme.colors.buttons.tertiary,
-            size = size,
-        ) {}
-    }
-    Row(
-        Modifier
-            .fillMaxWidth()
-            .wrapContentHeight(),
-        horizontalArrangement = Arrangement.SpaceEvenly
-    ) {
-        SirioButtonCommon(
-            text = text,
-            colors = SirioTheme.colors.buttons.tertiary,
-            enabled = false,
-            size = size,
-        ) {}
-        SirioButtonCommon(
-            text = text,
-            faIcon = FaIcons.ArrowRight,
-            colors = SirioTheme.colors.buttons.tertiary,
-            enabled = false,
-            size = size,
-        ) {}
-        SirioButtonCommon(
-            faIcon = FaIcons.ArrowRight,
-            colors = SirioTheme.colors.buttons.tertiary,
+            colors = SirioTheme.colors.buttonLegacy.primary,
             enabled = false,
             size = size,
         ) {}
@@ -462,18 +431,18 @@ private fun ButtonCommonPreviewContent(size: ButtonSize) {
     ) {
         SirioButtonCommon(
             text = text,
-            colors = SirioTheme.colors.buttons.ghost,
+            colors = SirioTheme.colors.buttonLegacy.tertiary,
             size = size,
         ) {}
         SirioButtonCommon(
             text = text,
             faIcon = FaIcons.ArrowRight,
-            colors = SirioTheme.colors.buttons.ghost,
+            colors = SirioTheme.colors.buttonLegacy.tertiary,
             size = size,
         ) {}
         SirioButtonCommon(
             faIcon = FaIcons.ArrowRight,
-            colors = SirioTheme.colors.buttons.ghost,
+            colors = SirioTheme.colors.buttonLegacy.tertiary,
             size = size,
         ) {}
     }
@@ -485,20 +454,69 @@ private fun ButtonCommonPreviewContent(size: ButtonSize) {
     ) {
         SirioButtonCommon(
             text = text,
-            colors = SirioTheme.colors.buttons.ghost,
+            colors = SirioTheme.colors.buttonLegacy.tertiary,
             enabled = false,
             size = size,
         ) {}
         SirioButtonCommon(
             text = text,
             faIcon = FaIcons.ArrowRight,
-            colors = SirioTheme.colors.buttons.ghost,
+            colors = SirioTheme.colors.buttonLegacy.tertiary,
             enabled = false,
             size = size,
         ) {}
         SirioButtonCommon(
             faIcon = FaIcons.ArrowRight,
-            colors = SirioTheme.colors.buttons.ghost,
+            colors = SirioTheme.colors.buttonLegacy.tertiary,
+            enabled = false,
+            size = size,
+        ) {}
+    }
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .wrapContentHeight(),
+        horizontalArrangement = Arrangement.SpaceEvenly
+    ) {
+        SirioButtonCommon(
+            text = text,
+            colors = SirioTheme.colors.buttonLegacy.ghost,
+            size = size,
+        ) {}
+        SirioButtonCommon(
+            text = text,
+            faIcon = FaIcons.ArrowRight,
+            colors = SirioTheme.colors.buttonLegacy.ghost,
+            size = size,
+        ) {}
+        SirioButtonCommon(
+            faIcon = FaIcons.ArrowRight,
+            colors = SirioTheme.colors.buttonLegacy.ghost,
+            size = size,
+        ) {}
+    }
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .wrapContentHeight(),
+        horizontalArrangement = Arrangement.SpaceEvenly
+    ) {
+        SirioButtonCommon(
+            text = text,
+            colors = SirioTheme.colors.buttonLegacy.ghost,
+            enabled = false,
+            size = size,
+        ) {}
+        SirioButtonCommon(
+            text = text,
+            faIcon = FaIcons.ArrowRight,
+            colors = SirioTheme.colors.buttonLegacy.ghost,
+            enabled = false,
+            size = size,
+        ) {}
+        SirioButtonCommon(
+            faIcon = FaIcons.ArrowRight,
+            colors = SirioTheme.colors.buttonLegacy.ghost,
             enabled = false,
             size = size,
         ) {}

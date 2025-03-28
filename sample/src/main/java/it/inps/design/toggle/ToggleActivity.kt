@@ -1,7 +1,7 @@
 //
 // ToggleActivity.kt
 //
-// SPDX-FileCopyrightText: 2024 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -81,17 +81,17 @@ private fun ToggleDemoView() {
             var isOn4 by remember { mutableStateOf(true) }
             val label = "Title"
             Text(text = "Toggle Only False")
-            SirioToggle(isOn = isOn1, onToggleChange = { isOn1 = it })
-            SirioToggle(isOn = false, onToggleChange = {}, enabled = false)
+            SirioToggle(checked = isOn1, onToggleChange = { isOn1 = it })
+            SirioToggle(checked = false, onToggleChange = {}, enabled = false)
             Text(text = "Toggle Only True")
-            SirioToggle(isOn = isOn2, onToggleChange = { isOn2 = it })
-            SirioToggle(isOn = true, onToggleChange = {}, enabled = false)
+            SirioToggle(checked = isOn2, onToggleChange = { isOn2 = it })
+            SirioToggle(checked = true, onToggleChange = {}, enabled = false)
             Text(text = "Toggle Text False")
-            SirioToggle(label = label, isOn = isOn3, onToggleChange = { isOn3 = it })
-            SirioToggle(label = label, isOn = false, onToggleChange = {}, enabled = false)
+            SirioToggle(label = label, checked = isOn3, onToggleChange = { isOn3 = it })
+            SirioToggle(label = label, checked = false, onToggleChange = {}, enabled = false)
             Text(text = "Toggle Text True")
-            SirioToggle(label = label, isOn = isOn4, onToggleChange = { isOn4 = it })
-            SirioToggle(label = label, isOn = true, onToggleChange = {}, enabled = false)
+            SirioToggle(label = label, checked = isOn4, onToggleChange = { isOn4 = it })
+            SirioToggle(label = label, checked = true, onToggleChange = {}, enabled = false)
         }
     }
 }

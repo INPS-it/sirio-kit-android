@@ -14,7 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
@@ -79,20 +78,6 @@ internal fun SirioTitleBarCommon(
                 Spacer(modifier = Modifier.width(titleBarItemSpacing.dp))
             }
         }
-    }
-}
-
-@Keep
-data class SirioTitleBarColors(
-    val container: Color,
-    val content: Color,
-) {
-    companion object {
-        @Stable
-        val Unspecified = SirioTitleBarColors(
-            container = Color.Unspecified,
-            content = Color.Unspecified,
-        )
     }
 }
 

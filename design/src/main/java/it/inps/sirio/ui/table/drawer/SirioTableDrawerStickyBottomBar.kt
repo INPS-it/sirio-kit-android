@@ -1,7 +1,7 @@
 //
 // SirioTableDrawerStickyBottomBar.kt
 //
-// SPDX-FileCopyrightText: 2022 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -27,12 +27,12 @@ import com.guru.fontawesomecomposelib.FaIcons
 import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.theme.tableDrawerIconsPaddingHorizontal
 import it.inps.sirio.theme.tableDrawerIconsPaddingVertical
-import it.inps.sirio.ui.button.ButtonSize
 import it.inps.sirio.ui.button.ButtonStyle
 import it.inps.sirio.ui.button.SirioButton
-import it.inps.sirio.ui.dropdown.SirioDropdownOptionItem
-import it.inps.sirio.ui.dropdown.SirioPopup
-import it.inps.sirio.ui.dropdown.SirioPopupState
+import it.inps.sirio.ui.button.SirioButtonSize
+import it.inps.sirio.ui.dropdownmenu.SirioDropdownMenuOptionItem
+import it.inps.sirio.ui.dropdownmenu.SirioPopup
+import it.inps.sirio.ui.dropdownmenu.SirioPopupState
 import it.inps.sirio.ui.table.SirioTableIconData
 import it.inps.sirio.ui.text.SirioText
 
@@ -52,7 +52,7 @@ fun SirioTableDrawerStickyBottomBar(icons: List<SirioTableIconData>) {
         if (icons.size < 4) {
             icons.forEach {
                 SirioButton(
-                    size = ButtonSize.Large,
+                    size = SirioButtonSize.Large,
                     style = ButtonStyle.Primary,
                     icon = it.icon,
                     iconContentDescription = it.contentDescription,
@@ -97,7 +97,7 @@ fun SirioTableDrawerStickyBottomBar(icons: List<SirioTableIconData>) {
                 ) {
                     icons.forEach { icon ->
                         icon.text?.let {
-                            SirioDropdownOptionItem(
+                            SirioDropdownMenuOptionItem(
                                 text = it,
                                 enabled = true,
                                 selected = false,
@@ -110,7 +110,7 @@ fun SirioTableDrawerStickyBottomBar(icons: List<SirioTableIconData>) {
                     }
                 }
                 SirioButton(
-                    size = ButtonSize.Large,
+                    size = SirioButtonSize.Large,
                     style = ButtonStyle.Primary,
                     icon = FaIcons.EllipsisH,
                     onClick = {

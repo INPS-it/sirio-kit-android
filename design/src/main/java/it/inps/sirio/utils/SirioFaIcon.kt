@@ -45,7 +45,7 @@ internal fun SirioFaIcon(
         TextStyle(
             color = tint,
             fontFamily = getFontFamily(faIcon),
-            fontSize = scaleIndependentFontSize
+            fontSize = scaleIndependentFontSize,
         )
 
     val modifierWithContentDescription = if (contentDescription == null) {
@@ -65,9 +65,11 @@ private fun getFontFamily(faIconType: FaIconType): FontFamily {
         is FaIconType.BrandIcon -> FontFamily(
             Font(resId = R.font.fa_brands_400)
         )
+
         is FaIconType.SolidIcon -> FontFamily(
             Font(resId = R.font.fa_solid_900)
         )
+
         is FaIconType.RegularIcon -> FontFamily(
             Font(resId = R.font.fa_regular_400)
         )

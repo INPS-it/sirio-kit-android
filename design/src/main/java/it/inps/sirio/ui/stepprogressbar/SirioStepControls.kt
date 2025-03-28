@@ -1,7 +1,7 @@
 //
 // SirioStepControls.kt
 //
-// SPDX-FileCopyrightText: 2022 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -9,123 +9,133 @@ package it.inps.sirio.ui.stepprogressbar
 
 import androidx.annotation.Keep
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Stable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.guru.fontawesomecomposelib.FaIcons
-import it.inps.sirio.R
 import it.inps.sirio.theme.SirioTheme
-import it.inps.sirio.theme.stepControlsHeight
-import it.inps.sirio.theme.stepControlsHorizontalPadding
-import it.inps.sirio.theme.stepControlsIconSize
-import it.inps.sirio.ui.text.SirioText
-import it.inps.sirio.utils.SirioIcon
+import it.inps.sirio.theme.stepControlsPaddingHorizontal
+import it.inps.sirio.theme.stepControlsPaddingIntra
+import it.inps.sirio.theme.stepControlsPaddingVertical
+import it.inps.sirio.ui.button.SirioButton
+import it.inps.sirio.ui.button.SirioButtonHierarchy
+import it.inps.sirio.ui.button.SirioButtonSize
+import it.inps.sirio.ui.dropdownmenu.SirioDropdownMenuOptionItem
+import it.inps.sirio.ui.dropdownmenu.SirioPopup
+import it.inps.sirio.ui.dropdownmenu.SirioPopupState
+import it.inps.sirio.utils.SirioIconSource
 
 @Composable
 fun SirioStepControls(
-    previousEnabled: Boolean = true,
-    nextEnabled: Boolean = true,
-    onPrevious: () -> Unit,
-    onNext: () -> Unit,
+    back: SirioStepControlData,
+    next: SirioStepControlData,
+    other: List<SirioStepControlData> = emptyList(),
 ) {
     Row(
-        Modifier
-            .height(stepControlsHeight.dp)
-            .fillMaxWidth()
-            .background(SirioTheme.colors.stepProgressBar.controls.background),
-        verticalAlignment = Alignment.CenterVertically,
+        Modifier.padding(
+            horizontal = stepControlsPaddingHorizontal.dp,
+            vertical = stepControlsPaddingVertical.dp
+        ),
+        horizontalArrangement = Arrangement.spacedBy(stepControlsPaddingIntra.dp),
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxHeight()
-                .padding(horizontal = stepControlsHorizontalPadding.dp)
-                .clickable(enabled = previousEnabled, role = Role.Button, onClick = onPrevious),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(stepControlsHorizontalPadding.dp)
-        ) {
-            SirioIcon(
-                faIcon = FaIcons.AngleLeft,
-                iconColor = SirioTheme.colors.stepProgressBar.action,
-                size = stepControlsIconSize.dp,
-            )
-            SirioText(
-                text = stringResource(id = R.string.sirio_step_controls_previous),
-                color = SirioTheme.colors.stepProgressBar.controls.previous,
-                typography = SirioTheme.typography.stepProgressBar.controls.previous,
-            )
+        if (other.isNotEmpty()) {
+            Box {
+                val sirioPopupState: SirioPopupState = remember { SirioPopupState(false) }
+                sirioPopupState.isTop = true
+                sirioPopupState.horizontalAlignment = Alignment.Start
+                SirioPopup(
+                    sirioPopupState = sirioPopupState,
+                    onDismissRequest = { sirioPopupState.isVisible = false },
+                    offset = DpOffset(0.dp, 8.dp),
+                ) {
+                    other.forEach { data ->
+                        SirioDropdownMenuOptionItem(
+                            text = data.text,
+                            enabled = true,
+                            selected = false,
+                            onCLick = {
+                                data.action()
+                                sirioPopupState.isVisible = false
+                            }
+                        )
+                    }
+                }
+                SirioButton(
+                    size = SirioButtonSize.Large,
+                    hierarchy = SirioButtonHierarchy.TertiaryLight,
+                    icon = SirioIconSource.FaIcon(FaIcons.EllipsisV),
+                ) {
+                    sirioPopupState.isVisible = true
+                }
+            }
         }
-        Spacer(modifier = Modifier.weight(1f))
-        Row(
-            modifier = Modifier
-                .fillMaxHeight()
-                .padding(horizontal = stepControlsHorizontalPadding.dp)
-                .clickable(enabled = nextEnabled, role = Role.Button, onClick = onNext),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(stepControlsHorizontalPadding.dp)
-        ) {
-            SirioText(
-                text = stringResource(id = R.string.sirio_step_controls_next),
-                color = SirioTheme.colors.stepProgressBar.controls.next,
-                typography = SirioTheme.typography.stepProgressBar.controls.next,
-            )
-            SirioIcon(
-                faIcon = FaIcons.AngleRight,
-                iconColor = SirioTheme.colors.stepProgressBar.action,
-                size = stepControlsIconSize.dp,
-            )
-        }
-    }
-}
-
-@Keep
-data class SirioStepControlsColors(
-    val background: Color,
-    val previous: Color,
-    val next: Color,
-) {
-    companion object {
-        @Stable
-        val Unspecified = SirioStepControlsColors(
-            background = Color.Unspecified,
-            previous = Color.Unspecified,
-            next = Color.Unspecified,
+        SirioButton(
+            size = SirioButtonSize.Large,
+            hierarchy = SirioButtonHierarchy.Secondary,
+            modifier = Modifier.weight(1f),
+            text = back.text,
+            enabled = back.enabled,
+            onClick = back.action,
+        )
+        SirioButton(
+            size = SirioButtonSize.Large,
+            hierarchy = SirioButtonHierarchy.Primary,
+            modifier = Modifier.weight(1f),
+            text = next.text,
+            enabled = next.enabled,
+            onClick = next.action,
         )
     }
 }
 
 @Keep
-data class SirioStepControlsTypography(
-    val previous: TextStyle,
-    val next: TextStyle,
-) {
-    companion object {
-        @Stable
-        val Default = SirioStepControlsTypography(
-            previous = TextStyle.Default,
-            next = TextStyle.Default,
-        )
-    }
-}
+data class SirioStepControlData(
+    val text: String,
+    val enabled: Boolean,
+    val action: () -> Unit,
+)
 
 @Preview
 @Composable
 private fun SirioStepControlsPreview() {
     SirioTheme {
-        SirioStepControls(onPrevious = {}, onNext = {})
+        val back = SirioStepControlData(
+            text = "Indietro",
+            enabled = true,
+            action = {},
+        )
+        val next = SirioStepControlData(
+            text = "Avanti",
+            enabled = true,
+            action = {},
+        )
+        val other = listOf(
+            SirioStepControlData(
+                text = "Salva bozza",
+                enabled = true,
+                action = {},
+            ),
+            SirioStepControlData(
+                text = "Annulla",
+                enabled = true,
+                action = {},
+            ),
+        )
+        Column(Modifier.background(Color.White), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            SirioStepControls(back = back, next = next)
+            SirioStepControls(back = back, next = next, other = other)
+            SirioStepControls(back = back, next = next, other = other)
+            SirioStepControls(back = back, next = next, other = other)
+        }
     }
 }

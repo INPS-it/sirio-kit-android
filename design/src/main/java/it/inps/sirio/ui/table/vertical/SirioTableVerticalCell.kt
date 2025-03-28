@@ -1,7 +1,7 @@
 //
 // SirioTableVerticalCell.kt
 //
-// SPDX-FileCopyrightText: 2022 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -20,36 +20,42 @@ import androidx.compose.ui.unit.dp
 import com.guru.fontawesomecomposelib.FaIcons
 import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.theme.tableVerticalItemBorderWidth
-import it.inps.sirio.ui.button.ButtonSize
 import it.inps.sirio.ui.button.ButtonStyle
 import it.inps.sirio.ui.button.SirioButton
+import it.inps.sirio.ui.button.SirioButtonSize
 import it.inps.sirio.ui.table.SirioTableIconData
 
 @Composable
 fun SirioTableVerticalCell(cellData: SirioTableVerticalCellData) {
-    Column(
-        Modifier
-            .background(SirioTheme.colors.table.vertical.background)
-            .border(tableVerticalItemBorderWidth.dp, SirioTheme.colors.table.vertical.border)
-    ) {
-        cellData.items.forEach { item ->
-            SirioTableVerticalCellItem(data = item)
-        }
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.End,
+    SirioTheme(darkTheme = cellData.theme == SirioTableVerticalCellTheme.Dark) {
+        Column(
+            Modifier
+                .background(SirioTheme.colors.table.vertical.background)
+                .border(tableVerticalItemBorderWidth.dp, SirioTheme.colors.table.vertical.border)
         ) {
-            cellData.icons.forEach {
-                SirioButton(
-                    size = ButtonSize.Small,
-                    style = ButtonStyle.Ghost,
-                    icon = it.icon,
-                    iconContentDescription = it.contentDescription,
-                    onClick = it.action,
-                )
+            cellData.items.forEach { item ->
+                SirioTableVerticalCellItem(data = item)
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.End,
+            ) {
+                cellData.icons.forEach {
+                    SirioButton(
+                        size = SirioButtonSize.Medium,
+                        style = ButtonStyle.Ghost,
+                        icon = it.icon,
+                        iconContentDescription = it.contentDescription,
+                        onClick = it.action,
+                    )
+                }
             }
         }
     }
+}
+
+enum class SirioTableVerticalCellTheme {
+    Light, Dark
 }
 
 @Preview
@@ -91,6 +97,7 @@ private fun SirioTableVerticalPreview() {
                     ),
                 ),
                 icons = icons,
+                theme = SirioTableVerticalCellTheme.Dark,
             ),
         )
     }

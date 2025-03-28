@@ -1,19 +1,17 @@
 //
 // SirioSliderCommon.kt
 //
-// SPDX-FileCopyrightText: 2024 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
 
 package it.inps.sirio.ui.slider
 
+import androidx.annotation.Keep
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsFocusedAsState
-import androidx.compose.foundation.interaction.collectIsHoveredAsState
-import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,7 +32,11 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.TextFieldDefaults.Container
+import androidx.compose.material3.TextFieldDefaults.FocusedIndicatorThickness
+import androidx.compose.material3.TextFieldDefaults.UnfocusedIndicatorThickness
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -50,15 +52,20 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import it.inps.sirio.foundation.FoundationColor
+import it.inps.sirio.theme.SirioColorState
 import it.inps.sirio.theme.SirioTheme
+import it.inps.sirio.theme.sliderHeight
+import it.inps.sirio.theme.sliderNumberPaddingTop
+import it.inps.sirio.theme.sliderPaddingEnd
 import it.inps.sirio.theme.sliderTextFieldBorderWidth
 import it.inps.sirio.theme.sliderTextFieldCornerRadius
-import it.inps.sirio.theme.sliderTextFieldFocusExtraBorderPadding
-import it.inps.sirio.theme.sliderTextFieldFocusExtraBorderWidth
 import it.inps.sirio.theme.sliderTextFieldHeight
-import it.inps.sirio.theme.sliderTextFieldPaddingStart
+import it.inps.sirio.theme.sliderTextFieldPaddingHorizontal
+import it.inps.sirio.theme.sliderTextFieldPaddingVertical
 import it.inps.sirio.theme.sliderTextFieldWidth
 import it.inps.sirio.theme.sliderTextPaddingBottom
+import it.inps.sirio.theme.sliderThumbBorderSize
 import it.inps.sirio.theme.sliderTitlePaddingBottom
 import it.inps.sirio.ui.text.SirioTextCommon
 import java.lang.Integer.min
@@ -88,55 +95,25 @@ internal fun SirioSliderCommon(
     onValueChange: (Int) -> Unit,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
-    val isPressed by interactionSource.collectIsPressedAsState()
-    val isFocused by interactionSource.collectIsFocusedAsState()
-    val isHovered by interactionSource.collectIsHoveredAsState()
-
-    val thumbColor = when {
-        !enabled -> SirioTheme.colors.sliderDisabled
-        isPressed -> SirioTheme.colors.sliderPressedThumb
-        isFocused -> SirioTheme.colors.sliderThumb
-        isHovered -> SirioTheme.colors.sliderThumb
-        else -> SirioTheme.colors.sliderThumb
-    }
-    val sliderActiveColor = when {
-        !enabled -> SirioTheme.colors.sliderActive
-        isPressed -> SirioTheme.colors.sliderPressedActive
-        isFocused -> SirioTheme.colors.sliderFocusActive
-        isHovered -> SirioTheme.colors.sliderActive
-        else -> SirioTheme.colors.sliderActive
-    }
-    val textFieldBorderColor = when {
-        !enabled -> SirioTheme.colors.sliderDisabledTextFieldBorder
-        isPressed -> SirioTheme.colors.sliderPressedTextFieldBorder
-        isFocused -> SirioTheme.colors.sliderFocusTextFieldBorder
-        isHovered -> SirioTheme.colors.sliderHoverTextFieldBorder
-        else -> SirioTheme.colors.sliderDefaultTextFieldBorder
-    }
-    val textFieldTextColor = when {
-        !enabled -> SirioTheme.colors.sliderDisabledTextFieldText
-        isPressed -> SirioTheme.colors.sliderPressedTextFieldText
-        isFocused -> SirioTheme.colors.sliderFocusTextFieldText
-        isHovered -> SirioTheme.colors.sliderHoverTextFieldText
-        else -> SirioTheme.colors.sliderDefaultTextFieldText
-    }
+    val textFieldBorderColor = SirioTheme.colors.slider.textFieldBorder.get(disabled = !enabled)
+    val textFieldContentColor = SirioTheme.colors.slider.textFieldContent.get(disabled = !enabled)
 
     Column {
         title?.let {
             SirioTextCommon(
                 text = it,
-                color = SirioTheme.colors.sliderTitle,
-                typography = SirioTheme.typography.sliderTitle,
+                color = SirioTheme.colors.slider.title,
+                typography = SirioTheme.foundationTypography.labelMdMiddle,
             )
-            Spacer(modifier = Modifier.height(sliderTitlePaddingBottom))
+            Spacer(modifier = Modifier.height(sliderTitlePaddingBottom.dp))
         }
         text?.let {
             SirioTextCommon(
                 text = it,
-                color = SirioTheme.colors.sliderText,
-                typography = SirioTheme.typography.sliderText,
+                color = SirioTheme.colors.slider.text,
+                typography = SirioTheme.foundationTypography.tabbarLabelXsRegular,
             )
-            Spacer(modifier = Modifier.height(sliderTextPaddingBottom))
+            Spacer(modifier = Modifier.height(sliderTextPaddingBottom.dp))
         }
         Row {
             var currentValue by remember(value) { mutableIntStateOf(value) }
@@ -149,20 +126,23 @@ internal fun SirioSliderCommon(
                         currentValue = newIntValue
                         onValueChange(newIntValue)
                     },
-                    modifier = Modifier.height(20.dp),
+                    modifier = Modifier.height(sliderHeight.dp),
                     enabled = enabled,
                     valueRange = minValue.toFloat()..maxValue.toFloat(),
-                    interactionSource = interactionSource,
-                    colors = SliderDefaults.colors(
-                        thumbColor = thumbColor,
-                        disabledThumbColor = SirioTheme.colors.sliderDisabled,
-                        activeTrackColor = sliderActiveColor,
-                        inactiveTrackColor = SirioTheme.colors.sliderInactive,
-                        disabledActiveTrackColor = sliderActiveColor,
-                        disabledInactiveTrackColor = SirioTheme.colors.sliderInactive,
-                    )
+                    colors = SliderDefaults.colors(),
+                    thumb = {
+                        SirioSliderThumb(enabled = enabled)
+                    },
+                    track = { sliderState ->
+                        SirioSliderTrack(
+                            value = sliderState.value,
+                            min = sliderState.valueRange.start,
+                            max = sliderState.valueRange.endInclusive,
+                            enabled = enabled,
+                        )
+                    }
                 )
-                Spacer(modifier = Modifier.height(2.dp))
+                Spacer(modifier = Modifier.height(sliderNumberPaddingTop.dp))
                 Row(
                     Modifier
                         .fillMaxWidth()
@@ -171,54 +151,40 @@ internal fun SirioSliderCommon(
                 ) {
                     SirioTextCommon(
                         text = "$minValue",
-                        modifier = Modifier.padding(start = 8.dp),
-                        color = SirioTheme.colors.sliderNumbers,
-                        typography = SirioTheme.typography.sliderNumber,
+                        modifier = Modifier.padding(start = (sliderThumbBorderSize / 2).dp),
+                        color = SirioTheme.colors.slider.numbers,
+                        typography = SirioTheme.foundationTypography.labelNumberMdRegular,
                     )
                     SirioTextCommon(
                         text = "$maxValue",
-                        modifier = Modifier.padding(end = 8.dp),
-                        color = SirioTheme.colors.sliderNumbers,
-                        typography = SirioTheme.typography.sliderNumber,
+                        modifier = Modifier.padding(end = (sliderThumbBorderSize / 2).dp),
+                        color = SirioTheme.colors.slider.numbers,
+                        typography = SirioTheme.foundationTypography.labelNumberMdRegular,
                     )
                 }
             }
-            Spacer(modifier = Modifier.width(sliderTextFieldPaddingStart))
+            Spacer(modifier = Modifier.width(sliderPaddingEnd.dp))
             Box(
-                modifier = if (isFocused) {
-                    Modifier
-                        .width(sliderTextFieldWidth)
-                        .height(sliderTextFieldHeight)
-                        .border(
-                            width = sliderTextFieldFocusExtraBorderWidth,
-                            color = SirioTheme.colors.sliderFocusTextFieldExtraBorder,
-                            shape = RoundedCornerShape(sliderTextFieldCornerRadius),
-                        )
-                        .padding(sliderTextFieldFocusExtraBorderPadding)
-                } else Modifier
+                modifier = Modifier
                     .padding(0.dp)
-                    .width(sliderTextFieldWidth)
-                    .height(sliderTextFieldHeight),
-                contentAlignment = Alignment.Center
+                    .width(sliderTextFieldWidth.dp)
+                    .height(sliderTextFieldHeight.dp),
+                contentAlignment = Alignment.Center,
             ) {
                 BasicTextField(
                     value = "$currentValue",
-                    onValueChange = {
-                        it.toIntOrNull()?.let { int ->
-                            currentValue = int
+                    onValueChange = { newValueString ->
+                        newValueString.toIntOrNull()?.let { newValue ->
+                            currentValue = newValue
                         }
                     },
                     modifier = Modifier
                         .fillMaxSize()
                         .align(Alignment.Center)
                         .border(
-                            width = sliderTextFieldBorderWidth,
+                            width = sliderTextFieldBorderWidth.dp,
                             color = textFieldBorderColor,
-                            shape = RoundedCornerShape(sliderTextFieldCornerRadius),
-                        )
-                        .background(
-                            color = if (enabled) SirioTheme.colors.sliderDefaultTextFieldBackground else SirioTheme.colors.sliderDisabledTextFieldBackground,
-                            shape = RoundedCornerShape(sliderTextFieldCornerRadius),
+                            shape = RoundedCornerShape(sliderTextFieldCornerRadius.dp),
                         )
                         .onFocusChanged {
                             if (!it.hasFocus) {
@@ -236,8 +202,8 @@ internal fun SirioSliderCommon(
                         }
                     ),
                     readOnly = !enabled,
-                    textStyle = SirioTheme.typography.sliderNumber.copy(
-                        color = textFieldTextColor,
+                    textStyle = SirioTheme.foundationTypography.labelNumberMdRegular.copy(
+                        color = textFieldContentColor,
                         textAlign = TextAlign.Center,
                     ),
                     interactionSource = interactionSource,
@@ -250,7 +216,30 @@ internal fun SirioSliderCommon(
                         singleLine = true,
                         enabled = enabled,
                         interactionSource = interactionSource,
-                        contentPadding = PaddingValues(12.dp),
+                        contentPadding = PaddingValues(
+                            horizontal = sliderTextFieldPaddingHorizontal.dp,
+                            vertical = sliderTextFieldPaddingVertical.dp,
+                        ),
+                        container = {
+                            Container(
+                                enabled = enabled,
+                                isError = false,
+                                interactionSource = interactionSource,
+                                modifier = Modifier,
+                                colors = TextFieldDefaults.colors(
+                                    unfocusedContainerColor = SirioTheme.colors.slider.textFieldContainer.default,
+                                    focusedContainerColor = SirioTheme.colors.slider.textFieldContainer.focused,
+                                    disabledContainerColor = SirioTheme.colors.slider.textFieldContainer.disabled,
+                                    focusedIndicatorColor = Color.Transparent,
+                                    unfocusedIndicatorColor = Color.Transparent,
+                                    disabledIndicatorColor = Color.Transparent,
+                                    errorIndicatorColor = Color.Transparent,
+                                ),
+                                shape = RoundedCornerShape(sliderTextFieldCornerRadius.dp),
+                                focusedIndicatorLineThickness = FocusedIndicatorThickness,
+                                unfocusedIndicatorLineThickness = UnfocusedIndicatorThickness,
+                            )
+                        }
                     )
                 }
             }
@@ -258,19 +247,84 @@ internal fun SirioSliderCommon(
     }
 }
 
+@Keep
+data class SirioSliderColors(
+    val title: Color,
+    val text: Color,
+    val thumb: SirioColorState,
+    val trackBackground: SirioColorState,
+    val trackProgress: SirioColorState,
+    val numbers: Color,
+    val textFieldContainer: SirioColorState,
+    val textFieldBorder: SirioColorState,
+    val textFieldContent: SirioColorState,
+) {
+    companion object {
+        @Stable
+        val Unspecified = SirioSliderColors(
+            title = Color.Unspecified,
+            text = Color.Unspecified,
+            thumb = SirioColorState.Unspecified,
+            trackBackground = SirioColorState.Unspecified,
+            trackProgress = SirioColorState.Unspecified,
+            numbers = Color.Unspecified,
+            textFieldContainer = SirioColorState.Unspecified,
+            textFieldBorder = SirioColorState.Unspecified,
+            textFieldContent = SirioColorState.Unspecified,
+        )
+    }
+}
+
+internal val sliderLightColors = SirioSliderColors(
+    title = FoundationColor.colorSpecificDataEntryLabelColorDefault,
+    text = FoundationColor.colorAliasInteractiveSecondaryDefault,
+    thumb = SirioColorState.all(
+        color = FoundationColor.colorAliasInteractivePrimaryDefault,
+        disabled = FoundationColor.colorAliasBackgroundColorDisabled
+    ),
+    trackBackground = SirioColorState.all(FoundationColor.colorAliasBackgroundColorDisabled),
+    trackProgress = SirioColorState.all(FoundationColor.colorAliasInteractiveSecondaryDefault),
+    numbers = FoundationColor.colorAliasInteractiveSecondaryDefault,
+    textFieldContainer = SirioColorState.all(
+        color = FoundationColor.colorAliasBackgroundColorPrimaryLight0,
+        disabled = FoundationColor.colorAliasBackgroundColorDisabled,
+    ),
+    textFieldBorder = SirioColorState.all(
+        color = FoundationColor.colorSpecificDataEntryBorderColorDefault,
+        disabled = FoundationColor.colorAliasBackgroundColorDisabled,
+    ),
+    textFieldContent = SirioColorState.all(
+        color = FoundationColor.colorAliasInteractiveSecondaryDefault,
+        disabled = FoundationColor.colorAliasTextColorDisabled,
+    ),
+)
+
+internal val sliderDarkColors = sliderLightColors
+
 @Preview
 @Composable
 private fun SliderCommonPreview() {
     SirioTheme {
-        Column(Modifier.background(Color(0xFFE5E5E5))) {
+        Column(Modifier.background(Color.White)) {
+            var value by remember { mutableIntStateOf(2) }
             SirioSliderCommon(
                 title = "Slider Label",
-                text = "*Info upload file",
-                value = 20,
-                minValue = 50,
-                maxValue = 100,
+                text = "Info slider",
+                value = value,
+                minValue = 0,
+                maxValue = 10,
                 enabled = true,
-                onValueChange = {})
+                onValueChange = { value = it },
+            )
+            SirioSliderCommon(
+                title = "Slider Label",
+                text = "Info slider",
+                value = value,
+                minValue = 0,
+                maxValue = 10,
+                enabled = false,
+                onValueChange = { value = it },
+            )
         }
     }
 }

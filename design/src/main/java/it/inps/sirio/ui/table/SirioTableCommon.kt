@@ -1,7 +1,7 @@
 //
 // SirioTableCommon.kt
 //
-// SPDX-FileCopyrightText: 2022 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -24,10 +24,12 @@ sealed class SirioTableCellType {
         val title: String,
         val size: SirioTableContentSize,
         val alignment: SirioTableContentAlignment,
+        val weight: Float = 1.0f,
         val scroll: Boolean = false,
         val withCheckBox: Boolean = false,
         val checked: Boolean = false,
         val onCheckedChange: (Boolean) -> Unit = {},
+        val withSortIcon: Boolean = true,
         val onIconClick: () -> Unit = {},
     ) : SirioTableCellType()
 

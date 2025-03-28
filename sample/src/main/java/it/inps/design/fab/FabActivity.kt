@@ -1,7 +1,7 @@
 //
 // FabActivity.kt
 //
-// SPDX-FileCopyrightText: 2024 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -36,11 +36,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.guru.fontawesomecomposelib.FaIcons
 import it.inps.sirio.theme.SirioTheme
-import it.inps.sirio.ui.fab.FabExtended
-import it.inps.sirio.ui.fab.FabExtendedItemData
-import it.inps.sirio.ui.fab.FabItemData
-import it.inps.sirio.ui.fab.FabRegular
-import it.inps.sirio.ui.fab.FabSmall
+import it.inps.sirio.ui.fab.SirioFab
+import it.inps.sirio.ui.fab.SirioFabData
+import it.inps.sirio.ui.fab.SirioFabSize
 
 class FabActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -92,17 +90,21 @@ fun FabDemoContent() {
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 SirioTheme(darkTheme = false) {
-                    FabSmall(
-                        fabData = FabItemData(
+                    SirioFab(
+                        fabData = SirioFabData(
                             icon = FaIcons.Plus,
-                            action = {})
+                            size = SirioFabSize.SMALL,
+                            action = {},
+                        )
                     )
                 }
                 SirioTheme(darkTheme = true) {
-                    FabSmall(
-                        fabData = FabItemData(
+                    SirioFab(
+                        fabData = SirioFabData(
                             icon = FaIcons.Plus,
-                            action = {})
+                            size = SirioFabSize.SMALL,
+                            action = {},
+                        )
                     )
                 }
             }
@@ -116,10 +118,22 @@ fun FabDemoContent() {
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 SirioTheme(darkTheme = false) {
-                    FabRegular(fabData = FabItemData(icon = FaIcons.Plus, action = {}))
+                    SirioFab(
+                        fabData = SirioFabData(
+                            icon = FaIcons.Plus,
+                            size = SirioFabSize.REGULAR,
+                            action = {},
+                        )
+                    )
                 }
                 SirioTheme(darkTheme = true) {
-                    FabRegular(fabData = FabItemData(icon = FaIcons.Plus, action = {}))
+                    SirioFab(
+                        fabData = SirioFabData(
+                            icon = FaIcons.Plus,
+                            size = SirioFabSize.REGULAR,
+                            action = {},
+                        )
+                    )
                 }
             }
             Spacer(modifier = Modifier.height(10.dp))
@@ -132,19 +146,21 @@ fun FabDemoContent() {
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 SirioTheme(darkTheme = false) {
-                    FabExtended(
-                        fabExtendedData = FabExtendedItemData(
-                            text = "Text",
+                    SirioFab(
+                        fabData = SirioFabData(
                             icon = FaIcons.Plus,
-                            action = {})
+                            text = "Text",
+                            action = {},
+                        )
                     )
                 }
                 SirioTheme(darkTheme = true) {
-                    FabExtended(
-                        fabExtendedData = FabExtendedItemData(
-                            text = "Text",
+                    SirioFab(
+                        fabData = SirioFabData(
                             icon = FaIcons.Plus,
-                            action = {})
+                            text = "Text",
+                            action = {},
+                        )
                     )
                 }
             }

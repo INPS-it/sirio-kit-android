@@ -1,19 +1,24 @@
 //
 // SirioTable.kt
 //
-// SPDX-FileCopyrightText: 2022 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
 package it.inps.sirio.ui.table
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.guru.fontawesomecomposelib.FaIcons
 import it.inps.sirio.theme.SirioTheme
+import it.inps.sirio.theme.tableComponentBorderWidth
 import it.inps.sirio.ui.table.cell.SirioTableCellAvatar
 import it.inps.sirio.ui.table.cell.SirioTableCellLink
 import it.inps.sirio.ui.table.cell.SirioTableCellMultiIcons
@@ -24,35 +29,62 @@ import it.inps.sirio.ui.table.cell.SirioTableCellText
 import it.inps.sirio.ui.table.cell.SirioTableCellTextOnly
 import it.inps.sirio.ui.titlebar.SirioTitleBar
 import it.inps.sirio.ui.titlebar.SirioTitleBarItemData
+import it.inps.sirio.utils.Border
+import it.inps.sirio.utils.border
 
+/**
+ * A composable function that displays a table with customizable headers and rows.
+ *
+ * This composable allows you to create a table with a title bar (optional), headers, and rows.
+ * You can customize the appearance and behavior of the table using the provided parameters.
+ *
+ * @param headers A list of [SirioTableCellType.Header] objects representing the table headers.
+ * @param rows A list of [SirioTableRowData] objects representing the table rows.
+ * @param title An optional title for the table, displayed in a title bar above the table.
+ * @param titleBarItems An optional list of [SirioTitleBarItemData] objects to display in the title bar.
+ */
 @Composable
 fun SirioTable(
-    title: String,
-    titleBarItems: List<SirioTitleBarItemData> = emptyList(),
     headers: List<SirioTableCellType.Header>,
     rows: List<SirioTableRowData>,
+    title: String? = null,
+    titleBarItems: List<SirioTitleBarItemData> = emptyList(),
 ) {
+    val tableBorder = Border(
+        strokeWidth = tableComponentBorderWidth.dp,
+        color = SirioTheme.colors.table.component.border,
+    )
     Column {
-        SirioTitleBar(title = title, titleBarItems)
-        Row {
-            headers.indices.forEach { index ->
-                val header = headers[index]
-                Column(Modifier.weight(1f)) {
+        title?.let { SirioTitleBar(title = it, titleBarItems) }
+        Column(
+            Modifier
+                .border(top = tableBorder)
+                .border(start = tableBorder),
+        ) {
+            val rowCount = rows.maxOf { it.cells.size }
+            Row(Modifier.height(IntrinsicSize.Max)) {
+                headers.forEach { header ->
                     SirioTableHeader(
                         title = header.title,
                         size = header.size,
+                        weight = header.weight,
                         alignment = header.alignment,
                         scroll = header.scroll,
                         withCheckBox = header.withCheckBox,
                         checked = header.checked,
                         onCheckedChange = header.onCheckedChange,
+                        withSortIcon = header.withSortIcon,
                         onIconClick = header.onIconClick,
                     )
-                    rows.forEach { row ->
-                        if (index > row.cells.size - 1) {
-                            SirioTableCellTextOnly(text = "", size = header.size)
+                }
+            }
+            rows.forEach { row ->
+                Row(Modifier.height(IntrinsicSize.Max)) {
+                    row.cells.forEachIndexed { columnIndex, cell ->
+                        if (columnIndex > rowCount) {
+                            SirioTableCellTextOnly(text = "", size = headers[columnIndex].size)
                         } else {
-                            CellTypeToCell(row.cells[index])
+                            CellTypeToCell(cell = cell, weight = headers[columnIndex].weight)
                         }
                     }
                 }
@@ -62,16 +94,16 @@ fun SirioTable(
 }
 
 @Composable
-private fun CellTypeToCell(cell: SirioTableCellType) {
+private fun RowScope.CellTypeToCell(cell: SirioTableCellType, weight: Float) {
     when (cell) {
-        is SirioTableCellType.Avatar -> SirioTableCellAvatar(cell)
-        is SirioTableCellType.Link -> SirioTableCellLink(cell)
-        is SirioTableCellType.MultiIcons -> SirioTableCellMultiIcons(cell)
-        is SirioTableCellType.Number -> SirioTableCellNumber(cell)
-        is SirioTableCellType.NumberOnly -> SirioTableCellNumberOnly(cell)
-        is SirioTableCellType.Tag -> SirioTableCellTag(cell)
-        is SirioTableCellType.Text -> SirioTableCellText(cell)
-        is SirioTableCellType.TextOnly -> SirioTableCellTextOnly(cell)
+        is SirioTableCellType.Avatar -> SirioTableCellAvatar(cell, weight)
+        is SirioTableCellType.Link -> SirioTableCellLink(cell, weight)
+        is SirioTableCellType.MultiIcons -> SirioTableCellMultiIcons(cell, weight)
+        is SirioTableCellType.Number -> SirioTableCellNumber(cell, weight)
+        is SirioTableCellType.NumberOnly -> SirioTableCellNumberOnly(cell, weight)
+        is SirioTableCellType.Tag -> SirioTableCellTag(cell, weight)
+        is SirioTableCellType.Text -> SirioTableCellText(cell, weight)
+        is SirioTableCellType.TextOnly -> SirioTableCellTextOnly(cell, weight)
         else -> {}
     }
 }
@@ -95,7 +127,9 @@ private fun SirioTablePreview() {
                     title = "id",
                     size = SirioTableContentSize.LARGE,
                     alignment = SirioTableContentAlignment.START,
+                    weight = 0.5f,
                     withCheckBox = false,
+                    withSortIcon = false,
                 ),
                 SirioTableCellType.Header(
                     title = "Nome",

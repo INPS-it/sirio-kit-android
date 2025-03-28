@@ -1,7 +1,7 @@
 //
 // SirioSlider.kt
 //
-// SPDX-FileCopyrightText: 2024 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -56,7 +56,7 @@ private fun SliderPreview() {
         Column(Modifier.background(Color(0xFFE5E5E5))) {
             SirioSlider(
                 title = "Slider label",
-                text = "*Info upload file",
+                text = "Info slider",
                 value = 20,
                 minValue = 0,
                 maxValue = 100,
@@ -64,7 +64,7 @@ private fun SliderPreview() {
             )
             SirioSlider(
                 title = "Slider label",
-                text = "*Info upload file",
+                text = "Info slider",
                 value = 20,
                 minValue = 0,
                 maxValue = 100,

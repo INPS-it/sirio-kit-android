@@ -1,13 +1,15 @@
 //
 // SirioTableHeader.kt
 //
-// SPDX-FileCopyrightText: 2022 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
 package it.inps.sirio.ui.table
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
@@ -16,43 +18,46 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.guru.fontawesomecomposelib.FaIcons
 import it.inps.sirio.theme.SirioTheme
-import it.inps.sirio.theme.tableComponentHeightExtraSmall
-import it.inps.sirio.theme.tableComponentHeightLarge
-import it.inps.sirio.theme.tableComponentHeightMedium
-import it.inps.sirio.theme.tableComponentHeightSmall
 import it.inps.sirio.theme.tableComponentPaddingHorizontalExtraSmall
 import it.inps.sirio.theme.tableComponentPaddingHorizontalLarge
 import it.inps.sirio.theme.tableComponentPaddingHorizontalMedium
 import it.inps.sirio.theme.tableComponentPaddingHorizontalSmall
+import it.inps.sirio.theme.tableHeaderPaddingVerticalExtraSmall
+import it.inps.sirio.theme.tableHeaderPaddingVerticalLarge
+import it.inps.sirio.theme.tableHeaderPaddingVerticalMedium
+import it.inps.sirio.theme.tableHeaderPaddingVerticalSmall
 
 @Composable
-fun SirioTableHeader(
+fun RowScope.SirioTableHeader(
     title: String,
     size: SirioTableContentSize,
+    weight: Float = 1f,
     alignment: SirioTableContentAlignment = SirioTableContentAlignment.START,
     scroll: Boolean = false,
     withCheckBox: Boolean = false,
     checked: Boolean = false,
     onCheckedChange: (Boolean) -> Unit = {},
+    withSortIcon: Boolean = true,
     onIconClick: () -> Unit,
 ) {
-    val (height, horizontalPadding) = remember(size) {
+    val (verticalPadding, horizontalPadding) = remember(size) {
         when (size) {
-            SirioTableContentSize.EXTRASMALL -> tableComponentHeightExtraSmall to tableComponentPaddingHorizontalExtraSmall
-            SirioTableContentSize.SMALL -> tableComponentHeightSmall to tableComponentPaddingHorizontalSmall
-            SirioTableContentSize.MEDIUM -> tableComponentHeightMedium to tableComponentPaddingHorizontalMedium
-            SirioTableContentSize.LARGE -> tableComponentHeightLarge to tableComponentPaddingHorizontalLarge
+            SirioTableContentSize.EXTRASMALL -> tableHeaderPaddingVerticalExtraSmall to tableComponentPaddingHorizontalExtraSmall
+            SirioTableContentSize.SMALL -> tableHeaderPaddingVerticalSmall to tableComponentPaddingHorizontalSmall
+            SirioTableContentSize.MEDIUM -> tableHeaderPaddingVerticalMedium to tableComponentPaddingHorizontalMedium
+            SirioTableContentSize.LARGE -> tableHeaderPaddingVerticalLarge to tableComponentPaddingHorizontalLarge
         }
     }
     SirioTableHeaderCommon(
         title = title,
-        height = height,
+        verticalPadding = verticalPadding,
         horizontalPadding = horizontalPadding,
         alignment = alignment,
+        weight = weight,
         scroll = scroll,
         withCheckBox = withCheckBox,
         checked = checked,
-        iconButton = FaIcons.Sort,
+        iconButton = if (withSortIcon) FaIcons.Sort else null,
         onCheckedChange = onCheckedChange,
         onIconClick = onIconClick,
     )
@@ -63,80 +68,32 @@ fun SirioTableHeader(
 private fun SirioTableHeaderPreview() {
     Column(Modifier.verticalScroll(rememberScrollState())) {
         SirioTheme {
+            Row {
+                SirioTableHeader(
+                    title = "Header",
+                    size = SirioTableContentSize.LARGE,
+                    withCheckBox = true,
+                    checked = false,
+                    onCheckedChange = {},
+                    onIconClick = {},
+                )
+            }
+            Row {
+                SirioTableHeader(
+                    title = "Header",
+                    size = SirioTableContentSize.LARGE,
+                    alignment = SirioTableContentAlignment.END,
+                    withCheckBox = true,
+                    checked = false,
+                    onCheckedChange = {},
+                    onIconClick = {},
+                )
+            }
+        }
+        Row {
             SirioTableHeader(
                 title = "Header",
                 size = SirioTableContentSize.LARGE,
-                withCheckBox = true,
-                checked = false,
-                onCheckedChange = {},
-                onIconClick = {},
-            )
-            SirioTableHeader(
-                title = "Header",
-                size = SirioTableContentSize.LARGE,
-                alignment = SirioTableContentAlignment.END,
-                withCheckBox = true,
-                checked = false,
-                onCheckedChange = {},
-                onIconClick = {},
-            )
-            SirioTableHeader(
-                title = "Header",
-                size = SirioTableContentSize.LARGE,
-                alignment = SirioTableContentAlignment.END,
-                scroll = true,
-                withCheckBox = true,
-                checked = false,
-                onCheckedChange = {},
-                onIconClick = {},
-            )
-            SirioTableHeader(
-                title = "Header",
-                size = SirioTableContentSize.MEDIUM,
-                withCheckBox = true,
-                checked = false,
-                onCheckedChange = {},
-                onIconClick = {},
-            )
-            SirioTableHeader(
-                title = "Header",
-                size = SirioTableContentSize.MEDIUM,
-                alignment = SirioTableContentAlignment.END,
-                withCheckBox = true,
-                checked = false,
-                onCheckedChange = {},
-                onIconClick = {},
-            )
-            SirioTableHeader(
-                title = "Header",
-                size = SirioTableContentSize.MEDIUM,
-                alignment = SirioTableContentAlignment.END,
-                scroll = true,
-                withCheckBox = true,
-                checked = false,
-                onCheckedChange = {},
-                onIconClick = {},
-            )
-            SirioTableHeader(
-                title = "Header",
-                size = SirioTableContentSize.SMALL,
-                withCheckBox = true,
-                checked = false,
-                onCheckedChange = {},
-                onIconClick = {},
-            )
-            SirioTableHeader(
-                title = "Header",
-                size = SirioTableContentSize.SMALL,
-                alignment = SirioTableContentAlignment.END,
-                withCheckBox = true,
-                checked = false,
-                onCheckedChange = {},
-                onIconClick = {},
-            )
-            SirioTableHeader(
-                title = "Header",
-                size = SirioTableContentSize.SMALL,
                 alignment = SirioTableContentAlignment.END,
                 scroll = true,
                 withCheckBox = true,
@@ -145,34 +102,7 @@ private fun SirioTableHeaderPreview() {
                 onIconClick = {},
             )
         }
-        SirioTheme(darkTheme = true) {
-            SirioTableHeader(
-                title = "Header",
-                size = SirioTableContentSize.LARGE,
-                withCheckBox = true,
-                checked = false,
-                onCheckedChange = {},
-                onIconClick = {},
-            )
-            SirioTableHeader(
-                title = "Header",
-                size = SirioTableContentSize.LARGE,
-                alignment = SirioTableContentAlignment.END,
-                withCheckBox = true,
-                checked = false,
-                onCheckedChange = {},
-                onIconClick = {},
-            )
-            SirioTableHeader(
-                title = "Header",
-                size = SirioTableContentSize.LARGE,
-                alignment = SirioTableContentAlignment.END,
-                scroll = true,
-                withCheckBox = true,
-                checked = false,
-                onCheckedChange = {},
-                onIconClick = {},
-            )
+        Row {
             SirioTableHeader(
                 title = "Header",
                 size = SirioTableContentSize.MEDIUM,
@@ -181,6 +111,8 @@ private fun SirioTableHeaderPreview() {
                 onCheckedChange = {},
                 onIconClick = {},
             )
+        }
+        Row {
             SirioTableHeader(
                 title = "Header",
                 size = SirioTableContentSize.MEDIUM,
@@ -190,6 +122,8 @@ private fun SirioTableHeaderPreview() {
                 onCheckedChange = {},
                 onIconClick = {},
             )
+        }
+        Row {
             SirioTableHeader(
                 title = "Header",
                 size = SirioTableContentSize.MEDIUM,
@@ -200,6 +134,8 @@ private fun SirioTableHeaderPreview() {
                 onCheckedChange = {},
                 onIconClick = {},
             )
+        }
+        Row {
             SirioTableHeader(
                 title = "Header",
                 size = SirioTableContentSize.SMALL,
@@ -208,6 +144,8 @@ private fun SirioTableHeaderPreview() {
                 onCheckedChange = {},
                 onIconClick = {},
             )
+        }
+        Row {
             SirioTableHeader(
                 title = "Header",
                 size = SirioTableContentSize.SMALL,
@@ -217,6 +155,8 @@ private fun SirioTableHeaderPreview() {
                 onCheckedChange = {},
                 onIconClick = {},
             )
+        }
+        Row {
             SirioTableHeader(
                 title = "Header",
                 size = SirioTableContentSize.SMALL,
@@ -229,5 +169,105 @@ private fun SirioTableHeaderPreview() {
             )
         }
     }
-
+    SirioTheme(darkTheme = true) {
+        Row {
+            SirioTableHeader(
+                title = "Header",
+                size = SirioTableContentSize.LARGE,
+                withCheckBox = true,
+                checked = false,
+                onCheckedChange = {},
+                onIconClick = {},
+            )
+        }
+        Row {
+            SirioTableHeader(
+                title = "Header",
+                size = SirioTableContentSize.LARGE,
+                alignment = SirioTableContentAlignment.END,
+                withCheckBox = true,
+                checked = false,
+                onCheckedChange = {},
+                onIconClick = {},
+            )
+        }
+        Row {
+            SirioTableHeader(
+                title = "Header",
+                size = SirioTableContentSize.LARGE,
+                alignment = SirioTableContentAlignment.END,
+                scroll = true,
+                withCheckBox = true,
+                checked = false,
+                onCheckedChange = {},
+                onIconClick = {},
+            )
+        }
+        Row {
+            SirioTableHeader(
+                title = "Header",
+                size = SirioTableContentSize.MEDIUM,
+                withCheckBox = true,
+                checked = false,
+                onCheckedChange = {},
+                onIconClick = {},
+            )
+        }
+        Row {
+            SirioTableHeader(
+                title = "Header",
+                size = SirioTableContentSize.MEDIUM,
+                alignment = SirioTableContentAlignment.END,
+                withCheckBox = true,
+                checked = false,
+                onCheckedChange = {},
+                onIconClick = {},
+            )
+        }
+        Row {
+            SirioTableHeader(
+                title = "Header",
+                size = SirioTableContentSize.MEDIUM,
+                alignment = SirioTableContentAlignment.END,
+                scroll = true,
+                withCheckBox = true,
+                checked = false,
+                onCheckedChange = {},
+                onIconClick = {},
+            )
+        }
+        Row {
+            SirioTableHeader(
+                title = "Header",
+                size = SirioTableContentSize.SMALL,
+                withCheckBox = true,
+                checked = false,
+                onCheckedChange = {},
+                onIconClick = {},
+            )
+        }
+        Row {
+            SirioTableHeader(
+                title = "Header",
+                size = SirioTableContentSize.SMALL,
+                alignment = SirioTableContentAlignment.END,
+                withCheckBox = true,
+                checked = false,
+                onCheckedChange = {},
+                onIconClick = {},
+            )
+        }
+        Row {
+            SirioTableHeader(
+                title = "Header",
+                size = SirioTableContentSize.SMALL,
+                alignment = SirioTableContentAlignment.END,
+                scroll = true,
+                withCheckBox = true,
+                checked = false,
+                onCheckedChange = {},
+                onIconClick = {},
+            )
+        }
+    }
 }

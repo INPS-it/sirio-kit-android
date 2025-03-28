@@ -1,39 +1,40 @@
 //
 // SirioTabBar.kt
 //
-// SPDX-FileCopyrightText: 2024 Istituto Nazionale Previdenza Sociale
+//
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
 
 package it.inps.sirio.ui.tabbar
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
+import android.content.res.Configuration
+import androidx.annotation.Keep
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.material3.BadgedBox
-import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationBarItemDefaults
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.guru.fontawesomecomposelib.FaIcons
+import it.inps.sirio.foundation.FoundationColor
+import it.inps.sirio.theme.SirioBaseStateColors
 import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.theme.tabBarHeight
-import it.inps.sirio.theme.tabBarItemIconSize
-import it.inps.sirio.theme.tabBarItemStateIndicatorHeight
-import it.inps.sirio.ui.badge.SirioBadgeCommon
-import it.inps.sirio.ui.text.SirioTextCommon
-import it.inps.sirio.utils.SirioIcon
 
 /**
  * A bottom navigation with tabs
@@ -48,61 +49,129 @@ fun SirioTabBar(
 ) {
     //TabBar should contain 3-5 tabs
     assert(items.size in 3..5)
-    NavigationBar(
+    Surface(
+        modifier = Modifier.height(tabBarHeight.dp),
+        color = SirioTheme.colors.tabBar.background,
+    ) {
+        if (isHorizontal()) {
+            SirioTabBarHorizontalContainer(content = {
+                items.forEachIndexed { index, tabItem ->
+                    SirioTabBarItemHorizontal(index == selectedIndex, tabItem)
+                }
+            })
+        } else {
+            SirioTabBarVerticalContainer(content = {
+                items.forEachIndexed { index, tabItem ->
+                    SirioTabBarItemVertical(index == selectedIndex, tabItem)
+                }
+            })
+        }
+    }
+}
+
+@Composable
+private fun SirioTabBarVerticalContainer(
+    content: @Composable RowScope.  () -> Unit,
+) {
+    Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(tabBarHeight.dp),
-        containerColor = SirioTheme.colors.tabBarBackground,
-    ) {
-        val labelTypography = with(SirioTheme.typography.tabBarItemText) {
-            if (LocalConfiguration.current.fontScale > 1) copy(fontSize = 9.sp) else this
-        }
+            .selectableGroup(),
+        verticalAlignment = Alignment.CenterVertically,
+        content = content,
+    )
+}
 
-        items.take(5).forEachIndexed { index, tabItem ->
-            NavigationBarItem(
-                selected = index == selectedIndex,
-                onClick = tabItem.action,
-                icon = {
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(tabBarItemStateIndicatorHeight.dp)
-                                .background(if (index == selectedIndex) SirioTheme.colors.tabBarActive else SirioTheme.colors.tabBarBackground)
-                        )
-                        Spacer(modifier = Modifier.height(3.dp))
-                        BadgedBox(
-                            badge = {
-                                if (tabItem.badge) {
-                                    SirioBadgeCommon()
-                                }
-                            },
-                        ) {
-                            SirioIcon(
-                                faIcon = tabItem.icon,
-                                size = tabBarItemIconSize.dp,
-                                iconColor = LocalContentColor.current
-                            )
-                        }
-                    }
-                },
-                label = {
-                    SirioTextCommon(
-                        text = tabItem.label,
-                        color = LocalContentColor.current,
-                        overflow = TextOverflow.Ellipsis,
-                        maxLines = 1,
-                        typography = labelTypography,
-                    )
-                },
-                colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = SirioTheme.colors.tabBarActive,
-                    selectedTextColor = SirioTheme.colors.tabBarActive,
-                    indicatorColor = Color.Transparent,
-                    unselectedIconColor = SirioTheme.colors.tabBarContent,
-                    unselectedTextColor = SirioTheme.colors.tabBarContent,
+@Composable
+private fun SirioTabBarHorizontalContainer(
+    content: @Composable RowScope.() -> Unit,
+) {
+    Row(
+        modifier = Modifier.fillMaxSize(),
+        horizontalArrangement = Arrangement.Center,
+    ) {
+        Row(
+            modifier = Modifier
+                .width(IntrinsicSize.Max)
+                .selectableGroup(),
+            verticalAlignment = Alignment.CenterVertically,
+            content = content,
+        )
+    }
+}
+
+@Composable
+private fun isHorizontal(): Boolean {
+    val configuration = LocalConfiguration.current
+    return if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        true
+//        configuration.screenWidthDp > 840
+    } else {
+        configuration.screenWidthDp > 600
+    }
+}
+
+@Keep
+data class SirioTabBarColors(
+    val background: Color,
+    val item: SirioBaseStateColors,
+) {
+    companion object {
+        @Stable
+        val Unspecified = SirioTabBarColors(
+            background = Color.Unspecified,
+            item = SirioBaseStateColors.Unspecified,
+        )
+    }
+}
+
+internal val tabBarLightColors = SirioTabBarColors(
+    background = FoundationColor.colorAliasBackgroundColorPrimaryLight0,
+    item = tabBarItemLightColors,
+)
+internal val tabBarDarkColors = SirioTabBarColors(
+    background = FoundationColor.colorAliasBackgroundColorPrimaryLight0,
+    item = tabBarItemDarkColors,
+)
+
+@Preview(showSystemUi = true)
+@Preview(showSystemUi = true, device = Devices.PIXEL_TABLET)
+@Composable
+private fun SirioTabBarPreview() {
+    SirioTheme {
+        SirioTabBar(
+            listOf(
+                SirioTabBarItemData(
+                    label = "Home",
+                    icon = FaIcons.Home,
+                    badge = false,
+                    action = {},
+                ),
+                SirioTabBarItemData(
+                    label = "News",
+                    icon = FaIcons.Bell,
+                    badge = true,
+                    action = {},
+                ),
+                SirioTabBarItemData(
+                    label = "Mappe",
+                    icon = FaIcons.Globe,
+                    badge = false,
+                    action = {},
+                ),
+                SirioTabBarItemData(
+                    label = "Contatti",
+                    icon = FaIcons.CommentAlt,
+                    badge = false,
+                    action = {},
+                ),
+                SirioTabBarItemData(
+                    label = "Servizi",
+                    icon = FaIcons.GripHorizontal,
+                    badge = false,
+                    action = {},
                 )
             )
-        }
+        )
     }
 }

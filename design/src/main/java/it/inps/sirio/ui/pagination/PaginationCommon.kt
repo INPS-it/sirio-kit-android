@@ -1,7 +1,7 @@
 //
 // PaginationCommon.kt
 //
-// SPDX-FileCopyrightText: 2024 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -50,9 +50,9 @@ import it.inps.sirio.theme.paginationTileHeight
 import it.inps.sirio.theme.paginationTileShape
 import it.inps.sirio.theme.paginationTileWidth
 import it.inps.sirio.theme.paginationVerticalPadding
-import it.inps.sirio.ui.button.ButtonSize
 import it.inps.sirio.ui.button.ButtonStyle
 import it.inps.sirio.ui.button.SirioButton
+import it.inps.sirio.ui.button.SirioButtonSize
 import it.inps.sirio.ui.text.SirioTextCommon
 import java.lang.Integer.min
 
@@ -87,7 +87,7 @@ internal fun PaginationCommon(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         SirioButton(
-            size = ButtonSize.Small,
+            size = SirioButtonSize.Small,
             style = ButtonStyle.Ghost,
             icon = FaIcons.AngleLeft,
             enabled = enabled && selectedPage > 0,
@@ -149,7 +149,7 @@ internal fun PaginationCommon(
             }
         }
         SirioButton(
-            size = ButtonSize.Small,
+            size = SirioButtonSize.Small,
             style = ButtonStyle.Ghost,
             icon = FaIcons.AngleRight,
             enabled = enabled && selectedPage < numberOfPages - 1,

@@ -1,7 +1,7 @@
 //
 // SirioTableComponentCommon.kt
 //
-// SPDX-FileCopyrightText: 2022 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -10,6 +10,8 @@ package it.inps.sirio.ui.table.cell
 import androidx.annotation.Keep
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
@@ -25,7 +27,8 @@ import it.inps.sirio.utils.Border
 import it.inps.sirio.utils.border
 
 @Composable
-internal fun SirioTableComponentCommon(
+internal fun RowScope.SirioTableComponentCommon(
+    weight: Float = 1f,
     scroll: Boolean = false,
     content: @Composable () -> Unit,
 ) {
@@ -40,6 +43,7 @@ internal fun SirioTableComponentCommon(
     val endBorder = if (scroll) scrollBorder else tableBorder
     Box(
         Modifier
+            .weight(weight)
             .border(bottom = tableBorder)
             .border(end = endBorder),
         contentAlignment = Alignment.CenterStart,
@@ -67,13 +71,17 @@ data class SirioTableComponentColors(
 private fun SirioTableComponentCommonPreview() {
     SirioTheme {
         Column {
-            SirioTableComponentCommon {
-                SirioTextCommon(text = "Test")
+            Row {
+                SirioTableComponentCommon {
+                    SirioTextCommon(text = "Test")
+                }
             }
-            SirioTableComponentCommon(
-                scroll = true
-            ) {
-                SirioTextCommon(text = "Test")
+            Row {
+                SirioTableComponentCommon(
+                    scroll = true
+                ) {
+                    SirioTextCommon(text = "Test")
+                }
             }
         }
     }

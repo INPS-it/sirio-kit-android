@@ -1,7 +1,7 @@
 //
 // AccordionCommon.kt
 //
-// SPDX-FileCopyrightText: 2024 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -38,6 +38,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -110,6 +111,8 @@ internal fun AccordionCommon(
                 text = text,
                 modifier = Modifier.weight(1f),
                 color = contentColor,
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 2,
                 typography = SirioTheme.typography.accordionText,
             )
             SirioIcon(

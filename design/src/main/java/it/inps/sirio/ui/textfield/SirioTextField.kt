@@ -1,14 +1,13 @@
 //
 // SirioTextField.kt
 //
-// SPDX-FileCopyrightText: 2024 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
 
 package it.inps.sirio.ui.textfield
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,7 +18,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
@@ -41,8 +39,8 @@ import it.inps.sirio.theme.SirioTheme
  * @param label The optional text on top of text field
  * @param onInfoClick The optional callback on info icon click
  * @param infoContentDescription The content description for the info icon
- * @param helperText The optionl text on bottom of text field
- * @param type The semantic [TextFieldSemantic] of text field
+ * @param helperText The optional text on bottom of text field
+ * @param type The semantic [TextFieldState] of text field
  * @param enabled Whether the text field can be edited by user
  * @param keyboardOptions software keyboard options that contains configuration such as [KeyboardType] and [ImeAction].
  * @param keyboardActions when the input service emits an IME action, the corresponding callback is called. Note that this IME action may be different from what you specified in [KeyboardOptions.imeAction].
@@ -61,7 +59,7 @@ fun SirioTextField(
     onInfoClick: (() -> Unit)? = null,
     infoContentDescription: String? = null,
     helperText: String? = null,
-    type: TextFieldSemantic? = null,
+    type: TextFieldState? = null,
     enabled: Boolean = true,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
@@ -80,7 +78,7 @@ fun SirioTextField(
         onInfoClick = onInfoClick,
         infoContentDescription = infoContentDescription,
         helperText = helperText,
-        type = type,
+        state = type,
         enabled = enabled,
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
@@ -91,69 +89,222 @@ fun SirioTextField(
 
 @Preview(showSystemUi = true)
 @Composable
-private fun TextFieldPreview() {
+private fun TextFieldTextInfoIconHelperTextPreview() {
     SirioTheme {
         Column(
             Modifier
                 .fillMaxSize()
-                .background(Color(0xFFE5E5E5))
                 .verticalScroll(rememberScrollState())
-                .padding(vertical = 10.dp),
+                .padding(10.dp),
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             SirioTextField(
                 text = "Text",
                 onValueChange = {},
                 label = "Label",
-                helperText = "*Helper text",
+                helperText = "Helper text",
+                icon = FaIcons.CalendarDay,
                 onInfoClick = {},
-                icon = FaIcons.ExclamationCircle,
-                type = TextFieldSemantic.WARNING,
+            )
+        }
+    }
+}
+
+@Preview(showSystemUi = true)
+@Composable
+private fun SemanticTextFieldTextIconHelperTextPreview() {
+    SirioTheme {
+        Column(
+            Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(10.dp),
+            verticalArrangement = Arrangement.spacedBy(20.dp)
+        ) {
+            SirioTextField(
+                text = "Text",
+                onValueChange = {},
+                label = "Label",
+                helperText = "Helper text",
+                icon = FaIcons.CalendarDay,
+                type = TextFieldState.Alert,
             )
             SirioTextField(
                 text = "Text",
                 onValueChange = {},
                 label = "Label",
-                helperText = "*Helper text",
-                onInfoClick = {},
-                icon = FaIcons.ExclamationTriangle,
-                type = TextFieldSemantic.ALERT,
+                helperText = "Helper text",
+                icon = FaIcons.CalendarDay,
+                type = TextFieldState.Warning,
             )
             SirioTextField(
                 text = "Text",
                 onValueChange = {},
                 label = "Label",
-                helperText = "*Helper text",
-                onInfoClick = {},
-                icon = FaIcons.Check,
-                type = TextFieldSemantic.SUCCESS,
+                helperText = "Helper text",
+                icon = FaIcons.CalendarDay,
+                type = TextFieldState.Success,
+            )
+        }
+    }
+}
+
+@Preview(showSystemUi = true)
+@Composable
+private fun TextFieldTextHelperTextPreview() {
+    SirioTheme {
+        Column(
+            Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(10.dp),
+            verticalArrangement = Arrangement.spacedBy(20.dp)
+        ) {
+            SirioTextField(
+                text = "Text",
+                onValueChange = {},
+                label = "Label",
+                helperText = "Helper text",
             )
             SirioTextField(
                 text = "Text",
                 onValueChange = {},
                 label = "Label",
-                helperText = "*Helper text",
-                onInfoClick = {},
-                icon = FaIcons.Calendar,
-                type = TextFieldSemantic.INFO,
-            )
-            SirioTextField(
-                text = "Text",
-                onValueChange = {},
-                label = "Label",
-                helperText = "*Helper text",
-                onInfoClick = {},
-                icon = FaIcons.Calendar,
+                helperText = "Helper text",
                 enabled = false,
             )
+        }
+    }
+}
+
+@Preview(showSystemUi = true)
+@Composable
+private fun TextFieldTextIconHelperTextPreview() {
+    SirioTheme {
+        Column(
+            Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(10.dp),
+            verticalArrangement = Arrangement.spacedBy(20.dp)
+        ) {
             SirioTextField(
                 text = "Text",
-                secureText = true,
                 onValueChange = {},
                 label = "Label",
-                helperText = "*Helper text",
-                onInfoClick = {},
-                icon = FaIcons.EyeSlash,
+                helperText = "Helper text",
+                icon = FaIcons.CalendarDay,
+            )
+            SirioTextField(
+                text = "Text",
+                onValueChange = {},
+                label = "Label",
+                helperText = "Helper text",
+                icon = FaIcons.CalendarDay,
+                enabled = false,
+            )
+        }
+    }
+}
+
+@Preview(showSystemUi = true)
+@Composable
+private fun TextFieldTextIconPreview() {
+    SirioTheme {
+        Column(
+            Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(10.dp),
+            verticalArrangement = Arrangement.spacedBy(20.dp)
+        ) {
+            SirioTextField(
+                text = "Text",
+                onValueChange = {},
+                label = "Label",
+                icon = FaIcons.CalendarDay,
+            )
+            SirioTextField(
+                text = "Text",
+                onValueChange = {},
+                label = "Label",
+                icon = FaIcons.CalendarDay,
+                enabled = false,
+            )
+        }
+    }
+}
+
+@Preview(showSystemUi = true)
+@Composable
+private fun TextFieldTextPreview() {
+    SirioTheme {
+        Column(
+            Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(10.dp),
+            verticalArrangement = Arrangement.spacedBy(20.dp)
+        ) {
+            SirioTextField(
+                text = "Text",
+                onValueChange = {},
+                label = "Label",
+            )
+            SirioTextField(
+                text = "Text",
+                onValueChange = {},
+                label = "Label",
+                enabled = false,
+            )
+        }
+    }
+}
+
+@Preview(showSystemUi = true)
+@Composable
+private fun TextFieldWithoutLabelPreview() {
+    SirioTheme {
+        Column(
+            Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(10.dp),
+            verticalArrangement = Arrangement.spacedBy(20.dp)
+        ) {
+            SirioTextField(
+                text = "Text",
+                onValueChange = {},
+            )
+            SirioTextField(
+                text = "Text",
+                onValueChange = {},
+                enabled = false,
+            )
+        }
+    }
+}
+
+@Preview(showSystemUi = true)
+@Composable
+private fun TextFieldNumberPreview() {
+    SirioTheme {
+        Column(
+            Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(10.dp),
+            verticalArrangement = Arrangement.spacedBy(20.dp)
+        ) {
+            SirioTextField(
+                text = "0123",
+                onValueChange = {},
+                icon = FaIcons.Sort,
+            )
+            SirioTextField(
+                text = "0123",
+                onValueChange = {},
+                icon = FaIcons.Sort,
                 enabled = false,
             )
         }

@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
+
+SPDX-License-Identifier: BSD-3-Clause
+-->
+
 # sirio-kit-android
 
 sirio-kit-android is a library containing the android implementation of the Sirio design system used for INPS mobile apps UI.
@@ -19,7 +25,7 @@ repositories {
    }
 }
 dependencies {
-    implementation 'it.inps.sirio:library:8.1.0'
+    implementation 'it.inps.sirio:library:9.0.0'
 }
 ```
 2. Add following repository in your gradle file (es. settings.gradle)

@@ -1,7 +1,7 @@
 //
 // SliderActivity.kt
 //
-// SPDX-FileCopyrightText: 2024 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -67,7 +67,7 @@ fun SliderDemoContent() {
             verticalArrangement = Arrangement.spacedBy(30.dp),
         ) {
             val title = "Slider label"
-            val text = "*Info upload file"
+            val text = "Info slider"
             var value1 by remember { mutableIntStateOf(20) }
             var value2 by remember { mutableIntStateOf(20) }
             Text(text = "Enabled")

@@ -1,7 +1,7 @@
 //
 // SirioMenuSpallaItem.kt
 //
-// SPDX-FileCopyrightText: 2022 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -32,6 +32,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.guru.fontawesomecomposelib.FaIcons
+import it.inps.sirio.theme.SirioBaseColors
 import it.inps.sirio.theme.SirioColorState
 import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.theme.menuSpallaItemBorderWidth
@@ -42,7 +43,6 @@ import it.inps.sirio.theme.menuSpallaItemPaddingEnd
 import it.inps.sirio.theme.menuSpallaItemPrimaryPaddingStart
 import it.inps.sirio.theme.menuSpallaItemSecondaryPaddingStart
 import it.inps.sirio.theme.menuSpallaItemTertiaryPaddingStart
-import it.inps.sirio.ui.tag.SirioTagColors
 import it.inps.sirio.ui.tag.SirioTagCommon
 import it.inps.sirio.ui.text.SirioTextCommon
 import it.inps.sirio.utils.Border
@@ -208,8 +208,8 @@ data class SirioMenuSpallaItemColors(
     val indicator: SirioColorState,
     val divider: SirioColorState,
     val content: SirioColorState,
-    val tag: SirioTagColors = SirioTagColors.Unspecified,
-    val tagDisabled: SirioTagColors = SirioTagColors.Unspecified,
+    val tag: SirioBaseColors = SirioBaseColors.Unspecified,
+    val tagDisabled: SirioBaseColors = SirioBaseColors.Unspecified,
 ) {
     companion object {
         @Stable
@@ -219,8 +219,8 @@ data class SirioMenuSpallaItemColors(
             indicator = SirioColorState.Unspecified,
             divider = SirioColorState.Unspecified,
             content = SirioColorState.Unspecified,
-            tag = SirioTagColors.Unspecified,
-            tagDisabled = SirioTagColors.Unspecified,
+            tag = SirioBaseColors.Unspecified,
+            tagDisabled = SirioBaseColors.Unspecified,
         )
     }
 }

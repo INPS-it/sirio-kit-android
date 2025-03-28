@@ -1,12 +1,10 @@
 //
 // TabBarActivity.kt
 //
-// SPDX-FileCopyrightText: 2024 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
-
-@file:OptIn(ExperimentalMaterial3Api::class)
 
 package it.inps.design.tabbar
 
@@ -16,11 +14,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -32,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.guru.fontawesomecomposelib.FaIcons
 import it.inps.sirio.theme.SirioTheme
+import it.inps.sirio.ui.appnavigation.SirioAppNavigation
 import it.inps.sirio.ui.tabbar.SirioTabBar
 import it.inps.sirio.ui.tabbar.SirioTabBarItemData
 import kotlinx.serialization.Serializable
@@ -40,13 +35,16 @@ import kotlinx.serialization.Serializable
 object Home
 
 @Serializable
-object Notizie
+object News
 
 @Serializable
-object Mappa
+object Maps
 
 @Serializable
-object Servizi
+object Contacts
+
+@Serializable
+object Services
 
 class TabBarActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,43 +76,40 @@ fun TabBarDemoContent(logout: () -> Unit = {}) {
             label = "News",
             icon = FaIcons.Bell,
             action = {
-                navController.navigate(Notizie)
+                navController.navigate(News)
                 selectedIndex = 1
             },
             badge = true
         ),
         SirioTabBarItemData(
-            label = "Mappa",
+            label = "Mappe",
             icon = FaIcons.Globe,
             action = {
-                navController.navigate(Mappa)
+                navController.navigate(Maps)
                 selectedIndex = 2
+            }
+        ),
+        SirioTabBarItemData(
+            label = "Contatti",
+            icon = FaIcons.CommentAlt,
+            action = {
+                logout()
+                navController.navigate(Contacts)
+                selectedIndex = 3
             }
         ),
         SirioTabBarItemData(
             label = "Servizi",
             icon = FaIcons.GripHorizontal,
             action = {
-                navController.navigate(Servizi)
-                selectedIndex = 3
-            }
-        ),
-        SirioTabBarItemData(
-            label = "Logout",
-            icon = FaIcons.SignOutAlt,
-            action = {
-                logout()
-                navController.navigate(Home)
-                selectedIndex = 0
+                navController.navigate(Services)
+                selectedIndex = 4
             }
         ),
     )
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text("Tab Bar") },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = SirioTheme.colors.brand),
-            )
+            SirioAppNavigation(title = "Tab Bar")
         },
         bottomBar = {
             SirioTabBar(items = listItems, selectedIndex = selectedIndex)
