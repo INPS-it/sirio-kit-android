@@ -47,11 +47,14 @@ import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.guru.fontawesomecomposelib.FaIcons
 import it.inps.design.ui.DemoMenuItem
 import it.inps.sirio.theme.SirioTheme
-import it.inps.sirio.ui.accordion.Accordion
-import it.inps.sirio.ui.accordion.AccordionData
-import it.inps.sirio.ui.accordion.AccordionGroup
+import it.inps.sirio.ui.accordion.SirioAccordion
+import it.inps.sirio.ui.accordion.SirioAccordionColor
+import it.inps.sirio.ui.accordion.SirioAccordionData
+import it.inps.sirio.ui.accordion.SirioAccordionGroup
+import it.inps.sirio.utils.SirioIconSource
 
 class AccordionActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -107,84 +110,247 @@ fun AccordionMenuDemo(navController: NavController) {
 }
 
 @Composable
-fun AccordionDemo(content: @Composable () -> Unit) {
+fun AccordionDemo(contentLight: @Composable () -> Unit, contentDark: @Composable () -> Unit) {
     Column(
         Modifier
             .fillMaxSize()
-            .background(Color(0xFFE5E5E5))
+            .verticalScroll(rememberScrollState())
+            .background(Color.White)
             .padding(0.dp, 8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         Text(text = "Light")
-        SirioTheme(darkTheme = false) {
-            content()
-        }
+        contentLight()
         Text(text = "Dark")
-        SirioTheme(darkTheme = true) {
-            content()
-        }
+        contentDark()
     }
 }
 
 @Composable
-fun AccordionNavDemoContent() {
+fun AccordionNavDemoContent(color: SirioAccordionColor) {
     Column(
         Modifier
             .fillMaxWidth()
-            .wrapContentHeight(),
+            .wrapContentHeight()
+            .padding(horizontal = 8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
 //        verticalArrangement = Arrangement.spacedBy(80.dp)
-    ) {
-        val title = "Accordion #1"
-        val content = LoremIpsum(30).values.joinToString()
-        var isOpen1 by remember { mutableStateOf(false) }
-        var isOpen2 by remember { mutableStateOf(false) }
-        Accordion(data = AccordionData(text = title, open = isOpen1, enabled = true,
-            onTapAccordion = { isOpen1 = it }) {
-            Text(text = content)
-        })
-        Spacer(modifier = Modifier.height(8.dp))
-        Accordion(data = AccordionData(text = title, open = isOpen2, enabled = false,
-            onTapAccordion = { isOpen2 = it }) {
-            Text(text = content)
-        })
-    }
-}
-
-@Composable
-fun AccordionGroupNavDemoContent() {
-    Column(
-        Modifier
-            .fillMaxWidth()
-            .wrapContentHeight(),
-//        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         val content = LoremIpsum(30).values.joinToString()
         var isOpen1 by remember { mutableStateOf(false) }
         var isOpen2 by remember { mutableStateOf(false) }
         var isOpen3 by remember { mutableStateOf(false) }
-        AccordionGroup(
+        var isOpen4 by remember { mutableStateOf(false) }
+        var isOpen5 by remember { mutableStateOf(false) }
+        SirioAccordion(
+            data = SirioAccordionData.Default(
+                title = "Accordion title #1",
+                open = isOpen1,
+                enabled = true,
+                onTapAccordion = { isOpen1 = it },
+            ) { Text(text = content) },
+            color = color,
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        SirioAccordion(
+            data = SirioAccordionData.WithIcon(
+                title = "Accordion title #2",
+                icon = SirioIconSource.FaIcon(FaIcons.Cube),
+                open = isOpen2,
+                enabled = true,
+                onTapAccordion = { isOpen2 = it },
+            ) { Text(text = content) },
+            color = color,
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        SirioAccordion(
+            data = SirioAccordionData.WithText(
+                title = "Accordion title #3",
+                text = "Text",
+                open = isOpen3,
+                enabled = true,
+                onTapAccordion = { isOpen3 = it },
+            ) { Text(text = content) },
+            color = color,
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        SirioAccordion(
+            data = SirioAccordionData.WithTag(
+                title = "Accordion title #4",
+                tag = "Tag",
+                open = isOpen4,
+                enabled = true,
+                onTapAccordion = { isOpen4 = it },
+            ) { Text(text = content) },
+            color = color,
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        SirioAccordion(
+            data = SirioAccordionData.Default(
+                title = "Accordion title #5",
+                open = isOpen5,
+                enabled = false,
+                onTapAccordion = { isOpen5 = it }
+            ) { Text(text = content) },
+            color = color,
+        )
+    }
+}
+
+@Composable
+fun AccordionGroupNavDemoContent(color: SirioAccordionColor) {
+    Column(
+        Modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .padding(horizontal = 8.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        val content = LoremIpsum(30).values.joinToString()
+        var isOpen11 by remember { mutableStateOf(false) }
+        var isOpen12 by remember { mutableStateOf(false) }
+        var isOpen13 by remember { mutableStateOf(false) }
+        var isOpen21 by remember { mutableStateOf(false) }
+        var isOpen22 by remember { mutableStateOf(false) }
+        var isOpen23 by remember { mutableStateOf(false) }
+        var isOpen31 by remember { mutableStateOf(false) }
+        var isOpen32 by remember { mutableStateOf(false) }
+        var isOpen33 by remember { mutableStateOf(false) }
+        var isOpen41 by remember { mutableStateOf(false) }
+        var isOpen42 by remember { mutableStateOf(false) }
+        var isOpen43 by remember { mutableStateOf(false) }
+        var isOpen51 by remember { mutableStateOf(false) }
+        var isOpen52 by remember { mutableStateOf(false) }
+        var isOpen53 by remember { mutableStateOf(false) }
+        SirioAccordionGroup(
             data = listOf(
-                AccordionData(text = "Accordion #1",
-                    open = isOpen1,
+                SirioAccordionData.Default(
+                    title = "Accordion title #1",
+                    open = isOpen11,
                     enabled = true,
-                    onTapAccordion = { isOpen1 = it }) {
-                    Text(text = content)
-                },
-                AccordionData(text = "Accordion #2",
-                    open = isOpen2,
+                    onTapAccordion = { isOpen11 = it },
+                    content = { Text(text = content) }
+                ),
+                SirioAccordionData.Default(
+                    title = "Accordion title #2",
+                    open = isOpen12,
                     enabled = true,
-                    onTapAccordion = { isOpen2 = it }) {
-                    Text(text = content)
-                },
-                AccordionData(text = "Accordion #3",
-                    open = isOpen3,
-                    enabled = false,
-                    onTapAccordion = { isOpen3 = it }) {
-                    Text(text = content)
-                }
+                    onTapAccordion = { isOpen12 = it }
+                ) { Text(text = content) },
+                SirioAccordionData.Default(
+                    title = "Accordion title #3",
+                    open = isOpen13,
+                    enabled = true,
+                    onTapAccordion = { isOpen13 = it }
+                ) { Text(text = content) }
             ),
+            color = color,
+        )
+        SirioAccordionGroup(
+            data = listOf(
+                SirioAccordionData.WithIcon(
+                    title = "Accordion title #1",
+                    icon = SirioIconSource.FaIcon(FaIcons.Cube),
+                    open = isOpen21,
+                    enabled = true,
+                    onTapAccordion = { isOpen21 = it },
+                    content = { Text(text = content) }
+                ),
+                SirioAccordionData.WithIcon(
+                    title = "Accordion title #2",
+                    icon = SirioIconSource.FaIcon(FaIcons.Cube),
+                    open = isOpen22,
+                    enabled = true,
+                    onTapAccordion = { isOpen22 = it }
+                ) { Text(text = content) },
+                SirioAccordionData.WithIcon(
+                    title = "Accordion title #3",
+                    icon = SirioIconSource.FaIcon(FaIcons.Cube),
+                    open = isOpen23,
+                    enabled = true,
+                    onTapAccordion = { isOpen23 = it }
+                ) { Text(text = content) }
+            ),
+            color = color,
+        )
+        SirioAccordionGroup(
+            data = listOf(
+                SirioAccordionData.WithText(
+                    title = "Accordion title #1",
+                    text = "Text",
+                    open = isOpen31,
+                    enabled = true,
+                    onTapAccordion = { isOpen31 = it },
+                    content = { Text(text = content) }
+                ),
+                SirioAccordionData.WithText(
+                    title = "Accordion title #2",
+                    text = "Text",
+                    open = isOpen32,
+                    enabled = true,
+                    onTapAccordion = { isOpen32 = it }
+                ) { Text(text = content) },
+                SirioAccordionData.WithText(
+                    title = "Accordion title #3",
+                    text = "Text",
+                    open = isOpen33,
+                    enabled = true,
+                    onTapAccordion = { isOpen33 = it }
+                ) { Text(text = content) }
+            ),
+            color = color,
+        )
+        SirioAccordionGroup(
+            data = listOf(
+                SirioAccordionData.WithTag(
+                    title = "Accordion title #1",
+                    tag = "Tag",
+                    open = isOpen41,
+                    enabled = true,
+                    onTapAccordion = { isOpen41 = it },
+                    content = { Text(text = content) }
+                ),
+                SirioAccordionData.WithTag(
+                    title = "Accordion title #2",
+                    tag = "Tag",
+                    open = isOpen42,
+                    enabled = true,
+                    onTapAccordion = { isOpen42 = it }
+                ) { Text(text = content) },
+                SirioAccordionData.WithTag(
+                    title = "Accordion title #3",
+                    tag = "Tag",
+                    open = isOpen43,
+                    enabled = true,
+                    onTapAccordion = { isOpen43 = it }
+                ) { Text(text = content) }
+            ),
+            color = color,
+        )
+        SirioAccordionGroup(
+            data = listOf(
+                SirioAccordionData.Default(
+                    title = "Accordion title #1",
+                    open = isOpen51,
+                    enabled = false,
+                    onTapAccordion = { isOpen51 = it },
+                    content = { Text(text = content) }
+                ),
+                SirioAccordionData.Default(
+                    title = "Accordion title #2",
+                    open = isOpen52,
+                    enabled = false,
+                    onTapAccordion = { isOpen52 = it }
+                ) { Text(text = content) },
+                SirioAccordionData.Default(
+                    title = "Accordion title #3",
+                    open = isOpen53,
+                    enabled = false,
+                    onTapAccordion = { isOpen53 = it }
+                ) { Text(text = content) }
+            ),
+            color = color,
         )
     }
 }
@@ -199,37 +365,49 @@ fun AccordionDemoContent() {
     var isOpen4 by remember { mutableStateOf(true) }
     var isOpen5 by remember { mutableStateOf(false) }
     var isOpen6 by remember { mutableStateOf(false) }
-    val accordionData: List<AccordionData> = listOf(
-        AccordionData(
-            "Accordion Item #1",
+    val sirioAccordionData: List<SirioAccordionData> = listOf(
+        SirioAccordionData.Default(
+            title = "Accordion Item #1",
             open = isOpen1,
             enabled = true,
-            onTapAccordion = { isOpen1 = it }) { Text(text = content) },
-        AccordionData(
-            "Accordion Item #2",
+            onTapAccordion = { isOpen1 = it },
+            content = { Text(text = content) }
+        ),
+        SirioAccordionData.Default(
+            title = "Accordion Item #2",
             open = isOpen2,
             enabled = true,
-            onTapAccordion = { isOpen2 = it }) { Text(text = content) },
-        AccordionData(
-            "Accordion Item #3",
+            onTapAccordion = { isOpen2 = it },
+            content = { Text(text = content) }
+        ),
+        SirioAccordionData.Default(
+            title = "Accordion Item #3",
             open = isOpen3,
             enabled = true,
-            onTapAccordion = { isOpen3 = it }) { Text(text = content) },
-        AccordionData(
-            "Accordion Item #4",
+            onTapAccordion = { isOpen3 = it },
+            content = { Text(text = content) }
+        ),
+        SirioAccordionData.Default(
+            title = "Accordion Item #4",
             open = isOpen4,
             enabled = true,
-            onTapAccordion = { isOpen4 = it }) { Text(text = content) },
-        AccordionData(
-            "Accordion Item #5",
+            onTapAccordion = { isOpen4 = it },
+            content = { Text(text = content) }
+        ),
+        SirioAccordionData.Default(
+            title = "Accordion Item #5",
             open = isOpen5,
             enabled = false,
-            onTapAccordion = { isOpen5 = it }) { Text(text = content) },
-        AccordionData(
-            "Accordion Item #6",
+            onTapAccordion = { isOpen5 = it },
+            content = { Text(text = content) }
+        ),
+        SirioAccordionData.Default(
+            title = "Accordion Item #6",
             open = isOpen6,
             enabled = false,
-            onTapAccordion = { isOpen6 = it }) { Text(text = content) },
+            onTapAccordion = { isOpen6 = it },
+            content = { Text(text = content) }
+        ),
     )
     Scaffold(
         topBar = {
@@ -240,7 +418,7 @@ fun AccordionDemoContent() {
     ) {
         Box(modifier = Modifier.padding(it)) {
             Column(Modifier.verticalScroll(rememberScrollState())) {
-                AccordionGroup(data = accordionData)
+                SirioAccordionGroup(data = sirioAccordionData)
             }
         }
     }
@@ -252,5 +430,21 @@ fun AccordionDemoContent() {
 private fun AccordionActivityPreview() {
     SirioTheme {
         AccordionDemoContent()
+    }
+}
+
+@Preview
+@Composable
+private fun AccordionNavDemoContentPreview() {
+    SirioTheme {
+        AccordionNavDemoContent(SirioAccordionColor.LIGHT)
+    }
+}
+
+@Preview
+@Composable
+private fun AccordionGroupNavDemoContentPreview() {
+    SirioTheme {
+        AccordionGroupNavDemoContent(SirioAccordionColor.LIGHT)
     }
 }

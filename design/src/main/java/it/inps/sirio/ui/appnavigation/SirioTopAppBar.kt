@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Surface
@@ -49,9 +48,7 @@ internal fun SirioTopAppBar(
     actions: @Composable RowScope.() -> Unit = {},
 ) {
     Surface(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(appNavigationHeight.dp),
+        modifier = Modifier.fillMaxWidth(),
         color = containerColor,
     ) {
         Layout(
@@ -95,11 +92,19 @@ internal fun SirioTopAppBar(
                     .fastFirst { it.layoutId == "title" }
                     .measure(constraints.copy(minWidth = 0, maxWidth = maxTitleWidth))
 
-            layout(constraints.maxWidth, constraints.maxHeight) {
+            val layoutHeight = listOf(
+                navigationIconPlaceable.height,
+                titlePlaceable.height,
+                actionIconsPlaceable.height
+            ).maxOrNull()?.coerceAtLeast(appNavigationHeight.dp.roundToPx())
+                ?: appNavigationHeight.dp.roundToPx()
+
+            layout(constraints.maxWidth, layoutHeight) {
+
                 // Navigation icon
                 navigationIconPlaceable.placeRelative(
                     x = 0,
-                    y = (constraints.maxHeight - navigationIconPlaceable.height) / 2
+                    y = (layoutHeight - navigationIconPlaceable.height) / 2
                 )
 
                 // Title
@@ -135,13 +140,13 @@ internal fun SirioTopAppBar(
                                 navigationIconPlaceable.width,
                             )
                         },
-                    y = (constraints.maxHeight - titlePlaceable.height) / 2
+                    y = (layoutHeight - titlePlaceable.height) / 2
                 )
 
                 // Action icons
                 actionIconsPlaceable.placeRelative(
                     x = constraints.maxWidth - actionIconsPlaceable.width,
-                    y = (constraints.maxHeight - actionIconsPlaceable.height) / 2
+                    y = (layoutHeight - actionIconsPlaceable.height) / 2
                 )
             }
         }

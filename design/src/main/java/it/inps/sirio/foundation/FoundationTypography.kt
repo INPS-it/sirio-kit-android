@@ -19,7 +19,7 @@ import it.inps.sirio.theme.TypographyStyle.Regular
 import it.inps.sirio.theme.TypographyStyle.SemiBold
 import it.inps.sirio.theme.TypographyStyle.SemiBoldItalic
 
-object FoundationTypography {
+internal object FoundationTypography {
     val typographyAliasFontFamiliesFontFamilyBase = Titillium_Web
     val typographyAliasFontFamiliesFontFamilyNumber = Roboto_Mono
     val typographyAliasFontFamiliesFontFamilySerif = Lora

@@ -12,10 +12,12 @@ import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.requiredSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import com.guru.fontawesomecomposelib.FaIcons
 import it.inps.sirio.R
 import it.inps.sirio.theme.SirioTheme
+import it.inps.sirio.theme.appNavigationHeight
 import it.inps.sirio.theme.appNavigationLogoSize
 
 /**
@@ -43,7 +46,10 @@ fun SirioAppNavigationLogo(
             Icon(
                 painter = painterResource(id = if (SirioTheme.colors.isDark) R.drawable.inps_logotipo_negativo_colore_rgb else R.drawable.inps_logotipo_positivo_colore_rgb),
                 contentDescription = null,
-                modifier = Modifier.requiredSize(appNavigationLogoSize.dp),
+                modifier = Modifier
+                    .requiredWidth(appNavigationLogoSize.dp)
+                    .height(appNavigationHeight.dp)
+                    .clipToBounds(),
                 tint = Color.Unspecified,
             )
         },

@@ -34,8 +34,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import it.inps.design.ui.DemoMenuItem
 import it.inps.sirio.theme.SirioTheme
-import it.inps.sirio.ui.dialog.DialogSemantic
 import it.inps.sirio.ui.dialog.SirioDialog
+import it.inps.sirio.ui.dialog.SirioDialogSemantic
 
 class DialogActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -172,17 +172,17 @@ fun DialogMenuDemo() {
                 dialogType = DemoDialogType.PASSIVE_ICON
             }
             HorizontalDivider()
-            DemoMenuItem("Dialog Alert") {
+            DemoMenuItem("Semantic Alert") {
                 dialogType = DemoDialogType.SEMANTIC_ALERT_ICON
             }
             HorizontalDivider()
-            DemoMenuItem("Dialog Warning") {
+            DemoMenuItem("Semantic Warning") {
                 dialogType = DemoDialogType.SEMANTIC_WARNING_ICON
             }
             HorizontalDivider()
-            val title = "Titolo finestra di dialogo"
+            val title = "Titolo"
             val text =
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                "Lorem ipsum dolor sit amet consectetur. Amet nollis vestibulum in et ante tempor."
             val firstInputTitle = "Label"
             val firstInputText = "Text"
             val secondInputTitle = "Label"
@@ -195,16 +195,16 @@ fun DialogMenuDemo() {
                     SirioDialog(
                         title = title,
                         text = text,
-                        icon = true,
-                        semantic = DialogSemantic.INFO,
+                        withIcon = true,
+                        semantic = SirioDialogSemantic.INFO,
                         firstInputTitle = firstInputTitle,
                         firstInputText = firstInputText,
                         secondInputTitle = secondInputTitle,
                         secondInputText = secondInputText,
-                        positiveButtonText = positiveButtonText,
-                        neutralButtonText = neutralButtonText,
-                        onPositive = { dialogType = DemoDialogType.NONE },
-                        onNeutral = { dialogType = DemoDialogType.NONE },
+                        firstButtonText = positiveButtonText,
+                        secondButtonText = neutralButtonText,
+                        onFirstButtonClick = { dialogType = DemoDialogType.NONE },
+                        onSecondButtonClick = { dialogType = DemoDialogType.NONE },
                         onDismiss = { dialogType = DemoDialogType.NONE },
                     )
 
@@ -212,15 +212,15 @@ fun DialogMenuDemo() {
                     SirioDialog(
                         title = title,
                         text = text,
-                        icon = false,
+                        withIcon = false,
                         firstInputTitle = firstInputTitle,
                         firstInputText = firstInputText,
                         secondInputTitle = secondInputTitle,
                         secondInputText = secondInputText,
-                        positiveButtonText = positiveButtonText,
-                        neutralButtonText = neutralButtonText,
-                        onPositive = { dialogType = DemoDialogType.NONE },
-                        onNeutral = { dialogType = DemoDialogType.NONE },
+                        firstButtonText = positiveButtonText,
+                        secondButtonText = neutralButtonText,
+                        onFirstButtonClick = { dialogType = DemoDialogType.NONE },
+                        onSecondButtonClick = { dialogType = DemoDialogType.NONE },
                         onDismiss = { dialogType = DemoDialogType.NONE },
                     )
 
@@ -228,14 +228,14 @@ fun DialogMenuDemo() {
                     SirioDialog(
                         title = title,
                         text = text,
-                        icon = true,
-                        semantic = DialogSemantic.INFO,
+                        withIcon = true,
+                        semantic = SirioDialogSemantic.INFO,
                         firstInputTitle = firstInputTitle,
                         firstInputText = firstInputText,
-                        positiveButtonText = positiveButtonText,
-                        neutralButtonText = neutralButtonText,
-                        onPositive = { dialogType = DemoDialogType.NONE },
-                        onNeutral = { dialogType = DemoDialogType.NONE },
+                        firstButtonText = positiveButtonText,
+                        secondButtonText = neutralButtonText,
+                        onFirstButtonClick = { dialogType = DemoDialogType.NONE },
+                        onSecondButtonClick = { dialogType = DemoDialogType.NONE },
                         onDismiss = { dialogType = DemoDialogType.NONE },
                     )
 
@@ -243,13 +243,13 @@ fun DialogMenuDemo() {
                     SirioDialog(
                         title = title,
                         text = text,
-                        icon = false,
+                        withIcon = false,
                         firstInputTitle = firstInputTitle,
                         firstInputText = firstInputText,
-                        positiveButtonText = positiveButtonText,
-                        neutralButtonText = neutralButtonText,
-                        onPositive = { dialogType = DemoDialogType.NONE },
-                        onNeutral = { dialogType = DemoDialogType.NONE },
+                        firstButtonText = positiveButtonText,
+                        secondButtonText = neutralButtonText,
+                        onFirstButtonClick = { dialogType = DemoDialogType.NONE },
+                        onSecondButtonClick = { dialogType = DemoDialogType.NONE },
                         onDismiss = { dialogType = DemoDialogType.NONE },
                     )
 
@@ -257,12 +257,12 @@ fun DialogMenuDemo() {
                     SirioDialog(
                         title = title,
                         text = text,
-                        icon = true,
-                        semantic = DialogSemantic.INFO,
-                        positiveButtonText = positiveButtonText,
-                        neutralButtonText = neutralButtonText,
-                        onPositive = { dialogType = DemoDialogType.NONE },
-                        onNeutral = { dialogType = DemoDialogType.NONE },
+                        withIcon = true,
+                        semantic = SirioDialogSemantic.INFO,
+                        firstButtonText = positiveButtonText,
+                        secondButtonText = neutralButtonText,
+                        onFirstButtonClick = { dialogType = DemoDialogType.NONE },
+                        onSecondButtonClick = { dialogType = DemoDialogType.NONE },
                         onDismiss = { dialogType = DemoDialogType.NONE },
                     )
 
@@ -270,34 +270,34 @@ fun DialogMenuDemo() {
                     SirioDialog(
                         title = title,
                         text = text,
-                        icon = false,
-                        positiveButtonText = positiveButtonText,
-                        neutralButtonText = neutralButtonText,
-                        onPositive = { dialogType = DemoDialogType.NONE },
-                        onNeutral = { dialogType = DemoDialogType.NONE },
+                        withIcon = false,
+                        firstButtonText = positiveButtonText,
+                        secondButtonText = neutralButtonText,
+                        onFirstButtonClick = { dialogType = DemoDialogType.NONE },
+                        onSecondButtonClick = { dialogType = DemoDialogType.NONE },
                         onDismiss = { dialogType = DemoDialogType.NONE },
                     )
 
                 DemoDialogType.ACTION_ICON_TITLE ->
                     SirioDialog(
                         title = title,
-                        icon = true,
-                        semantic = DialogSemantic.INFO,
-                        positiveButtonText = positiveButtonText,
-                        neutralButtonText = neutralButtonText,
-                        onPositive = { dialogType = DemoDialogType.NONE },
-                        onNeutral = { dialogType = DemoDialogType.NONE },
+                        withIcon = true,
+                        semantic = SirioDialogSemantic.INFO,
+                        firstButtonText = positiveButtonText,
+                        secondButtonText = neutralButtonText,
+                        onFirstButtonClick = { dialogType = DemoDialogType.NONE },
+                        onSecondButtonClick = { dialogType = DemoDialogType.NONE },
                         onDismiss = { dialogType = DemoDialogType.NONE },
                     )
 
                 DemoDialogType.ACTION_TITLE ->
                     SirioDialog(
                         title = title,
-                        icon = false,
-                        positiveButtonText = positiveButtonText,
-                        neutralButtonText = neutralButtonText,
-                        onPositive = { dialogType = DemoDialogType.NONE },
-                        onNeutral = { dialogType = DemoDialogType.NONE },
+                        withIcon = false,
+                        firstButtonText = positiveButtonText,
+                        secondButtonText = neutralButtonText,
+                        onFirstButtonClick = { dialogType = DemoDialogType.NONE },
+                        onSecondButtonClick = { dialogType = DemoDialogType.NONE },
                         onDismiss = { dialogType = DemoDialogType.NONE },
                     )
 
@@ -305,14 +305,14 @@ fun DialogMenuDemo() {
                     SirioDialog(
                         title = title,
                         text = text,
-                        icon = true,
-                        semantic = DialogSemantic.INFO,
+                        withIcon = true,
+                        semantic = SirioDialogSemantic.INFO,
                         firstInputTitle = firstInputTitle,
                         firstInputText = firstInputText,
                         secondInputTitle = secondInputTitle,
                         secondInputText = secondInputText,
-                        positiveButtonText = positiveButtonText,
-                        onPositive = { dialogType = DemoDialogType.NONE },
+                        firstButtonText = positiveButtonText,
+                        onFirstButtonClick = { dialogType = DemoDialogType.NONE },
                         onDismiss = { dialogType = DemoDialogType.NONE },
                     )
 
@@ -320,13 +320,13 @@ fun DialogMenuDemo() {
                     SirioDialog(
                         title = title,
                         text = text,
-                        icon = false,
+                        withIcon = false,
                         firstInputTitle = firstInputTitle,
                         firstInputText = firstInputText,
                         secondInputTitle = secondInputTitle,
                         secondInputText = secondInputText,
-                        positiveButtonText = positiveButtonText,
-                        onPositive = { dialogType = DemoDialogType.NONE },
+                        firstButtonText = positiveButtonText,
+                        onFirstButtonClick = { dialogType = DemoDialogType.NONE },
                         onDismiss = { dialogType = DemoDialogType.NONE },
                     )
 
@@ -334,12 +334,12 @@ fun DialogMenuDemo() {
                     SirioDialog(
                         title = title,
                         text = text,
-                        icon = true,
-                        semantic = DialogSemantic.INFO,
+                        withIcon = true,
+                        semantic = SirioDialogSemantic.INFO,
                         firstInputTitle = firstInputTitle,
                         firstInputText = firstInputText,
-                        positiveButtonText = positiveButtonText,
-                        onPositive = { dialogType = DemoDialogType.NONE },
+                        firstButtonText = positiveButtonText,
+                        onFirstButtonClick = { dialogType = DemoDialogType.NONE },
                         onDismiss = { dialogType = DemoDialogType.NONE },
                     )
 
@@ -347,11 +347,11 @@ fun DialogMenuDemo() {
                     SirioDialog(
                         title = title,
                         text = text,
-                        icon = false,
+                        withIcon = false,
                         firstInputTitle = firstInputTitle,
                         firstInputText = firstInputText,
-                        positiveButtonText = positiveButtonText,
-                        onPositive = { dialogType = DemoDialogType.NONE },
+                        firstButtonText = positiveButtonText,
+                        onFirstButtonClick = { dialogType = DemoDialogType.NONE },
                         onDismiss = { dialogType = DemoDialogType.NONE },
                     )
 
@@ -359,10 +359,10 @@ fun DialogMenuDemo() {
                     SirioDialog(
                         title = title,
                         text = text,
-                        icon = true,
-                        semantic = DialogSemantic.INFO,
-                        positiveButtonText = positiveButtonText,
-                        onPositive = { dialogType = DemoDialogType.NONE },
+                        withIcon = true,
+                        semantic = SirioDialogSemantic.INFO,
+                        firstButtonText = positiveButtonText,
+                        onFirstButtonClick = { dialogType = DemoDialogType.NONE },
                         onDismiss = { dialogType = DemoDialogType.NONE },
                     )
 
@@ -370,28 +370,28 @@ fun DialogMenuDemo() {
                     SirioDialog(
                         title = title,
                         text = text,
-                        icon = false,
-                        positiveButtonText = positiveButtonText,
-                        onPositive = { dialogType = DemoDialogType.NONE },
+                        withIcon = false,
+                        firstButtonText = positiveButtonText,
+                        onFirstButtonClick = { dialogType = DemoDialogType.NONE },
                         onDismiss = { dialogType = DemoDialogType.NONE },
                     )
 
                 DemoDialogType.CONFIRM_ICON_TITLE ->
                     SirioDialog(
                         title = title,
-                        icon = true,
-                        semantic = DialogSemantic.INFO,
-                        positiveButtonText = positiveButtonText,
-                        onPositive = { dialogType = DemoDialogType.NONE },
+                        withIcon = true,
+                        semantic = SirioDialogSemantic.INFO,
+                        firstButtonText = positiveButtonText,
+                        onFirstButtonClick = { dialogType = DemoDialogType.NONE },
                         onDismiss = { dialogType = DemoDialogType.NONE },
                     )
 
                 DemoDialogType.CONFIRM_TITLE ->
                     SirioDialog(
                         title = title,
-                        icon = false,
-                        positiveButtonText = positiveButtonText,
-                        onPositive = { dialogType = DemoDialogType.NONE },
+                        withIcon = false,
+                        firstButtonText = positiveButtonText,
+                        onFirstButtonClick = { dialogType = DemoDialogType.NONE },
                         onDismiss = { dialogType = DemoDialogType.NONE },
                     )
 
@@ -399,8 +399,8 @@ fun DialogMenuDemo() {
                     SirioDialog(
                         title = title,
                         text = text,
-                        icon = true,
-                        semantic = DialogSemantic.INFO,
+                        withIcon = true,
+                        semantic = SirioDialogSemantic.INFO,
                         onDismiss = { dialogType = DemoDialogType.NONE },
                     )
 
@@ -408,7 +408,7 @@ fun DialogMenuDemo() {
                     SirioDialog(
                         title = title,
                         text = text,
-                        icon = false,
+                        withIcon = false,
                         onDismiss = { dialogType = DemoDialogType.NONE },
                     )
 
@@ -416,12 +416,12 @@ fun DialogMenuDemo() {
                     SirioDialog(
                         title = title,
                         text = text,
-                        icon = true,
-                        semantic = DialogSemantic.ALERT,
-                        positiveButtonText = positiveButtonText,
-                        neutralButtonText = neutralButtonText,
-                        onPositive = { dialogType = DemoDialogType.NONE },
-                        onNeutral = { dialogType = DemoDialogType.NONE },
+                        withIcon = true,
+                        semantic = SirioDialogSemantic.ALERT,
+                        firstButtonText = positiveButtonText,
+                        secondButtonText = neutralButtonText,
+                        onFirstButtonClick = { dialogType = DemoDialogType.NONE },
+                        onSecondButtonClick = { dialogType = DemoDialogType.NONE },
                         onDismiss = { dialogType = DemoDialogType.NONE },
                     )
 
@@ -429,12 +429,12 @@ fun DialogMenuDemo() {
                     SirioDialog(
                         title = title,
                         text = text,
-                        icon = false,
-                        semantic = DialogSemantic.ALERT,
-                        positiveButtonText = positiveButtonText,
-                        neutralButtonText = neutralButtonText,
-                        onPositive = { dialogType = DemoDialogType.NONE },
-                        onNeutral = { dialogType = DemoDialogType.NONE },
+                        withIcon = false,
+                        semantic = SirioDialogSemantic.ALERT,
+                        firstButtonText = positiveButtonText,
+                        secondButtonText = neutralButtonText,
+                        onFirstButtonClick = { dialogType = DemoDialogType.NONE },
+                        onSecondButtonClick = { dialogType = DemoDialogType.NONE },
                         onDismiss = { dialogType = DemoDialogType.NONE },
                     )
 
@@ -442,12 +442,12 @@ fun DialogMenuDemo() {
                     SirioDialog(
                         title = title,
                         text = text,
-                        icon = true,
-                        semantic = DialogSemantic.WARNING,
-                        positiveButtonText = positiveButtonText,
-                        neutralButtonText = neutralButtonText,
-                        onPositive = { dialogType = DemoDialogType.NONE },
-                        onNeutral = { dialogType = DemoDialogType.NONE },
+                        withIcon = true,
+                        semantic = SirioDialogSemantic.WARNING,
+                        firstButtonText = positiveButtonText,
+                        secondButtonText = neutralButtonText,
+                        onFirstButtonClick = { dialogType = DemoDialogType.NONE },
+                        onSecondButtonClick = { dialogType = DemoDialogType.NONE },
                         onDismiss = { dialogType = DemoDialogType.NONE },
                     )
 
@@ -455,12 +455,12 @@ fun DialogMenuDemo() {
                     SirioDialog(
                         title = title,
                         text = text,
-                        icon = false,
-                        semantic = DialogSemantic.WARNING,
-                        positiveButtonText = positiveButtonText,
-                        neutralButtonText = neutralButtonText,
-                        onPositive = { dialogType = DemoDialogType.NONE },
-                        onNeutral = { dialogType = DemoDialogType.NONE },
+                        withIcon = false,
+                        semantic = SirioDialogSemantic.WARNING,
+                        firstButtonText = positiveButtonText,
+                        secondButtonText = neutralButtonText,
+                        onFirstButtonClick = { dialogType = DemoDialogType.NONE },
+                        onSecondButtonClick = { dialogType = DemoDialogType.NONE },
                         onDismiss = { dialogType = DemoDialogType.NONE },
                     )
             }

@@ -25,13 +25,13 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.guru.fontawesomecomposelib.FaIconType
 import com.guru.fontawesomecomposelib.FaIcons
 import it.inps.sirio.theme.SirioTheme
-import it.inps.sirio.ui.card.SirioCardItemData
 import it.inps.sirio.ui.card.SirioProcessCard
+import it.inps.sirio.ui.card.SirioProcessCardItemData
 import it.inps.sirio.ui.carousel.SirioCarousel
 import it.inps.sirio.ui.carousel.SirioCarouselBackground
+import it.inps.sirio.utils.SirioIconSource
 
 class CarouselActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,55 +48,57 @@ class CarouselActivity : ComponentActivity() {
 @Composable
 fun CarouselDemoContent() {
     data class CarouselSampleData(
-        val icon: FaIconType,
+        val icon: SirioIconSource,
         val date: String,
         val title: String,
         val text: String,
-        val button: String,
+        val action: SirioProcessCardItemData,
     )
+    val icon = SirioIconSource.FaIcon(FaIcons.Book)
+    val action = SirioProcessCardItemData(text = "Text", action = {})
 
     val samples = listOf(
         CarouselSampleData(
-            icon = FaIcons.Book,
+            icon = icon,
             date = "13 Nov 2021",
             title = "Titolo della card 1",
             text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.",
-            button = "Text"
+            action = action,
         ),
         CarouselSampleData(
-            icon = FaIcons.Book,
+            icon = icon,
             date = "13 Nov 2021",
             title = "Titolo della card 2",
             text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.",
-            button = "Text"
+            action = action,
         ),
         CarouselSampleData(
-            icon = FaIcons.Book,
+            icon = icon,
             date = "13 Nov 2021",
             title = "Titolo della card 3",
             text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.",
-            button = "Text"
+            action = action,
         ),
         CarouselSampleData(
-            icon = FaIcons.Book,
+            icon = icon,
             date = "13 Nov 2021",
             title = "Titolo della card 4",
             text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.",
-            button = "Text"
+            action = action,
         ),
         CarouselSampleData(
-            icon = FaIcons.Book,
+            icon = icon,
             date = "13 Nov 2021",
             title = "Titolo della card 3",
             text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.",
-            button = "Text"
+            action = action,
         ),
         CarouselSampleData(
-            icon = FaIcons.Book,
+            icon = icon,
             date = "13 Nov 2021",
             title = "Titolo della card 4",
             text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.",
-            button = "Text"
+            action = action,
         ),
     )
     Scaffold(
@@ -121,11 +123,8 @@ fun CarouselDemoContent() {
                 SirioProcessCard(
                     title = sample.title,
                     text = sample.text,
-                    buttonText = sample.button,
                     icon = sample.icon,
-                    onClickButton = {},
-                    date = sample.date,
-                    item = SirioCardItemData(icon = FaIcons.EllipsisH, action = {}),
+                    firstAction = sample.action,
                     onClickCard = {},
                 )
             }
@@ -137,11 +136,8 @@ fun CarouselDemoContent() {
                 SirioProcessCard(
                     title = sample.title,
                     text = sample.text,
-                    buttonText = sample.button,
+                    firstAction = sample.action,
                     icon = sample.icon,
-                    onClickButton = {},
-                    date = sample.date,
-                    item = SirioCardItemData(icon = FaIcons.EllipsisH, action = {}),
                     onClickCard = {},
                 )
             }

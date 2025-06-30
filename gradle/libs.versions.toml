@@ -2,15 +2,15 @@
 # @keep
 sdkCompile = "35"
 # @keep
-sdkTarget = "34"
+sdkTarget = "35"
 # @keep
 sdkMin = "21"
 
-gradleAndroid = "8.9.1"
+gradleAndroid = "8.10.1"
 
-androidxCore = "1.15.0"
-androidxAppcompat = "1.7.0"
-androidxRuntimeKtx = "2.8.7"
+androidxCore = "1.16.0"
+androidxAppcompat = "1.7.1"
+androidxRuntimeKtx = "2.9.1"
 androidxActivityCompose = "1.10.1"
 androidxConstraintlayoutCompose = "1.1.1"
 
@@ -18,8 +18,8 @@ kotlin = "2.1.10"
 material = "1.12.0"
 accompanist = "0.36.0"
 
-composeBom = "2025.03.00"
-composeNavigation = "2.8.9"
+composeBom = "2025.06.01"
+composeNavigation = "2.9.0"
 
 kotlinxSerializationJson = "1.8.0"
 

@@ -6,7 +6,7 @@
 // SPDX-License-Identifier: BSD-3-Clause
 //
 
-package it.inps.design.tabs
+package it.inps.design.tab
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController

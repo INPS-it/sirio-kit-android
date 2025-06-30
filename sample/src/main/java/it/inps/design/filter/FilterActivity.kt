@@ -56,7 +56,7 @@ import it.inps.sirio.ui.filter.SirioFilterSelected
 import it.inps.sirio.ui.filter.SirioFilterTabs
 import it.inps.sirio.ui.filter.SirioFilterTitle
 import it.inps.sirio.ui.filter.SirioFilterToggle
-import it.inps.sirio.ui.tabs.TabItemData
+import it.inps.sirio.ui.tab.TabItemData
 
 private const val SELECTED = "Selected"
 private const val DRAWER = "Drawer"

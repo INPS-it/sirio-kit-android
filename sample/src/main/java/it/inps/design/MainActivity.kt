@@ -40,6 +40,7 @@ import it.inps.design.checkbox.CheckboxActivity
 import it.inps.design.chip.ChipActivity
 import it.inps.design.dialog.DialogActivity
 import it.inps.design.dropdown.DropdownActivity
+import it.inps.design.dropdownmenu.DropdownMenuActivity
 import it.inps.design.fab.FabActivity
 import it.inps.design.fileupload.FileUploadActivity
 import it.inps.design.filter.FilterActivity
@@ -54,9 +55,9 @@ import it.inps.design.searchbar.SearchBarActivity
 import it.inps.design.segmentedcontrols.SegmentedControlsActivity
 import it.inps.design.slider.SliderActivity
 import it.inps.design.stepprogressbar.StepProgressBarActivity
+import it.inps.design.tab.TabActivity
 import it.inps.design.tabbar.TabBarActivity
 import it.inps.design.table.TableActivity
-import it.inps.design.tabs.TabActivity
 import it.inps.design.tag.TagActivity
 import it.inps.design.textarea.TextAreaActivity
 import it.inps.design.textfield.TextFieldActivity
@@ -137,6 +138,10 @@ fun DemoContent() {
                 HorizontalDivider()
                 DemoMenuItem("Dropdown") {
                     context.startActivity(Intent(context, DropdownActivity::class.java))
+                }
+                HorizontalDivider()
+                DemoMenuItem("Dropdown Menu") {
+                    context.startActivity(Intent(context, DropdownMenuActivity::class.java))
                 }
                 HorizontalDivider()
                 DemoMenuItem(title = "Fab") {

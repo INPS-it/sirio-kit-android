@@ -99,7 +99,7 @@ internal fun SirioAvvisoCommon(
                 SirioTextCommon(
                     text = text,
                     color = SirioTheme.colors.avviso.text,
-                    typography = SirioTheme.foundationTypography.bodySmRegular,
+                    typography = SirioTheme.foundationTypography.bodyMdRegular,
                 )
                 link?.let {
                     SirioText(
@@ -110,7 +110,7 @@ internal fun SirioAvvisoCommon(
                         ),
                         color = SirioTheme.colors.avviso.link,
                         textDecoration = TextDecoration.Underline,
-                        typography = SirioTheme.foundationTypography.linkSmHeavy,
+                        typography = SirioTheme.foundationTypography.linkMdHeavy,
                     )
                 }
             }

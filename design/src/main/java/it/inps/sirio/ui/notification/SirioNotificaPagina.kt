@@ -7,6 +7,7 @@
 //
 package it.inps.sirio.ui.notification
 
+import android.view.Gravity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -23,11 +24,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import androidx.compose.ui.window.DialogWindowProvider
 import com.guru.fontawesomecomposelib.FaIconType
 import com.guru.fontawesomecomposelib.FaIcons
 import it.inps.sirio.theme.SirioTheme
@@ -39,7 +42,6 @@ import it.inps.sirio.theme.notificaContentSpacing
 import it.inps.sirio.theme.notificaIconSize
 import it.inps.sirio.theme.notificaPaddingHorizontal
 import it.inps.sirio.theme.notificaPaginaHeaderHeight
-import it.inps.sirio.ui.dialog.placeToBottom
 import it.inps.sirio.ui.text.SirioText
 import it.inps.sirio.utils.SirioIcon
 import it.inps.sirio.utils.SirioIconData
@@ -59,8 +61,10 @@ fun SirioNotificaPaginaDialog(
         properties = DialogProperties(usePlatformDefaultWidth = false),
         onDismissRequest = onClose,
     ) {
+        val dialogWindowProvider = LocalView.current.parent as DialogWindowProvider
+        dialogWindowProvider.window.setGravity(Gravity.BOTTOM)
         Box(
-            modifier = Modifier.placeToBottom(),
+            modifier = Modifier,
             contentAlignment = Alignment.BottomCenter,
         ) {
             SirioNotificaPagina(
@@ -170,7 +174,7 @@ private fun SirioNotificaPaginaContent(
         SirioText(
             text = text,
             color = SirioTheme.colors.notifica.pagina.text,
-            typography = SirioTheme.foundationTypography.bodySmRegular,
+            typography = SirioTheme.foundationTypography.bodyMdRegular,
         )
         link?.let {
             SirioText(

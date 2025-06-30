@@ -20,9 +20,8 @@ import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.ui.button.ButtonStyle
 import it.inps.sirio.ui.button.SirioButton
 import it.inps.sirio.ui.button.SirioButtonSize
-import it.inps.sirio.ui.tabs.SirioTabGroupCommon
-import it.inps.sirio.ui.tabs.TabItemData
-import it.inps.sirio.ui.tabs.TabSelectionIndicatorPosition
+import it.inps.sirio.ui.tab.SirioTabGroupCommon
+import it.inps.sirio.ui.tab.TabItemData
 
 /**
  * A composable function that displays a row of tabs for filtering.
@@ -57,7 +56,6 @@ fun SirioFilterTabs(
         SirioTabGroupCommon(
             items = items,
             selectedIndex = selectedIndex,
-            selection = TabSelectionIndicatorPosition.TOP,
             modifier = Modifier.weight(1f),
             onTabSelected = onTabSelected,
         )

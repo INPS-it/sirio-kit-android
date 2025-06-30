@@ -128,6 +128,7 @@ internal class VM(
                 index = index,
                 back = loadBackData(index),
                 next = loadNextData(index),
+                other = loadOtherData(index),
                 label = "Label ${index + 1}*",
                 text = reply[index] ?: "",
                 summary = loadSummary(index),
@@ -166,6 +167,17 @@ internal class VM(
                         loadContent(index + 1)
                 }
             )
+    }
+
+    private fun loadOtherData(index: Int): List<SirioStepControlData> {
+        return if (index > 0) emptyList()
+        else listOf(
+            SirioStepControlData(
+                text = "Test",
+                enabled = true,
+                action = {},
+            ),
+        )
     }
 
     private fun canGoNext(index: Int): Boolean {

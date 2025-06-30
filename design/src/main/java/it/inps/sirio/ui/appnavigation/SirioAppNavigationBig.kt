@@ -50,7 +50,7 @@ fun SirioAppNavigationBig(
 ) {
     LargeTopAppBar(
         title = {
-            SirioAppNavigationTitle(title = title, big = true)
+            SirioAppNavigationTitleLegacy(title = title, big = true)
         },
         navigationIcon = {
             leftItem?.let {

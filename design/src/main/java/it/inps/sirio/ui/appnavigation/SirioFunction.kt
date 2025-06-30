@@ -32,6 +32,7 @@ fun SirioFunction(
             SirioAppNavigationTitle(
                 title = title,
                 typography = SirioTheme.foundationTypography.headlineSmMiddle,
+                maxLines = Int.MAX_VALUE,
             )
         },
         centerTitle = true,

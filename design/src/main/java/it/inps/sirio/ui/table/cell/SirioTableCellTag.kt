@@ -21,12 +21,12 @@ import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.ui.table.SirioTableCellType
 import it.inps.sirio.ui.table.SirioTableContentSize
 import it.inps.sirio.ui.tag.SirioTag
-import it.inps.sirio.ui.tag.TagType
+import it.inps.sirio.ui.tag.SirioTagType
 
 @Composable
 fun RowScope.SirioTableCellTag(
     text: String,
-    tagType: TagType,
+    tagType: SirioTagType,
     size: SirioTableContentSize,
     weight: Float = 1f,
     scroll: Boolean = false,
@@ -56,7 +56,7 @@ private fun SirioTableCellTagPreview() {
             Row(Modifier.height(IntrinsicSize.Max)) {
                 SirioTableCellTag(
                     text = text,
-                    tagType = TagType.GRAY,
+                    tagType = SirioTagType.GRAY,
                     size = SirioTableContentSize.LARGE,
                     scroll = false,
                 )
@@ -64,7 +64,7 @@ private fun SirioTableCellTagPreview() {
             Row(Modifier.height(IntrinsicSize.Max)) {
                 SirioTableCellTag(
                     text = text,
-                    tagType = TagType.GRAY,
+                    tagType = SirioTagType.GRAY,
                     size = SirioTableContentSize.MEDIUM,
                     scroll = false,
                 )
@@ -72,7 +72,7 @@ private fun SirioTableCellTagPreview() {
             Row(Modifier.height(IntrinsicSize.Max)) {
                 SirioTableCellTag(
                     text = text,
-                    tagType = TagType.GRAY,
+                    tagType = SirioTagType.GRAY,
                     size = SirioTableContentSize.SMALL,
                     scroll = false,
                 )
@@ -80,7 +80,7 @@ private fun SirioTableCellTagPreview() {
             Row(Modifier.height(IntrinsicSize.Max)) {
                 SirioTableCellTag(
                     text = text,
-                    tagType = TagType.GRAY,
+                    tagType = SirioTagType.GRAY,
                     size = SirioTableContentSize.LARGE,
                     scroll = true,
                 )
@@ -88,7 +88,7 @@ private fun SirioTableCellTagPreview() {
             Row(Modifier.height(IntrinsicSize.Max)) {
                 SirioTableCellTag(
                     text = text,
-                    tagType = TagType.GRAY,
+                    tagType = SirioTagType.GRAY,
                     size = SirioTableContentSize.MEDIUM,
                     scroll = true,
                 )
@@ -96,7 +96,7 @@ private fun SirioTableCellTagPreview() {
             Row(Modifier.height(IntrinsicSize.Max)) {
                 SirioTableCellTag(
                     text = text,
-                    tagType = TagType.GRAY,
+                    tagType = SirioTagType.GRAY,
                     size = SirioTableContentSize.SMALL,
                     scroll = true,
                 )

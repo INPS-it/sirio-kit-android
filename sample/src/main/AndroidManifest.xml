@@ -33,6 +33,7 @@
         <activity android:name="it.inps.design.chip.ChipActivity" />
         <activity android:name="it.inps.design.dialog.DialogActivity" />
         <activity android:name="it.inps.design.dropdown.DropdownActivity" />
+        <activity android:name="it.inps.design.dropdownmenu.DropdownMenuActivity" />
         <activity android:name="it.inps.design.fab.FabActivity" />
         <activity android:name="it.inps.design.fileupload.FileUploadActivity" />
         <activity android:name="it.inps.design.filter.FilterActivity" />
@@ -49,7 +50,7 @@
         <activity android:name="it.inps.design.segmentedcontrols.SegmentedControlsActivity" />
         <activity android:name="it.inps.design.tabbar.TabBarActivity" />
         <activity android:name="it.inps.design.table.TableActivity" />
-        <activity android:name="it.inps.design.tabs.TabActivity" />
+        <activity android:name="it.inps.design.tab.TabActivity" />
         <activity android:name="it.inps.design.tag.TagActivity" />
         <activity android:name="it.inps.design.textarea.TextAreaActivity" />
         <activity android:name="it.inps.design.textfield.TextFieldActivity" />

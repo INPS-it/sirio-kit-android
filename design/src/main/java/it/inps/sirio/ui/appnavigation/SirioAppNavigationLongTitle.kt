@@ -52,7 +52,7 @@ fun SirioAppNavigationLongTitle(
 ) {
     LargeTopAppBar(
         title = {
-            SirioAppNavigationTitle(title + "\n", long = true)
+            SirioAppNavigationTitleLegacy(title + "\n", long = true)
         },
         Modifier.wrapContentHeight(),
         navigationIcon = {

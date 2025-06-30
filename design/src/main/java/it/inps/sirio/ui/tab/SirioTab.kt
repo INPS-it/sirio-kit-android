@@ -6,7 +6,7 @@
 // SPDX-License-Identifier: BSD-3-Clause
 //
 
-package it.inps.sirio.ui.tabs
+package it.inps.sirio.ui.tab
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -20,27 +20,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.guru.fontawesomecomposelib.FaIconType
 import com.guru.fontawesomecomposelib.FaIcons
 import it.inps.sirio.theme.SirioTheme
+import it.inps.sirio.utils.SirioIconSource
 
 /**
  * Sirio tab to be used in [SirioTabGroup]
  *
  * @param label The tab text
  * @param icon The tab optional FA icon [FaIcons]
- * @param enabled Whether the tab can be selected by user
- * @param selected Whether the tab is the selected one
- * @param selection A [TabSelectionIndicatorPosition] for top or bottom selection indicator
- * @param onSelect The selection callback
+ * @param enabled Whether the tab can be selected by user. Default `true`
+ * @param selected Whether the tab is the selected one. Default `false`
+ * @param onSelect The callback for the tab selection
  */
 @Composable
 fun SirioTab(
     label: String,
-    icon: FaIconType? = null,
+    icon: SirioIconSource? = null,
     enabled: Boolean = true,
     selected: Boolean = false,
-    selection: TabSelectionIndicatorPosition = TabSelectionIndicatorPosition.TOP,
     onSelect: () -> Unit,
 ) {
     SirioTabCommon(
@@ -48,7 +46,6 @@ fun SirioTab(
         icon = icon,
         enabled = enabled,
         selected = selected,
-        selection = selection,
         onSelect = onSelect
     )
 }
@@ -60,18 +57,17 @@ private fun TabsPreview() {
         Column(
             Modifier
                 .fillMaxSize()
-                .background(Color(0xFFE5E5E5))
+                .background(Color.White)
                 .verticalScroll(rememberScrollState())
                 .padding(vertical = 10.dp),
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             SirioTab(
-                label = "Label tab 1",
-                icon = FaIcons.Check,
+                label = "Label tab",
+                icon = SirioIconSource.FaIcon(FaIcons.Cube),
                 enabled = true,
                 selected = true,
                 onSelect = {},
-                selection = TabSelectionIndicatorPosition.TOP,
             )
         }
     }

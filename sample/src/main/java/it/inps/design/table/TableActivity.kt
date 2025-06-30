@@ -46,7 +46,7 @@ import it.inps.sirio.ui.table.vertical.SirioTableVertical
 import it.inps.sirio.ui.table.vertical.SirioTableVerticalCellData
 import it.inps.sirio.ui.table.vertical.SirioTableVerticalCellItemData
 import it.inps.sirio.ui.table.vertical.SirioTableVerticalCellItemType
-import it.inps.sirio.ui.tag.TagType
+import it.inps.sirio.ui.tag.SirioTagType
 
 private const val XSMALL = "Table - xsmall"
 private const val SMALL = "Table - small"
@@ -237,12 +237,12 @@ private fun TableSizeDemo(size: SirioTableContentSize) {
                     cells = listOf(
                         SirioTableCellType.Tag(
                             text = "Tag 0",
-                            tagType = TagType.GRAY,
+                            tagType = SirioTagType.GRAY,
                             size = size
                         ),
                         SirioTableCellType.Tag(
                             text = "Tag 1",
-                            tagType = TagType.GRAY,
+                            tagType = SirioTagType.GRAY,
                             size = size
                         ),
                     )
@@ -658,7 +658,7 @@ private fun Table2Demo() {
                         SirioTableCellType.Tag(
                             text = "Tag 0",
                             size = size,
-                            tagType = TagType.GRAY,
+                            tagType = SirioTagType.GRAY,
                         ),
                     )
                 ),
@@ -678,7 +678,7 @@ private fun Table2Demo() {
                         SirioTableCellType.Tag(
                             text = "Tag 1",
                             size = size,
-                            tagType = TagType.GRAY,
+                            tagType = SirioTagType.GRAY,
                         ),
                     )
                 ),
@@ -698,7 +698,7 @@ private fun Table2Demo() {
                         SirioTableCellType.Tag(
                             text = "Tag 2",
                             size = size,
-                            tagType = TagType.GRAY,
+                            tagType = SirioTagType.GRAY,
                         ),
                     )
                 ),

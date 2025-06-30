@@ -8,7 +8,7 @@
 
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package it.inps.design.tabs
+package it.inps.design.tab
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -18,10 +18,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -48,10 +48,11 @@ import androidx.navigation.compose.rememberNavController
 import com.guru.fontawesomecomposelib.FaIcons
 import it.inps.design.ui.DemoMenuItem
 import it.inps.sirio.theme.SirioTheme
-import it.inps.sirio.ui.tabs.SirioTab
-import it.inps.sirio.ui.tabs.SirioTabGroup
-import it.inps.sirio.ui.tabs.TabItemData
-import it.inps.sirio.ui.tabs.TabSelectionIndicatorPosition
+import it.inps.sirio.ui.tab.SirioTab
+import it.inps.sirio.ui.tab.SirioTabGroup
+import it.inps.sirio.ui.tab.TabItemData
+import it.inps.sirio.ui.text.SirioText
+import it.inps.sirio.utils.SirioIconSource
 
 class TabActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -93,7 +94,8 @@ fun TabDemoView() {
 fun TabMenuDemo(navController: NavController) {
     Column(
         modifier = Modifier
-            .padding(0.dp, 16.dp)
+            .fillMaxSize()
+            .background(Color.White)
             .verticalScroll(rememberScrollState()),
     ) {
         DemoMenuItem(TabDestinations.TAB_SINGLE) {
@@ -113,64 +115,34 @@ fun TabDemoSingle() {
     Column(
         Modifier
             .fillMaxSize()
-            .background(Color(0xFFE5E5E5))
-            .verticalScroll(rememberScrollState())
-            .padding(0.dp, 20.dp),
+            .background(Color.White)
+            .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(30.dp),
     ) {
-        Text(text = "Selected - Top")
+        Spacer(Modifier.height(10.dp))
+        Text(text = "Selected")
         SirioTab(
             label = "Tab",
-            icon = FaIcons.Check,
+            icon = SirioIconSource.FaIcon(FaIcons.Cube),
             enabled = true,
             selected = true,
-            selection = TabSelectionIndicatorPosition.TOP,
             onSelect = {},
         )
-        Text(text = "Default - Top")
+        Text(text = "Default")
         SirioTab(
             label = "Tab",
-            icon = FaIcons.Check,
+            icon = SirioIconSource.FaIcon(FaIcons.Cube),
             enabled = true,
             selected = false,
-            selection = TabSelectionIndicatorPosition.TOP,
             onSelect = {},
         )
-        Text(text = "Disabled - Top")
+        Text(text = "Disabled")
         SirioTab(
             label = "Tab",
-            icon = FaIcons.Check,
+            icon = SirioIconSource.FaIcon(FaIcons.Cube),
             enabled = false,
             selected = false,
-            selection = TabSelectionIndicatorPosition.TOP,
-            onSelect = {},
-        )
-        Text(text = "Selected - Bottom")
-        SirioTab(
-            label = "Tab",
-            icon = FaIcons.Check,
-            enabled = true,
-            selected = true,
-            selection = TabSelectionIndicatorPosition.BOTTOM,
-            onSelect = {},
-        )
-        Text(text = "Default - Bottom")
-        SirioTab(
-            label = "Tab",
-            icon = FaIcons.Check,
-            enabled = true,
-            selected = false,
-            selection = TabSelectionIndicatorPosition.BOTTOM,
-            onSelect = {},
-        )
-        Text(text = "Disabled - Bottom")
-        SirioTab(
-            label = "Tab",
-            icon = FaIcons.Check,
-            enabled = false,
-            selected = false,
-            selection = TabSelectionIndicatorPosition.BOTTOM,
             onSelect = {},
         )
     }
@@ -180,83 +152,49 @@ fun TabDemoSingle() {
 @Composable
 fun TabDemoGroup() {
     Column(
-        Modifier
-            .fillMaxWidth()
-            .wrapContentHeight()
-            .background(Color(0xFFE5E5E5))
-            .verticalScroll(rememberScrollState())
-            .padding(0.dp, 20.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(30.dp),
     ) {
-        var selectedIndexTop by remember { mutableIntStateOf(0) }
-        var selectedIndexBottom by remember { mutableIntStateOf(0) }
-        Text(text = "Top")
+        var selectedIndex by remember { mutableIntStateOf(0) }
         SirioTabGroup(
             items = listOf(
                 TabItemData(
                     label = "Label tab 0",
-                    icon = FaIcons.Check,
+                    icon = SirioIconSource.FaIcon(FaIcons.Cube),
                     enabled = true
                 ),
                 TabItemData(
                     label = "Label tab 1",
-                    icon = FaIcons.File,
+                    icon = SirioIconSource.FaIcon(FaIcons.Cube),
                     enabled = true
                 ),
                 TabItemData(
                     label = "Label tab 2",
-                    icon = FaIcons.GlobeAfrica,
-                    enabled = true
+                    icon = SirioIconSource.FaIcon(FaIcons.Cube),
+                    enabled = false
                 ),
                 TabItemData(
                     label = "Label tab 3",
-                    icon = FaIcons.Lightbulb,
+                    icon = SirioIconSource.FaIcon(FaIcons.Cube),
                     enabled = true
                 ),
                 TabItemData(
                     label = "Label tab 4",
-                    icon = FaIcons.PiggyBank,
+                    icon = SirioIconSource.FaIcon(FaIcons.Cube),
                     enabled = true
                 ),
             ),
-            selection = TabSelectionIndicatorPosition.TOP,
-            selectedIndex = selectedIndexTop,
-            onTabSelected = { selectedIndexTop = it },
+            selectedIndex = selectedIndex,
+            onTabSelected = { selectedIndex = it },
         )
-        Text(text = "Bottom")
-        SirioTabGroup(
-            items = listOf(
-                TabItemData(
-                    label = "Label tab 0",
-                    icon = FaIcons.Check,
-                    enabled = true
-                ),
-                TabItemData(
-                    label = "Label tab 1",
-                    icon = FaIcons.File,
-                    enabled = true
-                ),
-                TabItemData(
-                    label = "Label tab 2",
-                    icon = FaIcons.GlobeAfrica,
-                    enabled = true
-                ),
-                TabItemData(
-                    label = "Label tab 3",
-                    icon = FaIcons.Lightbulb,
-                    enabled = true
-                ),
-                TabItemData(
-                    label = "Label tab 4",
-                    icon = FaIcons.PiggyBank,
-                    enabled = true
-                ),
-            ),
-            selection = TabSelectionIndicatorPosition.BOTTOM,
-            selectedIndex = selectedIndexBottom,
-            onTabSelected = { selectedIndexBottom = it },
-        )
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center,
+        ) {
+            SirioText("Tab $selectedIndex")
+        }
     }
 }
 
@@ -267,7 +205,6 @@ private fun TabActivityPreview() {
     SirioTheme {
         Column {
             TabDemoGroup()
-            TabDemoSingle()
         }
     }
 }

@@ -64,12 +64,13 @@ import it.inps.sirio.utils.SirioIconSource
 internal fun SirioAppNavigationTitle(
     title: String,
     typography: TextStyle = SirioTheme.foundationTypography.labelMdMiddle,
+    maxLines: Int = appNavigationMaxLines,
 ) {
     SirioTextCommon(
         text = title,
         color = SirioTheme.colors.appNavigation.text,
         overflow = TextOverflow.Ellipsis,
-        maxLines = appNavigationMaxLines,
+        maxLines = maxLines,
         typography = typography,
     )
 }
@@ -82,7 +83,7 @@ internal fun SirioAppNavigationTitle(
  * @param big Whether the app navigation is big type
  */
 @Composable
-internal fun SirioAppNavigationTitle(title: String, long: Boolean = false, big: Boolean = false) {
+internal fun SirioAppNavigationTitleLegacy(title: String, long: Boolean = false, big: Boolean = false) {
     SirioTextCommon(
         text = title,
         maxLines = if (long) appNavigationTitleLongMaxLines else appNavigationTitleMaxLines,

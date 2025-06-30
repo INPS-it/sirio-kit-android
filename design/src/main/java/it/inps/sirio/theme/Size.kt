@@ -50,12 +50,17 @@ internal const val appNavigationTitleLongMaxLines = 2
 
 internal const val tagPaddingHorizontal = 16
 
-internal val accordionHeight = 64.dp
-internal val accordionHorizontalPadding = 16.dp
-internal val accordionContentPadding = 16.dp
-internal val accordionDefaultBorderWidth = 1.dp
-internal val accordionFocusBorderWidth = 2.dp
-internal val accordionContentBorderWidth = 1.dp
+internal const val accordionHeight = 56
+internal const val accordionHeaderPadding = 16
+internal const val accordionHeaderPaddingIconTitle = 16
+internal const val accordionHeaderPaddingTitleIndicator = 24
+internal const val accordionHeaderPaddingTag = 12
+internal const val accordionHeaderPaddingText = 12
+internal const val accordionContentPadding = 16
+internal const val accordionBorderWidth = 1
+internal const val accordionContentBorderWidth = 1
+internal const val accordionIconSize = 24
+internal const val accordionIndicatorSize = 24
 
 internal const val chipHeight = 32
 internal const val chipIconSize = 16
@@ -193,35 +198,47 @@ internal val paginationTileShape = Shapes.small
 internal val paginationTileBorderWidth = 1.dp
 internal val paginationNavigationButtonWidth = 58.dp
 
-internal val tabHeight = 44.dp
-internal val tabIndicatorHeight = 4.dp
-internal val tabIconSize = 16.dp
-internal val tabEdgePadding = 0.dp
-internal const val tabHorizontalPadding = 16
-internal const val tabWithIconHorizontalSpacing = 4
+internal const val tabHeight = 44
+internal const val tabIndicatorHeight = 4
+internal const val tabIndicatorCornerRadiusTop = 3
+internal const val tabIndicatorCornerRadiusBottom = 0
+internal const val tabGroupEdgePadding = 16
+internal const val tabGroupPaddingTop = 8
+internal const val tabGroupPaddingBottom = 16
+internal const val tabGroupItemSpacing = 8
+internal const val tabGroupDividerHeight = 1
+internal const val tabIconSize = 16
+internal const val tabPadding = 8
+internal const val tabHorizontalSpacing = 8
 
 internal const val searchBarQueriesVerticalPadding = 9
 internal const val searchBarQueriesPadding = 8
 
 internal const val dialogHeightPercentage = 0.8f
-internal val dialogShape = Shapes.large
-internal val dialogPadding = 24.dp
-internal val dialogSemanticIconBottomPadding = 16.dp
-internal val dialogTextTopPadding = 16.dp
-internal val dialogInputTopPadding = 16.dp
-internal val dialogPositiveButtonTopPadding = 32.dp
-internal val dialogNeutralButtonTopPadding = 24.dp
+internal const val dialogCornerRadiusTop = 16
+internal const val dialogCornerRadiusBottom = 0
+internal const val dialogPaddingHorizontal = 24
+internal const val dialogPaddingTop = 24
+internal const val dialogPaddingBottom = 32
+internal const val dialogTextPaddingTop = 8
+internal const val dialogInputFirstPaddingTop = 16
+internal const val dialogInputSecondPaddingTop = 8
+internal const val dialogButtonFirstPaddingTop = 24
+internal const val dialogButtonSecondPaddingTop = 16
+internal const val dialogIconSize = 24
+internal const val dialogHeaderPaddingBottom = 12
 
-internal const val cardIconSize = 32
+internal const val cardIconSize = 16
+internal const val cardIconPaddingTop = 6
 internal const val cardPaddingHorizontal = 16
-internal const val cardPaddingVertical = 16
-internal const val cardSubtitlePaddingTop = 0
-internal const val cardTextPaddingTop = 16
-internal const val cardSignaturePaddingTop = 16
+internal const val cardPaddingVertical = 12
+internal const val cardIconPaddingStart = 8
+internal const val cardTitlePaddingTop = 12
+internal const val cardSubtitlePaddingTop = 4
+internal const val cardTextPaddingTop = 4
 internal const val cardButtonPaddingTop = 16
-internal const val cardButtonPaddingHorizontal = 24
-internal const val cardImageHeight = 220
-internal const val cardImagePaddingBottom = 8
+internal const val cardActionsPaddingTop = 12
+internal const val cardImageHeight = 140
 
 internal const val heroPaddingHorizontal = 16
 internal const val heroPaddingVertical = 16
@@ -326,6 +343,9 @@ internal const val filterInfoSize = 16
 
 internal const val dropdownMenuBorderWidth = 1
 internal const val dropdownMenuCornerSize = 4
+internal const val dropdownMenuContentPadding = 12
+internal const val dropdownMenuVisibleitems = 3
+internal const val dropdownMenuItemHeight = 49
 
 internal const val dropdownBorderWidth = 1
 internal const val dropdownCornerSize = 4

@@ -17,7 +17,7 @@ import it.inps.sirio.ui.table.drawer.SirioTableDrawerColors
 import it.inps.sirio.ui.table.drawer.SirioTableDrawerTypography
 import it.inps.sirio.ui.table.vertical.SirioTableVerticalColors
 import it.inps.sirio.ui.table.vertical.SirioTableVerticalTypography
-import it.inps.sirio.ui.tag.TagType
+import it.inps.sirio.ui.tag.SirioTagType
 
 sealed class SirioTableCellType {
     data class Header(
@@ -70,7 +70,7 @@ sealed class SirioTableCellType {
 
     data class Tag(
         val text: String,
-        val tagType: TagType,
+        val tagType: SirioTagType,
         val size: SirioTableContentSize,
         val scroll: Boolean = false,
     ) : SirioTableCellType()

@@ -47,8 +47,8 @@ import it.inps.sirio.theme.carouselPaddingBottom
 import it.inps.sirio.theme.carouselPaddingIntra
 import it.inps.sirio.theme.carouselPaddingTop
 import it.inps.sirio.theme.carouselPageSpacing
-import it.inps.sirio.ui.card.SirioCardItemData
 import it.inps.sirio.ui.card.SirioProcessCard
+import it.inps.sirio.ui.card.SirioProcessCardItemData
 import kotlinx.coroutines.launch
 
 /**
@@ -170,6 +170,7 @@ private fun SirioCarouselCommonPreview() {
         val icon: FaIconType,
         val date: String,
         val title: String,
+        val subtitle: String,
         val text: String,
         val button: String,
     )
@@ -179,6 +180,7 @@ private fun SirioCarouselCommonPreview() {
             icon = FaIcons.Book,
             date = "13 Nov 2021",
             title = "Titolo della card 1",
+            subtitle = "Sottotitolo 1",
             text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
             button = "Text"
         ),
@@ -186,6 +188,7 @@ private fun SirioCarouselCommonPreview() {
             icon = FaIcons.Book,
             date = "13 Nov 2021",
             title = "Titolo della card 2",
+            subtitle = "Sottotitolo 2",
             text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.",
             button = "Text"
         ),
@@ -193,6 +196,7 @@ private fun SirioCarouselCommonPreview() {
             icon = FaIcons.Book,
             date = "13 Nov 2021",
             title = "Titolo della card 3",
+            subtitle = "Sottotitolo 3",
             text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.",
             button = "Text"
         ),
@@ -200,6 +204,7 @@ private fun SirioCarouselCommonPreview() {
             icon = FaIcons.Book,
             date = "13 Nov 2021",
             title = "Titolo della card 4",
+            subtitle = "Sottotitolo 4",
             text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.",
             button = "Text"
         ),
@@ -213,12 +218,9 @@ private fun SirioCarouselCommonPreview() {
             SirioProcessCard(
                 modifier = Modifier.height(300.dp),
                 title = sample.title,
+                subtitle = sample.subtitle,
                 text = sample.text,
-                buttonText = sample.button,
-                icon = sample.icon,
-                onClickButton = {},
-                date = sample.date,
-                item = SirioCardItemData(icon = FaIcons.EllipsisH, action = {}),
+                firstAction = SirioProcessCardItemData(text = sample.button, action = {}),
                 onClickCard = {},
             )
         }

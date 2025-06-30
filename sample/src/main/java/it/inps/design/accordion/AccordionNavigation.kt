@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import it.inps.sirio.ui.accordion.SirioAccordionColor
 
 @Composable
 fun AccordionNavigationGraph(navController: NavHostController) {
@@ -23,10 +24,16 @@ fun AccordionNavigationGraph(navController: NavHostController) {
             AccordionMenuDemo(navController = navController)
         }
         composable(AccordionDestinations.ACCORDION_ROUTE) {
-            AccordionDemo { AccordionNavDemoContent() }
+            AccordionDemo(
+                { AccordionNavDemoContent(SirioAccordionColor.LIGHT) },
+                { AccordionNavDemoContent(SirioAccordionColor.PRIMARY) },
+            )
         }
         composable(AccordionDestinations.ACCORDION_GROUP_ROUTE) {
-            AccordionDemo { AccordionGroupNavDemoContent() }
+            AccordionDemo(
+                { AccordionGroupNavDemoContent(SirioAccordionColor.LIGHT) },
+                { AccordionGroupNavDemoContent(SirioAccordionColor.PRIMARY) },
+            )
         }
     }
 }

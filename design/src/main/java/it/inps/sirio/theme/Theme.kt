@@ -29,14 +29,12 @@ import it.inps.sirio.ui.badge.SirioBadgeColors
 import it.inps.sirio.ui.button.ButtonLegacyColors
 import it.inps.sirio.ui.button.SirioButtonColors
 import it.inps.sirio.ui.card.SirioCardsColors
-import it.inps.sirio.ui.card.SirioCardsTypography
 import it.inps.sirio.ui.carousel.SirioCarouselColors
 import it.inps.sirio.ui.checkbox.SirioCheckboxColors
 import it.inps.sirio.ui.chip.SirioChipColors
 import it.inps.sirio.ui.dialog.SirioDialogColors
 import it.inps.sirio.ui.dropdown.SirioDropdownColors
 import it.inps.sirio.ui.dropdownmenu.SirioDropdownMenuColors
-import it.inps.sirio.ui.dropdownmenu.SirioDropdownMenuTypography
 import it.inps.sirio.ui.fileupload.SirioFileUploadColors
 import it.inps.sirio.ui.filter.SirioFilterColors
 import it.inps.sirio.ui.filter.SirioFilterTypography
@@ -54,10 +52,10 @@ import it.inps.sirio.ui.searchbar.SirioSearchBarColors
 import it.inps.sirio.ui.segmentedcontrols.SirioSegmentedControlsColors
 import it.inps.sirio.ui.slider.SirioSliderColors
 import it.inps.sirio.ui.stepprogressbar.SirioStepProgressBarColors
+import it.inps.sirio.ui.tab.SirioTabColors
 import it.inps.sirio.ui.tabbar.SirioTabBarColors
 import it.inps.sirio.ui.table.SirioTableColors
 import it.inps.sirio.ui.table.SirioTableTypography
-import it.inps.sirio.ui.tabs.SirioTabsColors
 import it.inps.sirio.ui.tag.SirioTagsColors
 import it.inps.sirio.ui.textarea.SirioTextAreaColors
 import it.inps.sirio.ui.textfield.SirioTextFieldColors
@@ -105,10 +103,8 @@ data class SirioTypography(
     val accordionText: TextStyle,
     val appNavigation: SirioAppNavigationTypography,
     val buttonText: TextStyle,
-    val card: SirioCardsTypography,
     val dialogText: TextStyle,
     val dialogTitle: TextStyle,
-    val dropdown: SirioDropdownMenuTypography,
     val filter: SirioFilterTypography,
     val hero: SirioHeroTypography,
     val menuSpalla: SirioMenuSpallaTypography,
@@ -162,7 +158,7 @@ data class SirioColors(
     val stepProgressBar: SirioStepProgressBarColors,
     val tabBar: SirioTabBarColors,
     val table: SirioTableColors,
-    val tabs: SirioTabsColors,
+    val tab: SirioTabColors,
     val tag: SirioTagsColors,
     val textArea: SirioTextAreaColors,
     val textField: SirioTextFieldColors,
@@ -343,7 +339,7 @@ private val localSirioColors = staticCompositionLocalOf {
         stepProgressBar = SirioStepProgressBarColors.Unspecified,
         tabBar = SirioTabBarColors.Unspecified,
         table = SirioTableColors.Unspecified,
-        tabs = SirioTabsColors.Unspecified,
+        tab = SirioTabColors.Unspecified,
         tag = SirioTagsColors.Unspecified,
         textArea = SirioTextAreaColors.Unspecified,
         textField = SirioTextFieldColors.Unspecified,
@@ -364,10 +360,8 @@ internal val LocalSirioTypography = staticCompositionLocalOf {
             avatar = TextStyle.Default,
         ),
         buttonText = TextStyle.Default,
-        card = SirioCardsTypography.Default,
         dialogText = TextStyle.Default,
         dialogTitle = TextStyle.Default,
-        dropdown = SirioDropdownMenuTypography.Default,
         filter = SirioFilterTypography.Default,
         hero = SirioHeroTypography.Default,
         menuSpalla = SirioMenuSpallaTypography.Default,

@@ -148,7 +148,7 @@ private fun SirioNotificaInLineaContent(
         SirioText(
             text = text,
             color = SirioTheme.colors.notifica.pagina.text,
-            typography = SirioTheme.foundationTypography.bodySmRegular,
+            typography = SirioTheme.foundationTypography.bodyMdRegular,
         )
         link?.let {
             SirioText(

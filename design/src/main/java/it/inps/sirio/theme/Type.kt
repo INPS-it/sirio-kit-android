@@ -22,10 +22,6 @@ import it.inps.sirio.styleDictionary.StyleDictionaryColor
 import it.inps.sirio.styleDictionary.StyleDictionarySize
 import it.inps.sirio.styleDictionary.StyleDictionaryTypography
 import it.inps.sirio.ui.appnavigation.SirioAppNavigationTypography
-import it.inps.sirio.ui.card.SirioCardTypography
-import it.inps.sirio.ui.card.SirioCardsTypography
-import it.inps.sirio.ui.dropdownmenu.SirioDropdownMenuOptionTypography
-import it.inps.sirio.ui.dropdownmenu.SirioDropdownMenuTypography
 import it.inps.sirio.ui.filter.SirioFilterTypography
 import it.inps.sirio.ui.hero.SirioHeroTypography
 import it.inps.sirio.ui.menuspalla.SirioMenuSpallaDrawerItemInfoTypography
@@ -292,7 +288,13 @@ val labelMd400 = TextStyle(
     fontStyle = StyleDictionaryTypography.typographyAliasLabelFontWeight400.getFontStyle(),
 )
 
-@Deprecated("Use foundationTypography instead")
+@Deprecated(
+    "Use foundationTypography instead",
+    replaceWith = ReplaceWith(
+        "SirioTheme.foundationTypography.bodyMdRegular",
+        "it.inps.sirio.theme.SirioTheme"
+    )
+)
 val placeholderMd400 = TextStyle(
     fontFamily = StyleDictionaryTypography.typographyGlobalFontFamily01,
     fontSize = StyleDictionarySize.typographyAliasLabelMdSize04.sp,
@@ -389,29 +391,8 @@ internal val Typography = SirioTypography(
         avatar = labelMd700,
     ),
     buttonText = labelMd700,
-    card = SirioCardsTypography(
-        editorial = SirioCardTypography(
-            date = labelMdNumber400,
-            title = linkH4Md01,
-            subtitle = h6Md,
-            text = pMd01,
-            signature = signaturePMd02,
-        ),
-        process = SirioCardTypography(
-            date = labelMdNumber400,
-            title = h4Md,
-            subtitle = h6Md,
-            text = pMd01,
-            signature = signaturePMd02,
-        ),
-    ),
     dialogText = pMd01,
     dialogTitle = h4Md,
-    dropdown = SirioDropdownMenuTypography(
-        option = SirioDropdownMenuOptionTypography(
-            text = placeholderMd400,
-        )
-    ),
     filter = SirioFilterTypography(header = h4Lg, title = labelLg700),
     hero = SirioHeroTypography(
         title = h2Md,

@@ -121,7 +121,7 @@ private fun TagCommonPreview() {
     }
 }
 
-enum class TagType {
+enum class SirioTagType {
     GRAY,
     BLUE,
     RED,

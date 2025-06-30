@@ -30,7 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.ui.tag.SirioTag
-import it.inps.sirio.ui.tag.TagType
+import it.inps.sirio.ui.tag.SirioTagType
 
 class TagActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,12 +62,12 @@ fun TagDemoContent() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(30.dp),
         ) {
-            SirioTag("Label Tag", TagType.GRAY)
-            SirioTag("Label Tag", TagType.BLUE)
-            SirioTag("Label Tag", TagType.RED)
-            SirioTag("Label Tag", TagType.ORANGE)
-            SirioTag("Label Tag", TagType.GREEN)
-            SirioTag("Label Tag", TagType.WHITE)
+            SirioTag("Label Tag", SirioTagType.GRAY)
+            SirioTag("Label Tag", SirioTagType.BLUE)
+            SirioTag("Label Tag", SirioTagType.RED)
+            SirioTag("Label Tag", SirioTagType.ORANGE)
+            SirioTag("Label Tag", SirioTagType.GREEN)
+            SirioTag("Label Tag", SirioTagType.WHITE)
         }
     }
 }

@@ -26,7 +26,7 @@ import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.theme.tableVerticalItemPadding
 import it.inps.sirio.theme.tableVerticalItemTagPadding
 import it.inps.sirio.ui.tag.SirioTag
-import it.inps.sirio.ui.tag.TagType
+import it.inps.sirio.ui.tag.SirioTagType
 import it.inps.sirio.ui.text.SirioText
 
 @Composable
@@ -59,7 +59,7 @@ internal fun SirioTableVerticalCellItem(data: SirioTableVerticalCellItemData) {
             )
         } else {
             Spacer(modifier = Modifier.height(tableVerticalItemTagPadding.dp))
-            SirioTag(text = data.text, tagType = TagType.GRAY)
+            SirioTag(text = data.text, tagType = SirioTagType.GRAY)
         }
     }
 }

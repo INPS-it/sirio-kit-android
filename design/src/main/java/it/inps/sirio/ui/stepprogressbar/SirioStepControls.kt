@@ -30,8 +30,8 @@ import it.inps.sirio.theme.stepControlsPaddingVertical
 import it.inps.sirio.ui.button.SirioButton
 import it.inps.sirio.ui.button.SirioButtonHierarchy
 import it.inps.sirio.ui.button.SirioButtonSize
-import it.inps.sirio.ui.dropdownmenu.SirioDropdownMenuOptionItem
-import it.inps.sirio.ui.dropdownmenu.SirioPopup
+import it.inps.sirio.ui.dropdownmenu.SirioDropdownItemData
+import it.inps.sirio.ui.dropdownmenu.SirioDropdownMenu
 import it.inps.sirio.ui.dropdownmenu.SirioPopupState
 import it.inps.sirio.utils.SirioIconSource
 
@@ -53,23 +53,18 @@ fun SirioStepControls(
                 val sirioPopupState: SirioPopupState = remember { SirioPopupState(false) }
                 sirioPopupState.isTop = true
                 sirioPopupState.horizontalAlignment = Alignment.Start
-                SirioPopup(
-                    sirioPopupState = sirioPopupState,
+                SirioDropdownMenu(
+                    popupState = sirioPopupState,
                     onDismissRequest = { sirioPopupState.isVisible = false },
                     offset = DpOffset(0.dp, 8.dp),
-                ) {
-                    other.forEach { data ->
-                        SirioDropdownMenuOptionItem(
-                            text = data.text,
-                            enabled = true,
-                            selected = false,
-                            onCLick = {
-                                data.action()
-                                sirioPopupState.isVisible = false
-                            }
+                    items = other.map {
+                        SirioDropdownItemData(
+                            value = it.text,
+                            contentDescription = it.contentDescription,
+                            action = it.action,
                         )
                     }
-                }
+                )
                 SirioButton(
                     size = SirioButtonSize.Large,
                     hierarchy = SirioButtonHierarchy.TertiaryLight,
@@ -102,6 +97,7 @@ fun SirioStepControls(
 data class SirioStepControlData(
     val text: String,
     val enabled: Boolean,
+    val contentDescription: String? = null,
     val action: () -> Unit,
 )
 

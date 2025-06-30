@@ -17,11 +17,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.guru.fontawesomecomposelib.FaIcons
 import it.inps.sirio.theme.SirioTheme
@@ -30,9 +28,8 @@ import it.inps.sirio.theme.tableDrawerIconsPaddingVertical
 import it.inps.sirio.ui.button.ButtonStyle
 import it.inps.sirio.ui.button.SirioButton
 import it.inps.sirio.ui.button.SirioButtonSize
-import it.inps.sirio.ui.dropdownmenu.SirioDropdownMenuOptionItem
-import it.inps.sirio.ui.dropdownmenu.SirioPopup
-import it.inps.sirio.ui.dropdownmenu.SirioPopupState
+import it.inps.sirio.ui.dropdownmenu.SirioDropdownItemData
+import it.inps.sirio.ui.dropdownmenu.SirioMoreAction
 import it.inps.sirio.ui.table.SirioTableIconData
 import it.inps.sirio.ui.text.SirioText
 
@@ -67,55 +64,14 @@ fun SirioTableDrawerStickyBottomBar(icons: List<SirioTableIconData>) {
             )
             Spacer(modifier = Modifier.weight(1f))
             Box(modifier = Modifier.wrapContentSize(Alignment.TopEnd)) {
-//                SirioDropdown(
-//                    expanded = dropdownOpen,
-//                    onDismissRequest = { dropdownOpen = false },
-//                    offset = DpOffset(0.dp, (-30).dp)
-//                ) {
-//                    icons.forEach { icon ->
-//                        icon.text?.let {
-//                            SirioDropdownOptionItem(
-//                                text = it,
-//                                enabled = true,
-//                                selected = false,
-//                                onCLick = {
-//                                    dropdownOpen = false
-//                                    icon.action()
-//                                }
-//                            )
-//                        }
-//                    }
-//                }
-
-                val sirioPopupState: SirioPopupState = remember { SirioPopupState(false) }
-                sirioPopupState.isTop = true
-                sirioPopupState.horizontalAlignment = Alignment.End
-                SirioPopup(
-                    sirioPopupState = sirioPopupState,
-                    onDismissRequest = { sirioPopupState.isVisible = false },
-                    offset = DpOffset(0.dp, 8.dp),
-                ) {
-                    icons.forEach { icon ->
-                        icon.text?.let {
-                            SirioDropdownMenuOptionItem(
-                                text = it,
-                                enabled = true,
-                                selected = false,
-                                onCLick = {
-                                    icon.action()
-                                    sirioPopupState.isVisible = false
-                                }
-                            )
-                        }
-                    }
+                val items = icons.map {
+                    SirioDropdownItemData(
+                        value = it.text.orEmpty(),
+                        action = it.action
+                    )
                 }
-                SirioButton(
-                    size = SirioButtonSize.Large,
-                    style = ButtonStyle.Primary,
-                    icon = FaIcons.EllipsisH,
-                    onClick = {
-                        sirioPopupState.isVisible = true
-                    },
+                SirioMoreAction(
+                    items = items,
                 )
             }
         }
