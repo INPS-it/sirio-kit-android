@@ -24,6 +24,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.guru.fontawesomecomposelib.FaIconType
@@ -45,6 +46,7 @@ import it.inps.sirio.theme.fabSmallPadding
 import it.inps.sirio.ui.text.SirioTextCommon
 import it.inps.sirio.utils.SirioIcon
 import it.inps.sirio.utils.SirioIconSource
+import it.inps.sirio.utils.takeTwoWords
 
 /**
  * Common implementation for Sirio Floating Action Button (FAB).
@@ -60,6 +62,7 @@ import it.inps.sirio.utils.SirioIconSource
 @Composable
 internal fun SirioFabCommon(
     icon: FaIconType,
+    modifier: Modifier = Modifier,
     text: String? = null,
     iconContentDescription: String? = null,
     size: SirioFabSize? = null,
@@ -78,7 +81,7 @@ internal fun SirioFabCommon(
             vertical = fabExtendedPaddingVertical.dp,
         )
     }
-    val modifier = when {
+    val sizeModifier = when {
         text == null && size == SirioFabSize.SMALL -> Modifier.sizeIn(
             maxWidth = fabSizeSmall.dp,
             maxHeight = fabSizeSmall.dp,
@@ -93,7 +96,7 @@ internal fun SirioFabCommon(
     }
     FloatingActionButton(
         onClick = onClick,
-        modifier = modifier,
+        modifier = sizeModifier.then(modifier).testTag("fab${text.takeTwoWords()}"),
         shape = RoundedCornerShape(fabCornerRadius.dp),
         containerColor = backgroundColor,
         contentColor = contentColor,

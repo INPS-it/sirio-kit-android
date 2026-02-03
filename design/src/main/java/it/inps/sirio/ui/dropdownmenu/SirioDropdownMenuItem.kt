@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -28,17 +29,20 @@ import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.theme.dropdownMenuContentPadding
 import it.inps.sirio.ui.text.SirioText
 import it.inps.sirio.utils.ifElse
+import it.inps.sirio.utils.takeTwoWords
 
 /**
- * Sirio Dropdown Menu Item is the items contained in the dropdown menu
+ * Sirio Dropdown Menu Item is an item contained within a dropdown menu.
  *
- * @param data The [SirioDropdownItemData] with the value displayed, the action performed on click
- * and an optional field to be set as selected.
- *
+ * @param text The text to be displayed for the item.
+ * @param contentDescription An optional description for accessibility services.
+ * @param action The lambda to be executed when the item is clicked.
  */
 @Composable
-fun SirioDropdownMenuItem(
-    data: SirioDropdownItemData,
+internal fun SirioDropdownMenuItem(
+    text: String,
+    contentDescription: String? = null,
+    action: () -> Unit,
 ) {
     val backgroundColor = SirioTheme.colors.dropdownMenu.item.background
     val contentColor = SirioTheme.colors.dropdownMenu.item.content
@@ -46,22 +50,22 @@ fun SirioDropdownMenuItem(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(enabled = true, role = Role.DropdownList, onClick = data.action)
+            .testTag("item${text.takeTwoWords()}")
+            .clickable(enabled = true, role = Role.DropdownList, onClick = action)
             .ifElse(
-                condition = data.contentDescription != null,
+                condition = contentDescription != null,
                 ifTrueModifier = Modifier.semantics {
-                    this.contentDescription = data.contentDescription!!
+                    this.contentDescription = contentDescription!!
                 }
             )
             .background(backgroundColor)
             .padding(dropdownMenuContentPadding.dp)
     ) {
         SirioText(
-            text = data.value,
+            text = text,
             color = contentColor,
             typography = SirioTheme.foundationTypography.labelMdRegular,
         )
-
     }
 }
 
@@ -97,7 +101,10 @@ private fun SirioDropdownMenuItemPreview() {
     SirioTheme {
         Column {
             val text = "Action #1"
-            SirioDropdownMenuItem(SirioDropdownItemData(value = text, action = {}))
+            SirioDropdownMenuItem(
+                text = text,
+                action = {},
+            )
         }
     }
 }

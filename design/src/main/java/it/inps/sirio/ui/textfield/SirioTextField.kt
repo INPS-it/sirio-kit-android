@@ -18,33 +18,41 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.guru.fontawesomecomposelib.FaIconType
 import com.guru.fontawesomecomposelib.FaIcons
 import it.inps.sirio.theme.SirioTheme
+import it.inps.sirio.ui.popover.SirioPopoverData
+import it.inps.sirio.utils.SirioIconSource
 
 /**
- * Sirio text field component
+ * A customizable text input field that adheres to the Sirio design system.
  *
- * @param text The current text field text
- * @param modifier A [Modifier] for customizing the appearance and behavior of the text field component
- * @param secureText Whether the text should be obfuscated, eg password
- * @param onValueChange The callback on text changed
- * @param placeholder The string in text field when [text] is empty
- * @param icon The FA icon [FaIcons] placed at the end of text field
- * @param iconContentDescription The content description for the icon
- * @param label The optional text on top of text field
- * @param onInfoClick The optional callback on info icon click
- * @param infoContentDescription The content description for the info icon
- * @param helperText The optional text on bottom of text field
- * @param type The semantic [TextFieldState] of text field
- * @param enabled Whether the text field can be edited by user
- * @param keyboardOptions software keyboard options that contains configuration such as [KeyboardType] and [ImeAction].
- * @param keyboardActions when the input service emits an IME action, the corresponding callback is called. Note that this IME action may be different from what you specified in [KeyboardOptions.imeAction].
- * @param onIconClick The callback on [icon] click
+ * It provides a wrapper around [SirioTextFieldCommon] and supports features like labels,
+ * helper text, icons, state management, and password masking.
+ *
+ * @param text The text to be displayed and edited in the text field.
+ * @param onValueChange A callback that is triggered when the text value changes.
+ * @param modifier The [Modifier] to be applied to the text field.
+ * @param secureText A boolean indicating whether the text should be visually masked for password entry.
+ * @param placeholder The optional text to be displayed when the text field is empty.
+ * @param icon An optional [SirioIconSource] to be displayed at the start of the text field.
+ * @param iconContentDescription The content description for the leading icon, for accessibility.
+ * @param label An optional label displayed above the text field.
+ * @param popoverData Optional data to display a [SirioPopover] next to the label for providing extra information.
+ * @param helperText Optional descriptive text displayed below the text field.
+ * @param type The current state of the text field, such as [TextFieldState.Alert] or [TextFieldState.Success].
+ * @param enabled A boolean indicating whether the text field is enabled for user interaction.
+ * @param keyboardOptions Software keyboard options that configure the keyboard type and IME action.
+ * @param keyboardActions Callbacks to be invoked when the input service emits an IME action.
+ * @param visualTransformation A transformation to apply to the visual representation of the input text, such as [PasswordVisualTransformation].
+ * @param onIconClick An optional callback to be invoked when the leading icon is clicked.
+ * @param onTextFieldClick An optional callback to be invoked when the text field is clicked. Setting this makes the field read-only and triggers this lambda.
+ *
+ * @see SirioTextFieldCommon
+ * @see SirioPopover
+ * @see TextFieldState
  */
 @Composable
 fun SirioTextField(
@@ -53,16 +61,16 @@ fun SirioTextField(
     secureText: Boolean = false,
     onValueChange: (String) -> Unit,
     placeholder: String? = null,
-    icon: FaIconType? = null,
+    icon: SirioIconSource? = null,
     iconContentDescription: String? = null,
     label: String? = null,
-    onInfoClick: (() -> Unit)? = null,
-    infoContentDescription: String? = null,
+    popoverData: SirioPopoverData? = null,
     helperText: String? = null,
     type: TextFieldState? = null,
     enabled: Boolean = true,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
     onIconClick: (() -> Unit)? = null,
     onTextFieldClick: (() -> Unit)? = null,
 ) {
@@ -75,13 +83,13 @@ fun SirioTextField(
         icon = icon,
         iconContentDescription = iconContentDescription,
         label = label,
-        onInfoClick = onInfoClick,
-        infoContentDescription = infoContentDescription,
+        popoverData = popoverData,
         helperText = helperText,
         state = type,
         enabled = enabled,
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
+        visualTransformation = visualTransformation,
         onIconClick = onIconClick,
         onTextFieldClick = onTextFieldClick,
     )
@@ -103,8 +111,8 @@ private fun TextFieldTextInfoIconHelperTextPreview() {
                 onValueChange = {},
                 label = "Label",
                 helperText = "Helper text",
-                icon = FaIcons.CalendarDay,
-                onInfoClick = {},
+                icon = SirioIconSource.FaIcon(FaIcons.CalendarDay),
+                popoverData = SirioPopoverData(text = "Popover text"),
             )
         }
     }
@@ -126,7 +134,7 @@ private fun SemanticTextFieldTextIconHelperTextPreview() {
                 onValueChange = {},
                 label = "Label",
                 helperText = "Helper text",
-                icon = FaIcons.CalendarDay,
+                icon = SirioIconSource.FaIcon(FaIcons.CalendarDay),
                 type = TextFieldState.Alert,
             )
             SirioTextField(
@@ -134,7 +142,7 @@ private fun SemanticTextFieldTextIconHelperTextPreview() {
                 onValueChange = {},
                 label = "Label",
                 helperText = "Helper text",
-                icon = FaIcons.CalendarDay,
+                icon = SirioIconSource.FaIcon(FaIcons.CalendarDay),
                 type = TextFieldState.Warning,
             )
             SirioTextField(
@@ -142,7 +150,7 @@ private fun SemanticTextFieldTextIconHelperTextPreview() {
                 onValueChange = {},
                 label = "Label",
                 helperText = "Helper text",
-                icon = FaIcons.CalendarDay,
+                icon = SirioIconSource.FaIcon(FaIcons.CalendarDay),
                 type = TextFieldState.Success,
             )
         }
@@ -193,14 +201,14 @@ private fun TextFieldTextIconHelperTextPreview() {
                 onValueChange = {},
                 label = "Label",
                 helperText = "Helper text",
-                icon = FaIcons.CalendarDay,
+                icon = SirioIconSource.FaIcon(FaIcons.CalendarDay),
             )
             SirioTextField(
                 text = "Text",
                 onValueChange = {},
                 label = "Label",
                 helperText = "Helper text",
-                icon = FaIcons.CalendarDay,
+                icon = SirioIconSource.FaIcon(FaIcons.CalendarDay),
                 enabled = false,
             )
         }
@@ -222,13 +230,13 @@ private fun TextFieldTextIconPreview() {
                 text = "Text",
                 onValueChange = {},
                 label = "Label",
-                icon = FaIcons.CalendarDay,
+                icon = SirioIconSource.FaIcon(FaIcons.CalendarDay),
             )
             SirioTextField(
                 text = "Text",
                 onValueChange = {},
                 label = "Label",
-                icon = FaIcons.CalendarDay,
+                icon = SirioIconSource.FaIcon(FaIcons.CalendarDay),
                 enabled = false,
             )
         }
@@ -299,12 +307,12 @@ private fun TextFieldNumberPreview() {
             SirioTextField(
                 text = "0123",
                 onValueChange = {},
-                icon = FaIcons.Sort,
+                icon = SirioIconSource.FaIcon(FaIcons.Sort),
             )
             SirioTextField(
                 text = "0123",
                 onValueChange = {},
-                icon = FaIcons.Sort,
+                icon = SirioIconSource.FaIcon(FaIcons.Sort),
                 enabled = false,
             )
         }

@@ -27,7 +27,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -47,8 +47,10 @@ import it.inps.sirio.ui.tag.SirioTagCommon
 import it.inps.sirio.ui.text.SirioTextCommon
 import it.inps.sirio.utils.Border
 import it.inps.sirio.utils.SirioIcon
+import it.inps.sirio.utils.SirioIconSource
 import it.inps.sirio.utils.border
 import it.inps.sirio.utils.ifElse
+import it.inps.sirio.utils.takeTwoWords
 
 @Composable
 fun SirioMenuSpallaItem(
@@ -161,24 +163,26 @@ fun SirioMenuSpallaItem(
         ) {
             SirioTextCommon(
                 text = title,
-                modifier = Modifier.weight(1f),
+                modifier = Modifier
+                    .weight(1f)
+                    .testTag("sirioSpalla${title.takeTwoWords()}"),
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,
-                typography = SirioTheme.typography.menuSpalla.item.title,
+                typography = SirioTheme.foundationTypography.labelMdMiddle,
             )
             if (hasTag) {
                 val tagColors =
                     if (enabled) SirioTheme.colors.menuSpalla.itemPrimary.tag
                     else SirioTheme.colors.menuSpalla.itemPrimary.tagDisabled
                 SirioTagCommon(
-                    text = tagText!!,
+                    text = tagText,
                     colors = tagColors
                 )
             }
             if (hasArrow) {
                 val icon = if (selected) FaIcons.AngleUp else FaIcons.AngleDown
                 SirioIcon(
-                    faIcon = icon,
+                    icon = SirioIconSource.FaIcon(icon),
                     iconColor = LocalContentColor.current
                 )
             }
@@ -221,18 +225,6 @@ data class SirioMenuSpallaItemColors(
             content = SirioColorState.Unspecified,
             tag = SirioBaseColors.Unspecified,
             tagDisabled = SirioBaseColors.Unspecified,
-        )
-    }
-}
-
-@Keep
-data class SirioMenuSpallaItemTypography(
-    val title: TextStyle,
-) {
-    companion object {
-        @Stable
-        val Default = SirioMenuSpallaItemTypography(
-            title = TextStyle.Default,
         )
     }
 }

@@ -20,7 +20,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -32,10 +31,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import it.inps.design.ui.DemoMenuItem
 import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.ui.dialog.SirioDialog
 import it.inps.sirio.ui.dialog.SirioDialogSemantic
+import it.inps.sirio.ui.listItem.SirioListItem
 
 class DialogActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,122 +63,93 @@ fun DialogMenuDemo() {
                 .verticalScroll(rememberScrollState()),
         ) {
             var dialogType by remember { mutableStateOf(DemoDialogType.NONE) }
-//            DemoMenuItem("Dialog Action Text 2 Input + Icon") {
+//            SirioListItem("Dialog Action Text 2 Input + Icon") {
 //                dialogType = DemoDialogType.ACTION_ICON_TITLE_TEXT_2_INPUT
 //            }
-//            Divider()
-//            DemoMenuItem("Dialog Action Text 2 Input") {
+//            SirioListItem("Dialog Action Text 2 Input") {
 //                dialogType = DemoDialogType.ACTION_TITLE_TEXT_2_INPUT
 //            }
-//            Divider()
-//            DemoMenuItem("Dialog Action Text 1 Input + Icon") {
+//            SirioListItem("Dialog Action Text 1 Input + Icon") {
 //                dialogType = DemoDialogType.ACTION_ICON_TITLE_TEXT_1_INPUT
 //            }
-//            Divider()
-//            DemoMenuItem("Dialog Action Text 1 Input") {
+//            SirioListItem("Dialog Action Text 1 Input") {
 //                dialogType = DemoDialogType.ACTION_TITLE_TEXT_1_INPUT
 //            }
-//            Divider()
-//            DemoMenuItem("Dialog Action Text + Icon") {
+//            SirioListItem("Dialog Action Text + Icon") {
 //                dialogType = DemoDialogType.ACTION_ICON_TITLE_TEXT
 //            }
-//            Divider()
-//            DemoMenuItem("Dialog Action Text") {
+//            SirioListItem("Dialog Action Text") {
 //                dialogType = DemoDialogType.ACTION_TITLE_TEXT
 //            }
-//            Divider()
-//            DemoMenuItem("Dialog Action + Icon") {
+//            SirioListItem("Dialog Action + Icon") {
 //                dialogType = DemoDialogType.ACTION_ICON_TITLE
 //            }
-//            Divider()
-//            DemoMenuItem("Dialog Action") {
+//            SirioListItem("Dialog Action") {
 //                dialogType = DemoDialogType.ACTION_TITLE
 //            }
-//            Divider()
-//            DemoMenuItem("Dialog Confirm Text 2 Input + Icon") {
+//            SirioListItem("Dialog Confirm Text 2 Input + Icon") {
 //                dialogType = DemoDialogType.CONFIRM_ICON_TITLE_TEXT_2_INPUT
 //            }
-//            Divider()
-//            DemoMenuItem("Dialog Confirm Text 2 Input") {
+//            SirioListItem("Dialog Confirm Text 2 Input") {
 //                dialogType = DemoDialogType.CONFIRM_TITLE_TEXT_2_INPUT
 //            }
-//            Divider()
-//            DemoMenuItem("Dialog Confirm Text 1 Input + Icon") {
+//            SirioListItem("Dialog Confirm Text 1 Input + Icon") {
 //                dialogType = DemoDialogType.CONFIRM_ICON_TITLE_TEXT_1_INPUT
 //            }
-//            Divider()
-//            DemoMenuItem("Dialog Confirm Text 1 Input") {
+//            SirioListItem("Dialog Confirm Text 1 Input") {
 //                dialogType = DemoDialogType.CONFIRM_TITLE_TEXT_1_INPUT
 //            }
-//            Divider()
-//            DemoMenuItem("Dialog Confirm Text + Icon") {
+//            SirioListItem("Dialog Confirm Text + Icon") {
 //                dialogType = DemoDialogType.CONFIRM_ICON_TITLE_TEXT
 //            }
-//            Divider()
-//            DemoMenuItem("Dialog Confirm Text") {
+//            SirioListItem("Dialog Confirm Text") {
 //                dialogType = DemoDialogType.CONFIRM_TITLE_TEXT
 //            }
-//            Divider()
-//            DemoMenuItem("Dialog Confirm + Icon") {
+//            SirioListItem("Dialog Confirm + Icon") {
 //                dialogType = DemoDialogType.CONFIRM_ICON_TITLE
 //            }
-//            Divider()
-//            DemoMenuItem("Dialog Confirm") {
+//            SirioListItem("Dialog Confirm") {
 //                dialogType = DemoDialogType.CONFIRM_TITLE
 //            }
-//            Divider()
-//            DemoMenuItem("Dialog Passive + Icon") {
+//            SirioListItem("Dialog Passive + Icon") {
 //                dialogType = DemoDialogType.PASSIVE_ICON
 //            }
-//            Divider()
-//            DemoMenuItem("Dialog Passive") {
+//            SirioListItem("Dialog Passive") {
 //                dialogType = DemoDialogType.PASSIVE
 //            }
-//            Divider()
-//            DemoMenuItem("Dialog Alert Text + Icon") {
+//            SirioListItem("Dialog Alert Text + Icon") {
 //                dialogType = DemoDialogType.SEMANTIC_ALERT_ICON
 //            }
-//            Divider()
-//            DemoMenuItem("Dialog Alert Text") {
+//            SirioListItem("Dialog Alert Text") {
 //                dialogType = DemoDialogType.SEMANTIC_ALERT
 //            }
-//            Divider()
-//            DemoMenuItem("Dialog Warning Text + Icon") {
+//            SirioListItem("Dialog Warning Text + Icon") {
 //                dialogType = DemoDialogType.SEMANTIC_WARNING_ICON
 //            }
-//            Divider()
-//            DemoMenuItem("Dialog Warning Text") {
+//            SirioListItem("Dialog Warning Text") {
 //                dialogType = DemoDialogType.SEMANTIC_WARNING
 //            }
-//            Divider()
-            DemoMenuItem("Dialog 1") {
+            SirioListItem("Dialog 1") {
                 dialogType = DemoDialogType.ACTION_ICON_TITLE_TEXT_2_INPUT
             }
-            HorizontalDivider()
-            DemoMenuItem("Dialog 2") {
+            SirioListItem("Dialog 2") {
                 dialogType = DemoDialogType.ACTION_ICON_TITLE_TEXT_1_INPUT
             }
-            HorizontalDivider()
-            DemoMenuItem("Dialog 3") {
+            SirioListItem("Dialog 3") {
                 dialogType = DemoDialogType.ACTION_ICON_TITLE_TEXT
             }
-            HorizontalDivider()
-            DemoMenuItem("Dialog 4") {
+            SirioListItem("Dialog 4") {
                 dialogType = DemoDialogType.ACTION_ICON_TITLE
             }
-            HorizontalDivider()
-            DemoMenuItem("Dialog 5") {
+            SirioListItem("Dialog 5") {
                 dialogType = DemoDialogType.PASSIVE_ICON
             }
-            HorizontalDivider()
-            DemoMenuItem("Semantic Alert") {
+            SirioListItem("Semantic Alert") {
                 dialogType = DemoDialogType.SEMANTIC_ALERT_ICON
             }
-            HorizontalDivider()
-            DemoMenuItem("Semantic Warning") {
+            SirioListItem("Semantic Warning", showDivider = false) {
                 dialogType = DemoDialogType.SEMANTIC_WARNING_ICON
             }
-            HorizontalDivider()
             val title = "Titolo"
             val text =
                 "Lorem ipsum dolor sit amet consectetur. Amet nollis vestibulum in et ante tempor."

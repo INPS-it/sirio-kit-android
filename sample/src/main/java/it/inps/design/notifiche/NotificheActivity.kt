@@ -23,7 +23,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -43,8 +42,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import it.inps.design.ui.DemoMenuItem
 import it.inps.sirio.theme.SirioTheme
+import it.inps.sirio.ui.listItem.SirioListItem
 import it.inps.sirio.ui.notification.SirioNotificaInLinea
 import it.inps.sirio.ui.notification.SirioNotificaPagina
 import it.inps.sirio.ui.notification.SirioNotificaPaginaDialog
@@ -202,14 +201,12 @@ fun NotificheMenuDemo(navController: NavController) {
             .verticalScroll(rememberScrollState())
             .padding(0.dp, 16.dp),
     ) {
-        DemoMenuItem(NotificheDestinations.NOTIFICHE_IN_LINEA_ROUTE) {
+        SirioListItem(NotificheDestinations.NOTIFICHE_IN_LINEA_ROUTE) {
             navController.navigate(NotificheDestinations.NOTIFICHE_IN_LINEA_ROUTE)
         }
-        HorizontalDivider()
-        DemoMenuItem(NotificheDestinations.NOTIFICHE_PAGINA_ROUTE) {
+        SirioListItem(NotificheDestinations.NOTIFICHE_PAGINA_ROUTE, showDivider = false) {
             navController.navigate(NotificheDestinations.NOTIFICHE_PAGINA_ROUTE)
         }
-        HorizontalDivider()
     }
 }
 

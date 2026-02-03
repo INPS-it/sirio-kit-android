@@ -23,5 +23,6 @@ data class SirioTabBarItemData(
     val label: String,
     val icon: FaIconType,
     val badge: Boolean = false,
+    val highlighted: Boolean = false,
     val action: () -> Unit,
 )

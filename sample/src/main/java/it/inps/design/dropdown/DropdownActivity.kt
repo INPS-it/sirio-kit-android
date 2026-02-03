@@ -36,6 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.ui.dropdown.SirioDropdown
+import it.inps.sirio.ui.popover.SirioPopoverData
 
 class DropdownActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,18 +68,18 @@ fun DropdownDemoContent() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(30.dp),
         ) {
-            val values by remember { mutableStateOf(arrayOf("Value 1", "Value 2", "Value 3")) }
+            val values by remember { mutableStateOf(listOf("Value 1", "Value 2", "Value 3")) }
             var text by remember { mutableStateOf("") }
             SirioDropdown(
                 values = values,
-                text = text,
+                selectedValue = text,
                 onValueChange = { text = it },
                 placeholder = "Placeholder",
                 label = "Label",
                 helperText = "Helper text",
             )
             SirioDropdown(
-                values = emptyArray(),
+                values = emptyList(),
                 placeholder = "Placeholder",
                 onValueChange = { },
                 label = "Label",
@@ -86,16 +87,16 @@ fun DropdownDemoContent() {
                 error = false,
             )
             SirioDropdown(
-                values = emptyArray(),
-                text = "Text",
+                values = emptyList(),
+                selectedValue = "Text",
                 onValueChange = { },
                 label = "Label",
                 helperText = "Helper text",
                 error = false,
             )
             SirioDropdown(
-                values = emptyArray(),
-                text = "Text",
+                values = emptyList(),
+                selectedValue = "Text",
                 onValueChange = { },
                 label = "Label",
                 helperText = "Helper text",
@@ -103,21 +104,21 @@ fun DropdownDemoContent() {
                 enabled = false,
             )
             SirioDropdown(
-                values = emptyArray(),
-                text = "Text",
+                values = emptyList(),
+                selectedValue = "Text",
                 onValueChange = { },
                 label = "Label",
                 helperText = "Helper text",
                 error = true,
             )
             SirioDropdown(
-                values = emptyArray(),
-                text = "Text",
+                values = emptyList(),
+                selectedValue = "Text",
                 onValueChange = { },
                 label = "Label",
                 helperText = "Helper text",
                 error = false,
-                onInfoClick = {},
+                popoverData = SirioPopoverData(text = "Popover text",),
             )
         }
     }

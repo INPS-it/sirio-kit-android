@@ -73,25 +73,25 @@ private fun ChipDemoView() {
                 text = label,
                 enabled = true,
                 active = true,
-                onStateChange = {  },
+                onSelectedChange = {  },
             )
             SirioChipsSelectable(
                 text = label,
                 enabled = false,
                 active = true,
-                onStateChange = {  },
+                onSelectedChange = {  },
             )
             SirioChipsSelectable(
                 text = label,
                 enabled = true,
                 active = false,
-                onStateChange = {  },
+                onSelectedChange = {  },
             )
             SirioChipsSelectable(
                 text = label,
                 enabled = false,
                 active = false,
-                onStateChange = {  },
+                onSelectedChange = {  },
             )
         }
     }

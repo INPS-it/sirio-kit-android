@@ -20,7 +20,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -46,9 +45,12 @@ import it.inps.design.fileupload.FileUploadActivity
 import it.inps.design.filter.FilterActivity
 import it.inps.design.foundation.FoundationActivity
 import it.inps.design.hero.HeroActivity
+import it.inps.design.listitem.ListItemActivity
+import it.inps.design.loader.LoaderActivity
 import it.inps.design.menuspalla.MenuSpallaActivity
 import it.inps.design.notifiche.NotificheActivity
 import it.inps.design.pagination.PaginationActivity
+import it.inps.design.popover.PopoverActivity
 import it.inps.design.progressbar.ProgressBarActivity
 import it.inps.design.radiobutton.RadioButtonActivity
 import it.inps.design.searchbar.SearchBarActivity
@@ -61,10 +63,9 @@ import it.inps.design.table.TableActivity
 import it.inps.design.tag.TagActivity
 import it.inps.design.textarea.TextAreaActivity
 import it.inps.design.textfield.TextFieldActivity
-import it.inps.design.titlebar.TitleBarActivity
 import it.inps.design.toggle.ToggleActivity
-import it.inps.design.ui.DemoMenuItem
 import it.inps.sirio.theme.SirioTheme
+import it.inps.sirio.ui.listItem.SirioListItem
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -96,141 +97,111 @@ fun DemoContent() {
                     .padding(it)
                     .verticalScroll(rememberScrollState()),
             ) {
-                DemoMenuItem("Foundation") {
+                SirioListItem("Foundation") {
                     context.startActivity(Intent(context, FoundationActivity::class.java))
                 }
-                HorizontalDivider()
-                DemoMenuItem("Accordion") {
+                SirioListItem("Accordion") {
                     context.startActivity(Intent(context, AccordionActivity::class.java))
                 }
-                HorizontalDivider()
-                DemoMenuItem("App Navigation") {
+                SirioListItem("App Navigation") {
                     context.startActivity(Intent(context, AppNavigationActivity::class.java))
                 }
-                HorizontalDivider()
-                DemoMenuItem("Avviso") {
+                SirioListItem("Avviso") {
                     context.startActivity(Intent(context, AvvisoActivity::class.java))
                 }
-                HorizontalDivider()
-                DemoMenuItem("Buttons") {
+                SirioListItem("Buttons") {
                     context.startActivity(Intent(context, ButtonActivity::class.java))
                 }
-                HorizontalDivider()
-                DemoMenuItem("Card") {
+                SirioListItem("Card") {
                     context.startActivity(Intent(context, CardActivity::class.java))
                 }
-                HorizontalDivider()
-                DemoMenuItem("Carousel") {
+                SirioListItem("Carousel") {
                     context.startActivity(Intent(context, CarouselActivity::class.java))
                 }
-                HorizontalDivider()
-                DemoMenuItem("Checkbox") {
+                SirioListItem("Checkbox") {
                     context.startActivity(Intent(context, CheckboxActivity::class.java))
                 }
-                HorizontalDivider()
-                DemoMenuItem("Chips") {
+                SirioListItem("Chips") {
                     context.startActivity(Intent(context, ChipActivity::class.java))
                 }
-                HorizontalDivider()
-                DemoMenuItem("Dialog") {
+                SirioListItem("Dialog") {
                     context.startActivity(Intent(context, DialogActivity::class.java))
                 }
-                HorizontalDivider()
-                DemoMenuItem("Dropdown") {
+                SirioListItem("Dropdown") {
                     context.startActivity(Intent(context, DropdownActivity::class.java))
                 }
-                HorizontalDivider()
-                DemoMenuItem("Dropdown Menu") {
+                SirioListItem("Dropdown Menu") {
                     context.startActivity(Intent(context, DropdownMenuActivity::class.java))
                 }
-                HorizontalDivider()
-                DemoMenuItem(title = "Fab") {
+                SirioListItem(title = "Fab") {
                     context.startActivity(Intent(context, FabActivity::class.java))
                 }
-                HorizontalDivider()
-                DemoMenuItem("File upload") {
+                SirioListItem("File upload") {
                     context.startActivity(Intent(context, FileUploadActivity::class.java))
                 }
-                HorizontalDivider()
-                DemoMenuItem("Filtri") {
+                SirioListItem("Filtri") {
                     context.startActivity(Intent(context, FilterActivity::class.java))
                 }
-                HorizontalDivider()
-                DemoMenuItem("Hero") {
+                SirioListItem("Hero") {
                     context.startActivity(Intent(context, HeroActivity::class.java))
                 }
-                HorizontalDivider()
-                DemoMenuItem("Menu spalla") {
+                SirioListItem("List item") {
+                    context.startActivity(Intent(context, ListItemActivity::class.java))
+                }
+                SirioListItem("Loader") {
+                    context.startActivity(Intent(context, LoaderActivity::class.java))
+                }
+                SirioListItem("Menu spalla") {
                     context.startActivity(Intent(context, MenuSpallaActivity::class.java))
                 }
-                HorizontalDivider()
-                DemoMenuItem("Notifiche") {
+                SirioListItem("Notifiche") {
                     context.startActivity(Intent(context, NotificheActivity::class.java))
                 }
-                HorizontalDivider()
-                DemoMenuItem("Pagination") {
+                SirioListItem("Pagination") {
                     context.startActivity(Intent(context, PaginationActivity::class.java))
                 }
-                HorizontalDivider()
-                DemoMenuItem("Progress bar") {
+                SirioListItem("Popover") {
+                    context.startActivity(Intent(context, PopoverActivity::class.java))
+                }
+                SirioListItem("Progress bar") {
                     context.startActivity(Intent(context, ProgressBarActivity::class.java))
                 }
-                HorizontalDivider()
-                DemoMenuItem("Radio button") {
+                SirioListItem("Radio button") {
                     context.startActivity(Intent(context, RadioButtonActivity::class.java))
                 }
-                HorizontalDivider()
-                DemoMenuItem("Search Bar") {
+                SirioListItem("Search") {
                     context.startActivity(Intent(context, SearchBarActivity::class.java))
                 }
-                HorizontalDivider()
-                DemoMenuItem("Slider") {
+                SirioListItem("Slider") {
                     context.startActivity(Intent(context, SliderActivity::class.java))
                 }
-                HorizontalDivider()
-                DemoMenuItem("Step progress bar") {
+                SirioListItem("Step progress bar") {
                     context.startActivity(Intent(context, StepProgressBarActivity::class.java))
                 }
-                HorizontalDivider()
-                DemoMenuItem("Segmented controls") {
+                SirioListItem("Segmented controls") {
                     context.startActivity(Intent(context, SegmentedControlsActivity::class.java))
                 }
-                HorizontalDivider()
-                DemoMenuItem("Tab") {
+                SirioListItem("Tab") {
                     context.startActivity(Intent(context, TabActivity::class.java))
                 }
-                HorizontalDivider()
-                DemoMenuItem("Tab Bar") {
+                SirioListItem("Tab Bar") {
                     context.startActivity(Intent(context, TabBarActivity::class.java))
                 }
-                HorizontalDivider()
-                DemoMenuItem("Table") {
+                SirioListItem("Table") {
                     context.startActivity(Intent(context, TableActivity::class.java))
                 }
-                HorizontalDivider()
-                DemoMenuItem("Tag") {
+                SirioListItem("Tag") {
                     context.startActivity(Intent(context, TagActivity::class.java))
                 }
-                HorizontalDivider()
-                DemoMenuItem("TextArea") {
+                SirioListItem("TextArea") {
                     context.startActivity(Intent(context, TextAreaActivity::class.java))
                 }
-                HorizontalDivider()
-                DemoMenuItem("TextField") {
+                SirioListItem("TextField") {
                     context.startActivity(Intent(context, TextFieldActivity::class.java))
                 }
-                HorizontalDivider()
-                DemoMenuItem("TitleBar") {
-                    context.startActivity(Intent(context, TitleBarActivity::class.java))
-                }
-                HorizontalDivider()
-                DemoMenuItem("Toggle") {
+                SirioListItem("Toggle", showDivider = false) {
                     context.startActivity(Intent(context, ToggleActivity::class.java))
                 }
-//                Divider()
-//                DemoMenuItem("Demo") {
-//                    context.startActivity(Intent(context, DemoActivity::class.java))
-//                }
             }
         }
     )

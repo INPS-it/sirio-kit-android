@@ -9,121 +9,74 @@ package it.inps.sirio.ui.table
 
 import androidx.annotation.Keep
 import androidx.compose.runtime.Stable
-import com.guru.fontawesomecomposelib.FaIconType
+import androidx.compose.ui.graphics.Color
+import it.inps.sirio.foundation.FoundationColor
+import it.inps.sirio.ui.table.card.SirioTableCardColors
+import it.inps.sirio.ui.table.card.SirioTableCardSortColors
+import it.inps.sirio.ui.table.card.tableCardDarkColors
+import it.inps.sirio.ui.table.card.tableCardLightColors
+import it.inps.sirio.ui.table.card.tableCardSortDarkColors
+import it.inps.sirio.ui.table.card.tableCardSortLightColors
 import it.inps.sirio.ui.table.cell.SirioTableCellColors
-import it.inps.sirio.ui.table.cell.SirioTableCellTypography
 import it.inps.sirio.ui.table.cell.SirioTableComponentColors
+import it.inps.sirio.ui.table.cell.tableCellDarkColors
+import it.inps.sirio.ui.table.cell.tableCellLightColors
+import it.inps.sirio.ui.table.cell.tableComponentDarkColor
+import it.inps.sirio.ui.table.cell.tableComponentLightColor
 import it.inps.sirio.ui.table.drawer.SirioTableDrawerColors
-import it.inps.sirio.ui.table.drawer.SirioTableDrawerTypography
-import it.inps.sirio.ui.table.vertical.SirioTableVerticalColors
-import it.inps.sirio.ui.table.vertical.SirioTableVerticalTypography
-import it.inps.sirio.ui.tag.SirioTagType
-
-sealed class SirioTableCellType {
-    data class Header(
-        val title: String,
-        val size: SirioTableContentSize,
-        val alignment: SirioTableContentAlignment,
-        val weight: Float = 1.0f,
-        val scroll: Boolean = false,
-        val withCheckBox: Boolean = false,
-        val checked: Boolean = false,
-        val onCheckedChange: (Boolean) -> Unit = {},
-        val withSortIcon: Boolean = true,
-        val onIconClick: () -> Unit = {},
-    ) : SirioTableCellType()
-
-    data class Avatar(
-        val icon: FaIconType,
-        val title: String,
-        val subtitle: String,
-        val size: SirioTableContentSize,
-        val scroll: Boolean = false,
-    ) : SirioTableCellType()
-
-    data class Link(
-        val text: String,
-        val size: SirioTableContentSize,
-        val scroll: Boolean = false,
-        val onLinkClick: () -> Unit,
-    ) : SirioTableCellType()
-
-    data class MultiIcons(
-        val size: SirioTableContentSize,
-        val scroll: Boolean = false,
-        val iconsData: List<SirioTableIconData>,
-    ) : SirioTableCellType()
-
-    data class Number(
-        val text: String,
-        val size: SirioTableContentSize,
-        val checked: Boolean = false,
-        val scroll: Boolean = false,
-        val onCheckedChange: (Boolean) -> Unit = {},
-    ) : SirioTableCellType()
-
-    data class NumberOnly(
-        val text: String,
-        val size: SirioTableContentSize,
-        val scroll: Boolean = false,
-    ) : SirioTableCellType()
-
-    data class Tag(
-        val text: String,
-        val tagType: SirioTagType,
-        val size: SirioTableContentSize,
-        val scroll: Boolean = false,
-    ) : SirioTableCellType()
-
-    data class Text(
-        val text: String,
-        val size: SirioTableContentSize,
-        val scroll: Boolean = false,
-        val checked: Boolean = false,
-        val onCheckedChange: (Boolean) -> Unit = {},
-    ) : SirioTableCellType()
-
-    data class TextOnly(
-        val text: String,
-        val size: SirioTableContentSize,
-        val scroll: Boolean = false,
-    ) : SirioTableCellType()
-}
+import it.inps.sirio.ui.table.drawer.tableDrawerDarkColors
+import it.inps.sirio.ui.table.drawer.tableDrawerLightColors
+import it.inps.sirio.ui.table.header.SirioTableHeaderColors
+import it.inps.sirio.ui.table.header.tableHeaderDarkColors
+import it.inps.sirio.ui.table.header.tableHeaderLightColors
 
 @Keep
 data class SirioTableColors(
     val cell: SirioTableCellColors,
+    val card: SirioTableCardColors,
     val component: SirioTableComponentColors,
+    val sort: SirioTableCardSortColors,
     val drawer: SirioTableDrawerColors,
     val header: SirioTableHeaderColors,
-    val vertical: SirioTableVerticalColors,
+    val background: Color,
+    val title: Color,
+    val action: Color,
 ) {
     companion object {
         @Stable
         val Unspecified = SirioTableColors(
             cell = SirioTableCellColors.Unspecified,
+            card = SirioTableCardColors.Unspecified,
             component = SirioTableComponentColors.Unspecified,
+            sort = SirioTableCardSortColors.Unspecified,
             drawer = SirioTableDrawerColors.Unspecified,
             header = SirioTableHeaderColors.Unspecified,
-            vertical = SirioTableVerticalColors.Unspecified,
+            background = Color.Unspecified,
+            title = Color.Unspecified,
+            action = Color.Unspecified,
         )
     }
 }
 
-@Keep
-data class SirioTableTypography(
-    val cell: SirioTableCellTypography,
-    val drawer: SirioTableDrawerTypography,
-    val header: SirioTableHeaderTypography,
-    val vertical: SirioTableVerticalTypography,
-) {
-    companion object {
-        @Stable
-        val Default = SirioTableTypography(
-            cell = SirioTableCellTypography.Default,
-            drawer = SirioTableDrawerTypography.Default,
-            header = SirioTableHeaderTypography.Default,
-            vertical = SirioTableVerticalTypography.Default,
-        )
-    }
-}
+internal val tableLightColors = SirioTableColors(
+    cell = tableCellLightColors,
+    card = tableCardLightColors,
+    component = tableComponentLightColor,
+    sort = tableCardSortLightColors,
+    drawer = tableDrawerLightColors,
+    header = tableHeaderLightColors,
+    background = FoundationColor.colorAliasBackgroundColorPrimaryLight0,
+    title = FoundationColor.colorAliasTextColorPrimaryDark110,
+    action = FoundationColor.colorAliasInteractivePrimaryDefault,
+)
+internal val tableDarkColors = SirioTableColors(
+    cell = tableCellDarkColors,
+    card = tableCardDarkColors,
+    component = tableComponentDarkColor,
+    sort = tableCardSortDarkColors,
+    drawer = tableDrawerDarkColors,
+    header = tableHeaderDarkColors,
+    background = FoundationColor.colorAliasBackgroundColorPrimaryLight0,
+    title = FoundationColor.colorAliasTextColorPrimaryDark110,
+    action = FoundationColor.colorAliasInteractivePrimaryDefault,
+)

@@ -16,17 +16,17 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import it.inps.sirio.foundation.LocalSirioFoundationTypography
 import it.inps.sirio.foundation.SirioFoundationTypography
 import it.inps.sirio.foundation.foundationTypography
 import it.inps.sirio.ui.accordion.SirioAccordionColors
 import it.inps.sirio.ui.appnavigation.SirioAppNavigationColors
-import it.inps.sirio.ui.appnavigation.SirioAppNavigationTypography
 import it.inps.sirio.ui.avviso.SirioAvvisoColors
 import it.inps.sirio.ui.badge.SirioBadgeColors
-import it.inps.sirio.ui.button.ButtonLegacyColors
 import it.inps.sirio.ui.button.SirioButtonColors
 import it.inps.sirio.ui.card.SirioCardsColors
 import it.inps.sirio.ui.carousel.SirioCarouselColors
@@ -37,15 +37,13 @@ import it.inps.sirio.ui.dropdown.SirioDropdownColors
 import it.inps.sirio.ui.dropdownmenu.SirioDropdownMenuColors
 import it.inps.sirio.ui.fileupload.SirioFileUploadColors
 import it.inps.sirio.ui.filter.SirioFilterColors
-import it.inps.sirio.ui.filter.SirioFilterTypography
 import it.inps.sirio.ui.hero.SirioHeroColors
-import it.inps.sirio.ui.hero.SirioHeroTypography
+import it.inps.sirio.ui.listItem.SirioListItemColors
+import it.inps.sirio.ui.loader.SirioLoaderColors
 import it.inps.sirio.ui.menuspalla.SirioMenuSpallaColors
-import it.inps.sirio.ui.menuspalla.SirioMenuSpallaTypography
-import it.inps.sirio.ui.notification.NotificationColors
 import it.inps.sirio.ui.notification.SirioNotificaColors
-import it.inps.sirio.ui.notification.SirioNotificationTypography
 import it.inps.sirio.ui.pagination.SirioPaginationColors
+import it.inps.sirio.ui.popover.SirioPopoverColors
 import it.inps.sirio.ui.progressbar.SirioProgressBarColors
 import it.inps.sirio.ui.radiobutton.SirioRadioButtonColors
 import it.inps.sirio.ui.searchbar.SirioSearchBarColors
@@ -55,12 +53,13 @@ import it.inps.sirio.ui.stepprogressbar.SirioStepProgressBarColors
 import it.inps.sirio.ui.tab.SirioTabColors
 import it.inps.sirio.ui.tabbar.SirioTabBarColors
 import it.inps.sirio.ui.table.SirioTableColors
-import it.inps.sirio.ui.table.SirioTableTypography
 import it.inps.sirio.ui.tag.SirioTagsColors
 import it.inps.sirio.ui.textarea.SirioTextAreaColors
 import it.inps.sirio.ui.textfield.SirioTextFieldColors
-import it.inps.sirio.ui.titlebar.SirioTitleBarTypography
 import it.inps.sirio.ui.toggle.SirioToggleColors
+import kotlin.math.min
+
+private const val MAX_FONT_SCALE = 1.4f
 
 @Composable
 fun SirioTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
@@ -70,12 +69,17 @@ fun SirioTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable 
         LightColorPalette
     }
 
+    val configuration = LocalConfiguration.current
+    val clampedFontScale = min(configuration.fontScale, MAX_FONT_SCALE)
+
     CompositionLocalProvider(
         localSirioColors provides colors,
-        LocalSirioTypography provides Typography,
         LocalSirioFoundationTypography provides foundationTypography,
-//        LocalRippleConfiguration provides null,
 //        LocalSirioElevation provides Elevation,
+        LocalDensity provides Density(
+            density = LocalDensity.current.density,
+            fontScale = clampedFontScale
+        ),
         content = content
     )
 }
@@ -85,10 +89,6 @@ object SirioTheme {
         @Composable
         get() = localSirioColors.current
 
-    val typography: SirioTypography
-        @Composable
-        get() = LocalSirioTypography.current
-
     val foundationTypography: SirioFoundationTypography
         @Composable
         get() = LocalSirioFoundationTypography.current
@@ -97,25 +97,6 @@ object SirioTheme {
 //        @Composable
 //        get() = LocalSirioElevation.current
 }
-
-@Immutable
-data class SirioTypography(
-    val accordionText: TextStyle,
-    val appNavigation: SirioAppNavigationTypography,
-    val buttonText: TextStyle,
-    val dialogText: TextStyle,
-    val dialogTitle: TextStyle,
-    val filter: SirioFilterTypography,
-    val hero: SirioHeroTypography,
-    val menuSpalla: SirioMenuSpallaTypography,
-    val notification: SirioNotificationTypography,
-    val paginationTileNumber: TextStyle,
-    val table: SirioTableTypography,
-    val tabTextDefault: TextStyle,
-    val tabTextSelected: TextStyle,
-    val tagText: TextStyle,
-    val titleBar: SirioTitleBarTypography,
-)
 
 /**
  * Sirio custom Color Palette
@@ -128,7 +109,6 @@ data class SirioColors(
     val avviso: SirioAvvisoColors,
     val badge: SirioBadgeColors,
     val button: SirioButtonColors,
-    val buttonLegacy: ButtonLegacyColors,
     val card: SirioCardsColors,
     val carousel: SirioCarouselColors,
     val checkbox: SirioCheckboxColors,
@@ -146,10 +126,12 @@ data class SirioColors(
     val fileUpload: SirioFileUploadColors,
     val filter: SirioFilterColors,
     val hero: SirioHeroColors,
+    val listItem: SirioListItemColors,
+    val loader: SirioLoaderColors,
     val menuSpalla: SirioMenuSpallaColors,
     val notifica: SirioNotificaColors,
-    val notification: NotificationColors,
     val pagination: SirioPaginationColors,
+    val popover: SirioPopoverColors,
     val progressBar: SirioProgressBarColors,
     val radio: SirioRadioButtonColors,
     val searchBar: SirioSearchBarColors,
@@ -309,7 +291,6 @@ private val localSirioColors = staticCompositionLocalOf {
         avviso = SirioAvvisoColors.Unspecified,
         badge = SirioBadgeColors.Unspecified,
         button = SirioButtonColors.Unspecified,
-        buttonLegacy = ButtonLegacyColors.Unspecified,
         card = SirioCardsColors.Unspecified,
         carousel = SirioCarouselColors.Unspecified,
         checkbox = SirioCheckboxColors.Unspecified,
@@ -327,10 +308,12 @@ private val localSirioColors = staticCompositionLocalOf {
         fileUpload = SirioFileUploadColors.Unspecified,
         filter = SirioFilterColors.Unspecified,
         hero = SirioHeroColors.Unspecified,
+        listItem = SirioListItemColors.Unspecified,
+        loader = SirioLoaderColors.Unspecified,
         menuSpalla = SirioMenuSpallaColors.Unspecified,
         notifica = SirioNotificaColors.Unspecified,
-        notification = NotificationColors.Unspecified,
         pagination = SirioPaginationColors.Unspecified,
+        popover = SirioPopoverColors.Unspecified,
         progressBar = SirioProgressBarColors.Unspecified,
         radio = SirioRadioButtonColors.Unspecified,
         searchBar = SirioSearchBarColors.Unspecified,
@@ -349,35 +332,24 @@ private val localSirioColors = staticCompositionLocalOf {
     )
 }
 
-internal val LocalSirioTypography = staticCompositionLocalOf {
-    SirioTypography(
-        accordionText = TextStyle.Default,
-        appNavigation = SirioAppNavigationTypography(
-            search = TextStyle.Default,
-            searchPlaceholder = TextStyle.Default,
-            title = TextStyle.Default,
-            titleBig = TextStyle.Default,
-            avatar = TextStyle.Default,
-        ),
-        buttonText = TextStyle.Default,
-        dialogText = TextStyle.Default,
-        dialogTitle = TextStyle.Default,
-        filter = SirioFilterTypography.Default,
-        hero = SirioHeroTypography.Default,
-        menuSpalla = SirioMenuSpallaTypography.Default,
-        notification = SirioNotificationTypography.Default,
-        paginationTileNumber = TextStyle.Default,
-        table = SirioTableTypography.Default,
-        tabTextDefault = TextStyle.Default,
-        tabTextSelected = TextStyle.Default,
-        tagText = TextStyle.Default,
-        titleBar = SirioTitleBarTypography.Default,
-    )
-}
-
 val LocalSirioElevation = staticCompositionLocalOf {
     SirioElevation(
         default = Dp.Unspecified,
         pressed = Dp.Unspecified
     )
+}
+
+enum class SirioThemeMode {
+    Light,
+    Dark
+}
+
+@Composable
+internal fun SirioTheme(themeMode: SirioThemeMode?, content: @Composable () -> Unit) {
+    val darkTheme = when (themeMode) {
+        SirioThemeMode.Dark -> true
+        SirioThemeMode.Light -> false
+        null -> isSystemInDarkTheme()
+    }
+    SirioTheme(darkTheme = darkTheme, content = content)
 }

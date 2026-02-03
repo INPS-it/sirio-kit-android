@@ -8,6 +8,7 @@
 package it.inps.sirio.ui.table.cell
 
 import androidx.annotation.Keep
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -16,62 +17,62 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import it.inps.sirio.foundation.FoundationColor
 import it.inps.sirio.theme.SirioTheme
-import it.inps.sirio.theme.tableCellPaddingVerticalExtraSmall
+import it.inps.sirio.theme.SirioThemeMode
 import it.inps.sirio.theme.tableCellPaddingVerticalLarge
-import it.inps.sirio.theme.tableCellPaddingVerticalMedium
 import it.inps.sirio.theme.tableCellPaddingVerticalSmall
-import it.inps.sirio.theme.tableComponentPaddingHorizontalExtraSmall
 import it.inps.sirio.theme.tableComponentPaddingHorizontalLarge
-import it.inps.sirio.theme.tableComponentPaddingHorizontalMedium
 import it.inps.sirio.theme.tableComponentPaddingHorizontalSmall
-import it.inps.sirio.ui.table.SirioTableContentSize
+import it.inps.sirio.ui.button.SirioButtonHierarchy
+import it.inps.sirio.ui.table.SirioTableActionData
+import it.inps.sirio.ui.tag.SirioTagColor
 import it.inps.sirio.ui.text.SirioTextCommon
+import it.inps.sirio.utils.SirioIconSource
 
 @Composable
 internal fun RowScope.SirioTableCellCommon(
     size: SirioTableContentSize,
     weight: Float = 1f,
-    scroll: Boolean = false,
+    themeMode: SirioThemeMode? = null,
+    alignment: Alignment = Alignment.CenterStart,
     content: @Composable () -> Unit,
 ) {
     val verticalPadding = remember(size) {
         when (size) {
-            SirioTableContentSize.EXTRASMALL -> tableCellPaddingVerticalExtraSmall
-            SirioTableContentSize.SMALL -> tableCellPaddingVerticalSmall
-            SirioTableContentSize.MEDIUM -> tableCellPaddingVerticalMedium
-            SirioTableContentSize.LARGE -> tableCellPaddingVerticalLarge
+            SirioTableContentSize.Small -> tableCellPaddingVerticalSmall
+            SirioTableContentSize.Large -> tableCellPaddingVerticalLarge
         }
     }
     val horizontalPadding = remember(size) {
         when (size) {
-            SirioTableContentSize.EXTRASMALL -> tableComponentPaddingHorizontalExtraSmall
-            SirioTableContentSize.SMALL -> tableComponentPaddingHorizontalSmall
-            SirioTableContentSize.MEDIUM -> tableComponentPaddingHorizontalMedium
-            SirioTableContentSize.LARGE -> tableComponentPaddingHorizontalLarge
+            SirioTableContentSize.Small -> tableComponentPaddingHorizontalSmall
+            SirioTableContentSize.Large -> tableComponentPaddingHorizontalLarge
         }
     }
-    SirioTableComponentCommon(weight = weight, scroll = scroll) {
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = SirioTheme.colors.table.cell.background,
+    SirioTheme(themeMode) {
+        SirioTableComponentCommon(
+            borderColor = SirioTheme.colors.table.cell.border,
+            weight = weight,
         ) {
             Box(
-                modifier = Modifier.padding(
-                    horizontal = horizontalPadding.dp,
-                    vertical = verticalPadding.dp
-                ),
-                contentAlignment = Alignment.CenterStart,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(SirioTheme.colors.table.cell.background)
+                    .padding(
+                        horizontal = horizontalPadding.dp,
+                        vertical = verticalPadding.dp
+                    )
+                ,
+                contentAlignment = alignment,
             ) {
                 content()
             }
@@ -79,49 +80,91 @@ internal fun RowScope.SirioTableCellCommon(
     }
 }
 
+sealed class SirioTableCellType {
+    data class Header(
+        val text: String,
+        val alignment: SirioTableContentAlignment,
+        val weight: Float = 1.0f,
+        val withCheckBox: Boolean = false,
+        val checked: Boolean = false,
+        val onCheckedChange: (Boolean) -> Unit = {},
+        val sortable: Boolean = false,
+    ) : SirioTableCellType()
+
+    data class Action(
+        val icon: SirioIconSource? = null,
+        val actions: List<SirioTableActionData> = emptyList(),
+        val onClick: () -> Unit,
+    ) : SirioTableCellType()
+
+    data class Link(
+        val text: String,
+        val onLinkClick: () -> Unit,
+    ) : SirioTableCellType()
+
+    data class NumberOnly(
+        val text: String,
+    ) : SirioTableCellType()
+
+    data class Tag(
+        val text: String,
+    ) : SirioTableCellType()
+
+    data class Text(
+        val text: String,
+        val checked: Boolean = false,
+        val onCheckedChange: (Boolean) -> Unit = {},
+    ) : SirioTableCellType()
+
+    data class TextOnly(
+        val text: String,
+    ) : SirioTableCellType()
+}
+
 @Keep
 data class SirioTableCellColors(
-    val avatarSubtitle: Color,
-    val avatarTitle: Color,
+    val border: Color,
     val background: Color,
-    val icon: Color,
+    val action: SirioButtonHierarchy,
     val link: Color,
     val number: Color,
+    val tag: SirioTagColor,
     val title: Color,
 ) {
     companion object {
         @Stable
         val Unspecified = SirioTableCellColors(
-            avatarSubtitle = Color.Unspecified,
-            avatarTitle = Color.Unspecified,
             background = Color.Unspecified,
-            icon = Color.Unspecified,
+            border = Color.Unspecified,
+            action = SirioButtonHierarchy.GhostLight,
             link = Color.Unspecified,
             number = Color.Unspecified,
+            tag = SirioTagColor.Light,
             title = Color.Unspecified,
         )
     }
 }
 
-@Keep
-data class SirioTableCellTypography(
-    val text: TextStyle,
-    val number: TextStyle,
-    val link: TextStyle,
-    val avatarTitle: TextStyle,
-    val avatarSubtitle: TextStyle,
-) {
-    companion object {
-        @Stable
-        val Default = SirioTableCellTypography(
-            text = TextStyle.Default,
-            number = TextStyle.Default,
-            link = TextStyle.Default,
-            avatarTitle = TextStyle.Default,
-            avatarSubtitle = TextStyle.Default,
-        )
-    }
-}
+internal val tableCellLightColors = SirioTableCellColors(
+    background = FoundationColor.colorAliasBackgroundColorPrimaryLight0,
+    border = FoundationColor.colorAliasBackgroundColorPrimaryLight50,
+    action = SirioButtonHierarchy.GhostLight,
+    link = FoundationColor.colorAliasInteractivePrimaryDefault,
+    number = FoundationColor.colorAliasTextColorSecondaryDark100,
+    tag = SirioTagColor.Light,
+    title = FoundationColor.colorSpecificDataEntryLabelColorDefault,
+)
+
+internal val tableCellDarkColors = SirioTableCellColors(
+    background = FoundationColor.colorAliasBackgroundColorPrimaryLight40,
+    border = FoundationColor.colorAliasBackgroundColorPrimaryLight50,
+    action = SirioButtonHierarchy.GhostLight,
+    link = FoundationColor.colorAliasInteractivePrimaryDefault,
+    number = FoundationColor.colorAliasTextColorSecondaryDark100,
+    tag = SirioTagColor.Light,
+    title = FoundationColor.colorSpecificDataEntryLabelColorDefault,
+)
+
 
 @Preview
 @Composable
@@ -130,16 +173,13 @@ private fun SirioTableCellCommonPreview() {
         Column {
             Row(Modifier.height(IntrinsicSize.Max)) {
                 SirioTableCellCommon(
-                    size = SirioTableContentSize.LARGE,
+                    size = SirioTableContentSize.Large,
                 ) {
                     SirioTextCommon(text = "Test", Modifier.weight(1f))
                 }
             }
             Row(Modifier.height(IntrinsicSize.Max)) {
-                SirioTableCellCommon(
-                    size = SirioTableContentSize.LARGE,
-                    scroll = true
-                ) {
+                SirioTableCellCommon(size = SirioTableContentSize.Large) {
                     SirioTextCommon(text = "Test")
                 }
             }

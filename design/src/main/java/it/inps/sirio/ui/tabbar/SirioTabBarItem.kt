@@ -8,8 +8,10 @@
 
 package it.inps.sirio.ui.tabbar
 
+import androidx.annotation.Keep
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
@@ -18,37 +20,49 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.guru.fontawesomecomposelib.FaIcons
 import it.inps.sirio.foundation.FoundationColor
-import it.inps.sirio.theme.SirioBaseStateColors
 import it.inps.sirio.theme.SirioColorState
 import it.inps.sirio.theme.SirioTheme
-import it.inps.sirio.theme.tabBarItemHorizontalContentPaddingBottom
-import it.inps.sirio.theme.tabBarItemHorizontalContentPaddingTop
-import it.inps.sirio.theme.tabBarItemHorizontalPaddingBottom
-import it.inps.sirio.theme.tabBarItemHorizontalSpacing
+import it.inps.sirio.theme.tabBarItemIconContainerSize
 import it.inps.sirio.theme.tabBarItemIconSize
 import it.inps.sirio.theme.tabBarItemPaddingHorizontal
 import it.inps.sirio.theme.tabBarItemPaddingTop
 import it.inps.sirio.theme.tabBarItemStateIndicatorHeight
-import it.inps.sirio.theme.tabBarItemVerticalPaddingBottom
-import it.inps.sirio.theme.tabBarItemVerticalSpacing
 import it.inps.sirio.ui.badge.SirioBadgeBox
 import it.inps.sirio.ui.text.SirioText
 import it.inps.sirio.utils.SirioIcon
 import it.inps.sirio.utils.SirioIconSource
+import it.inps.sirio.utils.ifElse
+import it.inps.sirio.utils.takeTwoWords
 
+/**
+ * Displays a single item inside a Sirio Tab Bar.
+ *
+ * The item shows an icon with optional badge and highlight, a text label and
+ * a visual indicator for the selected state. The entire item is clickable
+ * and evenly distributed inside the tab bar row.
+ *
+ * @param selected Whether this tab item is currently selected.
+ * @param tabItem Data model describing the tab item content and behavior.
+ */
 @Composable
-internal fun RowScope.SirioTabBarItemVertical(
+internal fun RowScope.SirioTabBarItem(
     selected: Boolean,
     tabItem: SirioTabBarItemData,
 ) {
@@ -56,8 +70,9 @@ internal fun RowScope.SirioTabBarItemVertical(
         onClick = tabItem.action,
         modifier = Modifier
             .width(intrinsicSize = IntrinsicSize.Max)
-            .weight(1f),
-        color = SirioTheme.colors.tabBar.item.container.get(pressed = selected),
+            .weight(1f)
+            .testTag("SirioTabBar${tabItem.label.takeTwoWords()}"),
+        color = SirioTheme.colors.tabBar.item.container,
         contentColor = SirioTheme.colors.tabBar.item.content.get(pressed = selected),
     ) {
         Column(
@@ -70,75 +85,36 @@ internal fun RowScope.SirioTabBarItemVertical(
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Spacer(modifier = Modifier.height(tabBarItemPaddingTop.dp))
-                SirioBadgeBox(hasBadge = tabItem.badge) {
-                    SirioIcon(
-                        icon = SirioIconSource.FaIcon(tabItem.icon),
-                        size = tabBarItemIconSize.dp,
-                        iconColor = LocalContentColor.current
-                    )
+                SirioTabBarIconContainer(tabItem.highlighted) {
+                    SirioBadgeBox(hasBadge = tabItem.badge) {
+                        SirioIcon(
+                            icon = SirioIconSource.FaIcon(tabItem.icon),
+                            size = tabBarItemIconSize.dp,
+                            iconColor = LocalContentColor.current,
+                        )
+                    }
                 }
-                Spacer(modifier = Modifier.height(tabBarItemVerticalSpacing.dp))
                 SirioText(
                     text = tabItem.label,
                     color = LocalContentColor.current,
-                    overflow = TextOverflow.Ellipsis,
-                    maxLines = 1,
-                    typography = SirioTheme.foundationTypography.tabbarLabelXsRegular,
-                )
-                Spacer(modifier = Modifier.height(tabBarItemVerticalPaddingBottom.dp))
-            }
-        }
-    }
-}
-
-@Composable
-internal fun SirioTabBarItemHorizontal(
-    selected: Boolean,
-    tabItem: SirioTabBarItemData,
-) {
-    Surface(
-        onClick = tabItem.action,
-        modifier = Modifier.width(intrinsicSize = IntrinsicSize.Max),
-        color = SirioTheme.colors.tabBar.item.container.get(pressed = selected),
-        contentColor = SirioTheme.colors.tabBar.item.content.get(pressed = selected),
-    ) {
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            SirioTabBarStateIndicator(selected)
-            Spacer(modifier = Modifier.height(tabBarItemPaddingTop.dp))
-            Row(
-                modifier = Modifier
-                    .padding(horizontal = tabBarItemPaddingHorizontal.dp)
-                    .padding(
-                        top = tabBarItemHorizontalContentPaddingTop.dp,
-                        bottom = tabBarItemHorizontalContentPaddingBottom.dp,
-                    ),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                SirioBadgeBox(hasBadge = tabItem.badge) {
-                    SirioIcon(
-                        icon = SirioIconSource.FaIcon(tabItem.icon),
-                        size = tabBarItemIconSize.dp,
-                        iconColor = LocalContentColor.current
-                    )
-                }
-                Spacer(modifier = Modifier.width(tabBarItemHorizontalSpacing.dp))
-                SirioText(
-                    text = tabItem.label,
-                    color = LocalContentColor.current,
+                    textAlign = TextAlign.Center,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,
                     typography = SirioTheme.foundationTypography.tabbarLabelXsRegular,
                 )
             }
-            Spacer(modifier = Modifier.height(tabBarItemHorizontalPaddingBottom.dp))
         }
     }
 }
 
-
+/**
+ * Visual indicator displayed at the top of a tab bar item when selected.
+ *
+ * When the item is not selected, an empty spacer is used to preserve layout
+ * consistency across tab items.
+ *
+ * @param selected Whether the tab item is currently selected.
+ */
 @Composable
 private fun SirioTabBarStateIndicator(selected: Boolean) {
     if (selected) {
@@ -153,10 +129,58 @@ private fun SirioTabBarStateIndicator(selected: Boolean) {
     }
 }
 
-internal val tabBarItemLightColors = SirioBaseStateColors(
-    container = SirioColorState.all(FoundationColor.colorAliasBackgroundColorPrimaryLight0),
+/**
+ * Container for a tab bar icon with optional highlighted background.
+ *
+ * The icon is centered inside a fixed-size container. When [highlighted] is
+ * true, a circular background is applied behind the icon.
+ *
+ * This composable is used as a lightweight layout wrapper for icon content.
+ *
+ * @param highlighted Whether the icon container should be visually highlighted.
+ * @param content Slot used to emit the icon and optional decorations.
+ */
+@Composable
+private inline fun SirioTabBarIconContainer(
+    highlighted: Boolean,
+    content: @Composable BoxScope.() -> Unit,
+) {
+    Box(
+        modifier = Modifier
+            .size(tabBarItemIconContainerSize.dp)
+            .ifElse(
+                condition = highlighted,
+                ifTrueModifier = Modifier.background(
+                    color = SirioTheme.colors.tabBar.item.highlighted,
+                    shape = CircleShape,
+                ),
+            ),
+        contentAlignment = Alignment.Center,
+        content = content,
+    )
+}
+
+@Keep
+data class SirioTabBarItemColors(
+    val container: Color,
+    val highlighted: Color,
+    val content: SirioColorState,
+) {
+    companion object {
+        @Stable
+        val Unspecified = SirioTabBarItemColors(
+            container = Color.Unspecified,
+            highlighted = Color.Unspecified,
+            content = SirioColorState.Unspecified,
+        )
+    }
+}
+
+internal val tabBarItemLightColors = SirioTabBarItemColors(
+    container = FoundationColor.colorAliasBackgroundColorPrimaryLight0,
+    highlighted = FoundationColor.colorAliasBackgroundColorPrimaryLight40,
     content = SirioColorState(
-        FoundationColor.colorAliasAppInteractiveSecondaryDefault,
+        default = FoundationColor.colorAliasAppInteractiveSecondaryDefault,
         pressed = FoundationColor.colorAliasAppInteractivePrimaryActive,
     ),
 )
@@ -165,10 +189,10 @@ internal val tabBarItemDarkColors = tabBarItemLightColors
 
 @Preview
 @Composable
-private fun SirioTabBarItemVerticalPreview() {
+private fun SirioTabBarItemPreview() {
     SirioTheme {
         Row {
-            SirioTabBarItemVertical(
+            SirioTabBarItem(
                 selected = false,
                 tabItem = SirioTabBarItemData(
                     label = "Home",
@@ -177,7 +201,7 @@ private fun SirioTabBarItemVerticalPreview() {
                     action = {},
                 ),
             )
-            SirioTabBarItemVertical(
+            SirioTabBarItem(
                 selected = true,
                 tabItem = SirioTabBarItemData(
                     label = "Home",
@@ -186,7 +210,7 @@ private fun SirioTabBarItemVerticalPreview() {
                     action = {},
                 ),
             )
-            SirioTabBarItemVertical(
+            SirioTabBarItem(
                 selected = false,
                 tabItem = SirioTabBarItemData(
                     label = "Notifiche",
@@ -195,7 +219,7 @@ private fun SirioTabBarItemVerticalPreview() {
                     action = {},
                 ),
             )
-            SirioTabBarItemVertical(
+            SirioTabBarItem(
                 selected = true,
                 tabItem = SirioTabBarItemData(
                     label = "Notifiche",
@@ -204,48 +228,21 @@ private fun SirioTabBarItemVerticalPreview() {
                     action = {},
                 ),
             )
-        }
-    }
-}
-
-@Preview
-@Composable
-private fun SirioTabBarItemHorizontalPreview() {
-    SirioTheme {
-        Row {
-            SirioTabBarItemHorizontal(
+            SirioTabBarItem(
                 selected = false,
                 tabItem = SirioTabBarItemData(
-                    label = "Home",
-                    icon = FaIcons.Home,
-                    badge = false,
+                    label = "Servizi",
+                    icon = FaIcons.GripHorizontal,
+                    highlighted = true,
                     action = {},
                 ),
             )
-            SirioTabBarItemHorizontal(
+            SirioTabBarItem(
                 selected = true,
                 tabItem = SirioTabBarItemData(
-                    label = "Home",
-                    icon = FaIcons.Home,
-                    badge = false,
-                    action = {},
-                ),
-            )
-            SirioTabBarItemHorizontal(
-                selected = false,
-                tabItem = SirioTabBarItemData(
-                    label = "Notifiche",
-                    icon = FaIcons.Bell,
-                    badge = true,
-                    action = {},
-                ),
-            )
-            SirioTabBarItemHorizontal(
-                selected = true,
-                tabItem = SirioTabBarItemData(
-                    label = "Notifiche",
-                    icon = FaIcons.Bell,
-                    badge = true,
+                    label = "Servizi",
+                    icon = FaIcons.GripHorizontal,
+                    highlighted = true,
                     action = {},
                 ),
             )

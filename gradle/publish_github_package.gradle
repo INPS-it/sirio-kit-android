@@ -1,16 +1,10 @@
-buildscript {
-    repositories {
-        jcenter()
-    }
-}
-
 apply plugin: 'maven-publish'
 
 afterEvaluate { project ->
     publishing {
         repositories {
             maven {
-                url = "https://maven.pkg.github.com/" + GITHUB_OWNER + "/" + GITHUB_REPOSITORY
+                url = "https://maven.pkg.github.com/${GITHUB_OWNER}/${GITHUB_REPOSITORY}"
                 credentials {
                     username = GITHUB_USER
                     password = GITHUB_TOKEN
@@ -20,9 +14,14 @@ afterEvaluate { project ->
         publications {
             release(MavenPublication) {
                 from components.release
+
                 groupId LIBRARY_GROUP
                 version LIBRARY_VERSION
                 artifactId LIBRARY_ARTIFACT
+
+                artifact(tasks.named("androidSourcesJar"))
+                artifact(tasks.named("androidJavadocJar"))
+
                 setPomConfiguration(pom)
             }
         }

@@ -9,159 +9,126 @@
 package it.inps.sirio.ui.carousel
 
 import androidx.annotation.Keep
-import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.guru.fontawesomecomposelib.FaIconType
 import com.guru.fontawesomecomposelib.FaIcons
+import it.inps.sirio.foundation.FoundationColor
 import it.inps.sirio.theme.SirioTheme
-import it.inps.sirio.theme.carouselContentPaddingHorizontal
-import it.inps.sirio.theme.carouselIndicatorPaddingInner
-import it.inps.sirio.theme.carouselIndicatorPaddingIntra
-import it.inps.sirio.theme.carouselIndicatorSize
+import it.inps.sirio.theme.SirioThemeMode
 import it.inps.sirio.theme.carouselPaddingBottom
-import it.inps.sirio.theme.carouselPaddingIntra
+import it.inps.sirio.theme.carouselPaddingPagination
 import it.inps.sirio.theme.carouselPaddingTop
+import it.inps.sirio.theme.carouselPagePartialView
 import it.inps.sirio.theme.carouselPageSpacing
 import it.inps.sirio.ui.card.SirioProcessCard
 import it.inps.sirio.ui.card.SirioProcessCardItemData
-import kotlinx.coroutines.launch
+import it.inps.sirio.ui.card.SirioProcessCardType
 
 /**
  * A Composable function that renders a carousel with the provided items
  *
  * @param items A list of items to be displayed in the carousel.
  * @param index The index of the initially selected item. Default is 0.
- * @param background The background style for the carousel.
+ * @param themeMode The theme mode for the component, Light or Dark.
  * @param key a stable and unique key representing the item. When you specify the key the scroll
  * position will be maintained based on the key, which means if you add/remove items before the
- * current visible item the item with the given key will be kept as the first visible one. @see [HorizontalPager]
+ * current visible item the item with the given key will be kept as the first visible one.
  * @param content The Composable function to render each item in the carousel.
  */
 @Composable
 internal fun <T> SirioCarouselCommon(
     items: List<T>,
     index: Int = 0,
-    background: SirioCarouselBackground,
+    themeMode: SirioThemeMode? = null,
     key: ((index: Int) -> Any)? = null,
     content: @Composable (T) -> Unit,
 ) {
-    val backgroundColor = when (background) {
-        SirioCarouselBackground.LIGHT -> SirioTheme.colors.carousel.backgroundLight
-        SirioCarouselBackground.MEDIUM -> SirioTheme.colors.carousel.backgroundMedium
-    }
-    Column(
-        Modifier
-            .background(backgroundColor)
-            .padding(top = carouselPaddingTop.dp, bottom = carouselPaddingBottom.dp),
-    ) {
-        val coroutineScope = rememberCoroutineScope()
-        val pagerState = rememberPagerState(
-            initialPage = index,
-            initialPageOffsetFraction = 0f,
-            pageCount = { items.size }
-        )
-        HorizontalPager(
-            state = pagerState,
-            contentPadding = PaddingValues(horizontal = carouselContentPaddingHorizontal.dp),
-            key = key,
-            pageSpacing = carouselPageSpacing.dp,
-        ) { content(items[it]) }
-        Spacer(modifier = Modifier.height(carouselPaddingIntra.dp))
-        SirioCarouselIndicator(pagerState) {
-            coroutineScope.launch { pagerState.animateScrollToPage(it) }
-        }
-    }
-}
-
-@Composable
-private fun SirioCarouselIndicator(pagerState: PagerState, onIndexClick: (Int) -> Unit) {
-    Row(
-        Modifier
-            .wrapContentHeight()
-            .fillMaxWidth()
-            .padding(bottom = 8.dp),
-        horizontalArrangement = Arrangement.spacedBy(
-            carouselIndicatorPaddingIntra.dp,
-            Alignment.CenterHorizontally,
-        ),
-    ) {
-        repeat(pagerState.pageCount) { iteration ->
-            val (color, width) =
-                if (pagerState.currentPage == iteration) {
-                    Pair(
-                        SirioTheme.colors.carousel.indicator.dotSelected,
-                        2 * carouselIndicatorSize,
-                    )
-                } else {
-                    Pair(SirioTheme.colors.carousel.indicator.dotUnselected, carouselIndicatorSize)
-                }
-            Box(
-                modifier = Modifier
-                    .clickable { onIndexClick(iteration) }
-                    .padding(carouselIndicatorPaddingInner.dp)
-                    .clip(CircleShape)
-                    .background(color)
-                    .animateContentSize()
-                    .size(height = carouselIndicatorSize.dp, width = width.dp)
+    SirioTheme(themeMode = themeMode) {
+        Column(
+            modifier = Modifier
+                .background(SirioTheme.colors.carousel.background)
+                .padding(top = carouselPaddingTop.dp, bottom = carouselPaddingBottom.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            val pagerState = rememberPagerState(
+                initialPage = index,
+                initialPageOffsetFraction = 0f,
+                pageCount = { items.size }
             )
+            val contentPadding by remember {
+                derivedStateOf {
+                    when (pagerState.currentPage) {
+                        0 -> PaddingValues(
+                            start = carouselPageSpacing.dp,
+                            end = (2 * carouselPagePartialView + carouselPageSpacing).dp,
+                        )
+
+                        pagerState.pageCount - 1 -> PaddingValues(
+                            start = (2 * carouselPagePartialView + carouselPageSpacing).dp,
+                            end = carouselPageSpacing.dp,
+                        )
+
+                        else -> PaddingValues(
+                            horizontal = (carouselPageSpacing + carouselPagePartialView).dp
+                        )
+                    }
+                }
+            }
+            HorizontalPager(
+                modifier = Modifier.testTag("carousel"),
+                state = pagerState,
+                contentPadding =
+                    contentPadding,
+                pageSpacing = carouselPageSpacing.dp,
+                key = key,
+            ) { content(items[it]) }
+            Spacer(modifier = Modifier.height(carouselPaddingPagination.dp))
+            SirioCarouselPagination(pagerState)
         }
     }
 }
 
 @Keep
 data class SirioCarouselColors(
-    val indicator: SirioCarouselIndicatorColors,
-    val backgroundLight: Color,
-    val backgroundMedium: Color,
+    val item: SirioCarouselItemColors,
+    val background: Color,
 ) {
     companion object {
         @Stable
         val Unspecified = SirioCarouselColors(
-            indicator = SirioCarouselIndicatorColors.Unspecified,
-            backgroundLight = Color.Unspecified,
-            backgroundMedium = Color.Unspecified,
+            item = SirioCarouselItemColors.Unspecified,
+            background = Color.Unspecified,
         )
     }
 }
 
-@Keep
-data class SirioCarouselIndicatorColors(
-    val dotUnselected: Color,
-    val dotSelected: Color,
-) {
-    companion object {
-        @Stable
-        val Unspecified = SirioCarouselIndicatorColors(
-            dotUnselected = Color.Unspecified,
-            dotSelected = Color.Unspecified,
-        )
-    }
-}
+val carouselLightColors = SirioCarouselColors(
+    item = carouselItemLightColors,
+    background = FoundationColor.colorAliasBackgroundColorPrimaryLight0,
+)
+
+val carouselDarkColors = SirioCarouselColors(
+    item = carouselItemDarkColors,
+    background = FoundationColor.colorAliasBackgroundColorPrimaryLight0,
+)
 
 @Preview(showSystemUi = true)
 @Composable
@@ -212,15 +179,17 @@ private fun SirioCarouselCommonPreview() {
     SirioTheme {
         SirioCarouselCommon(
             items = samples,
-            index = 0,
-            background = SirioCarouselBackground.MEDIUM,
+            index = 1,
+            themeMode = SirioThemeMode.Light,
         ) { sample ->
             SirioProcessCard(
-                modifier = Modifier.height(300.dp),
                 title = sample.title,
+                type = SirioProcessCardType.Standard(
+                    firstAction = SirioProcessCardItemData(text = sample.button, action = {}),
+                ),
+                modifier = Modifier.height(300.dp),
                 subtitle = sample.subtitle,
                 text = sample.text,
-                firstAction = SirioProcessCardItemData(text = sample.button, action = {}),
                 onClickCard = {},
             )
         }

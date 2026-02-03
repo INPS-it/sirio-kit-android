@@ -45,11 +45,9 @@ class HeroActivity : ComponentActivity() {
     }
 }
 
-const val heroTitleValue = "Titolo Hero"
+const val heroTitleValue = "Titolo"
 const val heroSubtitleValue = "Sottotitolo"
-const val heroTextValue =
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-const val heroButtonText = "Text"
+const val heroLinkValue = "Link"
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -74,18 +72,14 @@ fun HeroDemoContent() {
         ) {
             SirioHero(
                 title = heroTitleValue,
-                text = heroTextValue,
-                imageUrl = "https://www.inps.it/content/dam/inps-site/immagini/lavoro/INPS_congedi_EX%2001.svg",
+                link = heroLinkValue,
                 subtitle = heroSubtitleValue,
-                buttonText = heroButtonText,
-                onHeroClick = {},
-                onButtonClick = {}
             )
         }
     }
 }
 
-@Preview(showBackground = true, heightDp = 1000)
+@Preview(showBackground = true)
 @Composable
 private fun HeroActivityPreview() {
     SirioTheme {

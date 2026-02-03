@@ -27,7 +27,6 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -48,12 +47,12 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.guru.fontawesomecomposelib.FaIcons
-import it.inps.design.ui.DemoMenuItem
 import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.ui.accordion.SirioAccordion
 import it.inps.sirio.ui.accordion.SirioAccordionColor
 import it.inps.sirio.ui.accordion.SirioAccordionData
 import it.inps.sirio.ui.accordion.SirioAccordionGroup
+import it.inps.sirio.ui.listItem.SirioListItem
 import it.inps.sirio.utils.SirioIconSource
 
 class AccordionActivity : ComponentActivity() {
@@ -99,11 +98,10 @@ fun AccordionMenuDemo(navController: NavController) {
         modifier = Modifier
             .padding(0.dp, 16.dp),
     ) {
-        DemoMenuItem("Accordion") {
+        SirioListItem("Accordion") {
             navController.navigate(AccordionDestinations.ACCORDION_ROUTE)
         }
-        HorizontalDivider()
-        DemoMenuItem("Accordion Group") {
+        SirioListItem("Accordion Group", showDivider = false) {
             navController.navigate(AccordionDestinations.ACCORDION_GROUP_ROUTE)
         }
     }
@@ -147,7 +145,6 @@ fun AccordionNavDemoContent(color: SirioAccordionColor) {
             data = SirioAccordionData.Default(
                 title = "Accordion title #1",
                 open = isOpen1,
-                enabled = true,
                 onTapAccordion = { isOpen1 = it },
             ) { Text(text = content) },
             color = color,
@@ -158,7 +155,6 @@ fun AccordionNavDemoContent(color: SirioAccordionColor) {
                 title = "Accordion title #2",
                 icon = SirioIconSource.FaIcon(FaIcons.Cube),
                 open = isOpen2,
-                enabled = true,
                 onTapAccordion = { isOpen2 = it },
             ) { Text(text = content) },
             color = color,
@@ -169,7 +165,6 @@ fun AccordionNavDemoContent(color: SirioAccordionColor) {
                 title = "Accordion title #3",
                 text = "Text",
                 open = isOpen3,
-                enabled = true,
                 onTapAccordion = { isOpen3 = it },
             ) { Text(text = content) },
             color = color,
@@ -180,21 +175,11 @@ fun AccordionNavDemoContent(color: SirioAccordionColor) {
                 title = "Accordion title #4",
                 tag = "Tag",
                 open = isOpen4,
-                enabled = true,
                 onTapAccordion = { isOpen4 = it },
             ) { Text(text = content) },
             color = color,
         )
         Spacer(modifier = Modifier.height(8.dp))
-        SirioAccordion(
-            data = SirioAccordionData.Default(
-                title = "Accordion title #5",
-                open = isOpen5,
-                enabled = false,
-                onTapAccordion = { isOpen5 = it }
-            ) { Text(text = content) },
-            color = color,
-        )
     }
 }
 
@@ -228,20 +213,17 @@ fun AccordionGroupNavDemoContent(color: SirioAccordionColor) {
                 SirioAccordionData.Default(
                     title = "Accordion title #1",
                     open = isOpen11,
-                    enabled = true,
                     onTapAccordion = { isOpen11 = it },
                     content = { Text(text = content) }
                 ),
                 SirioAccordionData.Default(
                     title = "Accordion title #2",
                     open = isOpen12,
-                    enabled = true,
                     onTapAccordion = { isOpen12 = it }
                 ) { Text(text = content) },
                 SirioAccordionData.Default(
                     title = "Accordion title #3",
                     open = isOpen13,
-                    enabled = true,
                     onTapAccordion = { isOpen13 = it }
                 ) { Text(text = content) }
             ),
@@ -253,7 +235,6 @@ fun AccordionGroupNavDemoContent(color: SirioAccordionColor) {
                     title = "Accordion title #1",
                     icon = SirioIconSource.FaIcon(FaIcons.Cube),
                     open = isOpen21,
-                    enabled = true,
                     onTapAccordion = { isOpen21 = it },
                     content = { Text(text = content) }
                 ),
@@ -261,14 +242,12 @@ fun AccordionGroupNavDemoContent(color: SirioAccordionColor) {
                     title = "Accordion title #2",
                     icon = SirioIconSource.FaIcon(FaIcons.Cube),
                     open = isOpen22,
-                    enabled = true,
                     onTapAccordion = { isOpen22 = it }
                 ) { Text(text = content) },
                 SirioAccordionData.WithIcon(
                     title = "Accordion title #3",
                     icon = SirioIconSource.FaIcon(FaIcons.Cube),
                     open = isOpen23,
-                    enabled = true,
                     onTapAccordion = { isOpen23 = it }
                 ) { Text(text = content) }
             ),
@@ -280,7 +259,6 @@ fun AccordionGroupNavDemoContent(color: SirioAccordionColor) {
                     title = "Accordion title #1",
                     text = "Text",
                     open = isOpen31,
-                    enabled = true,
                     onTapAccordion = { isOpen31 = it },
                     content = { Text(text = content) }
                 ),
@@ -288,14 +266,12 @@ fun AccordionGroupNavDemoContent(color: SirioAccordionColor) {
                     title = "Accordion title #2",
                     text = "Text",
                     open = isOpen32,
-                    enabled = true,
                     onTapAccordion = { isOpen32 = it }
                 ) { Text(text = content) },
                 SirioAccordionData.WithText(
                     title = "Accordion title #3",
                     text = "Text",
                     open = isOpen33,
-                    enabled = true,
                     onTapAccordion = { isOpen33 = it }
                 ) { Text(text = content) }
             ),
@@ -307,7 +283,6 @@ fun AccordionGroupNavDemoContent(color: SirioAccordionColor) {
                     title = "Accordion title #1",
                     tag = "Tag",
                     open = isOpen41,
-                    enabled = true,
                     onTapAccordion = { isOpen41 = it },
                     content = { Text(text = content) }
                 ),
@@ -315,39 +290,13 @@ fun AccordionGroupNavDemoContent(color: SirioAccordionColor) {
                     title = "Accordion title #2",
                     tag = "Tag",
                     open = isOpen42,
-                    enabled = true,
                     onTapAccordion = { isOpen42 = it }
                 ) { Text(text = content) },
                 SirioAccordionData.WithTag(
                     title = "Accordion title #3",
                     tag = "Tag",
                     open = isOpen43,
-                    enabled = true,
                     onTapAccordion = { isOpen43 = it }
-                ) { Text(text = content) }
-            ),
-            color = color,
-        )
-        SirioAccordionGroup(
-            data = listOf(
-                SirioAccordionData.Default(
-                    title = "Accordion title #1",
-                    open = isOpen51,
-                    enabled = false,
-                    onTapAccordion = { isOpen51 = it },
-                    content = { Text(text = content) }
-                ),
-                SirioAccordionData.Default(
-                    title = "Accordion title #2",
-                    open = isOpen52,
-                    enabled = false,
-                    onTapAccordion = { isOpen52 = it }
-                ) { Text(text = content) },
-                SirioAccordionData.Default(
-                    title = "Accordion title #3",
-                    open = isOpen53,
-                    enabled = false,
-                    onTapAccordion = { isOpen53 = it }
                 ) { Text(text = content) }
             ),
             color = color,
@@ -369,43 +318,25 @@ fun AccordionDemoContent() {
         SirioAccordionData.Default(
             title = "Accordion Item #1",
             open = isOpen1,
-            enabled = true,
             onTapAccordion = { isOpen1 = it },
             content = { Text(text = content) }
         ),
         SirioAccordionData.Default(
             title = "Accordion Item #2",
             open = isOpen2,
-            enabled = true,
             onTapAccordion = { isOpen2 = it },
             content = { Text(text = content) }
         ),
         SirioAccordionData.Default(
             title = "Accordion Item #3",
             open = isOpen3,
-            enabled = true,
             onTapAccordion = { isOpen3 = it },
             content = { Text(text = content) }
         ),
         SirioAccordionData.Default(
             title = "Accordion Item #4",
             open = isOpen4,
-            enabled = true,
             onTapAccordion = { isOpen4 = it },
-            content = { Text(text = content) }
-        ),
-        SirioAccordionData.Default(
-            title = "Accordion Item #5",
-            open = isOpen5,
-            enabled = false,
-            onTapAccordion = { isOpen5 = it },
-            content = { Text(text = content) }
-        ),
-        SirioAccordionData.Default(
-            title = "Accordion Item #6",
-            open = isOpen6,
-            enabled = false,
-            onTapAccordion = { isOpen6 = it },
             content = { Text(text = content) }
         ),
     )

@@ -7,6 +7,8 @@
 //
 package it.inps.sirio.ui.table
 
+import it.inps.sirio.ui.table.cell.SirioTableCellType
+
 data class SirioTableRowData(
     val cells: List<SirioTableCellType>,
 )

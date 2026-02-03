@@ -26,7 +26,6 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -44,7 +43,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.guru.fontawesomecomposelib.FaIcons
-import it.inps.design.ui.DemoMenuItem
 import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.ui.button.SirioButton
 import it.inps.sirio.ui.button.SirioButtonHierarchy
@@ -53,6 +51,7 @@ import it.inps.sirio.ui.dropdownmenu.SirioDropdownItemData
 import it.inps.sirio.ui.dropdownmenu.SirioDropdownMenu
 import it.inps.sirio.ui.dropdownmenu.SirioDropdownMenuContent
 import it.inps.sirio.ui.dropdownmenu.SirioPopupState
+import it.inps.sirio.ui.listItem.SirioListItem
 import it.inps.sirio.utils.SirioIconSource
 
 private const val DROPDOWN_MENU = "DropdownMenu"
@@ -104,15 +103,13 @@ fun DropdownMenuMenuDemo(navController: NavController) {
             .padding(horizontal = 0.dp, vertical = 16.dp)
             .verticalScroll(rememberScrollState()),
     ) {
-        DemoMenuItem(DROPDOWN_MENU) {
+        SirioListItem(DROPDOWN_MENU) {
             navController.navigate(DROPDOWN_MENU)
         }
-        HorizontalDivider()
-        DemoMenuItem(DROPDOWN_MENU_MORE) {
+        SirioListItem(DROPDOWN_MENU_MORE) {
             navController.navigate(DROPDOWN_MENU_MORE)
         }
-        HorizontalDivider()
-        DemoMenuItem(DROPDOWN_MENU_BUTTON) {
+        SirioListItem(DROPDOWN_MENU_BUTTON, showDivider = false) {
             navController.navigate(DROPDOWN_MENU_BUTTON)
         }
     }
@@ -133,6 +130,7 @@ fun DropdownMenuDemo() {
                     SirioDropdownItemData("Action #2") {},
                     SirioDropdownItemData("Action #3") {},
                 ),
+                onItemSelected = {},
             )
         }
     }

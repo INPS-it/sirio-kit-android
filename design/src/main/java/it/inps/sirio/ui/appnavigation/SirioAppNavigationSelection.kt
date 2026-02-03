@@ -43,6 +43,7 @@ fun SirioAppNavigationSelection(
                     SirioAppNavigationIconButton(
                         icon = it.icon,
                         badge = it.badge,
+                        testTag = "buttonLeftItem",
                         action = it.action,
                     )
                 }

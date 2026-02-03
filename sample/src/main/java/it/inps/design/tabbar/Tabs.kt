@@ -17,18 +17,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
-import it.inps.design.sample.R
+import it.inps.sirio.theme.SirioTheme
 
 @Composable
 fun HomeScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(colorResource(id = R.color.teal_700))
+            .background(SirioTheme.colors.brand)
             .wrapContentSize(Alignment.Center)
     ) {
         Text(
@@ -47,7 +46,7 @@ fun NewsScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(colorResource(id = R.color.teal_700))
+            .background(SirioTheme.colors.brand)
             .wrapContentSize(Alignment.Center)
     ) {
         Text(
@@ -66,7 +65,7 @@ fun MapScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(colorResource(id = R.color.teal_700))
+            .background(SirioTheme.colors.brand)
             .wrapContentSize(Alignment.Center)
     ) {
         Text(
@@ -86,7 +85,7 @@ fun ContactsScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(colorResource(id = R.color.teal_700))
+            .background(SirioTheme.colors.brand)
             .wrapContentSize(Alignment.Center)
     ) {
         Text(
@@ -106,7 +105,7 @@ fun ServicesScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(colorResource(id = R.color.teal_700))
+            .background(SirioTheme.colors.brand)
             .wrapContentSize(Alignment.Center)
     ) {
         Text(

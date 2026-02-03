@@ -28,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
@@ -45,6 +46,7 @@ import it.inps.sirio.theme.checkboxSize
 import it.inps.sirio.ui.text.SirioTextCommon
 import it.inps.sirio.utils.SirioIcon
 import it.inps.sirio.utils.SirioIconSource
+import it.inps.sirio.utils.takeTwoWords
 
 /**
  * Sirio checkbox implementation
@@ -127,6 +129,12 @@ private fun SirioCheckboxWithText(
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
+            .testTag(
+                "checkbox${
+                    if (!text.isNullOrEmpty()) text.takeTwoWords()
+                    else (annotatedText ?: "").toString().takeTwoWords()
+                }"
+            )
             .toggleable(
                 value = checked,
                 interactionSource = interactionSource,
@@ -165,6 +173,7 @@ private fun SirioCheckboxWithText(
         }
     }
 }
+
 
 /**
  * The custom checkbox

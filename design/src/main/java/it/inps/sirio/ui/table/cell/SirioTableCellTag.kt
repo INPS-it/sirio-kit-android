@@ -18,32 +18,34 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import it.inps.sirio.theme.SirioTheme
-import it.inps.sirio.ui.table.SirioTableCellType
-import it.inps.sirio.ui.table.SirioTableContentSize
+import it.inps.sirio.theme.SirioThemeMode
 import it.inps.sirio.ui.tag.SirioTag
-import it.inps.sirio.ui.tag.SirioTagType
 
 @Composable
 fun RowScope.SirioTableCellTag(
     text: String,
-    tagType: SirioTagType,
-    size: SirioTableContentSize,
     weight: Float = 1f,
-    scroll: Boolean = false,
+    themeMode: SirioThemeMode? = SirioThemeMode.Light,
 ) {
-    SirioTableCellCommon(size = size, weight = weight, scroll = scroll) {
-        SirioTag(text = text, tagType = tagType)
+    SirioTableCellCommon(
+        size = SirioTableContentSize.Large,
+        weight = weight,
+        themeMode = themeMode,
+    ) {
+        SirioTag(text = text, color = SirioTheme.colors.table.cell.tag)
     }
 }
 
 @Composable
-internal fun RowScope.SirioTableCellTag(data: SirioTableCellType.Tag, weight: Float = 1f) {
+internal fun RowScope.SirioTableCellTag(
+    data: SirioTableCellType.Tag,
+    weight: Float = 1f,
+    themeMode: SirioThemeMode? = SirioThemeMode.Light,
+) {
     SirioTableCellTag(
         text = data.text,
-        tagType = data.tagType,
-        size = data.size,
         weight = weight,
-        scroll = data.scroll,
+        themeMode = themeMode,
     )
 }
 
@@ -54,51 +56,12 @@ private fun SirioTableCellTagPreview() {
         Column(Modifier.width(200.dp)) {
             val text = "Label Tag"
             Row(Modifier.height(IntrinsicSize.Max)) {
-                SirioTableCellTag(
-                    text = text,
-                    tagType = SirioTagType.GRAY,
-                    size = SirioTableContentSize.LARGE,
-                    scroll = false,
-                )
+                SirioTableCellTag(text = text)
             }
             Row(Modifier.height(IntrinsicSize.Max)) {
                 SirioTableCellTag(
                     text = text,
-                    tagType = SirioTagType.GRAY,
-                    size = SirioTableContentSize.MEDIUM,
-                    scroll = false,
-                )
-            }
-            Row(Modifier.height(IntrinsicSize.Max)) {
-                SirioTableCellTag(
-                    text = text,
-                    tagType = SirioTagType.GRAY,
-                    size = SirioTableContentSize.SMALL,
-                    scroll = false,
-                )
-            }
-            Row(Modifier.height(IntrinsicSize.Max)) {
-                SirioTableCellTag(
-                    text = text,
-                    tagType = SirioTagType.GRAY,
-                    size = SirioTableContentSize.LARGE,
-                    scroll = true,
-                )
-            }
-            Row(Modifier.height(IntrinsicSize.Max)) {
-                SirioTableCellTag(
-                    text = text,
-                    tagType = SirioTagType.GRAY,
-                    size = SirioTableContentSize.MEDIUM,
-                    scroll = true,
-                )
-            }
-            Row(Modifier.height(IntrinsicSize.Max)) {
-                SirioTableCellTag(
-                    text = text,
-                    tagType = SirioTagType.GRAY,
-                    size = SirioTableContentSize.SMALL,
-                    scroll = true,
+                    themeMode = SirioThemeMode.Dark,
                 )
             }
         }

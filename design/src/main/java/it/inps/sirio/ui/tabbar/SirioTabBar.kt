@@ -9,16 +9,11 @@
 
 package it.inps.sirio.ui.tabbar
 
-import android.content.res.Configuration
 import androidx.annotation.Keep
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -26,15 +21,18 @@ import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.guru.fontawesomecomposelib.FaIcons
 import it.inps.sirio.foundation.FoundationColor
-import it.inps.sirio.theme.SirioBaseStateColors
 import it.inps.sirio.theme.SirioTheme
+import it.inps.sirio.theme.tabBarDividerHeight
 import it.inps.sirio.theme.tabBarHeight
+import it.inps.sirio.utils.Border
+import it.inps.sirio.utils.border
 
 /**
  * A bottom navigation with tabs
@@ -50,87 +48,55 @@ fun SirioTabBar(
     //TabBar should contain 3-5 tabs
     assert(items.size in 3..5)
     Surface(
-        modifier = Modifier.height(tabBarHeight.dp),
-        color = SirioTheme.colors.tabBar.background,
-    ) {
-        if (isHorizontal()) {
-            SirioTabBarHorizontalContainer(content = {
-                items.forEachIndexed { index, tabItem ->
-                    SirioTabBarItemHorizontal(index == selectedIndex, tabItem)
-                }
-            })
-        } else {
-            SirioTabBarVerticalContainer(content = {
-                items.forEachIndexed { index, tabItem ->
-                    SirioTabBarItemVertical(index == selectedIndex, tabItem)
-                }
-            })
-        }
-    }
-}
-
-@Composable
-private fun SirioTabBarVerticalContainer(
-    content: @Composable RowScope.  () -> Unit,
-) {
-    Row(
         modifier = Modifier
-            .fillMaxWidth()
-            .selectableGroup(),
-        verticalAlignment = Alignment.CenterVertically,
-        content = content,
-    )
-}
-
-@Composable
-private fun SirioTabBarHorizontalContainer(
-    content: @Composable RowScope.() -> Unit,
-) {
-    Row(
-        modifier = Modifier.fillMaxSize(),
-        horizontalArrangement = Arrangement.Center,
+            .height(tabBarHeight.dp)
+            .semantics { testTagsAsResourceId = true }
+            .border(
+                top = Border(
+                    tabBarDividerHeight.dp,
+                    SirioTheme.colors.tabBar.divider,
+                )
+            )
+            .padding(top = tabBarDividerHeight.dp),
+        color = SirioTheme.colors.tabBar.background,
     ) {
         Row(
             modifier = Modifier
-                .width(IntrinsicSize.Max)
+                .fillMaxWidth()
                 .selectableGroup(),
             verticalAlignment = Alignment.CenterVertically,
-            content = content,
-        )
-    }
-}
-
-@Composable
-private fun isHorizontal(): Boolean {
-    val configuration = LocalConfiguration.current
-    return if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-        true
-//        configuration.screenWidthDp > 840
-    } else {
-        configuration.screenWidthDp > 600
+        ) {
+            items.forEachIndexed { index, tabItem ->
+                SirioTabBarItem(index == selectedIndex, tabItem)
+            }
+        }
     }
 }
 
 @Keep
 data class SirioTabBarColors(
     val background: Color,
-    val item: SirioBaseStateColors,
+    val divider: Color,
+    val item: SirioTabBarItemColors,
 ) {
     companion object {
         @Stable
         val Unspecified = SirioTabBarColors(
             background = Color.Unspecified,
-            item = SirioBaseStateColors.Unspecified,
+            divider = Color.Unspecified,
+            item = SirioTabBarItemColors.Unspecified,
         )
     }
 }
 
 internal val tabBarLightColors = SirioTabBarColors(
     background = FoundationColor.colorAliasBackgroundColorPrimaryLight0,
+    divider = FoundationColor.colorAliasBackgroundColorPrimaryLight60,
     item = tabBarItemLightColors,
 )
 internal val tabBarDarkColors = SirioTabBarColors(
     background = FoundationColor.colorAliasBackgroundColorPrimaryLight0,
+    divider = FoundationColor.colorAliasBackgroundColorPrimaryLight60,
     item = tabBarItemDarkColors,
 )
 

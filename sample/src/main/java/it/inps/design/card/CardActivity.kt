@@ -20,7 +20,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -38,14 +37,14 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.guru.fontawesomecomposelib.FaIcons
 import it.inps.design.sample.R
-import it.inps.design.ui.DemoMenuItem
 import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.ui.card.SirioCardColor
 import it.inps.sirio.ui.card.SirioEditorialCard
 import it.inps.sirio.ui.card.SirioEditorialCardItemData
 import it.inps.sirio.ui.card.SirioProcessCard
-import it.inps.sirio.ui.card.SirioProcessCardCTA
 import it.inps.sirio.ui.card.SirioProcessCardItemData
+import it.inps.sirio.ui.card.SirioProcessCardType
+import it.inps.sirio.ui.listItem.SirioListItem
 import it.inps.sirio.ui.text.SirioText
 import it.inps.sirio.utils.SirioIconSource
 
@@ -94,11 +93,10 @@ fun CardMenuDemo(navController: NavController) {
             .padding(horizontal = 0.dp, vertical = 16.dp)
             .verticalScroll(rememberScrollState()),
     ) {
-        DemoMenuItem(EDITORIAL_CARD) {
+        SirioListItem(EDITORIAL_CARD) {
             navController.navigate(EDITORIAL_CARD)
         }
-        HorizontalDivider()
-        DemoMenuItem(PROCESS_CARD) {
+        SirioListItem(PROCESS_CARD, showDivider = false) {
             navController.navigate(PROCESS_CARD)
         }
     }
@@ -108,7 +106,8 @@ fun CardMenuDemo(navController: NavController) {
 const val categoryValue = "Categoria"
 const val dateValue = "13 Nov 2021"
 const val titleValue = "Titolo della card"
-const val longTitleValue = "Titolo della card. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt."
+const val longTitleValue =
+    "Titolo della card. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt."
 const val subtitleValue = "Sottotitolo"
 const val textValue =
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt."
@@ -123,7 +122,6 @@ val bookmarkValue = SirioEditorialCardItemData(
     action = {},
     contentDescription = "Preferiti",
 )
-val iconValue = SirioIconSource.FaIcon(FaIcons.InfoCircle)
 val firstAction = SirioProcessCardItemData(text = "Text", action = {})
 val secondAction = SirioProcessCardItemData(text = "Text2", action = {})
 val moreActions = listOf(
@@ -186,27 +184,30 @@ fun ProcessCardDemo() {
             )
             SirioProcessCard(
                 title = titleValue,
-                icon = iconValue,
+                type = SirioProcessCardType.Standard(
+                    firstAction = firstAction,
+                ),
                 subtitle = subtitleValue,
                 text = textValue,
-                firstAction = firstAction,
                 color = SirioCardColor.LIGHT,
                 onClickCard = {},
             )
             SirioProcessCard(
                 title = longTitleValue,
-                icon = iconValue,
+                type = SirioProcessCardType.Standard(
+                    firstAction = firstAction,
+                ),
                 text = textValue,
-                firstAction = firstAction,
                 color = SirioCardColor.LIGHT,
                 onClickCard = {},
             )
             SirioProcessCard(
                 title = titleValue,
-                icon = iconValue,
+                type = SirioProcessCardType.Standard(
+                    firstAction = firstAction,
+                ),
                 subtitle = subtitleValue,
                 text = textValue,
-                firstAction = firstAction,
                 color = SirioCardColor.DARK,
                 onClickCard = {},
             )
@@ -216,23 +217,23 @@ fun ProcessCardDemo() {
             )
             SirioProcessCard(
                 title = titleValue,
-                icon = iconValue,
+                type = SirioProcessCardType.Inline(
+                    firstAction = firstAction,
+                    secondAction = secondAction,
+                ),
                 subtitle = subtitleValue,
                 text = textValue,
-                firstAction = firstAction,
-                secondAction = secondAction,
-                cta = SirioProcessCardCTA.INLINE,
                 color = SirioCardColor.LIGHT,
                 onClickCard = {},
             )
             SirioProcessCard(
                 title = titleValue,
-                icon = iconValue,
+                type = SirioProcessCardType.Inline(
+                    firstAction = firstAction,
+                    secondAction = secondAction,
+                ),
                 subtitle = subtitleValue,
                 text = textValue,
-                firstAction = firstAction,
-                secondAction = secondAction,
-                cta = SirioProcessCardCTA.INLINE,
                 color = SirioCardColor.DARK,
                 onClickCard = {},
             )
@@ -242,23 +243,23 @@ fun ProcessCardDemo() {
             )
             SirioProcessCard(
                 title = titleValue,
-                icon = iconValue,
+                type = SirioProcessCardType.Block(
+                    firstAction = firstAction,
+                    secondAction = secondAction,
+                ),
                 subtitle = subtitleValue,
                 text = textValue,
-                firstAction = firstAction,
-                secondAction = secondAction,
-                cta = SirioProcessCardCTA.BLOCK,
                 color = SirioCardColor.LIGHT,
                 onClickCard = {},
             )
             SirioProcessCard(
                 title = titleValue,
-                icon = iconValue,
+                type = SirioProcessCardType.Block(
+                    firstAction = firstAction,
+                    secondAction = secondAction,
+                ),
                 subtitle = subtitleValue,
                 text = textValue,
-                firstAction = firstAction,
-                secondAction = secondAction,
-                cta = SirioProcessCardCTA.BLOCK,
                 color = SirioCardColor.DARK,
                 onClickCard = {},
             )
@@ -268,25 +269,23 @@ fun ProcessCardDemo() {
             )
             SirioProcessCard(
                 title = titleValue,
-                icon = iconValue,
+                type = SirioProcessCardType.MoreAction(
+                    firstAction = firstAction,
+                    more = moreActions,
+                ),
                 subtitle = subtitleValue,
                 text = textValue,
-                firstAction = firstAction,
-                secondAction = secondAction,
-                moreActions = moreActions,
-                cta = SirioProcessCardCTA.BLOCK,
                 color = SirioCardColor.LIGHT,
                 onClickCard = {},
             )
             SirioProcessCard(
                 title = titleValue,
-                icon = iconValue,
+                type = SirioProcessCardType.MoreAction(
+                    firstAction = firstAction,
+                    more = moreActions,
+                ),
                 subtitle = subtitleValue,
                 text = textValue,
-                firstAction = firstAction,
-                secondAction = secondAction,
-                moreActions = moreActions,
-                cta = SirioProcessCardCTA.BLOCK,
                 color = SirioCardColor.DARK,
                 onClickCard = {},
             )

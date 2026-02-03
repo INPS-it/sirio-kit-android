@@ -37,8 +37,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.guru.fontawesomecomposelib.FaIcons
 import it.inps.sirio.theme.SirioTheme
+import it.inps.sirio.ui.popover.SirioPopoverData
 import it.inps.sirio.ui.textfield.SirioTextField
 import it.inps.sirio.ui.textfield.TextFieldState
+import it.inps.sirio.utils.SirioIconSource
 
 class TextFieldActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,8 +82,7 @@ fun TextFieldDemoContent() {
                 onValueChange = { text = it },
                 label = label,
                 helperText = helperText,
-                icon = FaIcons.CalendarDay,
-                onInfoClick = {},
+                icon = SirioIconSource.FaIcon(FaIcons.CalendarDay),
             )
             Text(text = "Alert")
             SirioTextField(
@@ -89,8 +90,7 @@ fun TextFieldDemoContent() {
                 onValueChange = { text = it },
                 label = label,
                 helperText = helperText,
-                onInfoClick = {},
-                icon = FaIcons.ExclamationTriangle,
+                icon = SirioIconSource.FaIcon(FaIcons.ExclamationTriangle),
                 type = TextFieldState.Alert,
             )
             Text(text = "Warning")
@@ -99,8 +99,7 @@ fun TextFieldDemoContent() {
                 onValueChange = { text = it },
                 label = label,
                 helperText = helperText,
-                onInfoClick = {},
-                icon = FaIcons.ExclamationCircle,
+                icon = SirioIconSource.FaIcon(FaIcons.ExclamationCircle),
                 type = TextFieldState.Warning,
             )
             Text(text = "Success")
@@ -109,8 +108,7 @@ fun TextFieldDemoContent() {
                 onValueChange = { text = it },
                 label = label,
                 helperText = helperText,
-                onInfoClick = {},
-                icon = FaIcons.Check,
+                icon = SirioIconSource.FaIcon(FaIcons.Check),
                 type = TextFieldState.Success,
             )
             Text(text = "Disabled")
@@ -119,9 +117,16 @@ fun TextFieldDemoContent() {
                 onValueChange = { text = it },
                 label = label,
                 helperText = helperText,
-                onInfoClick = {},
-                icon = FaIcons.CalendarDay,
+                icon = SirioIconSource.FaIcon(FaIcons.CalendarDay),
                 enabled = false,
+            )
+            Text(text = "Info")
+            SirioTextField(
+                text = text,
+                onValueChange = { text = it },
+                label = label,
+                helperText = helperText,
+                popoverData = SirioPopoverData(text = "Popover text"),
             )
         }
     }

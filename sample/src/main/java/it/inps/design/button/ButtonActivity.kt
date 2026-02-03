@@ -28,7 +28,6 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -48,12 +47,12 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.guru.fontawesomecomposelib.FaIcons
-import it.inps.design.ui.DemoMenuItem
 import it.inps.sirio.theme.SirioTheme
-import it.inps.sirio.ui.button.ButtonIconPosition
 import it.inps.sirio.ui.button.SirioButton
 import it.inps.sirio.ui.button.SirioButtonHierarchy
+import it.inps.sirio.ui.button.SirioButtonIconPosition
 import it.inps.sirio.ui.button.SirioButtonSize
+import it.inps.sirio.ui.listItem.SirioListItem
 import it.inps.sirio.utils.SirioIconSource
 
 class ButtonActivity : ComponentActivity() {
@@ -99,28 +98,26 @@ fun ButtonMenuDemo(navController: NavController) {
             .padding(0.dp, 16.dp)
             .verticalScroll(rememberScrollState()),
     ) {
-        DemoMenuItem("Primary") {
+        SirioListItem("Primary") {
             navController.navigate(ButtonDestinations.BUTTON_PRIMARY_ROUTE)
         }
-        HorizontalDivider()
-        DemoMenuItem(title = "Secondary") {
+        SirioListItem(title = "Secondary") {
             navController.navigate(ButtonDestinations.BUTTON_SECONDARY_ROUTE)
         }
-        HorizontalDivider()
-        DemoMenuItem("Tertiary Light") {
+        SirioListItem("Tertiary Light") {
             navController.navigate(ButtonDestinations.BUTTON_TERTIARY_LIGHT_ROUTE)
         }
-        HorizontalDivider()
-        DemoMenuItem("Tertiary Dark") {
+        SirioListItem("Tertiary Dark") {
             navController.navigate(ButtonDestinations.BUTTON_TERTIARY_DARK_ROUTE)
         }
-        HorizontalDivider()
-        DemoMenuItem("Danger") {
+        SirioListItem("Danger") {
             navController.navigate(ButtonDestinations.BUTTON_DANGER_ROUTE)
         }
-        HorizontalDivider()
-        DemoMenuItem("Ghost") {
-            navController.navigate(ButtonDestinations.BUTTON_GHOST_ROUTE)
+        SirioListItem("Ghost Light") {
+            navController.navigate(ButtonDestinations.BUTTON_GHOST_LIGHT_ROUTE)
+        }
+        SirioListItem("Ghost Dark", showDivider = false) {
+            navController.navigate(ButtonDestinations.BUTTON_GHOST_LIGHT_ROUTE)
         }
     }
 }
@@ -220,22 +217,41 @@ fun ButtonTertiaryDarkDemoContent() {
 }
 
 @Composable
-fun ButtonGhostDemoContent() {
+fun ButtonGhostLightDemoContent() {
     Column(
         Modifier
             .fillMaxSize()
             .background(Color.White)
             .verticalScroll(rememberScrollState())
-            .padding(0.dp, 10.dp)
-            .verticalScroll(rememberScrollState()),
+            .padding(0.dp, 10.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         SirioTheme(darkTheme = true) {
             val text = "Text"
-            ButtonDemoContent(text, SirioButtonHierarchy.Ghost, SirioButtonSize.Large)
-            ButtonDemoContent(text, SirioButtonHierarchy.Ghost, SirioButtonSize.Medium)
-            ButtonDemoContent(text, SirioButtonHierarchy.Ghost, SirioButtonSize.Small)
+            ButtonDemoContent(text, SirioButtonHierarchy.GhostLight, SirioButtonSize.Large)
+            ButtonDemoContent(text, SirioButtonHierarchy.GhostLight, SirioButtonSize.Medium)
+            ButtonDemoContent(text, SirioButtonHierarchy.GhostLight, SirioButtonSize.Small)
+        }
+    }
+}
+
+@Composable
+fun ButtonGhostDarkDemoContent() {
+    Column(
+        Modifier
+            .fillMaxSize()
+            .background(Color.White)
+            .verticalScroll(rememberScrollState())
+            .padding(0.dp, 10.dp),
+        verticalArrangement = Arrangement.spacedBy(20.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        SirioTheme(darkTheme = true) {
+            val text = "Text"
+            ButtonDemoContent(text, SirioButtonHierarchy.GhostDark, SirioButtonSize.Large)
+            ButtonDemoContent(text, SirioButtonHierarchy.GhostDark, SirioButtonSize.Medium)
+            ButtonDemoContent(text, SirioButtonHierarchy.GhostDark, SirioButtonSize.Small)
         }
     }
 }
@@ -276,7 +292,7 @@ private fun ButtonDemoContent(text: String, hierarchy: SirioButtonHierarchy, siz
                 text = text,
                 icon = SirioIconSource.FaIcon(FaIcons.ArrowLeft),
                 enabled = true,
-                iconPosition = ButtonIconPosition.Left,
+                iconPosition = SirioButtonIconPosition.Left,
                 onClick = {},
             )
             SirioButton(
@@ -315,7 +331,7 @@ private fun ButtonDemoContent(text: String, hierarchy: SirioButtonHierarchy, siz
                 text = text,
                 icon = SirioIconSource.FaIcon(FaIcons.ArrowLeft),
                 enabled = false,
-                iconPosition = ButtonIconPosition.Left,
+                iconPosition = SirioButtonIconPosition.Left,
                 onClick = {},
             )
             SirioButton(
@@ -340,7 +356,7 @@ private fun ButtonDestinationsPreview() {
             ButtonSecondaryDemoContent()
             ButtonTertiaryLightDemoContent()
             ButtonTertiaryDarkDemoContent()
-            ButtonGhostDemoContent()
+            ButtonGhostLightDemoContent()
         }
     }
 }

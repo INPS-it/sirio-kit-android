@@ -9,6 +9,7 @@
 package it.inps.sirio.ui.appnavigation
 
 import android.content.res.Configuration
+import androidx.annotation.Keep
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,6 +17,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
@@ -24,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.guru.fontawesomecomposelib.FaIcons
 import it.inps.sirio.R
+import it.inps.sirio.foundation.FoundationColor
 import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.theme.appNavigationHeight
 import it.inps.sirio.theme.appNavigationLogoSize
@@ -60,16 +63,38 @@ fun SirioAppNavigationLogo(
                     icon = it.icon,
                     contentDescription = it.contentDescription,
                     badge = it.badge,
+                    testTag = "buttonLeftItem",
                     action = it.action,
                 )
             }
         },
+        dividerColor = SirioTheme.colors.appNavigation.logo.divider,
         actions = sirioAppNavigationActions(
             rightFirstItem = rightFirstItem,
             rightSecondItem = rightSecondItem,
         ),
     )
 }
+
+@Keep
+data class SirioAppNavigationLogoColors(
+    val divider: Color,
+) {
+    companion object {
+        @Stable
+        val Unspecified = SirioAppNavigationLogoColors(
+            divider = Color.Unspecified,
+        )
+    }
+}
+
+val appNavigationLogoLightColors = SirioAppNavigationLogoColors(
+    divider = FoundationColor.colorAliasBackgroundColorPrimaryLight60,
+)
+
+val appNavigationLogoDarkColors = SirioAppNavigationLogoColors(
+    divider = FoundationColor.colorAliasBackgroundColorPrimaryLight60,
+)
 
 @Preview(showSystemUi = true)
 @Preview(showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)

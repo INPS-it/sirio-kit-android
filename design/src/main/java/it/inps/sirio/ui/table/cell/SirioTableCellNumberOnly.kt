@@ -20,8 +20,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import it.inps.sirio.theme.SirioTheme
-import it.inps.sirio.ui.table.SirioTableCellType
-import it.inps.sirio.ui.table.SirioTableContentSize
+import it.inps.sirio.theme.SirioThemeMode
 import it.inps.sirio.ui.text.SirioTextCommon
 
 @Composable
@@ -29,15 +28,19 @@ fun RowScope.SirioTableCellNumberOnly(
     text: String,
     size: SirioTableContentSize,
     weight: Float = 1f,
-    scroll: Boolean = false,
+    themeMode: SirioThemeMode? = SirioThemeMode.Light,
 ) {
-    SirioTableCellCommon(size = size, weight = weight, scroll = scroll) {
+    SirioTableCellCommon(
+        size = size,
+        weight = weight,
+        themeMode = themeMode
+    ) {
         SirioTextCommon(
             text = text,
             modifier = Modifier.fillMaxWidth(),
             color = SirioTheme.colors.table.cell.number,
             textAlign = TextAlign.End,
-            typography = SirioTheme.typography.table.cell.number,
+            typography = SirioTheme.foundationTypography.labelNumberMdRegular,
         )
     }
 }
@@ -45,13 +48,15 @@ fun RowScope.SirioTableCellNumberOnly(
 @Composable
 internal fun RowScope.SirioTableCellNumberOnly(
     data: SirioTableCellType.NumberOnly,
+    size: SirioTableContentSize,
     weight: Float = 1f,
+    themeMode: SirioThemeMode? = SirioThemeMode.Light,
 ) {
     SirioTableCellNumberOnly(
         text = data.text,
-        size = data.size,
+        size = size,
         weight = weight,
-        scroll = data.scroll,
+        themeMode = themeMode,
     )
 }
 
@@ -64,48 +69,37 @@ private fun SirioTableCellNumberOnlyPreview() {
             Row(Modifier.height(IntrinsicSize.Max)) {
                 SirioTableCellNumberOnly(
                     text = "$text\n$text",
-                    size = SirioTableContentSize.LARGE,
-                    scroll = false,
+                    size = SirioTableContentSize.Large,
                 )
                 SirioTableCellNumberOnly(
                     text = text,
-                    size = SirioTableContentSize.LARGE,
-                    scroll = false,
+                    size = SirioTableContentSize.Large,
                 )
             }
             Row(Modifier.height(IntrinsicSize.Max)) {
                 SirioTableCellNumberOnly(
                     text = text,
-                    size = SirioTableContentSize.MEDIUM,
-                    scroll = false,
+                    size = SirioTableContentSize.Large,
                 )
             }
             Row(Modifier.height(IntrinsicSize.Max)) {
                 SirioTableCellNumberOnly(
                     text = text,
-                    size = SirioTableContentSize.SMALL,
-                    scroll = false,
+                    size = SirioTableContentSize.Large,
+                    themeMode = SirioThemeMode.Dark,
                 )
             }
             Row(Modifier.height(IntrinsicSize.Max)) {
                 SirioTableCellNumberOnly(
                     text = text,
-                    size = SirioTableContentSize.LARGE,
-                    scroll = true,
+                    size = SirioTableContentSize.Small,
                 )
             }
             Row(Modifier.height(IntrinsicSize.Max)) {
                 SirioTableCellNumberOnly(
                     text = text,
-                    size = SirioTableContentSize.MEDIUM,
-                    scroll = true,
-                )
-            }
-            Row(Modifier.height(IntrinsicSize.Max)) {
-                SirioTableCellNumberOnly(
-                    text = text,
-                    size = SirioTableContentSize.SMALL,
-                    scroll = true,
+                    size = SirioTableContentSize.Small,
+                    themeMode = SirioThemeMode.Dark,
                 )
             }
         }

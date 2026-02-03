@@ -38,7 +38,6 @@ fun SirioAccordion(
         tag = data.tag,
         text = data.text,
         open = data.open,
-        enabled = data.enabled,
         onTapAccordion = data.onTapAccordion,
         content = data.content
     )
@@ -56,21 +55,12 @@ private fun AccordionPreview() {
                     title = "Accordion Item #1\nRiga 2",
                     icon = SirioIconSource.FaIcon(FaIcons.Cube),
                     open = false,
-                    enabled = true,
                     onTapAccordion = {},
                 ) { Text(text = content) })
             SirioAccordion(
                 data = SirioAccordionData.Default(
                     title = "Accordion Item #1",
                     open = true,
-                    enabled = true,
-                    onTapAccordion = {},
-                ) { Text(text = content) })
-            SirioAccordion(
-                data = SirioAccordionData.Default(
-                    title = "Accordion Item #1",
-                    open = false,
-                    enabled = false,
                     onTapAccordion = {},
                 ) { Text(text = content) })
         }

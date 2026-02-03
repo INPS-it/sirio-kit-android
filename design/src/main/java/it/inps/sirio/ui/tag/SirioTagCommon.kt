@@ -121,11 +121,11 @@ private fun TagCommonPreview() {
     }
 }
 
-enum class SirioTagType {
-    GRAY,
-    BLUE,
-    RED,
-    ORANGE,
-    GREEN,
-    WHITE,
+internal enum class SirioTagType {
+    Gray,
+    Blue,
+    Red,
+    Orange,
+    Green,
+    White,
 }

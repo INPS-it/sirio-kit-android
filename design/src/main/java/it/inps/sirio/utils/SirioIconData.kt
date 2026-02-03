@@ -7,12 +7,10 @@
 //
 package it.inps.sirio.utils
 
-import androidx.annotation.DrawableRes
 import androidx.annotation.Keep
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.guru.fontawesomecomposelib.FaIconType
 
 /**
  * Contain data for displaying Sirio icons.
@@ -24,7 +22,7 @@ import com.guru.fontawesomecomposelib.FaIconType
  * @property iconColor The color to apply to the icon.
  * @property size The size of the icon in Dp. Defaults to 24.dp.
  * @property contentDescription An optional description of the icon for accessibility purposes.
- * @property onclick An optional lambda function to be executed when the icon is clicked.
+ * @property onClick An optional lambda function to be executed when the icon is clicked.
  *
  * @constructor Creates a new SirioIconData instance.
  */
@@ -34,35 +32,5 @@ data class SirioIconData(
     val iconColor: Color,
     val size: Dp = 24.dp,
     val contentDescription: String? = null,
-    val onclick: (() -> Unit)? = null,
-) {
-    @Deprecated("Use primary constructor with SirioIconSource instead")
-    constructor(
-        faIcon: FaIconType,
-        iconColor: Color,
-        size: Dp = 24.dp,
-        contentDescription: String? = null,
-        onclick: (() -> Unit)? = null,
-    ) : this(
-        icon = SirioIconSource.FaIcon(faIcon),
-        iconColor = iconColor,
-        size = size,
-        contentDescription = contentDescription,
-        onclick = onclick,
-    )
-
-    @Deprecated("Use primary constructor with SirioIconSource instead")
-    constructor(
-        @DrawableRes iconResId: Int,
-        iconColor: Color,
-        size: Dp = 24.dp,
-        contentDescription: String? = null,
-        onclick: (() -> Unit)? = null,
-    ) : this(
-        icon = SirioIconSource.Drawable(iconResId),
-        iconColor = iconColor,
-        size = size,
-        contentDescription = contentDescription,
-        onclick = onclick,
-    )
-}
+    val onClick: (() -> Unit)? = null,
+)

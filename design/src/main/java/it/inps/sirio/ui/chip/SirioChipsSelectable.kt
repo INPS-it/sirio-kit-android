@@ -31,6 +31,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -44,21 +45,24 @@ import it.inps.sirio.theme.chipSpacingHorizontal
 import it.inps.sirio.ui.text.SirioTextCommon
 import it.inps.sirio.utils.SirioIcon
 import it.inps.sirio.utils.SirioIconSource
+import it.inps.sirio.utils.takeTwoWords
 
 /**
  * A selectable chip component.
  *
  * @param text The text to display inside the chip.
- * @param active Whether the chip is currently selected.
+ * @param active Whether the chip is currently active.
  * @param enabled Whether the chip is enabled for user interaction.
- * @param onStateChange Callback invoked when the chip's selection state changes.
+ * @param onSelectedChange Callback invoked when the chip's selection state changes. The lambda
+ * function receives a boolean parameter, which is `true` if the chip is selected, and `false` if
+ * it's not.
  */
 @Composable
 fun SirioChipsSelectable(
     text: String,
     active: Boolean,
     enabled: Boolean = true,
-    onStateChange: (active: Boolean) -> Unit,
+    onSelectedChange: (isSelected: Boolean) -> Unit,
 ) {
     val icon = if (active) FaIcons.Check else null
 
@@ -77,10 +81,12 @@ fun SirioChipsSelectable(
 
     Surface(
         checked = active,
-        onCheckedChange = { onStateChange(!active) },
+        onCheckedChange = { onSelectedChange(!active) },
         modifier = Modifier
             .height(chipHeight.dp)
-            .width(IntrinsicSize.Max),
+            .width(IntrinsicSize.Max)
+            .testTag("chip${text.takeTwoWords()}")
+        ,
         enabled = enabled,
         shape = CircleShape,
         color = containerColor,
@@ -125,25 +131,25 @@ private fun SirioChipPreview() {
                     text = "Chip",
                     active = active,
                     enabled = true,
-                    onStateChange = { active = it },
+                    onSelectedChange = { active = it },
                 )
                 SirioChipsSelectable(
                     text = "Chip",
                     active = false,
                     enabled = true,
-                    onStateChange = { })
+                    onSelectedChange = { })
             }
             SirioChipsSelectable(
                 text = "Chip",
                 active = true,
                 enabled = false,
-                onStateChange = { },
+                onSelectedChange = { },
             )
             SirioChipsSelectable(
                 text = "Chip",
                 active = false,
                 enabled = false,
-                onStateChange = { },
+                onSelectedChange = { },
             )
         }
     }

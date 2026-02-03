@@ -34,6 +34,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -52,6 +53,7 @@ import it.inps.sirio.theme.chipWithClosePaddingHorizontal
 import it.inps.sirio.ui.text.SirioTextCommon
 import it.inps.sirio.utils.SirioIcon
 import it.inps.sirio.utils.SirioIconSource
+import it.inps.sirio.utils.takeTwoWords
 
 /**
  * A chip component that can display text, an optional icon, and a close button.
@@ -114,6 +116,7 @@ fun SirioChip(
             OutlinedButton(
                 onClick = onClose,
                 modifier = Modifier
+                    .testTag("buttonCloseChip${text.takeTwoWords()}")
                     .size(chipButtonSize.dp)
                     .aspectRatio(1f),
                 shape = CircleShape,

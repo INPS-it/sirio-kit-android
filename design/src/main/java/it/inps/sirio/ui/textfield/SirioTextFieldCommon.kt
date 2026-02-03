@@ -26,6 +26,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -36,7 +37,6 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -49,13 +49,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.guru.fontawesomecomposelib.FaIconType
 import com.guru.fontawesomecomposelib.FaIcons
 import it.inps.sirio.foundation.FoundationColor
 import it.inps.sirio.theme.SirioColorState
@@ -68,16 +69,20 @@ import it.inps.sirio.theme.textFieldDropdownMaxHeight
 import it.inps.sirio.theme.textFieldDropdownOptionHeight
 import it.inps.sirio.theme.textFieldDropdownOptionHorizontalPadding
 import it.inps.sirio.theme.textFieldHeight
+import it.inps.sirio.theme.textFieldIconPaddingEnd
 import it.inps.sirio.theme.textFieldIconSize
-import it.inps.sirio.theme.textFieldInfoIconSize
+import it.inps.sirio.theme.textFieldLabelPopoverAnchorPadding
 import it.inps.sirio.theme.textFieldLabelVerticalPadding
 import it.inps.sirio.theme.textFieldPaddingBottom
 import it.inps.sirio.ui.button.SirioButton
 import it.inps.sirio.ui.button.SirioButtonHierarchy
 import it.inps.sirio.ui.button.SirioButtonSize
+import it.inps.sirio.ui.popover.SirioPopover
+import it.inps.sirio.ui.popover.SirioPopoverData
 import it.inps.sirio.ui.text.SirioTextCommon
 import it.inps.sirio.utils.SirioIcon
 import it.inps.sirio.utils.SirioIconSource
+import it.inps.sirio.utils.takeTwoWords
 
 /**
  * A custom composable function representing a common text field component in the Sirio UI.
@@ -91,29 +96,31 @@ import it.inps.sirio.utils.SirioIconSource
  * @param secureText A boolean indicating whether the text should be visually masked (e.g., for passwords).
  * @param onValueChange A callback invoked when the text value changes, passing the new text as a parameter.
  * @param placeholder An optional string to display as a placeholder when the text field is empty.
- * @param icon An optional Font Awesome icon to display on the leading side of the text field.
- * @param iconButton An optional Font Awesome icon button to display on the trailing side of the text field.
- * @param iconContentDescription Content description for the icon, for accessibility.
- * @param iconButtonContentDescription Content description for the icon button, for accessibility.
+ * @param icon An optional [SirioIconSource] to display on the leading side of the text field.
+ * @param iconColor An optional color for the leading icon.
+ * @param iconButton An optional [SirioIconSource] for a button on the trailing side of the text field.
+ * @param iconContentDescription Content description for the leading icon, for accessibility.
+ * @param iconButtonContentDescription Content description for the trailing icon button, for accessibility.
  * @param label An optional label string to display above the text field.
- * @param onInfoClick An optional callback for when the info icon (if present) is clicked.
- * @param infoContentDescription Content description for the info icon, for accessibility.
- * @param helperText An optional string to display as a helper text below the text field.
- * @param optionValues An array of string values used for the dropdown list, if needed.
+ * @param popoverData Optional data to display a [SirioPopover] next to the label.
+ * @param helperText An optional string to display as helper text below the text field.
+ * @param optionValues A list of string values for the dropdown list.
  * @param onOptionValueSelected A callback invoked when an option value is selected from the dropdown list.
  * @param state An optional [TextFieldState] to represent the state (e.g., warning, error) of the text field.
  * @param backgroundColor The background color for the text field.
  * @param enabled A boolean indicating whether the text field is enabled for interaction.
  * @param keyboardOptions The keyboard options for the text field (e.g., keyboard type, IME actions).
  * @param keyboardActions The keyboard actions for the text field (e.g., submit action).
+ * @param visualTransformation The visual transformation to apply to the text, such as password masking.
  * @param onDropdownStateChange A callback invoked when the dropdown state (open/closed) changes.
- * @param onIconClick A callback invoked when the main icon (if present) is clicked.
- * @param onIconButtonClick A callback invoked when the icon button (if present) is clicked, passing the current text value as a parameter.
- * @param onTextFieldClick A callback invoked when the text field itself is clicked.
+ * @param onIconClick A callback invoked when the leading icon (if present) is clicked.
+ * @param onIconButtonClick A callback invoked when the trailing icon button (if present) is clicked.
+ * @param onTextFieldClick A callback invoked when the text field itself is clicked, making it read-only.
  *
  * @see TextFieldState
- * @see SirioIcon
+ * @see SirioIconSource
  * @see SirioButton
+ * @see SirioPopover
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -123,21 +130,22 @@ internal fun SirioTextFieldCommon(
     secureText: Boolean = false,
     onValueChange: (String) -> Unit,
     placeholder: String? = null,
-    icon: FaIconType? = null,
-    iconButton: FaIconType? = null,
+    icon: SirioIconSource? = null,
+    iconColor: Color? = null,
+    iconButton: SirioIconSource? = null,
     iconContentDescription: String? = null,
     iconButtonContentDescription: String? = null,
     label: String? = null,
-    onInfoClick: (() -> Unit)? = null,
-    infoContentDescription: String? = null,
+    popoverData: SirioPopoverData? = null,
     helperText: String? = null,
-    optionValues: Array<String> = emptyArray(),
+    optionValues: List<String> = emptyList(),
     onOptionValueSelected: ((value: String) -> Unit)? = null,
     state: TextFieldState? = null,
     backgroundColor: Color? = null,
     enabled: Boolean = true,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
     onDropdownStateChange: ((open: Boolean) -> Unit)? = null,
     onIconClick: (() -> Unit)? = null,
     onIconButtonClick: ((text: String) -> Unit)? = null,
@@ -146,10 +154,11 @@ internal fun SirioTextFieldCommon(
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
     val isFocused by interactionSource.collectIsFocusedAsState()
+    val focusManager = LocalFocusManager.current
 
     val isNumber = text.toDoubleOrNull() != null
     val stateColor: Color? = if (enabled) state?.toColor() else null
-    val stateIcon: FaIconType? = if (optionValues.isNotEmpty()) icon else state?.toIcon()
+    val stateIcon: SirioIconSource? = if (optionValues.isNotEmpty()) icon else state?.toIcon()
     val labelColor = stateColor ?: SirioTheme.colors.textField.label.get(
         pressed = isPressed,
         disabled = !enabled,
@@ -175,12 +184,7 @@ internal fun SirioTextFieldCommon(
         disabled = !enabled,
         valued = text.isNotEmpty(),
     )
-    val infoIconColor = SirioTheme.colors.textField.infoIcon.get(
-        pressed = isPressed,
-        disabled = !enabled,
-        valued = text.isNotEmpty(),
-    )
-    val iconColor = stateColor ?: SirioTheme.colors.textField.icon.get(
+    val iconColor = stateColor ?: iconColor ?: SirioTheme.colors.textField.icon.get(
         pressed = isPressed,
         disabled = !enabled,
         valued = text.isNotEmpty(),
@@ -208,18 +212,12 @@ internal fun SirioTextFieldCommon(
                     color = labelColor,
                     typography = SirioTheme.foundationTypography.labelMdMiddle,
                 )
-                onInfoClick?.let { infoClickAction ->
-                    IconButton(onClick = infoClickAction) {
-                        SirioIcon(
-                            icon = SirioIconSource.FaIcon(FaIcons.InfoCircle),
-                            size = textFieldInfoIconSize.dp,
-                            iconColor = infoIconColor,
-                            contentDescription = infoContentDescription,
-                        )
-                    }
+                popoverData?.let { popoverData ->
+                    Spacer(Modifier.width(textFieldLabelPopoverAnchorPadding.dp))
+                    SirioPopover(popoverData)
                 }
             }
-            if (onInfoClick == null) Spacer(modifier = Modifier.height(textFieldLabelVerticalPadding.dp))
+            Spacer(modifier = Modifier.height(textFieldLabelVerticalPadding.dp))
         }
         val colors = OutlinedTextFieldDefaults.colors(
             focusedTextColor = textColor,
@@ -262,14 +260,15 @@ internal fun SirioTextFieldCommon(
                 .onFocusChanged {
                     onDropdownStateChange?.invoke(it.hasFocus && optionValues.isNotEmpty())
                 }
-                .then(clickable),
+                .then(clickable)
+                .then(if (!label.isNullOrBlank()) Modifier.testTag("textField${label.takeTwoWords()}") else Modifier),
             enabled = enabled && onTextFieldClick == null,
             readOnly = onTextFieldClick != null,
             textStyle = textStyle.merge(TextStyle(color = textColor)),
             keyboardOptions = keyboardOptions,
             keyboardActions = keyboardActions,
             singleLine = true,
-            visualTransformation = if (secureText) PasswordVisualTransformation() else VisualTransformation.None,
+            visualTransformation = if (secureText) PasswordVisualTransformation() else visualTransformation,
 //            cursorBrush = SolidColor(textColor),
             interactionSource = interactionSource,
             decorationBox = @Composable { innerTextField ->
@@ -298,7 +297,7 @@ internal fun SirioTextFieldCommon(
                                 iconButton = iconButton,
                                 iconContentDescription = iconContentDescription,
                                 iconButtonContentDescription = iconButtonContentDescription,
-                                enabled = enabled,
+                                testTag = label.takeTwoWords(),
                                 onIconClick = onIconClick,
                                 onIconButtonClick = { onIconButtonClick?.invoke(text) },
                             )
@@ -339,7 +338,10 @@ internal fun SirioTextFieldCommon(
                     SirioTextFieldOptionItem(
                         value = it,
                         enabled = enabled,
-                        onItemClick = { onOptionValueSelected?.invoke(it) }
+                        onItemClick = {
+                            onOptionValueSelected?.invoke(it)
+                            focusManager.clearFocus()
+                        }
                     )
                 }
             }
@@ -406,7 +408,6 @@ private fun SirioTextFieldOptionItem(
  * @param icon The optional clickable [FaIcons]
  * @param iconColor The tint color of [icon]
  * @param iconButton The [FaIcons] in the button, if null no button is placed in trailing
- * @param enabled Whether the icons can be pressed
  * @param iconContentDescription The content description for the icon
  * @param iconButtonContentDescription The content description for the icon button
  * @param onIconClick The callback invoked on [icon] tap
@@ -414,35 +415,41 @@ private fun SirioTextFieldOptionItem(
  */
 @Composable
 private fun TrailingIcon(
-    icon: FaIconType?,
-    iconColor: Color,
-    iconButton: FaIconType?,
-    enabled: Boolean,
+    icon: SirioIconSource? = null,
+    iconColor: Color? = null,
+    iconButton: SirioIconSource? = null,
     iconContentDescription: String? = null,
     iconButtonContentDescription: String? = null,
-    onIconClick: (() -> Unit)?,
-    onIconButtonClick: (() -> Unit)?,
+    testTag: String? = null,
+    onIconClick: (() -> Unit)? = null,
+    onIconButtonClick: (() -> Unit)? = null,
 ) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        icon?.let {
-            IconButton(onClick = onIconClick ?: {}, enabled = enabled) {
-                SirioIcon(
-                    icon = SirioIconSource.FaIcon(it),
-                    size = textFieldIconSize.dp,
-                    iconColor = iconColor,
-                    contentDescription = iconContentDescription,
+    if (icon != null || iconButton != null) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            icon?.let {
+                Box(
+                    modifier = Modifier.testTag("textFieldIcon$testTag"),
+                ) {
+                    SirioIcon(
+                        icon = it,
+                        size = textFieldIconSize.dp,
+                        iconColor = iconColor ?: Color.Unspecified,
+                        contentDescription = iconContentDescription,
+                        onClick = onIconClick,
+                    )
+                }
+            }
+            iconButton?.let {
+                Spacer(Modifier.width(textFieldIconPaddingEnd.dp))
+                SirioButton(
+                    modifier = Modifier.testTag("textFieldIconButton$testTag"),
+                    size = SirioButtonSize.Large,
+                    hierarchy = SirioButtonHierarchy.Primary,
+                    icon = iconButton,
+                    iconContentDescription = iconButtonContentDescription,
+                    onClick = onIconButtonClick ?: {},
                 )
             }
-        }
-        iconButton?.let {
-            SirioButton(
-                size = SirioButtonSize.Large,
-                hierarchy = SirioButtonHierarchy.Primary,
-                icon = SirioIconSource.FaIcon(iconButton),
-                enabled = enabled,
-                iconContentDescription = iconButtonContentDescription,
-                onClick = onIconButtonClick ?: {},
-            )
         }
     }
 }
@@ -452,7 +459,6 @@ data class SirioTextFieldColors(
     var background: SirioColorState,
     var border: SirioColorState,
     var label: SirioColorState,
-    var infoIcon: SirioColorState,
     var icon: SirioColorState,
     var helperText: SirioColorState,
     var placeholder: SirioColorState,
@@ -467,7 +473,6 @@ data class SirioTextFieldColors(
             background = SirioColorState.Unspecified,
             border = SirioColorState.Unspecified,
             label = SirioColorState.Unspecified,
-            infoIcon = SirioColorState.Unspecified,
             icon = SirioColorState.Unspecified,
             helperText = SirioColorState.Unspecified,
             placeholder = SirioColorState.Unspecified,
@@ -500,7 +505,6 @@ internal val textFieldLightColors = SirioTextFieldColors(
         warning = FoundationColor.colorSpecificDataEntryLabelColorWarning,
         success = FoundationColor.colorSpecificDataEntryLabelColorSuccess,
     ),
-    infoIcon = SirioColorState.all(color = FoundationColor.colorGlobalSemanticInfo100),
     icon = SirioColorState(
         disabled = FoundationColor.colorAliasInteractiveSecondaryDefault,
         default = FoundationColor.colorAliasInteractiveSecondaryDefault,
@@ -547,10 +551,10 @@ internal fun TextFieldState.toColor(): Color = when (this) {
     TextFieldState.Success -> SirioTheme.colors.textField.border.success
 }
 
-internal fun TextFieldState.toIcon(): FaIconType = when (this) {
-    TextFieldState.Alert -> FaIcons.ExclamationTriangle
-    TextFieldState.Warning -> FaIcons.ExclamationCircle
-    TextFieldState.Success -> FaIcons.Check
+internal fun TextFieldState.toIcon(): SirioIconSource = when (this) {
+    TextFieldState.Alert -> SirioIconSource.FaIcon(FaIcons.ExclamationTriangle)
+    TextFieldState.Warning -> SirioIconSource.FaIcon(FaIcons.ExclamationCircle)
+    TextFieldState.Success -> SirioIconSource.FaIcon(FaIcons.Check)
 }
 
 enum class TextFieldState {
@@ -558,14 +562,6 @@ enum class TextFieldState {
     Alert,
     Success,
 }
-
-//@Preview(showSystemUi = false)
-//@Composable
-//private fun SirioTextFieldOptionItemPreview() {
-//    SirioTheme {
-//        SirioTextFieldOptionItem(value = "Value", enabled = true, onItemClick = {})
-//    }
-//}
 
 @Preview(showSystemUi = true)
 @Composable
@@ -581,13 +577,13 @@ private fun TextFieldCommonPreview() {
         ) {
             var text by remember { mutableStateOf("Text") }
             SirioTextFieldCommon(
-                text = "Text",
-                onValueChange = {},
-                icon = FaIcons.Times,
-                iconButton = FaIcons.Search,
+                text = text,
+                onValueChange = { text = it },
+                icon = SirioIconSource.FaIcon(FaIcons.Times),
+                iconButton = SirioIconSource.FaIcon(FaIcons.Search),
                 label = "Label",
                 helperText = "*Helper text",
-                optionValues = arrayOf(
+                optionValues = listOf(
                     "Option Value 1",
                     "Option Value 2",
                     "Option Value 3",
@@ -596,11 +592,16 @@ private fun TextFieldCommonPreview() {
                 state = TextFieldState.Warning,
             )
             SirioTextFieldCommon(
-                text = "Text",
-                onValueChange = {},
-                icon = FaIcons.ExclamationCircle,
+                text = text,
+                onValueChange = { text = it },
                 label = "Label",
-                onInfoClick = {},
+                helperText = "*Helper text",
+            )
+            SirioTextFieldCommon(
+                text = text,
+                onValueChange = { text = it },
+                icon = SirioIconSource.FaIcon(FaIcons.ExclamationCircle),
+                label = "Label",
                 helperText = "*Helper text",
                 state = TextFieldState.Warning,
             )
@@ -608,30 +609,34 @@ private fun TextFieldCommonPreview() {
                 text = text,
                 placeholder = "Placeholder",
                 onValueChange = { text = it },
-                icon = FaIcons.ExclamationTriangle,
+                icon = SirioIconSource.FaIcon(FaIcons.ExclamationTriangle),
                 label = "Label",
-                onInfoClick = {},
                 helperText = "*Helper text",
                 state = TextFieldState.Alert,
             )
             SirioTextFieldCommon(
-                text = "Text",
-                onValueChange = {},
-                icon = FaIcons.Check,
+                text = text,
+                onValueChange = { text = it },
+                icon = SirioIconSource.FaIcon(FaIcons.Check),
                 label = "Label",
-                onInfoClick = {},
                 helperText = "*Helper text",
                 state = TextFieldState.Success,
             )
             SirioTextFieldCommon(
                 state = TextFieldState.Success,
-                text = "Text",
-                onValueChange = {},
-                icon = FaIcons.CalendarDay,
+                text = text,
+                onValueChange = { text = it },
+                icon = SirioIconSource.FaIcon(FaIcons.CalendarDay),
                 label = "Label",
-                onInfoClick = {},
                 helperText = "*Helper text",
                 enabled = false,
+            )
+            SirioTextFieldCommon(
+                text = text,
+                onValueChange = { text = it },
+                label = "Label",
+                helperText = "*Helper text",
+                popoverData = SirioPopoverData(text = "Popover text"),
             )
         }
     }
@@ -659,6 +664,35 @@ private fun TextFieldInRowPreview() {
                 text = "",
                 onValueChange = {},
                 label = "ANNO",
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun TrailingIconPreview() {
+    SirioTheme {
+        Column(
+            modifier = Modifier.background(Color.White),
+        ) {
+            TrailingIcon(
+                iconColor = FoundationColor.colorAliasTextColorSecondaryDark100,
+            )
+            TrailingIcon(
+                icon = SirioIconSource.FaIcon(FaIcons.Search),
+                iconColor = FoundationColor.colorAliasTextColorSecondaryDark100,
+            )
+            TrailingIcon(
+                icon = SirioIconSource.FaIcon(FaIcons.Search),
+                iconColor = FoundationColor.colorAliasTextColorSecondaryDark100,
+                onIconClick = {}
+            )
+            TrailingIcon(
+                icon = SirioIconSource.FaIcon(FaIcons.Times),
+                iconColor = FoundationColor.colorAliasTextColorSecondaryDark100,
+                iconButton = SirioIconSource.FaIcon(FaIcons.Search),
+                onIconClick = {}
             )
         }
     }

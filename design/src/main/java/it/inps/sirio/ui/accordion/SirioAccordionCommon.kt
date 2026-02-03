@@ -37,6 +37,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -55,11 +56,12 @@ import it.inps.sirio.theme.accordionHeight
 import it.inps.sirio.theme.accordionIconSize
 import it.inps.sirio.theme.accordionIndicatorSize
 import it.inps.sirio.ui.tag.SirioTag
-import it.inps.sirio.ui.tag.SirioTagType
+import it.inps.sirio.ui.tag.SirioTagColor
 import it.inps.sirio.ui.text.SirioText
 import it.inps.sirio.ui.text.SirioTextCommon
 import it.inps.sirio.utils.SirioIcon
 import it.inps.sirio.utils.SirioIconSource
+import it.inps.sirio.utils.takeTwoWords
 
 /**
  * Accordion implementation
@@ -70,7 +72,6 @@ import it.inps.sirio.utils.SirioIconSource
  * @param tag The optional tag to display
  * @param text The optional text to display
  * @param open Whether the accordion is open
- * @param enabled Whether the accordion is enabled
  * @param onTapAccordion Callback that is executed when the accordion is tapped
  * @param content The content of the accordion
  */
@@ -82,7 +83,6 @@ internal fun SirioAccordionCommon(
     tag: String? = null,
     text: String? = null,
     open: Boolean = false,
-    enabled: Boolean = true,
     onTapAccordion: ((Boolean) -> Unit)? = null,
     content: @Composable () -> Unit,
 ) {
@@ -92,23 +92,18 @@ internal fun SirioAccordionCommon(
 
         val backgroundColor = SirioTheme.colors.accordion.background.get(
             pressed = open || isPressed,
-            disabled = enabled.not(),
         )
         val borderColor = SirioTheme.colors.accordion.border.get(
             pressed = open || isPressed,
-            disabled = enabled.not(),
         )
         val iconColor = SirioTheme.colors.accordion.icon.get(
             pressed = open || isPressed,
-            disabled = enabled.not(),
         )
         val textColor = SirioTheme.colors.accordion.text.get(
             pressed = open || isPressed,
-            disabled = enabled.not(),
         )
         val indicatorColor = SirioTheme.colors.accordion.indicator.get(
             pressed = open || isPressed,
-            disabled = enabled.not(),
         )
 
         Column(
@@ -122,8 +117,8 @@ internal fun SirioAccordionCommon(
                 Modifier
                     .fillMaxWidth()
                     .height(accordionHeight.dp)
+                    .testTag("accordion${title.takeTwoWords()}")
                     .clickable(
-                        enabled = enabled,
                         interactionSource = interactionSource,
                         indication = null,
                     ) {
@@ -147,13 +142,13 @@ internal fun SirioAccordionCommon(
                 tag?.let {
                     SirioTag(
                         text = it,
-                        tagType = SirioTheme.colors.accordion.tag,
+                        color = SirioTheme.colors.accordion.tag,
                         modifier = Modifier.padding(horizontal = accordionHeaderPaddingTag.dp),
                     )
                 }
                 text?.let {
                     SirioText(
-                        text = it,
+                        text = "($it)",
                         modifier = Modifier.padding(horizontal = accordionHeaderPaddingText.dp),
                         color = textColor,
                         typography = SirioTheme.foundationTypography.labelMdRegular,
@@ -199,7 +194,7 @@ data class SirioAccordionColors(
     val border: SirioColorState,
     val icon: SirioColorState,
     val text: SirioColorState,
-    val tag: SirioTagType,
+    val tag: SirioTagColor,
     val indicator: SirioColorState,
     val contentBackground: Color,
     val contentBorder: Color,
@@ -211,7 +206,7 @@ data class SirioAccordionColors(
             border = SirioColorState.Unspecified,
             icon = SirioColorState.Unspecified,
             text = SirioColorState.Unspecified,
-            tag = SirioTagType.WHITE,
+            tag = SirioTagColor.Dark,
             indicator = SirioColorState.Unspecified,
             contentBackground = Color.Unspecified,
             contentBorder = Color.Unspecified,
@@ -240,7 +235,7 @@ internal val accordionLightColors = SirioAccordionColors(
         pressed = FoundationColor.colorAliasTextColorPrimaryDark110,
         disabled = FoundationColor.colorAliasTextColorDisabled,
     ),
-    tag = SirioTagType.WHITE,
+    tag = SirioTagColor.Light,
     indicator = SirioColorState(
         default = FoundationColor.colorAliasTextColorPrimaryDark110,
         pressed = FoundationColor.colorAliasTextColorPrimaryDark110,
@@ -254,24 +249,20 @@ internal val accordionDarkColors = SirioAccordionColors(
     background = SirioColorState(
         default = FoundationColor.colorAliasInteractivePrimaryDefault,
         pressed = FoundationColor.colorAliasInteractivePrimaryPressed,
-        disabled = FoundationColor.colorAliasBackgroundColorDisabled,
     ),
     border = SirioColorState.Unspecified,
     icon = SirioColorState(
         default = FoundationColor.colorAliasAppInteractivePrimary000Default,
         pressed = FoundationColor.colorAliasAppInteractivePrimary000Default,
-        disabled = FoundationColor.colorAliasTextColorDisabled,
     ),
     text = SirioColorState(
         default = FoundationColor.colorAliasTextColorPrimaryLight0,
         pressed = FoundationColor.colorAliasTextColorPrimaryLight0,
-        disabled = FoundationColor.colorAliasTextColorDisabled,
     ),
-    tag = SirioTagType.WHITE,
+    tag = SirioTagColor.Dark,
     indicator = SirioColorState(
         default = FoundationColor.colorAliasAppInteractivePrimary000Default,
         pressed = FoundationColor.colorAliasAppInteractivePrimary000Default,
-        disabled = FoundationColor.colorAliasTextColorDisabled,
     ),
     contentBackground = FoundationColor.colorAliasBackgroundColorPrimaryLight0,
     contentBorder = FoundationColor.colorAliasBackgroundColorPrimaryLight50,
@@ -316,13 +307,6 @@ private fun AccordionCommonPreview() {
                 )
                 SirioAccordionCommon(
                     title = "Title",
-                    color = SirioAccordionColor.PRIMARY,
-                    icon = SirioIconSource.FaIcon(FaIcons.Cube),
-                    enabled = false,
-                    content = content,
-                )
-                SirioAccordionCommon(
-                    title = "Title",
                     color = SirioAccordionColor.LIGHT,
                     icon = SirioIconSource.FaIcon(FaIcons.Cube),
                     content = content,
@@ -332,13 +316,6 @@ private fun AccordionCommonPreview() {
                     color = SirioAccordionColor.LIGHT,
                     icon = SirioIconSource.FaIcon(FaIcons.Cube),
                     open = true,
-                    content = content,
-                )
-                SirioAccordionCommon(
-                    title = "Title",
-                    color = SirioAccordionColor.LIGHT,
-                    icon = SirioIconSource.FaIcon(FaIcons.Cube),
-                    enabled = false,
                     content = content,
                 )
             }
@@ -350,37 +327,14 @@ private fun AccordionCommonPreview() {
                     title = "Title",
                     color = SirioAccordionColor.PRIMARY,
                     tag = "Tag",
-                    text = "(Text)",
+                    text = "Text",
                     content = content,
                 )
                 SirioAccordionCommon(
                     title = "Title",
                     color = SirioAccordionColor.PRIMARY,
                     tag = "Tag",
-                    text = "(Text)",
-                    open = true,
-                    content = content,
-                )
-                SirioAccordionCommon(
-                    title = "Title",
-                    color = SirioAccordionColor.PRIMARY,
-                    tag = "Tag",
-                    text = "(Text)",
-                    enabled = false,
-                    content = content,
-                )
-                SirioAccordionCommon(
-                    title = "Title",
-                    color = SirioAccordionColor.LIGHT,
-                    tag = "Tag",
-                    text = "(Text)",
-                    content = content,
-                )
-                SirioAccordionCommon(
-                    title = "Title",
-                    color = SirioAccordionColor.LIGHT,
-                    tag = "Tag",
-                    text = "(Text)",
+                    text = "Text",
                     open = true,
                     content = content,
                 )
@@ -388,8 +342,15 @@ private fun AccordionCommonPreview() {
                     title = "Title",
                     color = SirioAccordionColor.LIGHT,
                     tag = "Tag",
-                    text = "(Text)",
-                    enabled = false,
+                    text = "Text",
+                    content = content,
+                )
+                SirioAccordionCommon(
+                    title = "Title",
+                    color = SirioAccordionColor.LIGHT,
+                    tag = "Tag",
+                    text = "Text",
+                    open = true,
                     content = content,
                 )
             }

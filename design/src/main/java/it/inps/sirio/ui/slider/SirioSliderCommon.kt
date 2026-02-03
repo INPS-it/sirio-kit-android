@@ -39,6 +39,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -46,6 +47,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
@@ -68,8 +70,7 @@ import it.inps.sirio.theme.sliderTextPaddingBottom
 import it.inps.sirio.theme.sliderThumbBorderSize
 import it.inps.sirio.theme.sliderTitlePaddingBottom
 import it.inps.sirio.ui.text.SirioTextCommon
-import java.lang.Integer.min
-import kotlin.math.max
+import it.inps.sirio.utils.takeTwoWords
 import kotlin.math.roundToInt
 
 /**
@@ -120,7 +121,7 @@ internal fun SirioSliderCommon(
             val focusManager = LocalFocusManager.current
             Column(Modifier.weight(1f)) {
                 Slider(
-                    value = value.toFloat(),
+                    value = currentValue.toFloat(),
                     onValueChange = {
                         val newIntValue = it.roundToInt()
                         currentValue = newIntValue
@@ -171,15 +172,19 @@ internal fun SirioSliderCommon(
                     .height(sliderTextFieldHeight.dp),
                 contentAlignment = Alignment.Center,
             ) {
+                var tempValue: String by remember(currentValue) { mutableStateOf(currentValue.toString()) }
                 BasicTextField(
-                    value = "$currentValue",
+                    value = tempValue,
                     onValueChange = { newValueString ->
-                        newValueString.toIntOrNull()?.let { newValue ->
+                        val newValueFiltered = newValueString.filter { it.isDigit() }
+                        tempValue = newValueFiltered
+                        newValueFiltered.toIntOrNull()?.let { newValue ->
                             currentValue = newValue
                         }
                     },
                     modifier = Modifier
                         .fillMaxSize()
+                        .testTag("sliderTextField${title.takeTwoWords()}")
                         .align(Alignment.Center)
                         .border(
                             width = sliderTextFieldBorderWidth.dp,
@@ -188,8 +193,7 @@ internal fun SirioSliderCommon(
                         )
                         .onFocusChanged {
                             if (!it.hasFocus) {
-                                //Return minValue if int < minValue, maxValue if int > maxValue, int otherwise
-                                onValueChange(max(min(currentValue, maxValue), minValue))
+                                onValueChange(currentValue.coerceIn(minValue, maxValue))
                             }
                         },
                     keyboardOptions = KeyboardOptions(

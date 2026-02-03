@@ -7,7 +7,6 @@
 //
 package it.inps.sirio.utils
 
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.requiredSize
@@ -21,38 +20,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.guru.fontawesomecomposelib.FaIconType
-
-/**
- * Creates a custom icon with the specified parameters
- * @param faIcon The font awesome icon to be used. This parameter accepts an object of type FaIconType
- * @param iconResId The resource id of the image to be used as the icon if no [faIcon] is provided
- * @param iconColor The color of the icon
- * @param size The size of the icon in dp
- * @param contentDescription The content description for the icon
- * @return The custom icon
- */
-@Deprecated("Use SirioIcon with SirioIconSource instead")
-@Composable
-fun SirioIcon(
-    faIcon: FaIconType? = null,
-    @DrawableRes iconResId: Int? = null,
-    iconColor: Color,
-    size: Dp = 24.dp,
-    contentDescription: String? = null,
-    onclick: (() -> Unit)? = null,
-) {
-    require(faIcon != null || iconResId != null) { "At least one of faIcon or iconResId must be non-null" }
-    val icon =
-        if (faIcon != null) SirioIconSource.FaIcon(faIcon) else SirioIconSource.Drawable(iconResId!!)
-    SirioIcon(
-        icon = icon,
-        iconColor,
-        size,
-        contentDescription,
-        onclick
-    )
-}
 
 /**
  * A composable function that displays an icon from either a FontAwesome icon or a drawable resource.
@@ -61,7 +28,7 @@ fun SirioIcon(
  * @param iconColor The color of the icon.
  * @param size The size of the icon. Defaults to 24.dp.
  * @param contentDescription The content description for accessibility.
- * @param onclick An optional lambda function to be executed when the icon is clicked. If null, the icon is not clickable.
+ * @param onClick An optional lambda function to be executed when the icon is clicked. If null, the icon is not clickable.
  */
 @Composable
 fun SirioIcon(
@@ -69,17 +36,17 @@ fun SirioIcon(
     iconColor: Color,
     size: Dp = 24.dp,
     contentDescription: String? = null,
-    onclick: (() -> Unit)? = null,
+    onClick: (() -> Unit)? = null,
 ) {
     Box(
         Modifier
             .requiredSize(size)
             .ifElse(
-                condition = onclick != null,
+                condition = onClick != null,
                 ifTrueModifier = Modifier.clickable(
-                    enabled = onclick != null,
+                    enabled = onClick != null,
                     role = Role.Button,
-                    onClick = { onclick?.invoke() })
+                    onClick = { onClick?.invoke() })
             ),
         contentAlignment = Alignment.Center
     ) {
@@ -113,6 +80,6 @@ fun SirioIcon(iconData: SirioIconData) {
         iconColor = iconData.iconColor,
         size = iconData.size,
         contentDescription = iconData.contentDescription,
-        onclick = iconData.onclick,
+        onClick = iconData.onClick,
     )
 }

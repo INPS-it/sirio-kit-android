@@ -38,7 +38,7 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import it.inps.sirio.theme.SirioTheme
-import it.inps.sirio.ui.pagination.Pagination
+import it.inps.sirio.ui.pagination.SirioPagination
 
 class PaginationActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,13 +74,13 @@ fun PaginationDemoContent() {
         ) {
             var selectedIndex by remember { mutableIntStateOf(0) }
             Text(text = "Enabled")
-            Pagination(
+            SirioPagination(
                 numberOfPages = 10,
                 selectedPage = selectedIndex,
                 enabled = true,
                 onPageChanged = { selectedIndex = it })
             Text(text = "Disabled")
-            Pagination(
+            SirioPagination(
                 numberOfPages = 10,
                 selectedPage = 0,
                 enabled = false,

@@ -32,6 +32,7 @@ import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
@@ -47,19 +48,17 @@ import it.inps.sirio.theme.appNavigationActionContentSize
 import it.inps.sirio.theme.appNavigationActionIconPadding
 import it.inps.sirio.theme.appNavigationActionIconSize
 import it.inps.sirio.theme.appNavigationMaxLines
-import it.inps.sirio.theme.appNavigationTitleLongMaxLines
-import it.inps.sirio.theme.appNavigationTitleMaxLines
 import it.inps.sirio.ui.badge.SirioBadgeBox
 import it.inps.sirio.ui.text.SirioTextCommon
 import it.inps.sirio.utils.SirioIcon
 import it.inps.sirio.utils.SirioIconSource
 
 /**
-* Displays the title within the Sirio app's navigation bar.
-*
-* @param title The text to be displayed as the navigation title.
-* @param typography The `TextStyle` to be applied to the title. Defaults to `SirioTheme.foundationTypography.labelMdMiddle`.
-*/
+ * Displays the title within the Sirio app's navigation bar.
+ *
+ * @param title The text to be displayed as the navigation title.
+ * @param typography The `TextStyle` to be applied to the title. Defaults to `SirioTheme.foundationTypography.labelMdMiddle`.
+ */
 @Composable
 internal fun SirioAppNavigationTitle(
     title: String,
@@ -72,22 +71,6 @@ internal fun SirioAppNavigationTitle(
         overflow = TextOverflow.Ellipsis,
         maxLines = maxLines,
         typography = typography,
-    )
-}
-
-/**
- * The title of the app navigation
- *
- * @param title The text to show
- * @param long Whether the app navigation is long type
- * @param big Whether the app navigation is big type
- */
-@Composable
-internal fun SirioAppNavigationTitleLegacy(title: String, long: Boolean = false, big: Boolean = false) {
-    SirioTextCommon(
-        text = title,
-        maxLines = if (long) appNavigationTitleLongMaxLines else appNavigationTitleMaxLines,
-        typography = if (big) SirioTheme.typography.appNavigation.titleBig else SirioTheme.typography.appNavigation.title,
     )
 }
 
@@ -105,9 +88,9 @@ internal fun sirioAppNavigationActions(
     rightThirdItem: SirioAppNavigationItemData? = null,
 ): @Composable (RowScope.() -> Unit) =
     {
-        rightFirstItem?.let { SirioAppNavigationButton(it) }
-        rightSecondItem?.let { SirioAppNavigationButton(it) }
-        rightThirdItem?.let { SirioAppNavigationButton(it) }
+        rightFirstItem?.let { SirioAppNavigationButton(it, "buttonRightFirstItem") }
+        rightSecondItem?.let { SirioAppNavigationButton(it, "buttonRightSecondItem") }
+        rightThirdItem?.let { SirioAppNavigationButton(it, "buttonRightThirdItem") }
     }
 
 /**
@@ -123,19 +106,22 @@ internal fun sirioAppNavigationActions(
 @Composable
 internal fun SirioAppNavigationButton(
     data: SirioAppNavigationItemData,
+    testTag: String? = null,
 ) {
     if (data.username.isNotBlank())
-        SirioAppNavigationUsernameButton(
+        SirioAppNavigationAvatarButton(
             username = data.username,
             contentDescription = data.contentDescription,
-            action = data.action
+            testTag = testTag,
+            action = data.action,
         )
     else
         SirioAppNavigationIconButton(
             icon = data.icon,
             contentDescription = data.contentDescription,
             badge = data.badge,
-            action = data.action
+            testTag = testTag,
+            action = data.action,
         )
 }
 
@@ -158,11 +144,12 @@ internal fun SirioAppNavigationIconButton(
     icon: FaIconType,
     contentDescription: String? = null,
     badge: Boolean = false,
+    testTag: String? = null,
     action: () -> Unit,
 ) {
     val sirioAppNavigationButtonRipple =
         RippleConfiguration(
-            color = SirioTheme.colors.appNavigation.actionContainerPressed,
+            color = SirioTheme.colors.appNavigation.action.containerPressed,
             rippleAlpha = null,
         )
     CompositionLocalProvider(LocalRippleConfiguration provides sirioAppNavigationButtonRipple) {
@@ -170,10 +157,11 @@ internal fun SirioAppNavigationIconButton(
             onClick = action,
             modifier = Modifier
                 .size(appNavigationActionButtonSize.dp)
-                .padding(appNavigationActionIconPadding.dp),
+                .padding(appNavigationActionIconPadding.dp)
+                .testTag(testTag.orEmpty()),
             colors = IconButtonDefaults.iconButtonColors(
-                containerColor = SirioTheme.colors.appNavigation.actionContainer,
-                contentColor = SirioTheme.colors.appNavigation.actionContent,
+                containerColor = SirioTheme.colors.appNavigation.action.container,
+                contentColor = SirioTheme.colors.appNavigation.action.content,
             ),
         ) {
             SirioBadgeBox(hasBadge = badge) {
@@ -200,9 +188,10 @@ internal fun SirioAppNavigationIconButton(
  * @param action The callback at click
  */
 @Composable
-internal fun SirioAppNavigationUsernameButton(
+internal fun SirioAppNavigationAvatarButton(
     username: String,
     contentDescription: String? = null,
+    testTag: String? = null,
     action: () -> Unit,
 ) {
     val semantics =
@@ -211,29 +200,37 @@ internal fun SirioAppNavigationUsernameButton(
         } else {
             Modifier
         }
-    TextButton(
-        onClick = action,
-        modifier = Modifier
-            .size(appNavigationActionButtonSize.dp)
-            .padding(appNavigationActionIconPadding.dp)
-            .then(semantics),
-        colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
-        contentPadding = PaddingValues(0.dp),
-    ) {
-        Box(
+    val sirioAvatarButtonRipple =
+        RippleConfiguration(
+            color = SirioTheme.colors.appNavigation.avatar.containerPressed,
+            rippleAlpha = null,
+        )
+    CompositionLocalProvider(LocalRippleConfiguration provides sirioAvatarButtonRipple) {
+        TextButton(
+            onClick = action,
             modifier = Modifier
-                .size(appNavigationActionContentSize.dp)
-                .background(
-                    color = SirioTheme.colors.appNavigation.avatarBackground,
-                    shape = CircleShape,
-                ),
-            contentAlignment = Alignment.Center,
+                .size(appNavigationActionButtonSize.dp)
+                .padding(appNavigationActionIconPadding.dp)
+                .testTag(testTag.orEmpty())
+                .then(semantics),
+            colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
+            contentPadding = PaddingValues(0.dp),
         ) {
-            SirioTextCommon(
-                text = username.take(2).uppercase(),
-                color = SirioTheme.colors.appNavigation.avatarText,
-                typography = SirioTheme.foundationTypography.labelMdHeavy,
-            )
+            Box(
+                modifier = Modifier
+                    .size(appNavigationActionContentSize.dp)
+                    .background(
+                        color = SirioTheme.colors.appNavigation.avatar.container,
+                        shape = CircleShape,
+                    ),
+                contentAlignment = Alignment.Center,
+            ) {
+                SirioTextCommon(
+                    text = username.take(2).uppercase(),
+                    color = SirioTheme.colors.appNavigation.avatar.content,
+                    typography = SirioTheme.foundationTypography.labelMdHeavy,
+                )
+            }
         }
     }
 }
@@ -241,82 +238,94 @@ internal fun SirioAppNavigationUsernameButton(
 @Keep
 data class SirioAppNavigationColors(
     val background: Color,
-    val actionContent: Color,
-    val actionContainer: Color,
-    val actionContainerPressed: Color,
-    val searchTextFieldBackground: Color,
-    val searchBackground: Color,
-    val searchContent: Color,
-    val searchText: Color,
+    val action: SirioAppNavigationActionColors,
+    val avatar: SirioAppNavigationAvatarColors,
+    val logo: SirioAppNavigationLogoColors,
+    val search: SirioAppNavigationSearchColors,
     val text: Color,
-    val avatarBackground: Color,
-    val avatarText: Color,
 ) {
     companion object {
         @Stable
         val Unspecified = SirioAppNavigationColors(
             background = Color.Unspecified,
-            actionContent = Color.Unspecified,
-            actionContainer = Color.Unspecified,
-            actionContainerPressed = Color.Unspecified,
-            searchTextFieldBackground = Color.Unspecified,
-            searchBackground = Color.Unspecified,
-            searchContent = Color.Unspecified,
-            searchText = Color.Unspecified,
+            action = SirioAppNavigationActionColors.Unspecified,
+            avatar = SirioAppNavigationAvatarColors.Unspecified,
+            logo = SirioAppNavigationLogoColors.Unspecified,
+            search = SirioAppNavigationSearchColors.Unspecified,
             text = Color.Unspecified,
-            avatarBackground = Color.Unspecified,
-            avatarText = Color.Unspecified,
         )
     }
 }
 
+@Keep
+data class SirioAppNavigationActionColors(
+    val content: Color,
+    val container: Color,
+    val containerPressed: Color,
+) {
+    companion object {
+        @Stable
+        val Unspecified = SirioAppNavigationActionColors(
+            content = Color.Unspecified,
+            container = Color.Unspecified,
+            containerPressed = Color.Unspecified,
+        )
+    }
+}
+
+@Keep
+data class SirioAppNavigationAvatarColors(
+    val content: Color,
+    val container: Color,
+    val containerPressed: Color,
+) {
+    companion object {
+        @Stable
+        val Unspecified = SirioAppNavigationAvatarColors(
+            content = Color.Unspecified,
+            container = Color.Unspecified,
+            containerPressed = Color.Unspecified,
+        )
+    }
+}
+
+val appNavigationActionLightColors = SirioAppNavigationActionColors(
+    content = FoundationColor.colorAliasAppInteractiveSecondaryDefault,
+    container = Color.Transparent,
+    containerPressed = FoundationColor.colorAliasOverlay15Secondary100,
+)
+
+val appNavigationActionDarkColors = SirioAppNavigationActionColors(
+    content = FoundationColor.colorAliasTextColorPrimaryLight0,
+    container = Color.Transparent,
+    containerPressed = FoundationColor.colorAliasOverlay25Primary000,
+)
+
+val appNavigationAvatarLightColors = SirioAppNavigationAvatarColors(
+    container = FoundationColor.colorAliasBackgroundColorPrimaryLight50,
+    containerPressed = FoundationColor.colorAliasOverlay15Secondary100,
+    content = FoundationColor.colorAliasInteractivePrimaryDefault,
+)
+
+val appNavigationAvatarDarkColors = appNavigationAvatarLightColors
+
 internal val appNavigationLightColors = SirioAppNavigationColors(
     background = FoundationColor.colorAliasBackgroundColorPrimaryLight0,
-    actionContent = FoundationColor.colorAliasAppInteractiveSecondaryDefault,
-    actionContainer = Color.Transparent,
-    actionContainerPressed = FoundationColor.colorAliasOverlay15Secondary100,
-    searchTextFieldBackground = FoundationColor.colorAliasBackgroundColorPrimaryLight0,
-    searchBackground = FoundationColor.colorAliasBackgroundColorPrimaryLight40,
-    searchContent = FoundationColor.colorAliasAppInteractiveSecondaryDefault,
-    searchText = FoundationColor.colorAliasTextColorDisabled,
+    action = appNavigationActionLightColors,
+    avatar = appNavigationAvatarLightColors,
+    logo = appNavigationLogoLightColors,
+    search = appNavigationSearchLightColors,
     text = FoundationColor.colorAliasTextColorPrimaryDark110,
-    avatarBackground = FoundationColor.colorAliasBackgroundColorPrimaryLight50,
-    avatarText = FoundationColor.colorAliasInteractivePrimaryDefault,
 )
 
 internal val appNavigationDarkColors = SirioAppNavigationColors(
     background = FoundationColor.colorAliasBackgroundColorPrimaryDark120,
-    actionContent = FoundationColor.colorAliasTextColorPrimaryLight0,
-    actionContainer = Color.Transparent,
-    actionContainerPressed = FoundationColor.colorAliasOverlay25Primary000,
-    searchTextFieldBackground = FoundationColor.colorAliasBackgroundColorPrimaryLight0,
-    searchBackground = FoundationColor.colorAliasBackgroundColorPrimaryLight40,
-    searchContent = FoundationColor.colorAliasAppInteractiveSecondaryDefault,
-    searchText = FoundationColor.colorAliasTextColorDisabled,
+    action = appNavigationActionDarkColors,
+    avatar = appNavigationAvatarDarkColors,
+    logo = appNavigationLogoDarkColors,
+    search = appNavigationSearchDarkColors,
     text = FoundationColor.colorAliasTextColorPrimaryLight50,
-    avatarBackground = FoundationColor.colorAliasBackgroundColorPrimaryDark115,
-    avatarText = FoundationColor.colorAliasAppInteractivePrimary000Default,
 )
-
-@Keep
-data class SirioAppNavigationTypography(
-    val search: TextStyle,
-    val searchPlaceholder: TextStyle,
-    val title: TextStyle,
-    val titleBig: TextStyle,
-    val avatar: TextStyle,
-) {
-    companion object {
-        @Stable
-        val Default = SirioAppNavigationTypography(
-            search = TextStyle.Default,
-            searchPlaceholder = TextStyle.Default,
-            title = TextStyle.Default,
-            titleBig = TextStyle.Default,
-            avatar = TextStyle.Default,
-        )
-    }
-}
 
 @Preview
 @Composable
@@ -347,13 +356,13 @@ private fun SirioAppNavigationTitlePreview() {
                 SirioAppNavigationIconButton(icon = FaIcons.User, badge = true) {}
             }
             SirioTheme(darkTheme = false) {
-                SirioAppNavigationUsernameButton(
+                SirioAppNavigationAvatarButton(
                     username = "MC",
                     action = {},
                 )
             }
             SirioTheme(darkTheme = true) {
-                SirioAppNavigationUsernameButton(
+                SirioAppNavigationAvatarButton(
                     username = "MC",
                     action = {},
                 )

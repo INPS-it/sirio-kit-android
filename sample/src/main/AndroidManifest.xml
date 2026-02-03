@@ -11,9 +11,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Sirio">
         <activity
-            android:name="it.inps.design.titlebar.TitleBarActivity"
-            android:exported="false" />
-        <activity
             android:name="it.inps.design.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.Sirio.NoActionBar">
@@ -39,9 +36,12 @@
         <activity android:name="it.inps.design.filter.FilterActivity" />
         <activity android:name="it.inps.design.foundation.FoundationActivity" />
         <activity android:name="it.inps.design.hero.HeroActivity" />
+        <activity android:name="it.inps.design.listitem.ListItemActivity" />
+        <activity android:name="it.inps.design.loader.LoaderActivity" />
         <activity android:name="it.inps.design.menuspalla.MenuSpallaActivity" />
         <activity android:name="it.inps.design.notifiche.NotificheActivity" />
         <activity android:name="it.inps.design.pagination.PaginationActivity" />
+        <activity android:name="it.inps.design.popover.PopoverActivity" />
         <activity android:name="it.inps.design.progressbar.ProgressBarActivity" />
         <activity android:name="it.inps.design.radiobutton.RadioButtonActivity" />
         <activity android:name="it.inps.design.searchbar.SearchBarActivity" />

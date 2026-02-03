@@ -10,6 +10,7 @@ package it.inps.sirio.ui.notification
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -22,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -116,15 +118,19 @@ private fun SirioNotificaInLineaHeader(
         )
         Spacer(Modifier.weight(1f))
         onClose?.let {
-            SirioIcon(
-                iconData = SirioIconData(
-                    icon = SirioIconSource.FaIcon(FaIcons.Times),
-                    iconColor = closeColor,
-                    size = notificaCloseSize.dp,
-                    contentDescription = closeContentDescription,
-                    onclick = onClose,
+            Box(
+                modifier = Modifier.testTag("buttonCloseNotifica")
+            ) {
+                SirioIcon(
+                    iconData = SirioIconData(
+                        icon = SirioIconSource.FaIcon(FaIcons.Times),
+                        iconColor = closeColor,
+                        size = notificaCloseSize.dp,
+                        contentDescription = closeContentDescription,
+                        onClick = onClose,
+                    )
                 )
-            )
+            }
         }
     }
 }
@@ -153,7 +159,9 @@ private fun SirioNotificaInLineaContent(
         link?.let {
             SirioText(
                 text = it,
-                modifier = Modifier.clickable(onClick = onLinkClick ?: {}),
+                modifier = Modifier
+                    .testTag("linkNotifica")
+                    .clickable(onClick = onLinkClick ?: {}),
                 color = SirioTheme.colors.notifica.pagina.link,
                 textDecoration = TextDecoration.Underline,
                 typography = SirioTheme.foundationTypography.linkMdHeavy,

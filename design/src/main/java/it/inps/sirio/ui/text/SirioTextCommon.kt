@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
@@ -32,6 +33,7 @@ import it.inps.sirio.theme.SirioTheme
  * @param textAlign the alignment of the text within the lines of the paragraph. See [TextStyle.textAlign].
  * @param overflow A [TextOverflow] value indicating how to handle overflow text. Defaults to [TextOverflow.Clip]
  * @param maxLines An integer value indicating the maximum number of lines to display. Defaults to [Int.MAX_VALUE]
+ * @param onTextLayout A callback that is invoked when the text layout is calculated. See [Text]
  * @param typography A [TextStyle] value for specifying the typography of the text.
  */
 @Composable
@@ -43,6 +45,7 @@ internal fun SirioTextCommon(
     textAlign: TextAlign? = null,
     overflow: TextOverflow = TextOverflow.Clip,
     maxLines: Int = Int.MAX_VALUE,
+    onTextLayout: ((TextLayoutResult) -> Unit)? = null,
     typography: TextStyle = SirioTheme.foundationTypography.bodyMdRegular,
 ) {
     Text(
@@ -53,6 +56,7 @@ internal fun SirioTextCommon(
         textAlign = textAlign,
         overflow = overflow,
         maxLines = maxLines,
+        onTextLayout = onTextLayout,
         style = typography,
     )
 }

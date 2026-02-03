@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Surface
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -23,8 +22,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastFirst
 import com.guru.fontawesomecomposelib.FaIcons
 import it.inps.sirio.theme.SirioTheme
+import it.inps.sirio.theme.appNavigationDividerHeight
 import it.inps.sirio.theme.appNavigationHeight
 import it.inps.sirio.theme.appNavigationPaddingHorizontal
+import it.inps.sirio.utils.Border
+import it.inps.sirio.utils.border
+import it.inps.sirio.utils.ifElse
 import kotlin.math.max
 
 /**
@@ -37,18 +40,28 @@ import kotlin.math.max
  * @param actions The composable actions of the app bar.
  * @receiver [RowScope]
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun SirioTopAppBar(
     title: @Composable () -> Unit,
     centerTitle: Boolean = false,
     navigationIcon: @Composable () -> Unit = {},
     containerColor: Color = SirioTheme.colors.appNavigation.background,
+    dividerColor: Color? = null,
     windowInsets: WindowInsets = TopAppBarDefaults.windowInsets,
     actions: @Composable RowScope.() -> Unit = {},
 ) {
     Surface(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .ifElse(
+                dividerColor != null,
+                Modifier.border(
+                    bottom = Border(
+                        strokeWidth = appNavigationDividerHeight.dp,
+                        color = dividerColor ?: containerColor,
+                    )
+                )
+            ),
         color = containerColor,
     ) {
         Layout(

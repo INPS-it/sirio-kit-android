@@ -10,7 +10,7 @@ sirio-kit-android is a library containing the android implementation of the Siri
 
 ## Requirements
 
-- Android 5+
+- Android 6.0+ (API level 23)****
 
 ## Usage
 1. Add dependency to your project:
@@ -25,7 +25,7 @@ repositories {
    }
 }
 dependencies {
-    implementation 'it.inps.sirio:library:10.0.0'
+    implementation 'it.inps.sirio:library:11.0.0'
 }
 ```
 2. Add following repository in your gradle file (es. settings.gradle)

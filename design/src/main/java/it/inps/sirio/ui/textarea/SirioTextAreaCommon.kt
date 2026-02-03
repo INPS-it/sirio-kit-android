@@ -42,6 +42,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
@@ -62,6 +63,7 @@ import it.inps.sirio.theme.textAreaPaddingBottom
 import it.inps.sirio.ui.text.SirioTextCommon
 import it.inps.sirio.utils.SirioIcon
 import it.inps.sirio.utils.SirioIconSource
+import it.inps.sirio.utils.takeTwoWords
 
 /**
  * A common composable function for creating a Sirio-styled text area.
@@ -146,7 +148,7 @@ internal fun SirioTextAreaCommon(
                     typography = SirioTheme.foundationTypography.labelMdMiddle,
                 )
                 onInfoClick?.let { infoClickAction ->
-                    IconButton(onClick = infoClickAction) {
+                    IconButton(onClick = infoClickAction, modifier =if(label.isNotBlank()) Modifier.testTag("buttonInfoTextArea${label.takeTwoWords()}") else Modifier) {
                         SirioIcon(
                             icon = SirioIconSource.FaIcon(FaIcons.InfoCircle),
                             size = textAreaInfoIconSize.dp,
@@ -200,7 +202,7 @@ internal fun SirioTextAreaCommon(
                     minHeight = TextFieldDefaults.MinHeight,
                 )
                 .height(textAreaDefaultHeight.dp)
-                .then(clickable),
+                .then(clickable).testTag("textArea${label.takeTwoWords()}"),
             enabled = enabled && onTextAreaClick == null,
             readOnly = onTextAreaClick != null,
             textStyle = SirioTheme.foundationTypography.bodyMdRegular.merge(TextStyle(color = textColor)),

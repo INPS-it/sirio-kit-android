@@ -22,7 +22,7 @@ fun NavigationGraph(navController: NavHostController) {
         composable<News> {
             NewsScreen()
         }
-        composable<Maps> {
+        composable<Options> {
             MapScreen()
         }
         composable<Contacts> {

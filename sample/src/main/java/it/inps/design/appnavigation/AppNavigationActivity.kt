@@ -14,7 +14,6 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -27,9 +26,10 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -45,7 +45,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.guru.fontawesomecomposelib.FaIcons
-import it.inps.design.ui.DemoMenuItem
 import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.ui.appnavigation.SirioAppNavigation
 import it.inps.sirio.ui.appnavigation.SirioAppNavigationItemData
@@ -53,10 +52,10 @@ import it.inps.sirio.ui.appnavigation.SirioAppNavigationLogo
 import it.inps.sirio.ui.appnavigation.SirioAppNavigationSearch
 import it.inps.sirio.ui.appnavigation.SirioAppNavigationSelection
 import it.inps.sirio.ui.appnavigation.SirioFunction
+import it.inps.sirio.ui.listItem.SirioListItem
 
 class AppNavigationActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         setContent {
             SirioTheme {
@@ -81,7 +80,10 @@ private fun AppNavigationDemoView() {
             .safeDrawingPadding()
             .fillMaxSize(),
         topBar = {
-            SirioAppNavigation(title = title)
+            TopAppBar(
+                title = { Text(text = title) },
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = SirioTheme.colors.brand)
+            )
         }
 
     ) {
@@ -98,26 +100,21 @@ fun AppNavigationMenuDemo(navController: NavController) {
             .padding(0.dp, 16.dp)
             .verticalScroll(rememberScrollState()),
     ) {
-        DemoMenuItem(AppNavigationDestinations.APPNAVIGATION_LOGO_ROUTE) {
+        SirioListItem(AppNavigationDestinations.APPNAVIGATION_LOGO_ROUTE) {
             navController.navigate(AppNavigationDestinations.APPNAVIGATION_LOGO_ROUTE)
         }
-        HorizontalDivider()
-        DemoMenuItem(AppNavigationDestinations.APPNAVIGATION_STANDARD_ROUTE) {
+        SirioListItem(AppNavigationDestinations.APPNAVIGATION_STANDARD_ROUTE) {
             navController.navigate(AppNavigationDestinations.APPNAVIGATION_STANDARD_ROUTE)
         }
-        HorizontalDivider()
-        DemoMenuItem(AppNavigationDestinations.APPNAVIGATION_SELECTION_ROUTE) {
+        SirioListItem(AppNavigationDestinations.APPNAVIGATION_SELECTION_ROUTE) {
             navController.navigate(AppNavigationDestinations.APPNAVIGATION_SELECTION_ROUTE)
         }
-        HorizontalDivider()
-        DemoMenuItem(AppNavigationDestinations.APPNAVIGATION_SEARCH_ROUTE) {
+        SirioListItem(AppNavigationDestinations.APPNAVIGATION_SEARCH_ROUTE) {
             navController.navigate(AppNavigationDestinations.APPNAVIGATION_SEARCH_ROUTE)
         }
-        HorizontalDivider()
-        DemoMenuItem(AppNavigationDestinations.APPNAVIGATION_FUNCTION_ROUTE) {
+        SirioListItem(AppNavigationDestinations.APPNAVIGATION_FUNCTION_ROUTE, showDivider = false) {
             navController.navigate(AppNavigationDestinations.APPNAVIGATION_FUNCTION_ROUTE)
         }
-        HorizontalDivider()
     }
 }
 

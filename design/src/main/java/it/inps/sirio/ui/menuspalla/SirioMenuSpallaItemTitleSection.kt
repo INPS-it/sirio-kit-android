@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -21,6 +22,7 @@ import it.inps.sirio.theme.menuSpallaItemTitleSectionPaddingTop
 import it.inps.sirio.ui.text.SirioTextCommon
 import it.inps.sirio.utils.Border
 import it.inps.sirio.utils.border
+import it.inps.sirio.utils.takeTwoWords
 
 @Composable
 fun SirioMenuSpallaItemTitleSection(
@@ -43,10 +45,11 @@ fun SirioMenuSpallaItemTitleSection(
             text = title,
             modifier = Modifier
                 .padding(horizontal = menuSpallaItemTitleSectionPaddingHorizontal.dp)
-                .padding(top = menuSpallaItemTitleSectionPaddingTop.dp),
+                .padding(top = menuSpallaItemTitleSectionPaddingTop.dp)
+                .testTag("sirioSpalla${title.takeTwoWords()}"),
             overflow = TextOverflow.Ellipsis,
             maxLines = 1,
-            typography = SirioTheme.typography.menuSpalla.itemTitleSection.title,
+            typography = SirioTheme.foundationTypography.headlineMdHeavy,
         )
     }
 }

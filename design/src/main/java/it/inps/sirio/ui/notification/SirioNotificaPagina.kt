@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -135,15 +136,19 @@ private fun SirioNotificaPaginaHeader(
             )
         )
         Spacer(Modifier.weight(1f))
-        SirioIcon(
-            iconData = SirioIconData(
-                icon = SirioIconSource.FaIcon(FaIcons.Times),
-                iconColor = closeColor,
-                size = notificaCloseSize.dp,
-                contentDescription = closeContentDescription,
-                onclick = onClose,
+        Box(
+            modifier = Modifier.testTag("buttonCloseNotifica")
+        ) {
+            SirioIcon(
+                iconData = SirioIconData(
+                    icon = SirioIconSource.FaIcon(FaIcons.Times),
+                    iconColor = closeColor,
+                    size = notificaCloseSize.dp,
+                    contentDescription = closeContentDescription,
+                    onClick = onClose,
+                )
             )
-        )
+        }
     }
 }
 
@@ -179,7 +184,9 @@ private fun SirioNotificaPaginaContent(
         link?.let {
             SirioText(
                 text = it,
-                modifier = Modifier.clickable(onClick = onLinkClick ?: {}),
+                modifier = Modifier
+                    .testTag("linkNotifica")
+                    .clickable(onClick = onLinkClick ?: {}),
                 color = SirioTheme.colors.notifica.pagina.link,
                 textDecoration = TextDecoration.Underline,
                 typography = SirioTheme.foundationTypography.linkMdHeavy,

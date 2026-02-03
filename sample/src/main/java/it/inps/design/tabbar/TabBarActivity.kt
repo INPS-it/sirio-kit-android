@@ -38,7 +38,7 @@ object Home
 object News
 
 @Serializable
-object Maps
+object Options
 
 @Serializable
 object Contacts
@@ -56,7 +56,6 @@ class TabBarActivity : ComponentActivity() {
             }
         }
     }
-
 }
 
 @Composable
@@ -70,22 +69,23 @@ fun TabBarDemoContent(logout: () -> Unit = {}) {
             action = {
                 navController.navigate(Home)
                 selectedIndex = 0
-            }
+            },
         ),
         SirioTabBarItemData(
-            label = "News",
-            icon = FaIcons.Bell,
+            label = "Notizie",
+            icon = FaIcons.Newspaper,
+            badge = false,
             action = {
                 navController.navigate(News)
                 selectedIndex = 1
             },
-            badge = true
         ),
         SirioTabBarItemData(
-            label = "Mappe",
-            icon = FaIcons.Globe,
+            label = "Servizi",
+            icon = FaIcons.GripHorizontal,
+            highlighted = true,
             action = {
-                navController.navigate(Maps)
+                navController.navigate(Services)
                 selectedIndex = 2
             }
         ),
@@ -99,10 +99,10 @@ fun TabBarDemoContent(logout: () -> Unit = {}) {
             }
         ),
         SirioTabBarItemData(
-            label = "Servizi",
-            icon = FaIcons.GripHorizontal,
+            label = "Opzioni",
+            icon = FaIcons.List,
             action = {
-                navController.navigate(Services)
+                navController.navigate(Options)
                 selectedIndex = 4
             }
         ),

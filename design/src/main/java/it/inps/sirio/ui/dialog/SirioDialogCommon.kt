@@ -36,7 +36,9 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -141,7 +143,8 @@ internal fun SirioDialogCommon(
         dialogWindowProvider.window.setGravity(Gravity.BOTTOM)
         Box(
             modifier = Modifier
-                .fillMaxHeight(dialogHeightPercentage),
+                .fillMaxHeight(dialogHeightPercentage)
+                .semantics { testTagsAsResourceId = true },
             contentAlignment = Alignment.BottomCenter,
         ) {
             Surface(
@@ -177,14 +180,13 @@ internal fun SirioDialogCommon(
                     if (semantic == SirioDialogSemantic.INFO) {
                         SirioDialogInput(
                             firstInputTitle = firstInputTitle,
-                            firstInputPlaceholder = firstInputPlaceholder,
                             firstInput = firstInput,
+                            firstInputPlaceholder = firstInputPlaceholder,
                             onFirstInputChange = { value -> firstInput = value },
                             secondInputTitle = secondInputTitle,
-                            secondInputPlaceholder = secondInputPlaceholder,
                             secondInput = secondInput,
-                            onSecondInputChange = { value -> secondInput = value },
-                        )
+                            secondInputPlaceholder = secondInputPlaceholder,
+                        ) { value -> secondInput = value }
                     }
                     SirioDialogButtons(
                         firstButtonText = firstButtonText,
@@ -192,8 +194,14 @@ internal fun SirioDialogCommon(
                         onFirstButtonClick = { onFirstButtonClick(Pair(firstInput, secondInput)) },
                         secondButtonText = secondButtonText,
                         secondButtonHierarchy = secondButtonHierarchy,
-                        onSecondButtonClick = { onSecondButtonClick(Pair(firstInput, secondInput)) },
-                    )
+                    ) {
+                        onSecondButtonClick(
+                            Pair(
+                                firstInput,
+                                secondInput
+                            )
+                        )
+                    }
                 }
             }
         }
@@ -217,8 +225,10 @@ private fun ColumnScope.SirioDialogHeader(
 ) {
     SirioButton(
         size = SirioButtonSize.Medium,
-        hierarchy = SirioButtonHierarchy.Ghost,
-        modifier = Modifier.align(alignment = Alignment.End),
+        hierarchy = SirioButtonHierarchy.GhostLight,
+        modifier = Modifier
+            .align(alignment = Alignment.End)
+            .testTag("buttonClose"),
         icon = SirioIconSource.FaIcon(FaIcons.Times),
         iconContentDescription = closeContentDescription,
         onClick = onClose
@@ -242,7 +252,7 @@ private fun ColumnScope.SirioDialogHeader(
  * @param text An optional descriptive text to be displayed below the title.
  */
 @Composable
-private fun ColumnScope.SirioDialogContainer(title: String?, text: String? = null) {
+private fun SirioDialogContainer(title: String?, text: String? = null) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -277,7 +287,7 @@ private fun ColumnScope.SirioDialogContainer(title: String?, text: String? = nul
  * @param onSecondInputChange A callback function invoked when the text of the second input field changes.
  */
 @Composable
-private fun ColumnScope.SirioDialogInput(
+private fun SirioDialogInput(
     firstInputTitle: String?,
     firstInput: String?,
     firstInputPlaceholder: String?,
@@ -290,19 +300,21 @@ private fun ColumnScope.SirioDialogInput(
     firstInput?.let {
         Spacer(Modifier.height(dialogInputFirstPaddingTop.dp))
         SirioTextField(
-            label = firstInputTitle,
             text = it,
+            modifier = Modifier.testTag("textFieldFirstInput"),
             onValueChange = onFirstInputChange,
             placeholder = firstInputPlaceholder,
+            label = firstInputTitle,
         )
     }
     secondInput?.let {
         Spacer(Modifier.height(dialogInputSecondPaddingTop.dp))
         SirioTextField(
-            label = secondInputTitle,
             text = it,
+            modifier = Modifier.testTag("textFieldSecondInput"),
             onValueChange = onSecondInputChange,
             placeholder = secondInputPlaceholder,
+            label = secondInputTitle,
         )
     }
 }
@@ -317,7 +329,7 @@ private fun ColumnScope.SirioDialogInput(
  * @param onSecondButtonClick A callback function invoked when the neutral action button is clicked.
  */
 @Composable
-private fun ColumnScope.SirioDialogButtons(
+private fun SirioDialogButtons(
     firstButtonText: String?,
     firstButtonHierarchy: SirioButtonHierarchy,
     onFirstButtonClick: () -> Unit,
@@ -330,7 +342,9 @@ private fun ColumnScope.SirioDialogButtons(
         SirioButton(
             size = SirioButtonSize.Large,
             hierarchy = firstButtonHierarchy,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .testTag("buttonFirst"),
             text = it,
             onClick = onFirstButtonClick,
         )
@@ -340,7 +354,9 @@ private fun ColumnScope.SirioDialogButtons(
         SirioButton(
             size = SirioButtonSize.Large,
             hierarchy = secondButtonHierarchy,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .testTag("buttonSecond"),
             text = it,
             onClick = onSecondButtonClick,
         )

@@ -20,8 +20,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuAnchorType
 import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.MenuDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
@@ -31,6 +31,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.guru.fontawesomecomposelib.FaIcons
@@ -38,39 +41,44 @@ import it.inps.sirio.foundation.FoundationColor
 import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.theme.dropdownBorderWidth
 import it.inps.sirio.theme.dropdownCornerSize
+import it.inps.sirio.ui.popover.SirioPopoverData
 import it.inps.sirio.ui.text.SirioText
 import it.inps.sirio.ui.textfield.SirioTextFieldCommon
 import it.inps.sirio.ui.textfield.TextFieldState
+import it.inps.sirio.utils.SirioIconSource
+import it.inps.sirio.utils.takeTwoWords
 
 /**
- * A dropdown component that displays a list of selectable values.
+ * A dropdown component that allows users to select a value from a list.
  *
- * @param values The array of string values to be displayed in the dropdown.
- * @param modifier Modifier to be applied to the dropdown layout.
- * @param text The currently selected text or the text input in the dropdown.
- * @param onValueChange A callback function invoked when the value changes.
- * @param placeholder Placeholder text to be displayed when no value is selected.
- * @param iconContentDescription Content description for the dropdown icon.
- * @param label Label text for the dropdown field.
- * @param onInfoClick Callback function invoked when the info icon is clicked.
- * @param infoContentDescription Content description for the info icon.
- * @param helperText Helper text to be displayed below the dropdown.
- * @param error Whether the dropdown is in an error state.
- * @param enabled Whether the dropdown is enabled or disabled.
+ * The dropdown is implemented using a [SirioTextFieldCommon] as its anchor, which displays
+ * the current selection and a dropdown menu that appears on click.
+ *
+ * @param values The list of string values to be displayed in the dropdown menu.
+ * @param modifier The [Modifier] to be applied to the dropdown.
+ * @param selectedValue The currently selected value to be displayed in the text field.
+ * @param onValueChange A callback that is triggered when a new value is selected from the dropdown menu.
+ * @param placeholder The optional text to be displayed when no value is selected.
+ * @param iconContentDescription The content description for the dropdown's chevron icon, for accessibility.
+ * @param label An optional label displayed above the dropdown field.
+ * @param popoverData Optional data to display a [SirioPopover] next to the label for providing extra information.
+ * @param helperText Optional descriptive text displayed below the dropdown.
+ * @param error A boolean indicating whether the dropdown should be displayed in an error state.
+ * @param enabled A boolean indicating whether the dropdown is enabled for user interaction.
  *
  * @see SirioTextFieldCommon
+ * @see SirioPopover
  */
 @Composable
 fun SirioDropdown(
-    values: Array<String>,
+    values: List<String>,
     modifier: Modifier = Modifier,
-    text: String = "",
+    selectedValue: String = "",
     onValueChange: (String) -> Unit = {},
     placeholder: String? = null,
     iconContentDescription: String? = null,
     label: String? = null,
-    onInfoClick: (() -> Unit)? = null,
-    infoContentDescription: String? = null,
+    popoverData: SirioPopoverData? = null,
     helperText: String? = null,
     error: Boolean = false,
     enabled: Boolean = true,
@@ -82,23 +90,26 @@ fun SirioDropdown(
         onExpandedChange = { expanded = it },
     ) {
         SirioTextFieldCommon(
-            modifier = modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable),
-            text = text,
+            modifier = modifier
+                .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable)
+                .testTag("dropdown${label.takeTwoWords()}"),
+            text = selectedValue,
             onValueChange = {},
             placeholder = placeholder,
-            icon = FaIcons.ChevronDown,
+            icon = SirioIconSource.FaIcon(FaIcons.ChevronDown),
             iconContentDescription = iconContentDescription,
             label = label,
-            onInfoClick = onInfoClick,
-            infoContentDescription = infoContentDescription,
+            popoverData = popoverData,
             helperText = helperText,
             state = if (error) TextFieldState.Alert else null,
             enabled = enabled,
             onTextFieldClick = { expanded = values.isNotEmpty() },
         )
         ExposedDropdownMenu(
+            modifier = Modifier.semantics{ testTagsAsResourceId = true },
             expanded = expanded,
             onDismissRequest = { expanded = false },
+            matchAnchorWidth = true, //https://issuetracker.google.com/issues/205589613?pli=1
             shape = RoundedCornerShape(dropdownCornerSize.dp),
             containerColor = SirioTheme.colors.dropdown.item.container,
             border = BorderStroke(
@@ -106,8 +117,9 @@ fun SirioDropdown(
                 color = SirioTheme.colors.dropdown.item.border,
             )
         ) {
-            values.forEach { selectionOption ->
+            values.forEachIndexed { index, selectionOption ->
                 DropdownMenuItem(
+                    modifier = Modifier.testTag("itemDropdown$index"),
                     text = {
                         SirioText(
                             text = selectionOption,
@@ -177,7 +189,7 @@ private fun SirioDropdownPreview() {
         ) {
             val values by remember {
                 mutableStateOf(
-                    arrayOf(
+                    listOf(
                         "Value 1\n2 lines",
                         "Value 2",
                         "Value 3"
@@ -187,16 +199,16 @@ private fun SirioDropdownPreview() {
             var text by remember { mutableStateOf("") }
             SirioDropdown(
                 values = values,
-                text = text,
+                selectedValue = text,
                 onValueChange = { text = it },
                 placeholder = "Placeholder",
                 label = "Label",
-                onInfoClick = {},
+                popoverData = SirioPopoverData(text = "Popover text",),
                 helperText = "Helper text",
                 error = true,
             )
             SirioDropdown(
-                values = emptyArray(),
+                values = emptyList(),
                 placeholder = "Placeholder",
                 onValueChange = { },
                 label = "Label",
@@ -204,16 +216,16 @@ private fun SirioDropdownPreview() {
                 error = false,
             )
             SirioDropdown(
-                values = emptyArray(),
-                text = "Text",
+                values = emptyList(),
+                selectedValue = "Text",
                 onValueChange = { },
                 label = "Label",
                 helperText = "Helper text",
                 error = false,
             )
             SirioDropdown(
-                values = emptyArray(),
-                text = "Text",
+                values = emptyList(),
+                selectedValue = "Text",
                 onValueChange = { },
                 label = "Label",
                 helperText = "Helper text",
@@ -221,21 +233,21 @@ private fun SirioDropdownPreview() {
                 enabled = false,
             )
             SirioDropdown(
-                values = emptyArray(),
-                text = "Text",
+                values = emptyList(),
+                selectedValue = "Text",
                 onValueChange = { },
                 label = "Label",
                 helperText = "Helper text",
                 error = true,
             )
             SirioDropdown(
-                values = emptyArray(),
-                text = "Text",
+                values = emptyList(),
+                selectedValue = "Text",
                 onValueChange = { },
                 label = "Label",
                 helperText = "Helper text",
                 error = false,
-                onInfoClick = {},
+                popoverData = SirioPopoverData(text = "Popover text",),
             )
         }
     }

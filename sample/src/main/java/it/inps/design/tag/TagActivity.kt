@@ -30,7 +30,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.ui.tag.SirioTag
-import it.inps.sirio.ui.tag.SirioTagType
+import it.inps.sirio.ui.tag.SirioTagColor
+import it.inps.sirio.ui.tag.SirioTagSemantic
 
 class TagActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,12 +63,12 @@ fun TagDemoContent() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(30.dp),
         ) {
-            SirioTag("Label Tag", SirioTagType.GRAY)
-            SirioTag("Label Tag", SirioTagType.BLUE)
-            SirioTag("Label Tag", SirioTagType.RED)
-            SirioTag("Label Tag", SirioTagType.ORANGE)
-            SirioTag("Label Tag", SirioTagType.GREEN)
-            SirioTag("Label Tag", SirioTagType.WHITE)
+            SirioTag(text = "Label Tag", color = SirioTagColor.Light)
+            SirioTag(text = "Label Tag", color = SirioTagColor.Dark)
+            SirioTag(text = "Label Tag", semantic = SirioTagSemantic.Info)
+            SirioTag(text = "Label Tag", semantic = SirioTagSemantic.Alert)
+            SirioTag(text = "Label Tag", semantic = SirioTagSemantic.Warning)
+            SirioTag(text = "Label Tag", semantic = SirioTagSemantic.Success)
         }
     }
 }

@@ -1,30 +1,32 @@
 [versions]
 # @keep
-sdkCompile = "35"
+sdkCompile = "36"
 # @keep
-sdkTarget = "35"
+sdkTarget = "36"
 # @keep
-sdkMin = "21"
+sdkMin = "23"
 
-gradleAndroid = "8.10.1"
+gradleAndroid = "8.13.2"
 
-androidxCore = "1.16.0"
+androidxCore = "1.17.0"
 androidxAppcompat = "1.7.1"
-androidxRuntimeKtx = "2.9.1"
-androidxActivityCompose = "1.10.1"
+androidxRuntimeKtx = "2.10.0"
+androidxActivityCompose = "1.12.2"
 androidxConstraintlayoutCompose = "1.1.1"
 
-kotlin = "2.1.10"
-material = "1.12.0"
+kotlin = "2.3.0"
+material = "1.13.0"
 accompanist = "0.36.0"
 
-composeBom = "2025.06.01"
-composeNavigation = "2.9.0"
+composeBom = "2026.01.00"
+composeNavigation = "2.9.6"
 
-kotlinxSerializationJson = "1.8.0"
+kotlinxSerializationJson = "1.9.0"
 
 coil = "2.7.0"
 fontawesome-compose = "1.1.0"
+
+dokka = "2.1.0"
 
 [libraries]
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
@@ -96,3 +98,4 @@ android-library = { id = "com.android.library", version.ref = "gradleAndroid" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }

@@ -34,6 +34,8 @@ import androidx.compose.ui.graphics.GraphicsLayerScope
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.IntOffset
@@ -130,7 +132,7 @@ fun SirioPopup(
                     },
                     pivotFractionY = if (state.isTop) 1f else 0f
                 ),
-                modifier = modifier,
+                modifier = modifier.semantics{ testTagsAsResourceId = true },
                 content = content
             )
         }

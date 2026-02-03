@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import it.inps.sirio.theme.SirioTheme
+import it.inps.sirio.theme.SirioThemeMode
 
 /**
  * A composable function that displays a Sirio-styled top app bar with a centered title.
@@ -26,18 +27,21 @@ import it.inps.sirio.theme.SirioTheme
 @Composable
 fun SirioFunction(
     title: String,
+    theme: SirioThemeMode? = null,
 ) {
-    SirioTopAppBar(
-        title = {
-            SirioAppNavigationTitle(
-                title = title,
-                typography = SirioTheme.foundationTypography.headlineSmMiddle,
-                maxLines = Int.MAX_VALUE,
-            )
-        },
-        centerTitle = true,
-        windowInsets = WindowInsets(0, 0, 0, 0)
-    )
+    SirioTheme(theme) {
+        SirioTopAppBar(
+            title = {
+                SirioAppNavigationTitle(
+                    title = title,
+                    typography = SirioTheme.foundationTypography.headlineSmMiddle,
+                    maxLines = Int.MAX_VALUE,
+                )
+            },
+            centerTitle = true,
+            windowInsets = WindowInsets(0, 0, 0, 0)
+        )
+    }
 }
 
 @Preview(showSystemUi = true)

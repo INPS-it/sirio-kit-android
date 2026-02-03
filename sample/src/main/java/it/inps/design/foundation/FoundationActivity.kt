@@ -20,7 +20,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -41,10 +40,10 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import it.inps.design.ui.DemoMenuItem
 import it.inps.sirio.foundation.FoundationColor
 import it.inps.sirio.foundation.foundationTypography
 import it.inps.sirio.theme.SirioTheme
+import it.inps.sirio.ui.listItem.SirioListItem
 import it.inps.sirio.ui.searchbar.SirioSearchBar
 
 private const val TYPOGRAPHY = "Typography"
@@ -101,14 +100,12 @@ private fun FoundationMenuDemo(navController: NavController) {
                 .align(Alignment.TopCenter)
                 .verticalScroll(rememberScrollState()),
         ) {
-            DemoMenuItem(TYPOGRAPHY) {
+            SirioListItem(TYPOGRAPHY) {
                 navController.navigate(TYPOGRAPHY)
             }
-            HorizontalDivider()
-            DemoMenuItem(COLOR) {
+            SirioListItem(COLOR, showDivider = false) {
                 navController.navigate(COLOR)
             }
-            HorizontalDivider()
         }
     }
 }
@@ -126,7 +123,6 @@ private fun FoundationColorDemo() {
             searchText = filter,
             placeholder = "Cerca un colore",
             onSearchTextChange = { filter = it },
-            onQueriesChange = {},
         )
         LazyColumn(
             modifier = Modifier.imePadding(),
@@ -184,7 +180,6 @@ private fun FoundationTypographyDemo() {
             searchText = filter,
             placeholder = "Cerca una typography",
             onSearchTextChange = { filter = it },
-            onQueriesChange = {},
         )
         val text = "Progettare per il Cittadino da oggi è più semplice"
         LazyColumn(

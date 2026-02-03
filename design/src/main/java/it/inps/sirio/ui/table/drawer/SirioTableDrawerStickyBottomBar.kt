@@ -11,11 +11,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,55 +23,32 @@ import com.guru.fontawesomecomposelib.FaIcons
 import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.theme.tableDrawerIconsPaddingHorizontal
 import it.inps.sirio.theme.tableDrawerIconsPaddingVertical
-import it.inps.sirio.ui.button.ButtonStyle
 import it.inps.sirio.ui.button.SirioButton
 import it.inps.sirio.ui.button.SirioButtonSize
-import it.inps.sirio.ui.dropdownmenu.SirioDropdownItemData
-import it.inps.sirio.ui.dropdownmenu.SirioMoreAction
-import it.inps.sirio.ui.table.SirioTableIconData
-import it.inps.sirio.ui.text.SirioText
+import it.inps.sirio.ui.table.SirioTableActionData
+import it.inps.sirio.utils.SirioIconSource
 
 @Composable
-fun SirioTableDrawerStickyBottomBar(icons: List<SirioTableIconData>) {
+fun SirioTableDrawerStickyBottomBar(actions: List<SirioTableActionData>) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(SirioTheme.colors.table.drawer.iconsBackground)
+            .background(SirioTheme.colors.table.drawer.bottomBar)
             .padding(
                 vertical = tableDrawerIconsPaddingVertical.dp,
-                horizontal = tableDrawerIconsPaddingHorizontal.dp
+                horizontal = tableDrawerIconsPaddingHorizontal.dp,
             ),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.End,
     ) {
-        if (icons.size < 4) {
-            icons.forEach {
-                SirioButton(
-                    size = SirioButtonSize.Large,
-                    style = ButtonStyle.Primary,
-                    icon = it.icon,
-                    iconContentDescription = it.contentDescription,
-                    onClick = it.action,
-                )
-            }
-        } else {
-            SirioText(
-                text = "Azioni",
-                color = SirioTheme.colors.table.drawer.actionsText,
-                typography = SirioTheme.typography.table.drawer.actionsText,
+        actions.take(3).map {
+            SirioButton(
+                size = SirioButtonSize.Medium,
+                hierarchy = SirioTheme.colors.table.drawer.action,
+                icon = it.icon,
+                iconContentDescription = it.contentDescription,
+                onClick = it.action
             )
-            Spacer(modifier = Modifier.weight(1f))
-            Box(modifier = Modifier.wrapContentSize(Alignment.TopEnd)) {
-                val items = icons.map {
-                    SirioDropdownItemData(
-                        value = it.text.orEmpty(),
-                        action = it.action
-                    )
-                }
-                SirioMoreAction(
-                    items = items,
-                )
-            }
         }
     }
 }
@@ -82,10 +57,9 @@ fun SirioTableDrawerStickyBottomBar(icons: List<SirioTableIconData>) {
 @Composable
 private fun SirioTableDrawerStickyBottomBarPreview() {
     val icons = listOf(
-        SirioTableIconData(FaIcons.Print, action = {}),
-        SirioTableIconData(FaIcons.Download, action = {}),
-        SirioTableIconData(FaIcons.Trash, action = {}),
-        SirioTableIconData(FaIcons.Trash, action = {}),
+        SirioTableActionData(icon = SirioIconSource.FaIcon(FaIcons.FilePdf), action = {}),
+        SirioTableActionData(icon = SirioIconSource.FaIcon(FaIcons.Download), action = {}),
+        SirioTableActionData(icon = SirioIconSource.FaIcon(FaIcons.Trash), action = {}),
     )
     SirioTheme {
         Box(
@@ -94,7 +68,7 @@ private fun SirioTableDrawerStickyBottomBarPreview() {
                 .height(400.dp),
             contentAlignment = Alignment.BottomCenter,
         ) {
-            SirioTableDrawerStickyBottomBar(icons = icons)
+            SirioTableDrawerStickyBottomBar(actions = icons)
         }
     }
 }

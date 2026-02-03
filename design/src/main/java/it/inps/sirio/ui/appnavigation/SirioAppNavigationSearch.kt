@@ -9,6 +9,7 @@
 package it.inps.sirio.ui.appnavigation
 
 import android.content.res.Configuration
+import androidx.annotation.Keep
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
@@ -29,13 +30,17 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.guru.fontawesomecomposelib.FaIcons
+import it.inps.sirio.foundation.FoundationColor
 import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.theme.appNavigationHeight
 import it.inps.sirio.theme.appNavigationSearchCornerRadius
@@ -83,25 +88,27 @@ fun SirioAppNavigationSearch(
         Box(
             Modifier
                 .height(appNavigationHeight.dp)
-                .background(color = SirioTheme.colors.appNavigation.searchBackground)
+                .background(color = SirioTheme.colors.appNavigation.search.background)
                 .padding(appNavigationSearchPadding.dp)
         ) {
             val textFieldColors = TextFieldDefaults.colors(
-                focusedIndicatorColor = SirioTheme.colors.appNavigation.searchBackground,
-                unfocusedIndicatorColor = SirioTheme.colors.appNavigation.searchBackground,
-                focusedContainerColor = SirioTheme.colors.appNavigation.searchTextFieldBackground,
-                unfocusedContainerColor = SirioTheme.colors.appNavigation.searchTextFieldBackground,
-                cursorColor = SirioTheme.colors.appNavigation.searchText,
-                focusedTextColor = SirioTheme.colors.appNavigation.searchText,
-                unfocusedTextColor = SirioTheme.colors.appNavigation.searchText,
-                focusedPlaceholderColor = SirioTheme.colors.appNavigation.searchText,
-                unfocusedPlaceholderColor = SirioTheme.colors.appNavigation.searchText,
+                focusedIndicatorColor = SirioTheme.colors.appNavigation.search.background,
+                unfocusedIndicatorColor = SirioTheme.colors.appNavigation.search.background,
+                focusedContainerColor = SirioTheme.colors.appNavigation.search.textFieldBackground,
+                unfocusedContainerColor = SirioTheme.colors.appNavigation.search.textFieldBackground,
+                cursorColor = SirioTheme.colors.appNavigation.search.text,
+                focusedTextColor = SirioTheme.colors.appNavigation.search.text,
+                unfocusedTextColor = SirioTheme.colors.appNavigation.search.text,
+                focusedPlaceholderColor = SirioTheme.colors.appNavigation.search.text,
+                unfocusedPlaceholderColor = SirioTheme.colors.appNavigation.search.text,
             )
             val interactionSource = remember { MutableInteractionSource() }
             BasicTextField(
                 value = searchText,
                 onValueChange = onSearchTextChanged,
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .testTag("SirioAppNavigationSearchTextfield"),
                 enabled = textFieldEnabled,
                 textStyle = SirioTheme.foundationTypography.labelMdMiddle,
                 keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
@@ -150,19 +157,46 @@ private fun TrailingIcon(
     if (searchText.isBlank())
         SirioIcon(
             icon = SirioIconSource.FaIcon(FaIcons.Search),
-            iconColor = SirioTheme.colors.appNavigation.searchContent,
+            iconColor = SirioTheme.colors.appNavigation.search.content,
             size = appNavigationSearchIconSize.dp,
         )
     else
         IconButton(onClick = { onSearchTextChanged("") }) {
             SirioIcon(
                 icon = SirioIconSource.FaIcon(FaIcons.Times),
-                iconColor = SirioTheme.colors.appNavigation.searchContent,
+                iconColor = SirioTheme.colors.appNavigation.search.content,
                 size = appNavigationSearchIconSize.dp,
                 contentDescription = clearButtonContentDescription,
             )
         }
 }
+
+@Keep
+data class SirioAppNavigationSearchColors(
+    val textFieldBackground: Color,
+    val background: Color,
+    val content: Color,
+    val text: Color,
+) {
+    companion object {
+        @Stable
+        val Unspecified = SirioAppNavigationSearchColors(
+            textFieldBackground = Color.Unspecified,
+            background = Color.Unspecified,
+            content = Color.Unspecified,
+            text = Color.Unspecified,
+        )
+    }
+}
+
+val appNavigationSearchLightColors = SirioAppNavigationSearchColors(
+    textFieldBackground = FoundationColor.colorAliasBackgroundColorPrimaryLight0,
+    background = FoundationColor.colorAliasBackgroundColorPrimaryLight40,
+    content = FoundationColor.colorAliasAppInteractiveSecondaryDefault,
+    text = FoundationColor.colorAliasTextColorDisabled,
+)
+
+val appNavigationSearchDarkColors = appNavigationSearchLightColors
 
 @Preview(showSystemUi = true)
 @Preview(showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)

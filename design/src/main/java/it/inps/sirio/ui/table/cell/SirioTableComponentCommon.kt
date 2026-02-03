@@ -19,37 +19,47 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import it.inps.sirio.foundation.FoundationColor
 import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.theme.tableComponentBorderWidth
-import it.inps.sirio.theme.tableComponentScrollIndicatorWidth
 import it.inps.sirio.ui.text.SirioTextCommon
 import it.inps.sirio.utils.Border
 import it.inps.sirio.utils.border
+import it.inps.sirio.utils.ifElse
 
 @Composable
 internal fun RowScope.SirioTableComponentCommon(
+    borderColor: Color,
     weight: Float = 1f,
-    scroll: Boolean = false,
+    showBorderEnd: Boolean = true,
     content: @Composable () -> Unit,
 ) {
     val tableBorder = Border(
         strokeWidth = tableComponentBorderWidth.dp,
-        color = SirioTheme.colors.table.component.border
+        color = borderColor,
     )
-    val scrollBorder = Border(
-        strokeWidth = tableComponentScrollIndicatorWidth.dp,
-        color = SirioTheme.colors.table.component.scrollIndicator
-    )
-    val endBorder = if (scroll) scrollBorder else tableBorder
     Box(
         Modifier
             .weight(weight)
             .border(bottom = tableBorder)
-            .border(end = endBorder),
+            .ifElse(
+                condition = showBorderEnd,
+                ifTrueModifier = Modifier.border(end = tableBorder),
+            ),
         contentAlignment = Alignment.CenterStart,
     ) {
         content()
     }
+}
+
+enum class SirioTableContentSize {
+    Small,
+    Large,
+}
+
+enum class SirioTableContentAlignment {
+    Start,
+    End,
 }
 
 @Keep
@@ -66,20 +76,20 @@ data class SirioTableComponentColors(
     }
 }
 
+internal val tableComponentLightColor = SirioTableComponentColors(
+    border = FoundationColor.colorAliasBackgroundColorPrimaryLight60,
+    scrollIndicator = FoundationColor.colorAliasInteractiveAccentDefault,
+)
+
+internal val tableComponentDarkColor = tableComponentLightColor
+
 @Preview
 @Composable
 private fun SirioTableComponentCommonPreview() {
     SirioTheme {
         Column {
             Row {
-                SirioTableComponentCommon {
-                    SirioTextCommon(text = "Test")
-                }
-            }
-            Row {
-                SirioTableComponentCommon(
-                    scroll = true
-                ) {
+                SirioTableComponentCommon(borderColor = SirioTheme.colors.table.component.border) {
                     SirioTextCommon(text = "Test")
                 }
             }

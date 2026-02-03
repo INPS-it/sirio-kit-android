@@ -31,6 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -49,7 +50,8 @@ import it.inps.sirio.theme.cardPaddingHorizontal
 import it.inps.sirio.theme.cardPaddingVertical
 import it.inps.sirio.theme.cardSubtitlePaddingTop
 import it.inps.sirio.theme.cardTextPaddingTop
-import it.inps.sirio.theme.cardTitlePaddingTop
+import it.inps.sirio.theme.cardTitlePaddingTopDefault
+import it.inps.sirio.theme.cardTitlePaddingTopSpaced
 import it.inps.sirio.ui.appnavigation.SirioAppNavigation
 import it.inps.sirio.ui.appnavigation.SirioAppNavigationItemData
 import it.inps.sirio.ui.appnavigation.SirioFunction
@@ -57,9 +59,10 @@ import it.inps.sirio.ui.button.SirioButton
 import it.inps.sirio.ui.button.SirioButtonHierarchy
 import it.inps.sirio.ui.button.SirioButtonSize
 import it.inps.sirio.ui.tag.SirioTag
-import it.inps.sirio.ui.tag.SirioTagType
+import it.inps.sirio.ui.tag.SirioTagColor
 import it.inps.sirio.ui.text.SirioText
 import it.inps.sirio.utils.SirioIconSource
+import it.inps.sirio.utils.takeWords
 
 /**
  * Sirio Editorial Card component
@@ -78,8 +81,8 @@ import it.inps.sirio.utils.SirioIconSource
  */
 @Composable
 fun SirioEditorialCard(
-    title: String,
     modifier: Modifier = Modifier,
+    title: String? = null,
     imageUrl: (String)? = null,
     imageDrawable: Drawable? = null,
     imageContentDescriptor: String? = null,
@@ -88,14 +91,20 @@ fun SirioEditorialCard(
     subtitle: String? = null,
     text: String? = null,
     actions: List<SirioEditorialCardItemData> = emptyList(),
+    style: SirioEditorialCardStyle = SirioEditorialCardStyle.Default,
     onClickCard: () -> Unit,
 ) {
+    require(
+        !title.isNullOrBlank() || !subtitle.isNullOrBlank() || !text.isNullOrBlank()
+    ) { "SirioEditorialCard: at least one of title, subtitle or text must be not null or blank" }
+
     val elevation =
         with(LocalDensity.current) { StyleDictionaryBoxShadow.elevationElevation01.blurRadius.toDp() }
 
     Card(
         onClick = onClickCard,
         modifier = Modifier
+            .testTag("card${title.takeWords(4)}")
             .shadow(
                 ambientColor = StyleDictionaryBoxShadow.elevationElevation01.color,
                 elevation = elevation
@@ -145,7 +154,7 @@ fun SirioEditorialCard(
                 category?.let {
                     SirioTag(
                         text = it,
-                        tagType = SirioTheme.colors.card.editorial.tag,
+                        color = SirioTheme.colors.card.editorial.tag,
                     )
                 }
                 date?.let {
@@ -157,15 +166,27 @@ fun SirioEditorialCard(
                     )
                 }
             }
-            SirioText(
-                text = title,
-                modifier = Modifier.padding(top = cardTitlePaddingTop.dp),
-                color = SirioTheme.colors.card.editorial.title,
-                textDecoration = TextDecoration.Underline,
-                overflow = TextOverflow.Ellipsis,
-                maxLines = if (subtitle == null) 2 else 1,
-                typography = SirioTheme.foundationTypography.linkLgHeavy,
-            )
+            title?.let {
+                val paddingTop =
+                    when (style) {
+                        SirioEditorialCardStyle.Default -> cardTitlePaddingTopDefault
+                        else -> cardTitlePaddingTopSpaced
+                    }
+                val maxLines = when {
+                    style == SirioEditorialCardStyle.Spaced -> 2
+                    subtitle == null -> 2
+                    else -> 1
+                }
+                SirioText(
+                    text = it,
+                    modifier = Modifier.padding(top = paddingTop.dp),
+                    color = SirioTheme.colors.card.editorial.title,
+                    textDecoration = TextDecoration.Underline,
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = maxLines,
+                    typography = SirioTheme.foundationTypography.linkLgHeavy,
+                )
+            }
             subtitle?.let {
                 SirioText(
                     text = it,
@@ -176,10 +197,16 @@ fun SirioEditorialCard(
                 )
             }
             text?.let {
+                val maxLines = when {
+                    style == SirioEditorialCardStyle.Spaced -> 2
+                    else -> Int.MAX_VALUE
+                }
                 SirioText(
                     text = it,
                     modifier = Modifier.padding(top = cardTextPaddingTop.dp),
                     color = SirioTheme.colors.card.editorial.text,
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = maxLines,
                     typography = SirioTheme.foundationTypography.bodyMdRegular,
                 )
             }
@@ -193,8 +220,9 @@ fun SirioEditorialCard(
                 ) {
                     actions.forEachIndexed { index, action ->
                         SirioButton(
+                            modifier = Modifier.testTag("cardButton$index"),
                             size = SirioButtonSize.Small,
-                            hierarchy = SirioButtonHierarchy.Ghost,
+                            hierarchy = SirioButtonHierarchy.GhostLight,
                             icon = action.icon,
                             iconContentDescription = action.contentDescription,
                             onClick = action.action,
@@ -206,10 +234,15 @@ fun SirioEditorialCard(
     }
 }
 
+sealed interface SirioEditorialCardStyle {
+    object Default : SirioEditorialCardStyle
+    object Spaced : SirioEditorialCardStyle
+}
+
 @Keep
 data class SirioEditorialCardColors(
     val background: Color,
-    val tag: SirioTagType,
+    val tag: SirioTagColor,
     val date: Color,
     val title: Color,
     val subtitle: Color,
@@ -220,27 +253,62 @@ data class SirioEditorialCardColors(
         @Stable
         val Unspecified = SirioEditorialCardColors(
             background = Color.Unspecified,
-            tag = SirioTagType.GRAY,
+            tag = SirioTagColor.Light,
             date = Color.Unspecified,
             title = Color.Unspecified,
             subtitle = Color.Unspecified,
             text = Color.Unspecified,
-            button = SirioButtonHierarchy.Ghost,
+            button = SirioButtonHierarchy.GhostDark,
         )
     }
 }
 
 internal val cardEditorialLightColors = SirioEditorialCardColors(
     background = FoundationColor.colorAliasBackgroundColorPrimaryLight0,
-    tag = SirioTagType.GRAY,
+    tag = SirioTagColor.Light,
     date = FoundationColor.colorAliasTextColorSecondaryDark100,
     title = FoundationColor.colorAliasTextColorPrimary100,
     subtitle = FoundationColor.colorAliasTextColorSecondaryDark100,
     text = FoundationColor.colorAliasTextColorSecondaryDark100,
-    button = SirioButtonHierarchy.Ghost,
+    button = SirioButtonHierarchy.GhostDark,
 )
 
 internal val cardEditorialDarkColors = cardEditorialLightColors
+
+@Preview
+@Composable
+private fun SirioEditorialCardNewsPreview() {
+    SirioTheme {
+        Column {
+            SirioEditorialCard(
+                date = "30 Ott 2025",
+                title = "Decreto-legge sicurezza sul lavoro: le dichiarazioni di Fava",
+                text = "Per il Presidente dell’Istituto rappresenta un cambio di passo nella tutela dei lavoratori.",
+                style = SirioEditorialCardStyle.Spaced,
+                onClickCard = {}
+            )
+            SirioEditorialCard(
+                date = "30 Ott 2025",
+                title = "Decreto-legge sicurezza sul lavoro: le dichiarazioni di Fava",
+                text = "Per il Presidente dell’Istituto rappresenta un cambio di passo nella tutela dei lavoratori.",
+                onClickCard = {}
+            )
+            SirioEditorialCard(
+                date = "9 Ott 2025",
+                title = "INPS, gli impegni istituzionali dall' 8 al 13 dicembre",
+                subtitle = "Comunicato Stampa",
+                onClickCard = {}
+            )
+            SirioEditorialCard(
+                date = "9 Ott 2025",
+                title = "INPS, gli impegni istituzionali dall' 8 al 13 dicembre",
+                subtitle = "Comunicato Stampa",
+                style = SirioEditorialCardStyle.Spaced,
+                onClickCard = {}
+            )
+        }
+    }
+}
 
 @Preview
 @Composable

@@ -27,10 +27,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.guru.fontawesomecomposelib.FaIcons
 import it.inps.sirio.theme.SirioTheme
+import it.inps.sirio.ui.card.SirioCardColor
 import it.inps.sirio.ui.card.SirioProcessCard
 import it.inps.sirio.ui.card.SirioProcessCardItemData
+import it.inps.sirio.ui.card.SirioProcessCardType
 import it.inps.sirio.ui.carousel.SirioCarousel
-import it.inps.sirio.ui.carousel.SirioCarouselBackground
 import it.inps.sirio.utils.SirioIconSource
 
 class CarouselActivity : ComponentActivity() {
@@ -118,26 +119,12 @@ fun CarouselDemoContent() {
             SirioCarousel(
                 items = samples,
                 index = 0,
-                background = SirioCarouselBackground.LIGHT,
             ) { sample ->
                 SirioProcessCard(
                     title = sample.title,
+                    type = SirioProcessCardType.Standard(firstAction = sample.action),
                     text = sample.text,
-                    icon = sample.icon,
-                    firstAction = sample.action,
-                    onClickCard = {},
-                )
-            }
-            SirioCarousel(
-                items = samples,
-                index = 0,
-                background = SirioCarouselBackground.MEDIUM,
-            ) { sample ->
-                SirioProcessCard(
-                    title = sample.title,
-                    text = sample.text,
-                    firstAction = sample.action,
-                    icon = sample.icon,
+                    color = SirioCardColor.LIGHT,
                     onClickCard = {},
                 )
             }

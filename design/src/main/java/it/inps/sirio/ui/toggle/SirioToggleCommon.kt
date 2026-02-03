@@ -33,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -46,6 +47,7 @@ import it.inps.sirio.theme.toggleIndicatorSize
 import it.inps.sirio.theme.togglePaddingText
 import it.inps.sirio.theme.toggleWidth
 import it.inps.sirio.ui.text.SirioTextCommon
+import it.inps.sirio.utils.takeTwoWords
 import androidx.compose.animation.core.Animatable as AnimatableF
 
 /**
@@ -91,6 +93,7 @@ internal fun SirioToggleCommon(
             checked = checked,
             onCheckedChange = onToggleChange,
             modifier = Modifier
+                .testTag("toggle${text.takeTwoWords()}")
                 .height(height = toggleHeight.dp)
                 .width(width = toggleWidth.dp),
             shape = CircleShape,

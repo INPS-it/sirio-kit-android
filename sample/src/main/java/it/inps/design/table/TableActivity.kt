@@ -5,25 +5,31 @@ package it.inps.design.table
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -31,34 +37,43 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.guru.fontawesomecomposelib.FaIcons
-import it.inps.design.ui.DemoMenuItem
+import it.inps.design.notifiche.NotificheDestinations
 import it.inps.sirio.theme.SirioTheme
+import it.inps.sirio.theme.SirioThemeMode
+import it.inps.sirio.ui.button.SirioButton
+import it.inps.sirio.ui.button.SirioButtonHierarchy
+import it.inps.sirio.ui.button.SirioButtonSize
+import it.inps.sirio.ui.listItem.SirioListItem
 import it.inps.sirio.ui.table.SirioTable
-import it.inps.sirio.ui.table.SirioTableCellType
-import it.inps.sirio.ui.table.SirioTableContentAlignment
-import it.inps.sirio.ui.table.SirioTableContentSize
-import it.inps.sirio.ui.table.SirioTableIconData
+import it.inps.sirio.ui.table.SirioTableActionData
 import it.inps.sirio.ui.table.SirioTableRowData
+import it.inps.sirio.ui.table.SirioTableSort
+import it.inps.sirio.ui.table.SirioTableSortKey
+import it.inps.sirio.ui.table.card.SirioTable
+import it.inps.sirio.ui.table.card.SirioTableCardData
+import it.inps.sirio.ui.table.card.SirioTableCardSort
+import it.inps.sirio.ui.table.card.SirioTableCardType
+import it.inps.sirio.ui.table.cell.SirioTableCellType
+import it.inps.sirio.ui.table.cell.SirioTableContentAlignment
+import it.inps.sirio.ui.table.cell.SirioTableContentSize
 import it.inps.sirio.ui.table.drawer.SirioTableDrawer
-import it.inps.sirio.ui.table.drawer.SirioTableDrawerItemData
-import it.inps.sirio.ui.table.drawer.SirioTableDrawerItemType
-import it.inps.sirio.ui.table.vertical.SirioTableVertical
-import it.inps.sirio.ui.table.vertical.SirioTableVerticalCellData
-import it.inps.sirio.ui.table.vertical.SirioTableVerticalCellItemData
-import it.inps.sirio.ui.table.vertical.SirioTableVerticalCellItemType
-import it.inps.sirio.ui.tag.SirioTagType
+import it.inps.sirio.ui.table.drawer.SirioTableDrawerType
+import it.inps.sirio.ui.table.header.SirioTableSortDirection
+import it.inps.sirio.ui.table.sortedForSirioTable
+import it.inps.sirio.utils.SirioIconSource
+import kotlin.random.Random
 
-private const val XSMALL = "Table - xsmall"
-private const val SMALL = "Table - small"
-private const val MEDIUM = "Table - medium"
-private const val LARGE = "Table - large"
-private const val VERTICAL = "Table - vertical"
-private const val DRAWERBARCOLLAPSED = "Drawer + bottom bar collapsed"
-private const val DRAWERBAREXPANDED = "Drawer + bottom bar expanded"
-private const val TABLE = "Table"
-private const val TABLE1 = "Table 1"
-private const val TABLE2 = "Table 2"
-private const val TABLE3 = "Table 3"
+private const val SMALL_DARK = "Table - Small - Dark"
+private const val SMALL_LIGHT = "Table - Small - Light"
+private const val SMALL_DARK_MORE = "Table - Small - Dark - More"
+private const val LARGE_DARK = "Table - Large - Dark"
+private const val LARGE_LIGHT = "Table - Large - Light"
+private const val LARGE_DARK_LONG = "Table - Large - Dark - Long text"
+private const val HORIZONTAL_SCROLL = "Table - Horizontal scroll"
+private const val ALTERNATE_ROWS = "Table - Alternate rows"
+private const val DRAWER = "Table - Drawer"
+private const val CARD = "Table - Card"
+private const val INTERACTIVE = "Table - Demo"
 
 
 class TableActivity : ComponentActivity() {
@@ -75,816 +90,798 @@ class TableActivity : ComponentActivity() {
 @Composable
 private fun TableDemoView() {
     Scaffold(
-        Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
+        containerColor = SirioTheme.colors.table.card.background,
         topBar = {
             TopAppBar(
-                title = { Text(text = "Menu spalla") },
+                title = { Text(text = "Table") },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = SirioTheme.colors.brand)
             )
         }
     ) {
         val navController = rememberNavController()
-        NavHost(
-            navController = navController,
-            startDestination = "/",
+        var title by remember { mutableStateOf(NotificheDestinations.NOTIFICHE_MENU_ROUTE) }
+        LaunchedEffect(navController) {
+            navController.currentBackStackEntryFlow.collect { backStackEntry ->
+                title =
+                    backStackEntry.destination.route ?: NotificheDestinations.NOTIFICHE_MENU_ROUTE
+            }
+        }
+        Column(
             modifier = Modifier.padding(it),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            composable("/") {
-                TableMenuDemo(navController = navController)
-            }
-            composable(XSMALL) {
-                TableSizeDemo(SirioTableContentSize.EXTRASMALL)
-            }
-            composable(SMALL) {
-                TableSizeDemo(SirioTableContentSize.SMALL)
-            }
-            composable(MEDIUM) {
-                TableSizeDemo(SirioTableContentSize.MEDIUM)
-            }
-            composable(LARGE) {
-                TableSizeDemo(SirioTableContentSize.LARGE)
-            }
-            composable(VERTICAL) {
-                TableVerticalDemo()
-            }
-            composable(DRAWERBARCOLLAPSED) {
-                TableDrawerBarCollapsedDemo()
-            }
-            composable(DRAWERBAREXPANDED) {
-                TableDrawerBarExpandedDemo()
-            }
-            composable(TABLE) {
-                TableSubMenuDemo(navController)
-            }
-            composable(TABLE1) {
-                Table1Demo()
-            }
-            composable(TABLE2) {
-                Table2Demo()
-            }
-            composable(TABLE3) {
-                Table3Demo()
+            if (title != "/") Text(text = title, modifier = Modifier.padding(20.dp))
+            NavHost(
+                navController = navController,
+                startDestination = "/",
+            ) {
+                composable("/") {
+                    TableMenuDemo(navController = navController)
+                }
+                composable(SMALL_DARK) {
+                    TableSampleDemo(
+                        size = SirioTableContentSize.Small,
+                        themeMode = SirioThemeMode.Dark
+                    )
+                }
+                composable(SMALL_LIGHT) {
+                    TableSampleDemo(
+                        size = SirioTableContentSize.Small,
+                        themeMode = SirioThemeMode.Light
+                    )
+                }
+                composable(SMALL_DARK_MORE) {
+                    TableSmallMoreDemo(
+                        size = SirioTableContentSize.Small,
+                        themeMode = SirioThemeMode.Dark
+                    )
+                }
+                composable(LARGE_DARK) {
+                    TableOneActionDemo(
+                        size = SirioTableContentSize.Large,
+                        themeMode = SirioThemeMode.Dark,
+                    )
+                }
+                composable(LARGE_LIGHT) {
+                    TableMultiActionDemo(
+                        size = SirioTableContentSize.Large,
+                        themeMode = SirioThemeMode.Light
+                    )
+                }
+                composable(LARGE_DARK_LONG) {
+                    TableOneActionLongTextDemo(
+                        size = SirioTableContentSize.Large,
+                        themeMode = SirioThemeMode.Dark
+                    )
+                }
+                composable(HORIZONTAL_SCROLL) {
+                    TableHorizontalScrollDemo(
+                        size = SirioTableContentSize.Large,
+                        themeMode = SirioThemeMode.Dark,
+                    )
+                }
+                composable(ALTERNATE_ROWS) {
+                    TableOneActionDemo(
+                        size = SirioTableContentSize.Large,
+                        themeMode = SirioThemeMode.Dark,
+                        alternateRows = true,
+                    )
+                }
+                composable(CARD) {
+                    TableCardDemo()
+                }
+                composable(DRAWER) {
+                    TableDrawerDemo()
+                }
+                composable(INTERACTIVE) {
+                    TableInteractiveDemo(
+                        size = SirioTableContentSize.Large,
+                        themeMode = SirioThemeMode.Dark,
+                        alternateRows = true,
+                    )
+                }
             }
         }
     }
 }
 
 @Composable
-private fun TableSizeDemo(size: SirioTableContentSize) {
-    Column(
-        modifier = Modifier.background(SirioTheme.colors.table.vertical.background),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(20.dp)
-    ) {
-        Spacer(modifier = Modifier.height(20.dp))
-        Text(text = MEDIUM)
-        SirioTable(
-            title = "Title",
-            headers = listOf(
-                SirioTableCellType.Header(
-                    title = "Header",
-                    size = size,
-                    alignment = SirioTableContentAlignment.START,
-                    withCheckBox = true,
-                ),
-                SirioTableCellType.Header(
-                    title = "Header",
-                    size = size,
-                    alignment = SirioTableContentAlignment.START,
-                    withCheckBox = true,
-                ),
+private fun TableSampleDemo(size: SirioTableContentSize, themeMode: SirioThemeMode) {
+    SirioTable(
+        title = "Titolo tabella",
+        actions = listOf(
+            SirioTableActionData(
+                icon = SirioIconSource.FaIcon(FaIcons.Cube),
+                text = "Label",
+                action = {},
             ),
-            rows = listOf(
-                SirioTableRowData(
-                    cells = listOf(
-                        SirioTableCellType.Text(
-                            text = "Text 0",
-                            size = size
-                        ),
-                        SirioTableCellType.Text(
-                            text = "Text 1",
-                            size = size
-                        ),
-                    )
-                ),
-                SirioTableRowData(
-                    cells = listOf(
-                        SirioTableCellType.Number(
-                            text = "0",
-                            size = size
-                        ),
-                        SirioTableCellType.Number(
-                            text = "1",
-                            size = size
-                        ),
-                    )
-                ),
-                SirioTableRowData(
-                    cells = listOf(
-                        SirioTableCellType.TextOnly(
-                            text = "Text Only 0",
-                            size = size
-                        ),
-                        SirioTableCellType.TextOnly(
-                            text = "Text Only 1",
-                            size = size
-                        ),
-                    )
-                ),
-                SirioTableRowData(
-                    cells = listOf(
-                        SirioTableCellType.Link(
-                            text = "Link 0",
-                            size = size,
-                            onLinkClick = {},
-                        ),
-                        SirioTableCellType.Link(
-                            text = "Link 1",
-                            size = size,
-                            onLinkClick = {},
-                        ),
-                    )
-                ),
-                SirioTableRowData(
-                    cells = listOf(
-                        SirioTableCellType.Avatar(
-                            icon = FaIcons.AddressBook,
-                            title = "Avatar 0",
-                            subtitle = "Subtitle",
-                            size = size,
-                        ),
-                        SirioTableCellType.Avatar(
-                            icon = FaIcons.AddressBook,
-                            title = "Avatar 1",
-                            subtitle = "Subtitle",
-                            size = size,
-                        ),
-                    )
-                ),
-                SirioTableRowData(
-                    cells = listOf(
-                        SirioTableCellType.NumberOnly(
-                            text = "0",
-                            size = size
-                        ),
-                        SirioTableCellType.NumberOnly(
-                            text = "1",
-                            size = size
-                        ),
-                    )
-                ),
-                SirioTableRowData(
-                    cells = listOf(
-                        SirioTableCellType.Tag(
-                            text = "Tag 0",
-                            tagType = SirioTagType.GRAY,
-                            size = size
-                        ),
-                        SirioTableCellType.Tag(
-                            text = "Tag 1",
-                            tagType = SirioTagType.GRAY,
-                            size = size
-                        ),
-                    )
-                ),
-                SirioTableRowData(
-                    cells = listOf(
-                        SirioTableCellType.MultiIcons(
-                            size = size,
-                            iconsData = listOf(
-                                SirioTableIconData(
-                                    icon = FaIcons.FilePdf,
-                                    text = "Stampa",
-                                    action = {},
-                                    contentDescription = null,
-                                ),
-                                SirioTableIconData(
-                                    icon = FaIcons.Download,
-                                    text = "Stampa",
-                                    action = {},
-                                    contentDescription = null,
-                                ),
-                            )
-                        ),
-                        SirioTableCellType.MultiIcons(
-                            size = size,
-                            iconsData = listOf(
-                                SirioTableIconData(
-                                    icon = FaIcons.FilePdf,
-                                    action = {},
-                                    contentDescription = null,
-                                ),
-                                SirioTableIconData(
-                                    icon = FaIcons.Download,
-                                    action = {},
-                                    contentDescription = null,
-                                ),
-                            )
-                        ),
-                    )
-                ),
+            SirioTableActionData(
+                icon = SirioIconSource.FaIcon(FaIcons.Cube),
+                text = "Label",
+                action = {},
             )
-        )
-    }
-}
-
-@Composable
-private fun TableVerticalDemo() {
-    Column(
-        modifier = Modifier.background(SirioTheme.colors.table.vertical.background),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(20.dp)
-    ) {
-        Spacer(modifier = Modifier.height(20.dp))
-        Text(text = VERTICAL)
-        SirioTableVertical(
-            cells = listOf(
-                SirioTableVerticalCellData(
-                    items = listOf(
-                        SirioTableVerticalCellItemData(
-                            title = "Header",
-                            text = "Link",
-                            type = SirioTableVerticalCellItemType.LINK,
-                        ),
-                        SirioTableVerticalCellItemData(
-                            title = "Header",
-                            text = "23/11/2023",
-                            type = SirioTableVerticalCellItemType.NUMBER,
-                        ),
-                        SirioTableVerticalCellItemData(
-                            title = "Header",
-                            text = "00",
-                            type = SirioTableVerticalCellItemType.NUMBER,
-                        ),
-                        SirioTableVerticalCellItemData(
-                            title = "Header",
-                            text = "Lorem ipsum",
-                            type = SirioTableVerticalCellItemType.TEXT,
-                        ),
-                        SirioTableVerticalCellItemData(
-                            title = "Header",
-                            text = "Label tag",
-                            type = SirioTableVerticalCellItemType.TAG,
-                        )
+        ),
+        headers = listOf(
+            SirioTableCellType.Header(
+                text = "Header",
+                alignment = SirioTableContentAlignment.Start,
+                weight = 1f,
+                withCheckBox = false,
+                sortable = true,
+            ),
+            SirioTableCellType.Header(
+                text = "Header",
+                alignment = SirioTableContentAlignment.Start,
+                withCheckBox = false,
+            ),
+            SirioTableCellType.Header(
+                text = "Header",
+                alignment = SirioTableContentAlignment.Start,
+                withCheckBox = false,
+            ),
+        ),
+        size = size,
+        themeMode = themeMode,
+        rows = List(8) {
+            SirioTableRowData(
+                cells = listOf(
+                    SirioTableCellType.Link(
+                        text = "Link",
+                        onLinkClick = {},
                     ),
-                    icons = listOf(
-                        SirioTableIconData(
-                            icon = FaIcons.FilePdf,
-                            action = {},
-                            contentDescription = null
-                        ),
-                        SirioTableIconData(
-                            icon = FaIcons.Download,
-                            action = {},
-                            contentDescription = null
-                        ),
-                        SirioTableIconData(
-                            icon = FaIcons.Trash,
-                            action = {},
-                            contentDescription = null
-                        ),
+                    SirioTableCellType.NumberOnly(
+                        text = "00",
                     ),
-                ),
-                SirioTableVerticalCellData(
-                    items = listOf(
-                        SirioTableVerticalCellItemData(
-                            title = "Header",
-                            text = "Link",
-                            type = SirioTableVerticalCellItemType.LINK,
-                        ),
-                        SirioTableVerticalCellItemData(
-                            title = "Header",
-                            text = "23/11/2023",
-                            type = SirioTableVerticalCellItemType.NUMBER,
-                        ),
-                        SirioTableVerticalCellItemData(
-                            title = "Header",
-                            text = "00",
-                            type = SirioTableVerticalCellItemType.NUMBER,
-                        ),
-                        SirioTableVerticalCellItemData(
-                            title = "Header",
-                            text = "Lorem ipsum",
-                            type = SirioTableVerticalCellItemType.TEXT,
-                        ),
-                        SirioTableVerticalCellItemData(
-                            title = "Header",
-                            text = "Label tag",
-                            type = SirioTableVerticalCellItemType.TAG,
-                        )
-                    ),
-                    icons = listOf(
-                        SirioTableIconData(
-                            icon = FaIcons.FilePdf,
-                            action = {},
-                            contentDescription = null
-                        ),
-                        SirioTableIconData(
-                            icon = FaIcons.Download,
-                            action = {},
-                            contentDescription = null
-                        ),
-                        SirioTableIconData(
-                            icon = FaIcons.Trash,
-                            action = {},
-                            contentDescription = null
-                        ),
+                    SirioTableCellType.TextOnly(
+                        text = "Lorem ipsum",
                     ),
                 )
             )
+        },
+    )
+}
+
+@Composable
+private fun TableOneActionDemo(
+    size: SirioTableContentSize,
+    themeMode: SirioThemeMode,
+    alternateRows: Boolean = false,
+) {
+    SirioTable(
+        title = "Titolo tabella",
+        actions = listOf(
+            SirioTableActionData(
+                icon = SirioIconSource.FaIcon(FaIcons.Cube),
+                text = "Label",
+                action = {},
+            ),
+            SirioTableActionData(
+                icon = SirioIconSource.FaIcon(FaIcons.Cube),
+                text = "Label",
+                action = {},
+            )
+        ),
+        headers = listOf(
+            SirioTableCellType.Header(
+                text = "Header",
+                alignment = SirioTableContentAlignment.Start,
+                withCheckBox = false,
+                sortable = true,
+            ),
+            SirioTableCellType.Header(
+                text = "Header",
+                alignment = SirioTableContentAlignment.Start,
+                withCheckBox = false,
+            ),
+            SirioTableCellType.Header(
+                text = "Header",
+                alignment = SirioTableContentAlignment.Start,
+                weight = 0.6f,
+                withCheckBox = false,
+                sortable = false,
+            ),
+        ),
+        size = SirioTableContentSize.Large,
+        themeMode = SirioThemeMode.Dark,
+        alternateRows = alternateRows,
+        rows = List(8) {
+            SirioTableRowData(
+                cells = listOf(
+                    SirioTableCellType.Text(
+                        text = "Title",
+                        checked = false,
+                        onCheckedChange = {},
+                    ),
+                    SirioTableCellType.Tag(
+                        text = "Label Tag",
+                    ),
+                    SirioTableCellType.Action(
+                        icon = SirioIconSource.FaIcon(FaIcons.Eye),
+                        onClick = {},
+                    ),
+                )
+            )
+        },
+    )
+}
+
+@Composable
+private fun TableMultiActionDemo(size: SirioTableContentSize, themeMode: SirioThemeMode) {
+    SirioTable(
+        title = "Titolo tabella",
+        actions = listOf(
+            SirioTableActionData(
+                icon = SirioIconSource.FaIcon(FaIcons.Cube),
+                text = "Label",
+                action = {},
+            ),
+            SirioTableActionData(
+                icon = SirioIconSource.FaIcon(FaIcons.Cube),
+                text = "Label",
+                action = {},
+            )
+        ),
+        headers = listOf(
+            SirioTableCellType.Header(
+                text = "Header",
+                alignment = SirioTableContentAlignment.Start,
+                weight = 1f,
+                withCheckBox = false,
+                sortable = true,
+            ),
+            SirioTableCellType.Header(
+                text = "Header",
+                alignment = SirioTableContentAlignment.Start,
+                withCheckBox = false,
+            ),
+            SirioTableCellType.Header(
+                text = "Header",
+                alignment = SirioTableContentAlignment.Start,
+                weight = 0.6f,
+                withCheckBox = false,
+                sortable = false,
+            ),
+        ),
+        size = SirioTableContentSize.Large,
+        themeMode = SirioThemeMode.Light,
+        rows = List(8) {
+            SirioTableRowData(
+                cells = listOf(
+                    SirioTableCellType.Text(
+                        text = "Title",
+                        checked = false,
+                        onCheckedChange = {},
+                    ),
+                    SirioTableCellType.Tag(
+                        text = "Label Tag",
+                    ),
+                    SirioTableCellType.Action(
+                        icon = SirioIconSource.FaIcon(FaIcons.Eye),
+                        actions = listOf(
+                            SirioTableActionData(
+                                text = "Action #1",
+                                action = {},
+                            ),
+                            SirioTableActionData(
+                                text = "Action #2",
+                                action = {},
+                            ),
+                            SirioTableActionData(
+                                text = "Action #3",
+                                action = {},
+                            ),
+                        ),
+                        onClick = {},
+                    ),
+                )
+            )
+        },
+    )
+}
+
+@Composable
+private fun TableOneActionLongTextDemo(size: SirioTableContentSize, themeMode: SirioThemeMode) {
+    SirioTable(
+        title = "Titolo della tabella molto molto molto molto lungo su due righe",
+        actions = listOf(
+            SirioTableActionData(
+                icon = SirioIconSource.FaIcon(FaIcons.Cube),
+                text = "Label",
+                action = {},
+            ),
+            SirioTableActionData(
+                icon = SirioIconSource.FaIcon(FaIcons.Cube),
+                text = "Label",
+                action = {},
+            )
+        ),
+        headers = listOf(
+            SirioTableCellType.Header(
+                text = "Header",
+                alignment = SirioTableContentAlignment.Start,
+                weight = 1f,
+                withCheckBox = false,
+                sortable = true,
+            ),
+            SirioTableCellType.Header(
+                text = "Header",
+                alignment = SirioTableContentAlignment.Start,
+                withCheckBox = false,
+            ),
+            SirioTableCellType.Header(
+                text = "Azioni",
+                alignment = SirioTableContentAlignment.Start,
+                weight = 0.6f,
+                withCheckBox = false,
+                sortable = false,
+            ),
+        ),
+        size = SirioTableContentSize.Large,
+        themeMode = SirioThemeMode.Dark,
+        rows = List(8) {
+            SirioTableRowData(
+                cells = listOf(
+                    SirioTableCellType.Text(
+                        text = "Vivamus at nunc non arcu",
+                        checked = false,
+                        onCheckedChange = {},
+                    ),
+                    SirioTableCellType.Tag(
+                        text = "Tag con testo lungo",
+                    ),
+                    SirioTableCellType.Action(
+                        icon = SirioIconSource.FaIcon(FaIcons.Eye),
+                        onClick = {},
+                    ),
+                )
+            )
+        },
+    )
+}
+
+@Composable
+private fun TableSmallMoreDemo(size: SirioTableContentSize, themeMode: SirioThemeMode) {
+    SirioTable(
+        title = "Titolo tabella",
+        actions = listOf(
+            SirioTableActionData(
+                icon = SirioIconSource.FaIcon(FaIcons.Cube),
+                text = "Action #1",
+                action = {},
+            ),
+            SirioTableActionData(
+                icon = SirioIconSource.FaIcon(FaIcons.Cube),
+                text = "Action #2",
+                action = {},
+            ),
+            SirioTableActionData(
+                icon = SirioIconSource.FaIcon(FaIcons.Cube),
+                text = "Action #3",
+                action = {},
+            ),
+        ),
+        headers = listOf(
+            SirioTableCellType.Header(
+                text = "Header",
+                alignment = SirioTableContentAlignment.Start,
+                weight = 1f,
+                withCheckBox = false,
+                sortable = true,
+            ),
+            SirioTableCellType.Header(
+                text = "Header",
+                alignment = SirioTableContentAlignment.Start,
+                withCheckBox = false,
+            ),
+            SirioTableCellType.Header(
+                text = "Header",
+                alignment = SirioTableContentAlignment.Start,
+                withCheckBox = false,
+                weight = 1.6f,
+            ),
+        ),
+        size = size,
+        themeMode = themeMode,
+        rows = List(8) {
+            SirioTableRowData(
+                cells = listOf(
+                    SirioTableCellType.Link(
+                        text = "Link",
+                        onLinkClick = {},
+                    ),
+                    SirioTableCellType.NumberOnly(
+                        text = "00",
+                    ),
+                    SirioTableCellType.TextOnly(
+                        text = "Sed at felis quis urna porttitor aliquam",
+                    ),
+                )
+            )
+        },
+    )
+}
+
+@Composable
+private fun TableHorizontalScrollDemo(
+    size: SirioTableContentSize,
+    themeMode: SirioThemeMode,
+    alternateRows: Boolean = false,
+) {
+    SirioTable(
+        title = "Titolo tabella",
+        actions = listOf(
+            SirioTableActionData(
+                icon = SirioIconSource.FaIcon(FaIcons.Cube),
+                text = "Label",
+                action = {},
+            ),
+            SirioTableActionData(
+                icon = SirioIconSource.FaIcon(FaIcons.Cube),
+                text = "Label",
+                action = {},
+            )
+        ),
+        headers = listOf(
+            SirioTableCellType.Header(
+                text = "Header",
+                alignment = SirioTableContentAlignment.Start,
+                withCheckBox = false,
+                sortable = true,
+                weight = 1.5f,
+            ),
+            SirioTableCellType.Header(
+                text = "Header",
+                alignment = SirioTableContentAlignment.Start,
+                withCheckBox = false,
+            ),
+            SirioTableCellType.Header(
+                text = "Header",
+                alignment = SirioTableContentAlignment.Start,
+                withCheckBox = false,
+                weight = 1.8f,
+            ),
+        ),
+        size = SirioTableContentSize.Large,
+        themeMode = SirioThemeMode.Dark,
+        alternateRows = alternateRows,
+        horizontalScroll = true,
+        rows = List(8) {
+            SirioTableRowData(
+                cells = listOf(
+                    SirioTableCellType.TextOnly(
+                        text = "Lorem ipsum",
+                    ),
+                    SirioTableCellType.NumberOnly(
+                        text = "00"
+                    ),
+                    SirioTableCellType.Tag(
+                        text = "Label Tag",
+                    ),
+                )
+            )
+        },
+    )
+}
+
+@Composable
+private fun TableCardDemo() {
+    var showSort by remember { mutableStateOf(false) }
+    val icons = listOf(
+        SirioTableActionData(icon = SirioIconSource.FaIcon(FaIcons.FilePdf), action = {}),
+        SirioTableActionData(icon = SirioIconSource.FaIcon(FaIcons.Download), action = {}),
+        SirioTableActionData(icon = SirioIconSource.FaIcon(FaIcons.Trash), action = {}),
+    )
+    SirioTable(
+        title = "Titolo tabella",
+        actions = listOf(
+            SirioTableActionData(
+                icon = SirioIconSource.FaIcon(FaIcons.Cube),
+                text = "Label",
+                action = { showSort = true },
+            ),
+            SirioTableActionData(
+                icon = SirioIconSource.FaIcon(FaIcons.Cube),
+                text = "Label",
+                action = {},
+            )
+        ),
+        cards = listOf(
+            SirioTableCardData(
+                items = listOf(
+                    SirioTableCardType.Text(
+                        title = "Header",
+                        text = "Lorem ipsum sagittis egestas at proin",
+                    ),
+                    SirioTableCardType.Number(
+                        title = "Header",
+                        text = "00",
+                    ),
+                    SirioTableCardType.Link(
+                        title = "Header",
+                        text = "Link",
+                    ),
+                    SirioTableCardType.Tag(
+                        title = "Header",
+                        text = "Label Tag",
+                    ),
+                    SirioTableCardType.MultiIcons(
+                        actions = icons,
+                    ),
+                ),
+            ),
+            SirioTableCardData(
+                items = listOf(
+                    SirioTableCardType.Text(
+                        title = "Header",
+                        text = "Lorem ipsum sagittis egestas at proin",
+                    ),
+                    SirioTableCardType.Number(
+                        title = "Header lungo su due righe",
+                        text = "00",
+                    ),
+                    SirioTableCardType.Link(
+                        title = "Header",
+                        text = "Link",
+                    ),
+                    SirioTableCardType.Tag(
+                        title = "Header",
+                        text = "Label Tag",
+                    ),
+                    SirioTableCardType.MultiIcons(
+                        actions = icons,
+                    ),
+                ),
+            ),
+        ),
+    )
+    if (showSort) {
+        SirioTableCardSort(
+            title = "Ordina",
+            buttonText = "Applica",
+            options = List(6) { "Lorem ipsum sagittis" },
+            onDismiss = { showSort = false },
+            onButtonClick = { showSort = false }
         )
     }
 }
 
 @Composable
-private fun TableDrawerBarCollapsedDemo() {
-    Column(
-        modifier = Modifier,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(20.dp)
+private fun TableDrawerDemo(
+) {
+    var showDrawer by remember { mutableStateOf(false) }
+    Box(
+        Modifier
+            .fillMaxSize()
+            .background(Color.White), contentAlignment = Alignment.Center
     ) {
-        Spacer(modifier = Modifier.height(20.dp))
-        Text(text = DRAWERBARCOLLAPSED)
+        SirioButton(
+            size = SirioButtonSize.Large,
+            hierarchy = SirioButtonHierarchy.GhostLight,
+            text = "Apri il drawer"
+        ) { showDrawer = true }
+    }
+    AnimatedVisibility(
+        visible = showDrawer,
+        enter = slideInHorizontally { it },
+        exit = slideOutHorizontally { it },
+    ) {
         SirioTableDrawer(
-            title = "Titolo",
+            title = "Titolo Tabella",
+            onClose = { showDrawer = false },
             data = listOf(
-                SirioTableDrawerItemData(
-                    title = "Titolo",
-                    text = "Sottotitolo",
-                    type = SirioTableDrawerItemType.TEXT,
-                    onClick = {},
+                SirioTableDrawerType.Link(
+                    title = "Header",
+                    text = "Link",
+                    onLinkClick = {},
                 ),
-                SirioTableDrawerItemData(
-                    title = "Titolo",
+                SirioTableDrawerType.Number(
+                    title = "Header",
                     text = "00",
-                    type = SirioTableDrawerItemType.NUMBER,
-                    onClick = {},
                 ),
-                SirioTableDrawerItemData(
-                    title = "Titolo",
-                    text = "11/03/2023",
-                    type = SirioTableDrawerItemType.NUMBER,
-                    onClick = {},
+                SirioTableDrawerType.Text(
+                    title = "Header",
+                    text = "Lorem ipsum",
                 ),
-                SirioTableDrawerItemData(
-                    title = "Titolo",
-                    text = "Lorem Ipsum dolor sit amet",
-                    type = SirioTableDrawerItemType.LINK,
-                    onClick = {},
+                SirioTableDrawerType.Text(
+                    title = "Header",
+                    text = "Lorem ipsum",
+                ),
+                SirioTableDrawerType.Text(
+                    title = "Header",
+                    text = "Lorem ipsum",
+                ),
+                SirioTableDrawerType.Text(
+                    title = "Header",
+                    text = "Lorem ipsum",
+                ),
+                SirioTableDrawerType.Text(
+                    title = "Header",
+                    text = "Lorem ipsum",
+                ),
+                SirioTableDrawerType.Text(
+                    title = "Header",
+                    text = "Lorem ipsum",
+                ),
+                SirioTableDrawerType.Text(
+                    title = "Header molto lungo su due righe",
+                    text = "Lorem ipsum sagittis egestas at proin",
+                ),
+                SirioTableDrawerType.Tag(
+                    title = "Header",
+                    text = "Label Tag",
                 ),
             ),
             icons = listOf(
-                SirioTableIconData(
-                    icon = FaIcons.Print,
-                    text = "Stampa",
-                    action = {},
-                    contentDescription = null
-                ),
-                SirioTableIconData(
-                    icon = FaIcons.Trash,
-                    text = "Cancella",
-                    action = {},
-                    contentDescription = null
-                ),
-                SirioTableIconData(
-                    icon = FaIcons.Download,
-                    text = "Scarica",
-                    action = {},
-                    contentDescription = null
-                ),
-                SirioTableIconData(
-                    icon = FaIcons.Times,
-                    text = "Chiudi",
-                    action = { },
-                    contentDescription = null
-                ),
-            ),
-            onClose = {}
-        )
-    }
-}
-
-@Composable
-private fun TableDrawerBarExpandedDemo() {
-    Column(
-        modifier = Modifier,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(20.dp)
-    ) {
-        Spacer(modifier = Modifier.height(20.dp))
-        Text(text = DRAWERBAREXPANDED)
-        SirioTableDrawer(
-            title = "Titolo",
-            data = listOf(
-                SirioTableDrawerItemData(
-                    title = "Titolo",
-                    text = "Sottotitolo",
-                    type = SirioTableDrawerItemType.TEXT,
-                    onClick = {},
-                ),
-                SirioTableDrawerItemData(
-                    title = "Titolo",
-                    text = "00",
-                    type = SirioTableDrawerItemType.NUMBER,
-                    onClick = {},
-                ),
-                SirioTableDrawerItemData(
-                    title = "Titolo",
-                    text = "11/03/2023",
-                    type = SirioTableDrawerItemType.NUMBER,
-                    onClick = {},
-                ),
-                SirioTableDrawerItemData(
-                    title = "Titolo",
-                    text = "Lorem Ipsum dolor sit amet",
-                    type = SirioTableDrawerItemType.LINK,
-                    onClick = {},
-                ),
-            ),
-            icons = listOf(
-                SirioTableIconData(
-                    icon = FaIcons.Print,
-                    text = "Stampa",
-                    action = {},
-                    contentDescription = null
-                ),
-                SirioTableIconData(
-                    icon = FaIcons.Trash,
-                    text = "Cancella",
-                    action = {},
-                    contentDescription = null
-                ),
-                SirioTableIconData(
-                    icon = FaIcons.Download,
-                    text = "Scarica",
-                    action = {},
-                    contentDescription = null
-                ),
-            ),
-            onClose = {}
-        )
-    }
-}
-
-@Composable
-private fun Table1Demo() {
-    Column(
-        modifier = Modifier.background(SirioTheme.colors.table.vertical.background),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(20.dp)
-    ) {
-        val size: SirioTableContentSize = SirioTableContentSize.LARGE
-        Spacer(modifier = Modifier.height(20.dp))
-        Text(text = TABLE1)
-        SirioTable(
-            title = "Title",
-            headers = listOf(
-                SirioTableCellType.Header(
-                    title = "Title 0",
-                    size = size,
-                    alignment = SirioTableContentAlignment.START,
-                ),
-                SirioTableCellType.Header(
-                    title = "Title 1",
-                    size = size,
-                    alignment = SirioTableContentAlignment.START,
-                ),
-                SirioTableCellType.Header(
-                    title = "Title 2",
-                    size = size,
-                    alignment = SirioTableContentAlignment.START,
-                ),
-            ),
-            rows = listOf(
-                SirioTableRowData(
-                    cells = listOf(
-                        SirioTableCellType.Text(
-                            text = "Text 0",
-                            size = size
-                        ),
-                        SirioTableCellType.NumberOnly(
-                            text = "0",
-                            size = size
-                        ),
-                        SirioTableCellType.TextOnly(
-                            text = "Text 0",
-                            size = size
-                        ),
-                    )
-                ),
-                SirioTableRowData(
-                    cells = listOf(
-                        SirioTableCellType.Text(
-                            text = "Text 1",
-                            size = size
-                        ),
-                        SirioTableCellType.NumberOnly(
-                            text = "1",
-                            size = size
-                        ),
-                        SirioTableCellType.TextOnly(
-                            text = "Text 1",
-                            size = size
-                        ),
-                    )
-                ),
-                SirioTableRowData(
-                    cells = listOf(
-                        SirioTableCellType.Text(
-                            text = "Text 2",
-                            size = size
-                        ),
-                        SirioTableCellType.NumberOnly(
-                            text = "2",
-                            size = size
-                        ),
-                        SirioTableCellType.TextOnly(
-                            text = "Text 2",
-                            size = size
-                        ),
-                    )
-                ),
+                SirioTableActionData(icon = SirioIconSource.FaIcon(FaIcons.Print), action = {}),
+                SirioTableActionData(icon = SirioIconSource.FaIcon(FaIcons.Download), action = {}),
+                SirioTableActionData(icon = SirioIconSource.FaIcon(FaIcons.Trash), action = {}),
+                SirioTableActionData(icon = SirioIconSource.FaIcon(FaIcons.Trash), action = {}),
             )
         )
     }
 }
 
 @Composable
-private fun Table2Demo() {
-    Column(
-        modifier = Modifier.background(SirioTheme.colors.table.vertical.background),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(20.dp)
-    ) {
-        val size: SirioTableContentSize = SirioTableContentSize.LARGE
-        Spacer(modifier = Modifier.height(20.dp))
-        Text(text = TABLE2)
-        SirioTable(
-            title = "Title",
-            headers = listOf(
-                SirioTableCellType.Header(
-                    title = "Title 0",
-                    size = size,
-                    alignment = SirioTableContentAlignment.START,
-                    withCheckBox = true,
-                ),
-                SirioTableCellType.Header(
-                    title = "Title 1",
-                    size = size,
-                    alignment = SirioTableContentAlignment.START,
-                    withCheckBox = true,
-                ),
-                SirioTableCellType.Header(
-                    title = "Title 2",
-                    size = size,
-                    alignment = SirioTableContentAlignment.START,
-                    withCheckBox = true,
-                ),
-            ),
-            rows = listOf(
-                SirioTableRowData(
-                    cells = listOf(
-                        SirioTableCellType.Link(
-                            text = "Link 0",
-                            size = size,
-                            onLinkClick = {},
-                        ),
-                        SirioTableCellType.Avatar(
-                            icon = FaIcons.AddressBook,
-                            title = "Avatar 0",
-                            subtitle = "Subtitle",
-                            size = size,
-                        ),
-                        SirioTableCellType.Tag(
-                            text = "Tag 0",
-                            size = size,
-                            tagType = SirioTagType.GRAY,
-                        ),
-                    )
-                ),
-                SirioTableRowData(
-                    cells = listOf(
-                        SirioTableCellType.Link(
-                            text = "Link 1",
-                            size = size,
-                            onLinkClick = {},
-                        ),
-                        SirioTableCellType.Avatar(
-                            icon = FaIcons.AddressBook,
-                            title = "Avatar 1",
-                            subtitle = "Subtitle",
-                            size = size,
-                        ),
-                        SirioTableCellType.Tag(
-                            text = "Tag 1",
-                            size = size,
-                            tagType = SirioTagType.GRAY,
-                        ),
-                    )
-                ),
-                SirioTableRowData(
-                    cells = listOf(
-                        SirioTableCellType.Link(
-                            text = "Link 2",
-                            size = size,
-                            onLinkClick = {},
-                        ),
-                        SirioTableCellType.Avatar(
-                            icon = FaIcons.AddressBook,
-                            title = "Avatar 2",
-                            subtitle = "Subtitle",
-                            size = size,
-                        ),
-                        SirioTableCellType.Tag(
-                            text = "Tag 2",
-                            size = size,
-                            tagType = SirioTagType.GRAY,
-                        ),
-                    )
-                ),
-            )
-        )
-    }
-}
+private fun TableInteractiveDemo(
+    size: SirioTableContentSize,
+    themeMode: SirioThemeMode,
+    alternateRows: Boolean = false,
+) {
+    data class RowItem(
+        val id: Long,
+        val title: String,
+        val number: Int,
+        val letter: Char,
+        val checked: Boolean,
+    )
 
-@Composable
-private fun Table3Demo() {
-    Column(
-        modifier = Modifier.background(SirioTheme.colors.table.vertical.background),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(20.dp)
-    ) {
-        val size: SirioTableContentSize = SirioTableContentSize.LARGE
-        Spacer(modifier = Modifier.height(20.dp))
-        Text(text = TABLE1)
-        SirioTable(
-            title = "Title",
-            headers = listOf(
-                SirioTableCellType.Header(
-                    title = "Title 0",
-                    size = size,
-                    alignment = SirioTableContentAlignment.START,
-                ),
-                SirioTableCellType.Header(
-                    title = "Title 1",
-                    size = size,
-                    alignment = SirioTableContentAlignment.START,
-                    withCheckBox = true,
-                ),
-                SirioTableCellType.Header(
-                    title = "Title 2",
-                    size = size,
-                    alignment = SirioTableContentAlignment.START,
-                ),
-            ),
-            rows = listOf(
-                SirioTableRowData(
-                    cells = listOf(
-                        SirioTableCellType.TextOnly(
-                            text = "Text 0",
-                            size = size
-                        ),
-                        SirioTableCellType.Number(
-                            text = "0",
-                            size = size,
-                        ),
-                        SirioTableCellType.MultiIcons(
-                            size = size,
-                            iconsData = listOf(
-                                SirioTableIconData(
-                                    icon = FaIcons.FilePdf,
-                                    action = {},
-                                    contentDescription = null
-                                ),
-                                SirioTableIconData(
-                                    icon = FaIcons.Download,
-                                    action = {},
-                                    contentDescription = null
-                                )
-                            )
-                        ),
+    val items = remember {
+        mutableStateListOf<RowItem>().apply {
+            repeat(8) { i ->
+                add(
+                    RowItem(
+                        id = i.toLong(),
+                        title = "Title $i",
+                        number = Random.nextInt(0, 11),
+                        letter = ('A'..'Z').random(),
+                        checked = false
                     )
+                )
+            }
+        }
+    }
+
+    var tableSort by remember {
+        mutableStateOf(SirioTableSort(columnIndex = 0, direction = SirioTableSortDirection.None))
+    }
+
+    val visibleItems = remember(items, tableSort) {
+        items.sortedForSirioTable(
+            sort = tableSort,
+        ) { item, columnIndex, _ ->
+            when (columnIndex) {
+                0 -> SirioTableSortKey.StringKey(item.title)
+                1 -> SirioTableSortKey.NumberKey(item.number.toDouble())
+                2 -> SirioTableSortKey.StringKey(item.letter.toString())
+                else -> null
+            }
+        }
+    }
+
+    // Mapping model -> righe della SirioTable
+    val rows = visibleItems.map { item ->
+        SirioTableRowData(
+            cells = listOf(
+                // Prima colonna con checkbox gestita da state "items"
+                SirioTableCellType.Text(
+                    text = item.title,
+                    checked = item.checked,
+                    onCheckedChange = { isChecked ->
+                        val idx = items.indexOfFirst { it.id == item.id }
+                        if (idx >= 0) {
+                            items[idx] = items[idx].copy(checked = isChecked)
+                        }
+                    },
                 ),
-                SirioTableRowData(
-                    cells = listOf(
-                        SirioTableCellType.TextOnly(
-                            text = "Text 1",
-                            size = size
-                        ),
-                        SirioTableCellType.Number(
-                            text = "1",
-                            size = size,
-                        ),
-                        SirioTableCellType.MultiIcons(
-                            size = size,
-                            iconsData = listOf(
-                                SirioTableIconData(
-                                    icon = FaIcons.FilePdf,
-                                    action = {},
-                                    contentDescription = null
-                                ),
-                                SirioTableIconData(
-                                    icon = FaIcons.Download,
-                                    action = {},
-                                    contentDescription = null
-                                )
-                            )
-                        ),
-                    )
+                SirioTableCellType.NumberOnly(
+                    text = item.number.toString().padStart(2, '0'),
                 ),
-                SirioTableRowData(
-                    cells = listOf(
-                        SirioTableCellType.TextOnly(
-                            text = "Text 2",
-                            size = size
-                        ),
-                        SirioTableCellType.Number(
-                            text = "2",
-                            size = size,
-                        ),
-                        SirioTableCellType.MultiIcons(
-                            size = size,
-                            iconsData = listOf(
-                                SirioTableIconData(
-                                    icon = FaIcons.FilePdf,
-                                    action = {},
-                                    contentDescription = null
-                                ),
-                                SirioTableIconData(
-                                    icon = FaIcons.Download,
-                                    action = {},
-                                    contentDescription = null
-                                )
-                            )
-                        ),
-                    )
+                SirioTableCellType.TextOnly(
+                    text = item.letter.toString()
                 ),
             )
         )
     }
+
+    SirioTable(
+        title = "Titolo tabella",
+        actions = listOf(
+            SirioTableActionData(
+                icon = SirioIconSource.FaIcon(FaIcons.Cube),
+                text = "Label",
+                action = {},
+            ),
+            SirioTableActionData(
+                icon = SirioIconSource.FaIcon(FaIcons.Cube),
+                text = "Label",
+                action = {},
+            )
+        ),
+        headers = listOf(
+            SirioTableCellType.Header(
+                text = "Header",
+                alignment = SirioTableContentAlignment.Start,
+                weight = 1f,
+                withCheckBox = false,
+                sortable = true,
+            ),
+            SirioTableCellType.Header(
+                text = "Header",
+                alignment = SirioTableContentAlignment.Start,
+                weight = 1f,
+                withCheckBox = false,
+            ),
+            SirioTableCellType.Header(
+                text = "Header",
+                alignment = SirioTableContentAlignment.Start,
+                weight = 1f,
+                withCheckBox = false,
+                sortable = true,
+            ),
+        ),
+        size = SirioTableContentSize.Large,
+        themeMode = SirioThemeMode.Dark,
+        alternateRows = alternateRows,
+        rows = rows,
+        sort = tableSort,
+        onSortChange = { tableSort = it }
+    )
 }
 
 @Composable
 fun TableMenuDemo(navController: NavController) {
-    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.BottomCenter,
+    ) {
         Column(
             modifier = Modifier
                 .align(Alignment.TopCenter)
                 .verticalScroll(rememberScrollState()),
         ) {
-            DemoMenuItem(XSMALL) {
-                navController.navigate(XSMALL)
+            SirioListItem(SMALL_DARK) {
+                navController.navigate(SMALL_DARK)
             }
-            HorizontalDivider()
-            DemoMenuItem(SMALL) {
-                navController.navigate(SMALL)
+            SirioListItem(SMALL_LIGHT) {
+                navController.navigate(SMALL_LIGHT)
             }
-            HorizontalDivider()
-            DemoMenuItem(MEDIUM) {
-                navController.navigate(MEDIUM)
+            SirioListItem(SMALL_DARK_MORE) {
+                navController.navigate(SMALL_DARK_MORE)
             }
-            HorizontalDivider()
-            DemoMenuItem(LARGE) {
-                navController.navigate(LARGE)
+            SirioListItem(LARGE_DARK) {
+                navController.navigate(LARGE_DARK)
             }
-            HorizontalDivider()
-            DemoMenuItem(VERTICAL) {
-                navController.navigate(VERTICAL)
+            SirioListItem(LARGE_LIGHT) {
+                navController.navigate(LARGE_LIGHT)
             }
-            HorizontalDivider()
-            DemoMenuItem(DRAWERBARCOLLAPSED) {
-                navController.navigate(DRAWERBARCOLLAPSED)
+            SirioListItem(LARGE_DARK_LONG) {
+                navController.navigate(LARGE_DARK_LONG)
             }
-            HorizontalDivider()
-            DemoMenuItem(DRAWERBAREXPANDED) {
-                navController.navigate(DRAWERBAREXPANDED)
+            SirioListItem(HORIZONTAL_SCROLL) {
+                navController.navigate(HORIZONTAL_SCROLL)
             }
-            HorizontalDivider()
-            DemoMenuItem(TABLE) {
-                navController.navigate(TABLE)
+            SirioListItem(ALTERNATE_ROWS) {
+                navController.navigate(ALTERNATE_ROWS)
             }
-        }
-    }
-}
-
-@Composable
-fun TableSubMenuDemo(navController: NavController) {
-    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
-        Column(
-            modifier = Modifier
-                .align(Alignment.TopCenter)
-                .verticalScroll(rememberScrollState()),
-        ) {
-            DemoMenuItem(TABLE1) {
-                navController.navigate(TABLE1)
+            SirioListItem(CARD) {
+                navController.navigate(CARD)
             }
-            HorizontalDivider()
-            DemoMenuItem(TABLE2) {
-                navController.navigate(TABLE2)
+            SirioListItem(DRAWER) {
+                navController.navigate(DRAWER)
             }
-            HorizontalDivider()
-            DemoMenuItem(TABLE3) {
-                navController.navigate(TABLE3)
+            SirioListItem(INTERACTIVE, showDivider = false) {
+                navController.navigate(INTERACTIVE)
             }
         }
     }
@@ -902,15 +899,7 @@ private fun TableActivityPreview() {
 @Composable
 private fun TableSmallDemoPreview() {
     SirioTheme {
-        TableSizeDemo(SirioTableContentSize.SMALL)
-    }
-}
-
-@Preview
-@Composable
-private fun TableMediumDemoPreview() {
-    SirioTheme {
-        TableSizeDemo(SirioTableContentSize.MEDIUM)
+        TableSampleDemo(SirioTableContentSize.Small, SirioThemeMode.Dark)
     }
 }
 
@@ -918,62 +907,45 @@ private fun TableMediumDemoPreview() {
 @Composable
 private fun TableMediumLargePreview() {
     SirioTheme {
-        TableSizeDemo(SirioTableContentSize.LARGE)
+        TableSampleDemo(SirioTableContentSize.Large, SirioThemeMode.Dark)
     }
 }
 
 @Preview
 @Composable
-private fun TableMediumExtraSmallPreview() {
+private fun TableCardDemoPreview() {
     SirioTheme {
-        TableSizeDemo(SirioTableContentSize.EXTRASMALL)
+        TableCardDemo()
     }
 }
 
 @Preview
 @Composable
-private fun TableVerticalDemoPreview() {
+private fun TableHorizontalScrollDemoPreview() {
     SirioTheme {
-        TableVerticalDemo()
+        TableHorizontalScrollDemo(
+            size = SirioTableContentSize.Large,
+            themeMode = SirioThemeMode.Dark,
+        )
     }
 }
 
 @Preview
 @Composable
-private fun TableDrawerBarCollapsedDemoPreview() {
+private fun TableDrawerPreview() {
     SirioTheme {
-        TableDrawerBarCollapsedDemo()
+        TableDrawerDemo()
     }
 }
 
 @Preview
 @Composable
-private fun TableDrawerBarExpandedDemoPreview() {
+private fun TableInteractivePreview() {
     SirioTheme {
-        TableDrawerBarExpandedDemo()
-    }
-}
-
-@Preview
-@Composable
-private fun Table1DemoPreview() {
-    SirioTheme(darkTheme = true) {
-        Table1Demo()
-    }
-}
-
-@Preview
-@Composable
-private fun Table2DemoPreview() {
-    SirioTheme(darkTheme = true) {
-        Table2Demo()
-    }
-}
-
-@Preview
-@Composable
-private fun Table3DemoPreview() {
-    SirioTheme(darkTheme = true) {
-        Table3Demo()
+        TableInteractiveDemo(
+            size = SirioTableContentSize.Large,
+            themeMode = SirioThemeMode.Dark,
+            alternateRows = true,
+        )
     }
 }

@@ -8,10 +8,8 @@
 
 package it.inps.sirio.ui.button
 
-import androidx.annotation.DrawableRes
 import androidx.annotation.Keep
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
@@ -34,19 +32,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.guru.fontawesomecomposelib.FaIconType
 import com.guru.fontawesomecomposelib.FaIcons
 import it.inps.sirio.foundation.FoundationColor
-import it.inps.sirio.theme.DarkColorPalette
-import it.inps.sirio.theme.LightColorPalette
 import it.inps.sirio.theme.SirioColorState
 import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.theme.buttonBorderWidth
@@ -64,6 +61,7 @@ import it.inps.sirio.ui.text.SirioText
 import it.inps.sirio.utils.SirioIcon
 import it.inps.sirio.utils.SirioIconData
 import it.inps.sirio.utils.SirioIconSource
+import it.inps.sirio.utils.takeTwoWords
 
 /**
  * Sirio button
@@ -90,7 +88,7 @@ fun SirioButton(
     icon: SirioIconSource? = null,
     enabled: Boolean = true,
     iconContentDescription: String? = null,
-    iconPosition: ButtonIconPosition = ButtonIconPosition.Right,
+    iconPosition: SirioButtonIconPosition = SirioButtonIconPosition.Right,
     onClick: () -> Unit,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
@@ -114,9 +112,15 @@ fun SirioButton(
 
     require(iconData != null || text != null) { "At least one of text or icon must be non-null" }
 
+    val height = size.toHeight()
     Surface(
         onClick = onClick,
-        modifier = modifier.semantics { role = Role.Button },
+        modifier = modifier
+            .height(height)
+            .semantics {
+                role = Role.Button
+                testTagsAsResourceId = true
+            },
         enabled = enabled,
         shape = RoundedCornerShape(buttonCornerRadius.dp),
         color = containerColor,
@@ -124,14 +128,14 @@ fun SirioButton(
         contentColor = contentColor,
         interactionSource = interactionSource,
     ) {
-        if (text != null && iconPosition != ButtonIconPosition.Center) {
+        if (text != null && iconPosition != SirioButtonIconPosition.Center) {
             ButtonWithTextContent(
                 text = text,
                 icon = iconData,
                 iconPosition = iconPosition,
                 contentColor = contentColor,
                 minWidth = size.toMinWidth(),
-                height = size.toHeight(),
+                height = height,
             )
         } else {
             ButtonIconOnlyContent(size = size, icon = iconData!!)
@@ -147,7 +151,8 @@ private fun ButtonIconOnlyContent(
     Box(
         modifier = Modifier
             .size(size.toHeight())
-            .aspectRatio(1f),
+            .aspectRatio(1f)
+            .testTag("buttonIcon"),
         contentAlignment = Alignment.Center,
     ) {
         SirioIcon(iconData = icon)
@@ -158,7 +163,7 @@ private fun ButtonIconOnlyContent(
 private fun ButtonWithTextContent(
     text: String,
     icon: SirioIconData?,
-    iconPosition: ButtonIconPosition,
+    iconPosition: SirioButtonIconPosition,
     contentColor: Color,
     minWidth: Dp,
     height: Dp,
@@ -167,11 +172,12 @@ private fun ButtonWithTextContent(
         modifier = Modifier
             .height(height)
             .defaultMinSize(minWidth = minWidth)
-            .padding(horizontal = buttonPaddingHorizontal.dp),
+            .padding(horizontal = buttonPaddingHorizontal.dp)
+            .testTag("button${text.takeTwoWords()}"),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        if (icon != null && iconPosition == ButtonIconPosition.Left) {
+        if (icon != null && iconPosition == SirioButtonIconPosition.Left) {
             SirioIcon(iconData = icon)
             Spacer(Modifier.width(buttonItemSpacing.dp))
         }
@@ -182,7 +188,7 @@ private fun ButtonWithTextContent(
             overflow = TextOverflow.Ellipsis,
             typography = SirioTheme.foundationTypography.labelMdHeavy,
         )
-        if (icon != null && iconPosition == ButtonIconPosition.Right) {
+        if (icon != null && iconPosition == SirioButtonIconPosition.Right) {
             Spacer(Modifier.width(buttonItemSpacing.dp))
             SirioIcon(iconData = icon)
         }
@@ -197,7 +203,8 @@ enum class SirioButtonHierarchy {
     Secondary,
     TertiaryDark,
     TertiaryLight,
-    Ghost,
+    GhostLight,
+    GhostDark,
     Danger,
 }
 
@@ -207,7 +214,7 @@ enum class SirioButtonSize {
     Small,
 }
 
-enum class ButtonIconPosition {
+enum class SirioButtonIconPosition {
     Left,
     Center,
     Right,
@@ -240,7 +247,11 @@ fun SirioButtonHierarchy.toContainerColor(pressed: Boolean, disabled: Boolean): 
         SirioButtonHierarchy.TertiaryLight -> SirioTheme.colors.button.tertiaryLight.container
             .get(pressed = pressed, disabled = disabled)
 
-        SirioButtonHierarchy.Ghost -> SirioTheme.colors.button.ghost.container
+        SirioButtonHierarchy.GhostLight,
+            -> SirioTheme.colors.button.ghostLight.container
+            .get(pressed = pressed, disabled = disabled)
+
+        SirioButtonHierarchy.GhostDark -> SirioTheme.colors.button.ghostDark.container
             .get(pressed = pressed, disabled = disabled)
 
         SirioButtonHierarchy.Danger -> SirioTheme.colors.button.danger.container
@@ -262,7 +273,10 @@ fun SirioButtonHierarchy.toContentColor(pressed: Boolean, disabled: Boolean): Co
         SirioButtonHierarchy.TertiaryLight -> SirioTheme.colors.button.tertiaryLight.content
             .get(pressed = pressed, disabled = disabled)
 
-        SirioButtonHierarchy.Ghost -> SirioTheme.colors.button.ghost.content
+        SirioButtonHierarchy.GhostLight, -> SirioTheme.colors.button.ghostLight.content
+            .get(pressed = pressed, disabled = disabled)
+
+        SirioButtonHierarchy.GhostDark -> SirioTheme.colors.button.ghostDark.content
             .get(pressed = pressed, disabled = disabled)
 
         SirioButtonHierarchy.Danger -> SirioTheme.colors.button.danger.content
@@ -283,7 +297,10 @@ fun SirioButtonHierarchy.toBorderColor(pressed: Boolean, disabled: Boolean): Col
     SirioButtonHierarchy.TertiaryLight -> SirioTheme.colors.button.tertiaryLight.border
         ?.get(pressed = pressed, disabled = disabled)
 
-    SirioButtonHierarchy.Ghost -> SirioTheme.colors.button.ghost.border
+    SirioButtonHierarchy.GhostLight -> SirioTheme.colors.button.ghostLight.border
+        ?.get(pressed = pressed, disabled = disabled)
+
+    SirioButtonHierarchy.GhostDark -> SirioTheme.colors.button.ghostDark.border
         ?.get(pressed = pressed, disabled = disabled)
 
     SirioButtonHierarchy.Danger -> SirioTheme.colors.button.danger.border
@@ -296,7 +313,8 @@ data class SirioButtonColors(
     val secondary: SirioButtonStateColors,
     val tertiaryDark: SirioButtonStateColors,
     val tertiaryLight: SirioButtonStateColors,
-    val ghost: SirioButtonStateColors,
+    val ghostLight: SirioButtonStateColors,
+    val ghostDark: SirioButtonStateColors,
     val danger: SirioButtonStateColors,
 ) {
     companion object {
@@ -306,7 +324,8 @@ data class SirioButtonColors(
             secondary = SirioButtonStateColors.Unspecified,
             tertiaryDark = SirioButtonStateColors.Unspecified,
             tertiaryLight = SirioButtonStateColors.Unspecified,
-            ghost = SirioButtonStateColors.Unspecified,
+            ghostLight = SirioButtonStateColors.Unspecified,
+            ghostDark = SirioButtonStateColors.Unspecified,
             danger = SirioButtonStateColors.Unspecified,
         )
     }
@@ -390,7 +409,7 @@ val buttonLightColors = SirioButtonColors(
             disabled = FoundationColor.colorAliasBackgroundColorDisabled,
         )
     ),
-    ghost = SirioButtonStateColors(
+    ghostLight = SirioButtonStateColors(
         container = SirioColorState(
             default = Color.Transparent,
             pressed = FoundationColor.colorAliasInteractivePrimaryPressed,
@@ -398,6 +417,19 @@ val buttonLightColors = SirioButtonColors(
         ),
         content = SirioColorState(
             default = FoundationColor.colorAliasInteractivePrimaryDefault,
+            pressed = FoundationColor.colorAliasTextColorPrimaryLight0,
+            disabled = FoundationColor.colorAliasTextColorDisabled,
+        ),
+        border = null
+    ),
+    ghostDark = SirioButtonStateColors(
+        container = SirioColorState(
+            default = Color.Transparent,
+            pressed = FoundationColor.colorAliasInteractiveAccentPressed,
+            disabled = FoundationColor.colorAliasBackgroundColorDisabled,
+        ),
+        content = SirioColorState(
+            default = FoundationColor.colorAliasInteractiveAccentDefault,
             pressed = FoundationColor.colorAliasTextColorPrimaryLight0,
             disabled = FoundationColor.colorAliasTextColorDisabled,
         ),
@@ -420,7 +452,21 @@ val buttonLightColors = SirioButtonColors(
 
 val buttonDarkColors = buttonLightColors
 
-@Preview(widthDp = 1450, heightDp = 1200, backgroundColor = 0xFFFFFFFF, showBackground = true)
+@Preview(backgroundColor = 0xFFFFFFFF, fontScale = 3f)
+@Composable
+private fun SirioButtonFontScalePreview() {
+    SirioTheme {
+        SirioButton(
+            size = SirioButtonSize.Small,
+            hierarchy = SirioButtonHierarchy.GhostLight,
+            text = "Apri",
+            icon = SirioIconSource.FaIcon(FaIcons.ArrowRight),
+            onClick = {},
+        )
+    }
+}
+
+@Preview(widthDp = 1500, heightDp = 1450, backgroundColor = 0xFFFFFFFF, showBackground = true)
 @Composable
 private fun SirioButtonPreview() {
     SirioTheme {
@@ -455,7 +501,13 @@ private fun SirioButtonPreview() {
                 ButtonPreviewContent(
                     text = text,
                     size = size,
-                    style = SirioButtonHierarchy.Ghost
+                    style = SirioButtonHierarchy.GhostLight
+                )
+                Spacer(Modifier.height(60.dp))
+                ButtonPreviewContent(
+                    text = text,
+                    size = size,
+                    style = SirioButtonHierarchy.GhostDark
                 )
                 Spacer(Modifier.height(60.dp))
                 ButtonPreviewContent(
@@ -493,7 +545,13 @@ private fun SirioButtonPreview() {
                 ButtonPreviewContent(
                     text = text,
                     size = size,
-                    style = SirioButtonHierarchy.Ghost
+                    style = SirioButtonHierarchy.GhostLight
+                )
+                Spacer(Modifier.height(60.dp))
+                ButtonPreviewContent(
+                    text = text,
+                    size = size,
+                    style = SirioButtonHierarchy.GhostDark
                 )
                 Spacer(Modifier.height(60.dp))
                 ButtonPreviewContent(
@@ -531,7 +589,13 @@ private fun SirioButtonPreview() {
                 ButtonPreviewContent(
                     text = text,
                     size = size,
-                    style = SirioButtonHierarchy.Ghost
+                    style = SirioButtonHierarchy.GhostLight
+                )
+                Spacer(Modifier.height(60.dp))
+                ButtonPreviewContent(
+                    text = text,
+                    size = size,
+                    style = SirioButtonHierarchy.GhostDark
                 )
                 Spacer(Modifier.height(60.dp))
                 ButtonPreviewContent(
@@ -565,14 +629,14 @@ private fun ButtonPreviewContent(text: String, size: SirioButtonSize, style: Sir
             hierarchy = style,
             text = text,
             icon = SirioIconSource.FaIcon(FaIcons.ArrowLeft),
-            iconPosition = ButtonIconPosition.Left,
+            iconPosition = SirioButtonIconPosition.Left,
             onClick = {},
         )
         SirioButton(
             size = size,
             hierarchy = style,
             icon = SirioIconSource.FaIcon(FaIcons.ArrowRight),
-            iconPosition = ButtonIconPosition.Left,
+            iconPosition = SirioButtonIconPosition.Left,
             onClick = {},
         )
     }
@@ -597,7 +661,7 @@ private fun ButtonPreviewContent(text: String, size: SirioButtonSize, style: Sir
             hierarchy = style,
             text = text,
             icon = SirioIconSource.FaIcon(FaIcons.ArrowLeft),
-            iconPosition = ButtonIconPosition.Left,
+            iconPosition = SirioButtonIconPosition.Left,
             enabled = false,
             onClick = {},
         )
@@ -605,92 +669,9 @@ private fun ButtonPreviewContent(text: String, size: SirioButtonSize, style: Sir
             size = size,
             hierarchy = style,
             icon = SirioIconSource.FaIcon(FaIcons.ArrowRight),
-            iconPosition = ButtonIconPosition.Left,
+            iconPosition = SirioButtonIconPosition.Left,
             enabled = false,
             onClick = {},
         )
-    }
-}
-
-/**
- * The Sirio Button
- *
- * @param modifier the Modifier to be applied to this button
- * @param text The string on the button
- * @param size The [SirioButtonSize]
- * @param style The [ButtonStyle]
- * @param icon The icon
- * @param iconResId Resources object to query the image file from
- * @param enabled Whether the button is enabled
- * @param onClick The callback when the button is clicked
- */
-@Deprecated(
-    "Use SirioButton with ButtonHierarchy instead",
-    replaceWith = ReplaceWith(
-        "SirioButton(size = size, hierarchy = style, modifier = modifier, text = text, icon = icon, enabled = enabled, iconContentDescription = iconContentDescription, onClick = onClick)",
-        "it.inps.sirio.ui.button.SirioButtonHierarchy"
-    )
-)
-@Composable
-fun SirioButton(
-    modifier: Modifier = Modifier,
-    text: String? = "",
-    size: SirioButtonSize,
-    style: ButtonStyle,
-    icon: FaIconType? = null,
-    @DrawableRes iconResId: Int? = null,
-    enabled: Boolean = true,
-    iconContentDescription: String? = null,
-    onClick: () -> Unit,
-) {
-    val colors: SirioButtonLegacyColors = when (style) {
-        ButtonStyle.Primary -> SirioTheme.colors.buttonLegacy.primary
-        ButtonStyle.Secondary -> SirioTheme.colors.buttonLegacy.secondary
-        ButtonStyle.Tertiary -> SirioTheme.colors.buttonLegacy.tertiary
-        ButtonStyle.TertiaryDark -> DarkColorPalette.buttonLegacy.tertiary
-        ButtonStyle.TertiaryLight -> LightColorPalette.buttonLegacy.tertiary
-        ButtonStyle.Ghost -> SirioTheme.colors.buttonLegacy.ghost
-        ButtonStyle.Danger -> SirioTheme.colors.buttonLegacy.danger
-    }
-
-    SirioButtonCommon(
-        size = size,
-        colors = colors,
-        modifier = modifier,
-        text = text,
-        faIcon = icon,
-        iconResId = iconResId,
-        enabled = enabled,
-        iconContentDescription = iconContentDescription,
-        onClick = onClick,
-    )
-}
-
-@Preview(showSystemUi = true)
-@Composable
-private fun ButtonTextIconPreview() {
-    SirioTheme {
-        val text = "Text"
-        Column(Modifier.background(Color(0xFFE5E5E5))) {
-            Row {
-                SirioButton(
-                    text = text,
-                    style = ButtonStyle.Tertiary,
-                    size = SirioButtonSize.Large,
-                ) {}
-                SirioButton(
-                    text = text,
-                    icon = FaIcons.ArrowRight,
-                    style = ButtonStyle.Tertiary,
-                    size = SirioButtonSize.Large,
-                ) {}
-                SirioButton(
-                    text = "",
-                    icon = FaIcons.ArrowRight,
-                    style = ButtonStyle.Tertiary,
-                    size = SirioButtonSize.Large,
-                ) {}
-            }
-        }
     }
 }

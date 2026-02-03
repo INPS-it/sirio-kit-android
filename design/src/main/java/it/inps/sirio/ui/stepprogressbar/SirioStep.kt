@@ -27,6 +27,7 @@ import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import it.inps.sirio.foundation.FoundationColor
@@ -34,6 +35,7 @@ import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.theme.stepPathWidth
 import it.inps.sirio.theme.stepPointPadding
 import it.inps.sirio.ui.text.SirioText
+import it.inps.sirio.utils.takeTwoWords
 
 @Composable
 fun SirioStep(
@@ -47,6 +49,7 @@ fun SirioStep(
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .testTag("progressBar${stepText.takeTwoWords()}")
             .wrapContentHeight()
             .background(SirioTheme.colors.stepProgressBar.step.background)
             .clickable(enabled = interactive, onClick = onClick),

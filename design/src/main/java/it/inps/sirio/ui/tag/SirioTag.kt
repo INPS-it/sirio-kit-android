@@ -17,23 +17,36 @@ import it.inps.sirio.theme.SirioTheme
 /**
  * Sirio tag component
  *
- * @param text The tag label
- * @param tagType The tag color type [SirioTagType]
+ * @param text The tag label.
  * @param modifier A [Modifier] for customizing the appearance and behavior of the tag component
+ * @param color The specific color for the tag. It's an instance of [SirioTagColor]. Default is [SirioTagColor.Light].
+ * @param semantic The semantic purpose of the tag, which also determines its color. It's an instance of [SirioTagSemantic]. Default is null.
  */
 @Composable
 fun SirioTag(
     text: String,
-    tagType: SirioTagType,
     modifier: Modifier = Modifier,
+    color: SirioTagColor? = SirioTagColor.Light,
+    semantic: SirioTagSemantic? = null,
 ) {
+    val tagType = when (semantic) {
+        SirioTagSemantic.Info -> SirioTagType.Blue
+        SirioTagSemantic.Alert -> SirioTagType.Red
+        SirioTagSemantic.Warning -> SirioTagType.Orange
+        SirioTagSemantic.Success -> SirioTagType.Green
+        null -> when (color) {
+            SirioTagColor.Dark -> SirioTagType.White
+            SirioTagColor.Light -> SirioTagType.Gray
+            else -> SirioTagType.Gray
+        }
+    }
     val sirioTagColors = when (tagType) {
-        SirioTagType.GRAY -> SirioTheme.colors.tag.gray
-        SirioTagType.BLUE -> SirioTheme.colors.tag.blue
-        SirioTagType.RED -> SirioTheme.colors.tag.red
-        SirioTagType.ORANGE -> SirioTheme.colors.tag.orange
-        SirioTagType.GREEN -> SirioTheme.colors.tag.green
-        SirioTagType.WHITE -> SirioTheme.colors.tag.white
+        SirioTagType.Gray -> SirioTheme.colors.tag.gray
+        SirioTagType.Blue -> SirioTheme.colors.tag.blue
+        SirioTagType.Red -> SirioTheme.colors.tag.red
+        SirioTagType.Orange -> SirioTheme.colors.tag.orange
+        SirioTagType.Green -> SirioTheme.colors.tag.green
+        SirioTagType.White -> SirioTheme.colors.tag.white
     }
     SirioTagCommon(
         text = text,
@@ -42,17 +55,29 @@ fun SirioTag(
     )
 }
 
+enum class SirioTagColor {
+    Dark,
+    Light,
+}
+
+enum class SirioTagSemantic {
+    Info,
+    Alert,
+    Warning,
+    Success,
+}
+
 @Preview
 @Composable
 private fun TagPreview() {
     SirioTheme {
         Column {
-            SirioTag(text = "Label Tag", tagType = SirioTagType.GRAY)
-            SirioTag(text = "Label Tag", tagType = SirioTagType.BLUE)
-            SirioTag(text = "Label Tag", tagType = SirioTagType.RED)
-            SirioTag(text = "Label Tag", tagType = SirioTagType.ORANGE)
-            SirioTag(text = "Label Tag", tagType = SirioTagType.GREEN)
-            SirioTag(text = "Label Tag", tagType = SirioTagType.WHITE)
+            SirioTag(text = "Label Tag", color = SirioTagColor.Light)
+            SirioTag(text = "Label Tag", color = SirioTagColor.Dark)
+            SirioTag(text = "Label Tag", semantic = SirioTagSemantic.Info)
+            SirioTag(text = "Label Tag", semantic = SirioTagSemantic.Alert)
+            SirioTag(text = "Label Tag", semantic = SirioTagSemantic.Warning)
+            SirioTag(text = "Label Tag", semantic = SirioTagSemantic.Success)
         }
     }
 }

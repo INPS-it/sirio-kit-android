@@ -15,13 +15,10 @@ import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -33,12 +30,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.Layout
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.guru.fontawesomecomposelib.FaIcons
 import it.inps.sirio.foundation.FoundationColor
 import it.inps.sirio.theme.SirioColorState
 import it.inps.sirio.theme.SirioTheme
+import it.inps.sirio.theme.tabGroupDividerHeight
 import it.inps.sirio.theme.tabHorizontalSpacing
 import it.inps.sirio.theme.tabIconSize
 import it.inps.sirio.theme.tabIndicatorCornerRadiusBottom
@@ -48,15 +48,21 @@ import it.inps.sirio.theme.tabPadding
 import it.inps.sirio.ui.text.SirioText
 import it.inps.sirio.utils.SirioIcon
 import it.inps.sirio.utils.SirioIconSource
+import it.inps.sirio.utils.takeTwoWords
 
 /**
  * Sirio tab common implementation.
  *
+ * This composable function provides the common structure and styling for a Sirio tab item.
+ * It handles the display of the label, an optional icon, and the selection indicator.
+ * The appearance of the tab (text color, icon color, indicator color) changes based on
+ * its enabled state, selected state, and whether it's being pressed.
+ *
  * @param label The text to be displayed on the tab.
- * @param icon The optional icon to be displayed on the tab. It can be a [SirioIconSource.FaIcon] or [SirioIconSource.Image].
- * @param enabled Whether the tab can be selected by the user.
- * @param selected Whether the tab is currently selected.
- * @param onSelect The callback to be invoked when the tab is selected.
+ * @param icon The optional icon to be displayed on the tab. It can be a [SirioIconSource.FaIcon] or [SirioIconSource.Drawable].
+ * @param enabled Whether the tab can be selected by the user. If `false`, the tab will appear disabled and cannot be interacted with.
+ * @param selected Whether the tab is currently selected. This affects the visual style, such as the indicator visibility and text weight.
+ * @param onSelect The callback to be invoked when the tab is clicked by the user. This is typically used to change the selected state.
  */
 @Composable
 internal fun SirioTabCommon(
@@ -90,42 +96,97 @@ internal fun SirioTabCommon(
         onClick = onSelect,
         modifier = Modifier
             .background(SirioTheme.colors.tab.item.background)
-            .width(IntrinsicSize.Max),
+            .testTag("tab${label.takeTwoWords()}"),
         enabled = enabled,
         interactionSource = interactionSource,
     ) {
-        Row(
-            modifier = Modifier.padding(tabPadding.dp),
-            horizontalArrangement = Arrangement
-                .spacedBy(tabHorizontalSpacing.dp, Alignment.CenterHorizontally),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            icon?.let {
-                SirioIcon(
-                    icon = icon,
-                    iconColor = iconColor,
-                    size = tabIconSize.dp,
+        Layout(
+            content = {
+                Row(
+                    modifier = Modifier.padding(tabPadding.dp),
+                    horizontalArrangement = Arrangement.spacedBy(
+                        space = tabHorizontalSpacing.dp,
+                        alignment = Alignment.CenterHorizontally,
+                    ),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    icon?.let {
+                        SirioIcon(
+                            icon = icon,
+                            iconColor = iconColor,
+                            size = tabIconSize.dp
+                        )
+                    }
+                    SirioText(
+                        text = label,
+                        color = labelColor,
+                        typography = if (selected)
+                            SirioTheme.foundationTypography.labelMdHeavy
+                        else
+                            SirioTheme.foundationTypography.labelMdRegular
+                    )
+                }
+
+                Box(
+                    modifier = Modifier
+                        .height(tabIndicatorHeight.dp)
+                        .background(
+                            color = indicatorColor,
+                            shape = RoundedCornerShape(
+                                topStart = tabIndicatorCornerRadiusTop.dp,
+                                topEnd = tabIndicatorCornerRadiusTop.dp,
+                                bottomStart = tabIndicatorCornerRadiusBottom.dp,
+                                bottomEnd = tabIndicatorCornerRadiusBottom.dp,
+                            )
+                        )
+                )
+
+                Box(
+                    modifier = Modifier
+                        .height(tabGroupDividerHeight.dp)
+                        .background(SirioTheme.colors.tab.group.divider)
                 )
             }
-            SirioText(
-                text = label,
-                color = labelColor,
-                typography = if (selected) SirioTheme.foundationTypography.labelMdHeavy else SirioTheme.foundationTypography.labelMdRegular
-            )
-        }
-        Box(
-            Modifier
-                .height(tabIndicatorHeight.dp)
-                .fillMaxWidth()
-                .background(
-                    indicatorColor, RoundedCornerShape(
-                        topEnd = tabIndicatorCornerRadiusTop.dp,
-                        topStart = tabIndicatorCornerRadiusTop.dp,
-                        bottomEnd = tabIndicatorCornerRadiusBottom.dp,
-                        bottomStart = tabIndicatorCornerRadiusBottom.dp,
-                    )
+        ) { measurables, constraints ->
+
+            val rowMeasurable = measurables[0]
+            val indicatorMeasurable = measurables[1]
+            val dividerMeasurable = measurables[2]
+
+            val rowPlaceable = rowMeasurable.measure(constraints)
+
+            val indicatorPlaceable = indicatorMeasurable.measure(
+                constraints.copy(
+                    minWidth = rowPlaceable.width,
+                    maxWidth = rowPlaceable.width
                 )
-        )
+            )
+
+            val dividerPlaceable = dividerMeasurable.measure(
+                constraints.copy(
+                    minWidth = rowPlaceable.width,
+                    maxWidth = rowPlaceable.width
+                )
+            )
+
+            val tabWidth = rowPlaceable.width
+            val tabHeight = rowPlaceable.height +
+                    indicatorPlaceable.height +
+                    dividerPlaceable.height
+
+            layout(tabWidth, tabHeight) {
+
+                var y = 0
+
+                rowPlaceable.place(0, y)
+                y += rowPlaceable.height
+
+                indicatorPlaceable.place(0, y)
+                y += indicatorPlaceable.height
+
+                dividerPlaceable.place(0, y)
+            }
+        }
     }
 }
 

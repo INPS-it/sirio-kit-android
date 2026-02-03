@@ -16,20 +16,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import it.inps.sirio.theme.SirioTheme
+import it.inps.sirio.theme.SirioThemeMode
 import it.inps.sirio.ui.checkbox.SirioCheckboxCommon
-import it.inps.sirio.ui.table.SirioTableCellType
-import it.inps.sirio.ui.table.SirioTableContentSize
 
 @Composable
 fun RowScope.SirioTableCellText(
     text: String,
     size: SirioTableContentSize,
     weight: Float = 1f,
-    scroll: Boolean = false,
     checked: Boolean = false,
+    themeMode: SirioThemeMode? = SirioThemeMode.Light,
     onCheckedChange: (Boolean) -> Unit,
 ) {
-    SirioTableCellCommon(size = size, weight = weight, scroll = scroll) {
+    SirioTableCellCommon(
+        size = size,
+        weight = weight,
+        themeMode = themeMode,
+    ) {
         SirioCheckboxCommon(
             checked = checked,
             text = text,
@@ -39,14 +42,19 @@ fun RowScope.SirioTableCellText(
 }
 
 @Composable
-internal fun RowScope.SirioTableCellText(data: SirioTableCellType.Text, weight: Float = 1f) {
+internal fun RowScope.SirioTableCellText(
+    data: SirioTableCellType.Text,
+    size: SirioTableContentSize,
+    weight: Float = 1f,
+    themeMode: SirioThemeMode? = SirioThemeMode.Light,
+) {
     SirioTableCellText(
         text = data.text,
-        size = data.size,
+        size = size,
         weight = weight,
-        scroll = data.scroll,
         checked = data.checked,
         onCheckedChange = data.onCheckedChange,
+        themeMode = themeMode,
     )
 }
 
@@ -58,70 +66,48 @@ private fun SirioTableCellTextPreview() {
             Row(Modifier.height(IntrinsicSize.Max)) {
                 SirioTableCellText(
                     text = "Title\nTitle",
-                    size = SirioTableContentSize.LARGE,
-                    scroll = false,
-                    checked = true,
+                    size = SirioTableContentSize.Large,
+                    checked = false,
                     onCheckedChange = {}
                 )
                 SirioTableCellText(
                     text = "Title",
-                    size = SirioTableContentSize.LARGE,
-                    scroll = false,
-                    checked = true,
-                    onCheckedChange = {}
-                )
-            }
-            Row(Modifier.height(IntrinsicSize.Max)) {
-                SirioTableCellText(
-                    text = "Title",
-                    size = SirioTableContentSize.LARGE,
-                    scroll = false,
-                    checked = true,
+                    size = SirioTableContentSize.Large,
+                    checked = false,
                     onCheckedChange = {}
                 )
             }
             Row(Modifier.height(IntrinsicSize.Max)) {
                 SirioTableCellText(
                     text = "Title",
-                    size = SirioTableContentSize.MEDIUM,
-                    scroll = false,
-                    checked = true,
+                    size = SirioTableContentSize.Large,
+                    checked = false,
                     onCheckedChange = {}
                 )
             }
             Row(Modifier.height(IntrinsicSize.Max)) {
                 SirioTableCellText(
                     text = "Title",
-                    size = SirioTableContentSize.SMALL,
-                    scroll = false,
-                    checked = true,
+                    size = SirioTableContentSize.Large,
+                    checked = false,
+                    themeMode = SirioThemeMode.Dark,
                     onCheckedChange = {}
                 )
             }
             Row(Modifier.height(IntrinsicSize.Max)) {
                 SirioTableCellText(
                     text = "Title",
-                    size = SirioTableContentSize.LARGE,
-                    scroll = true,
-                    checked = true,
+                    size = SirioTableContentSize.Small,
+                    checked = false,
                     onCheckedChange = {}
                 )
             }
             Row(Modifier.height(IntrinsicSize.Max)) {
                 SirioTableCellText(
                     text = "Title",
-                    size = SirioTableContentSize.MEDIUM,
-                    scroll = true,
-                    checked = true,
-                    onCheckedChange = {}
-                )
-            }
-            Row(Modifier.height(IntrinsicSize.Max)) {
-                SirioTableCellText(
-                    text = "Title",
-                    size = SirioTableContentSize.SMALL,
-                    scroll = true,
-                    checked = true,
+                    size = SirioTableContentSize.Small,
+                    checked = false,
+                    themeMode = SirioThemeMode.Dark,
                     onCheckedChange = {}
                 )
             }

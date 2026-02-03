@@ -28,7 +28,7 @@ import it.inps.sirio.utils.SirioIcon
 import it.inps.sirio.utils.SirioIconSource
 
 @Composable
-internal fun SirioBadgeBox(
+internal inline fun SirioBadgeBox(
     hasBadge: Boolean = true,
     topPadding: Dp = badgeBoxPaddingTop.dp,
     endPadding: Dp = badgeBoxPaddingEnd.dp,

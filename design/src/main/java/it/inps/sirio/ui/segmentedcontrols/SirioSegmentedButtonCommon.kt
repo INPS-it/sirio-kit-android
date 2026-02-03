@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
@@ -39,6 +40,7 @@ import it.inps.sirio.ui.text.SirioText
 import it.inps.sirio.utils.SirioIcon
 import it.inps.sirio.utils.SirioIconData
 import it.inps.sirio.utils.SirioIconSource
+import it.inps.sirio.utils.takeTwoWords
 
 @Composable
 internal fun RowScope.SirioSegmentedButtonCommon(
@@ -71,6 +73,7 @@ internal fun RowScope.SirioSegmentedButtonCommon(
         onClick = onClick,
         modifier = Modifier
             .weight(1f)
+            .testTag("segmentedButton${text.takeTwoWords()}")
             .height(segmentedButtonHeight.dp)
             .semantics { role = Role.RadioButton },
         enabled = !selected,

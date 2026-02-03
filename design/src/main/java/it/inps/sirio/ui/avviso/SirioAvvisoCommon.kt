@@ -23,6 +23,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -39,41 +41,38 @@ import it.inps.sirio.ui.text.SirioTextCommon
 import it.inps.sirio.utils.SirioIcon
 import it.inps.sirio.utils.SirioIconData
 import it.inps.sirio.utils.SirioIconSource
-
+import it.inps.sirio.utils.takeTwoWords
 
 /**
- * A composable for displaying an informational notice.
+ * The internal common implementation for the notice component.
  *
- * This function creates a visually consistent container to display a title, a descriptive text,
- * and an optional link.
- *
- * @param title The title of the notice, displayed in a headline style.
- * @param text The main text content of the notice, providing details or context.
- * @param link An optional link text. If provided, it's displayed as a clickable element.
- * @param onLinkClick An optional callback function that is invoked when the link is clicked.
- *                    If null, the link will be displayed as static text.
- *
- * Example Usage:
- * ```
- * SirioAvvisoCommon(
- *     title = "Important Notice",
- *     text = "Please review the latest terms and conditions.",
- *     link = "Learn More",
- *     onLinkClick = {
- *         // Handle link click, e.g., navigate to a different screen
- *     }
- * )
- * ```
- **/
+ * @param title The string for the title.
+ * @param text The string for the main text content.
+ * @param link An optional string for the link. If null, the link is not displayed.
+ * @param icon The [SirioIconSource] of the icon.
+ * @param titleTypography The [TextStyle] for the title.
+ * @param textTypography The [TextStyle] for the main text.
+ * @param onClick A callback that will be called when the component is clicked. If null, the component will not be clickable.
+ * @param onLinkClick A callback that will be called when the link is clicked.
+ */
 @Composable
 internal fun SirioAvvisoCommon(
     title: String,
     text: String,
     link: String?,
+    icon: SirioIconSource = SirioIconSource.FaIcon(FaIcons.InfoCircle),
+    titleTypography: TextStyle = SirioTheme.foundationTypography.headlineSmHeavy,
+    textTypography: TextStyle = SirioTheme.foundationTypography.bodyMdRegular,
+    onClick: (() -> Unit)? = null,
     onLinkClick: (() -> Unit)?,
 ) {
     Surface(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(
+                enabled = onClick != null,
+                onClick = { onClick?.invoke() },
+            ),
         shape = RoundedCornerShape(avvisoContainerCornerRadius.dp),
         color = SirioTheme.colors.avviso.background,
     ) {
@@ -85,7 +84,7 @@ internal fun SirioAvvisoCommon(
         ) {
             SirioIcon(
                 iconData = SirioIconData(
-                    icon = SirioIconSource.FaIcon(FaIcons.InfoCircle),
+                    icon = icon,
                     iconColor = SirioTheme.colors.avviso.icon,
                     size = avvisoIconSize.dp,
                 )
@@ -94,20 +93,22 @@ internal fun SirioAvvisoCommon(
                 SirioTextCommon(
                     text = title,
                     color = SirioTheme.colors.avviso.title,
-                    typography = SirioTheme.foundationTypography.headlineSmHeavy,
+                    typography = titleTypography,
                 )
                 SirioTextCommon(
                     text = text,
                     color = SirioTheme.colors.avviso.text,
-                    typography = SirioTheme.foundationTypography.bodyMdRegular,
+                    typography = textTypography,
                 )
                 link?.let {
                     SirioText(
                         text = it,
-                        modifier = Modifier.clickable(
-                            enabled = onLinkClick != null,
-                            onClick = onLinkClick!!,
-                        ),
+                        modifier = Modifier
+                            .testTag("link${it.takeTwoWords()}")
+                            .clickable(
+                                enabled = onLinkClick != null,
+                                onClick = onLinkClick!!,
+                            ),
                         color = SirioTheme.colors.avviso.link,
                         textDecoration = TextDecoration.Underline,
                         typography = SirioTheme.foundationTypography.linkMdHeavy,

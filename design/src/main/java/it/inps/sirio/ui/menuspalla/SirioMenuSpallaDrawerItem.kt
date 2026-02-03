@@ -28,7 +28,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -41,6 +41,8 @@ import it.inps.sirio.theme.menuSpallaDrawerItemIconSize
 import it.inps.sirio.theme.menuSpallaDrawerItemPaddingHorizontal
 import it.inps.sirio.ui.text.SirioTextCommon
 import it.inps.sirio.utils.SirioIcon
+import it.inps.sirio.utils.SirioIconSource
+import it.inps.sirio.utils.takeTwoWords
 
 @Composable
 fun SirioMenuSpallaDrawerItem(
@@ -83,20 +85,21 @@ fun SirioMenuSpallaDrawerItem(
             Column {
                 SirioTextCommon(
                     text = title,
+                    modifier = Modifier.testTag("sirioSpalla${title.takeTwoWords()}"),
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,
-                    typography = SirioTheme.typography.menuSpalla.drawerItem.title,
+                    typography = SirioTheme.foundationTypography.headlineSmHeavy,
                 )
                 SirioTextCommon(
                     text = subtitle,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,
-                    typography = SirioTheme.typography.menuSpalla.drawerItem.subtitle,
+                    typography = SirioTheme.foundationTypography.labelMdRegular,
                 )
             }
             Spacer(Modifier.weight(1f))
             SirioIcon(
-                faIcon = icon,
+                icon = SirioIconSource.FaIcon(icon),
                 iconColor = LocalContentColor.current,
                 size = menuSpallaDrawerItemIconSize.dp,
             )
@@ -116,20 +119,6 @@ data class SirioMenuSpallaDrawerItemColors(
             background = SirioColorState.Unspecified,
             border = SirioColorState.Unspecified,
             content = SirioColorState.Unspecified,
-        )
-    }
-}
-
-@Keep
-data class SirioMenuSpallaDrawerItemTypography(
-    val title: TextStyle,
-    val subtitle: TextStyle,
-) {
-    companion object {
-        @Stable
-        val Default = SirioMenuSpallaDrawerItemTypography(
-            title = TextStyle.Default,
-            subtitle = TextStyle.Default,
         )
     }
 }

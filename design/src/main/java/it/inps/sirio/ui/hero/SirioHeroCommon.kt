@@ -8,144 +8,199 @@
 
 package it.inps.sirio.ui.hero
 
+import android.graphics.drawable.Drawable
 import androidx.annotation.Keep
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import coil.compose.AsyncImage
 import coil.decode.SvgDecoder
 import coil.request.ImageRequest
+import it.inps.sirio.R
+import it.inps.sirio.foundation.FoundationColor
 import it.inps.sirio.theme.SirioTheme
+import it.inps.sirio.theme.heroDividerHeight
 import it.inps.sirio.theme.heroImageHeight
-import it.inps.sirio.theme.heroImagePaddingBottomLong
-import it.inps.sirio.theme.heroImagePaddingBottomShort
+import it.inps.sirio.theme.heroLinkPaddingBottom
+import it.inps.sirio.theme.heroLinkPaddingTop
 import it.inps.sirio.theme.heroPaddingHorizontal
-import it.inps.sirio.theme.heroPaddingVertical
+import it.inps.sirio.theme.heroPaddingTop
 import it.inps.sirio.theme.heroSubtitlePaddingTop
-import it.inps.sirio.theme.heroTextPaddingBottom
-import it.inps.sirio.theme.heroTextPaddingTop
-import it.inps.sirio.ui.button.ButtonStyle
-import it.inps.sirio.ui.button.SirioButton
-import it.inps.sirio.ui.button.SirioButtonSize
 import it.inps.sirio.ui.text.SirioText
+import it.inps.sirio.utils.takeTwoWords
 
 /**
- * Sirio Hero common implementation
- * @param title The title of the hero.
- * @param text The text content of the hero.
- * @param modifier The [Modifier] for the hero (optional).
- * @param imageUrl The url of the remote image.
- * @param imageContentDescriptor The content descriptor associated with the image
- * @param subtitle The subtitle of the hero (optional).
- * @param buttonText The text for the button (optional).
- * @param onButtonClick The action to be performed when the button is clicked (optional).
- * @param onHeroClick The action to be performed when the hero is clicked (optional).
+ * The internal common implementation for the hero component
+ *
+ * @param modifier The [Modifier] to be applied to the component.
+ * @param onHeroClick The callback to be invoked when the hero is clicked.
+ * @param title The optional hero title text.
+ * @param subtitle The optional hero subtitle text.
+ * @param link The optional hero link text.
+ * @param imageUrl The optional hero image from a URL.
+ * @param imageDrawable The optional hero image from a drawable.
+ * @param imageContentDescriptor The content descriptor for the image.
+ * @param imageContentScale The content scale for the image, defaults to [ContentScale.FillWidth].
+ * @param onLinkClick The callback to be invoked when the link is clicked.
  */
 @Composable
 internal fun SirioHeroCommon(
-    title: String,
-    text: String,
     modifier: Modifier = Modifier,
-    imageUrl: (String)? = null,
-    imageContentDescriptor: String? = null,
+    onHeroClick: (() -> Unit)? = null,
+    title: String? = null,
     subtitle: String? = null,
-    buttonText: String? = null,
-    onButtonClick: () -> Unit = {},
-    onHeroClick: () -> Unit = {},
+    link: String? = null,
+    imageUrl: (String)? = null,
+    imageDrawable: Drawable? = null,
+    imageContentDescriptor: String? = null,
+    imageContentScale: ContentScale = ContentScale.FillWidth,
+    onLinkClick: (() -> Unit)? = null,
 ) {
-    Card(
-        onClick = onHeroClick,
-        modifier = modifier,
-        shape = RoundedCornerShape(0.dp),
-        colors = CardDefaults.cardColors(containerColor = SirioTheme.colors.hero.background),
+    val clickableModifier = if (onHeroClick != null) {
+        modifier.clickable { onHeroClick() }
+    } else {
+        modifier
+    }
+
+    Surface(
+        modifier = clickableModifier.testTag("hero${title.takeTwoWords()}"),
+        color = SirioTheme.colors.hero.background,
     ) {
-        Column(
-            Modifier
-                .padding(
-                    start = heroPaddingHorizontal.dp,
-                    end = heroPaddingHorizontal.dp,
-                    top = heroPaddingVertical.dp,
-                )
-        ) {
-            SirioText(
-                text = title,
-                color = SirioTheme.colors.hero.title,
-                maxLines = 2,
-                typography = SirioTheme.typography.hero.title,
-            )
-            subtitle?.let {
-                SirioText(
-                    text = subtitle,
-                    modifier = Modifier.padding(top = heroSubtitlePaddingTop.dp),
-                    color = SirioTheme.colors.hero.subtitle,
-                    maxLines = 1,
-                    typography = SirioTheme.typography.hero.subtitle,
-                )
-            }
-            SirioText(
-                text = text,
-                modifier = Modifier.padding(
-                    top = heroTextPaddingTop.dp,
-                    bottom = heroTextPaddingBottom.dp
-                ),
-                color = SirioTheme.colors.hero.text,
-                maxLines = 4,
-                typography = SirioTheme.typography.hero.text,
-            )
-            buttonText?.let {
-                SirioButton(
-                    modifier = Modifier.padding(bottom = if (imageUrl != null) heroImagePaddingBottomShort.dp else heroImagePaddingBottomLong.dp),
-                    text = it,
-                    size = SirioButtonSize.Large,
-                    style = ButtonStyle.Tertiary,
-                    onClick = onButtonClick,
-                )
-            }
-            imageUrl?.let {
-                AsyncImage(
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data(imageUrl)
-                        .decoderFactory(SvgDecoder.Factory())
-                        .build(),
-                    contentDescription = imageContentDescriptor,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(heroImageHeight.dp),
-                    contentScale = ContentScale.Fit,
-                )
-            }
-        }
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(1.dp)
-                .background(SirioTheme.colors.hero.borderBottom)
+        HeroContent(
+            title = title,
+            subtitle = subtitle,
+            link = link,
+            imageUrl = imageUrl,
+            imageDrawable = imageDrawable,
+            imageContentDescriptor = imageContentDescriptor,
+            imageContentScale = imageContentScale,
+            onLinkClick = onLinkClick,
         )
     }
 }
 
+@Composable
+private fun HeroContent(
+    title: String?,
+    subtitle: String?,
+    link: String?,
+    imageDrawable: Drawable?,
+    imageContentDescriptor: String?,
+    imageContentScale: ContentScale,
+    imageUrl: String?,
+    onLinkClick: (() -> Unit)?,
+) {
+    Column {
+        HeroTexts(title = title, subtitle = subtitle, link = link, onLinkClick = onLinkClick)
+        HeroImage(
+            imageDrawable = imageDrawable,
+            imageContentDescriptor = imageContentDescriptor,
+            imageContentScale = imageContentScale,
+            imageUrl = imageUrl
+        )
+        HorizontalDivider(
+            thickness = heroDividerHeight.dp,
+            color = SirioTheme.colors.hero.borderBottom
+        )
+    }
+}
+
+@Composable
+private fun HeroTexts(
+    title: String?,
+    subtitle: String?,
+    link: String?,
+    onLinkClick: (() -> Unit)?,
+) {
+    Column(
+        Modifier
+            .padding(
+                start = heroPaddingHorizontal.dp,
+                end = heroPaddingHorizontal.dp,
+                top = heroPaddingTop.dp,
+            )
+    ) {
+        title?.let {
+            SirioText(
+                text = it,
+                color = SirioTheme.colors.hero.title,
+                maxLines = 1,
+                typography = SirioTheme.foundationTypography.displaySmHeavy,
+            )
+        }
+        subtitle?.let {
+            SirioText(
+                text = subtitle,
+                modifier = Modifier.padding(top = heroSubtitlePaddingTop.dp),
+                color = SirioTheme.colors.hero.subtitle,
+                maxLines = 1,
+                typography = SirioTheme.foundationTypography.headlineMdMiddle,
+            )
+        }
+        link?.let {
+            SirioText(
+                text = it,
+                modifier = Modifier
+                    .padding(
+                        top = heroLinkPaddingTop.dp,
+                        bottom = heroLinkPaddingBottom.dp,
+                    )
+                    .clickable(onLinkClick != null, onClick = { onLinkClick?.invoke() }),
+                color = SirioTheme.colors.hero.link,
+                textDecoration = TextDecoration.Underline,
+                maxLines = 1,
+                typography = SirioTheme.foundationTypography.linkMdHeavy,
+            )
+        }
+    }
+}
+
+@Composable
+private fun HeroImage(
+    imageDrawable: Drawable?,
+    imageContentDescriptor: String?,
+    imageContentScale: ContentScale,
+    imageUrl: String?,
+) {
+    val imageData = imageDrawable ?: imageUrl
+    imageData?.let {
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(imageData)
+                .decoderFactory(SvgDecoder.Factory())
+                .build(),
+            contentDescription = imageContentDescriptor,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(heroImageHeight.dp),
+            alignment = Alignment.BottomCenter,
+            contentScale = imageContentScale,
+        )
+    }
+}
 
 @Keep
 data class SirioHeroColors(
     val background: Color,
     val title: Color,
     val subtitle: Color,
-    val text: Color,
+    val link: Color,
     val borderBottom: Color,
 ) {
     companion object {
@@ -154,44 +209,34 @@ data class SirioHeroColors(
             background = Color.Unspecified,
             title = Color.Unspecified,
             subtitle = Color.Unspecified,
-            text = Color.Unspecified,
+            link = Color.Unspecified,
             borderBottom = Color.Unspecified,
         )
     }
 }
 
-@Keep
-data class SirioHeroTypography(
-    val title: TextStyle,
-    val subtitle: TextStyle,
-    val text: TextStyle,
-) {
-    companion object {
-        @Stable
-        val Default = SirioHeroTypography(
-            title = TextStyle.Default,
-            subtitle = TextStyle.Default,
-            text = TextStyle.Default,
-        )
-    }
-}
+internal val heroLightColors = SirioHeroColors(
+    background = FoundationColor.colorAliasBackgroundColorPrimaryDark110,
+    title = FoundationColor.colorAliasTextColorPrimaryLight0,
+    subtitle = FoundationColor.colorAliasTextColorPrimaryLight50,
+    link = FoundationColor.colorAliasInteractiveAccentDefault,
+    borderBottom = FoundationColor.colorAliasBackgroundColorPrimaryLight50,
+)
+
+internal val heroDarkColors = heroLightColors
 
 @Preview(showSystemUi = true, backgroundColor = 0xFF888888)
 @Composable
 private fun SirioHeroCommonPreview() {
     SirioTheme {
-        val heroTitleValue = "Titolo Hero"
+        val heroTitleValue = "Titolo "
         val heroSubtitleValue = "Sottotitolo"
-        val heroTextValue =
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-        val heroButtonText = "Text"
+        val heroLinkText = "Link"
         SirioHeroCommon(
             title = heroTitleValue,
-            text = heroTextValue,
-            imageUrl = "https://www.google.it/images/branding/googlelogo/1x/googlelogo_light_color_272x92dp.png",
-            onHeroClick = {},
+            link = heroLinkText,
+            imageDrawable = ContextCompat.getDrawable(LocalContext.current, R.drawable.hero),
             subtitle = heroSubtitleValue,
-            buttonText = heroButtonText,
         )
     }
 }

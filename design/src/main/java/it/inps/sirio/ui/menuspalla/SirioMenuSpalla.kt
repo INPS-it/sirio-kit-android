@@ -11,6 +11,7 @@ import android.util.Log
 import androidx.annotation.Keep
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
@@ -35,20 +36,22 @@ fun SirioMenuSpalla(
         sections.any { section -> section.items.any { item -> item.hasInvalidDeep() } }
             .let { if (it) throw IllegalArgumentException("Menu spalla invalid deep > 3") }
     }
-    var isOpen by remember { mutableStateOf(open) }
     var selectedId by remember { mutableStateOf("") }
-    Column(modifier = Modifier.background(SirioTheme.colors.menuSpalla.background)) {
+    Column(
+        modifier = Modifier
+            .wrapContentHeight()
+            .background(SirioTheme.colors.menuSpalla.background),
+    ) {
         SirioMenuSpallaDrawerItem(
             title = title,
             subtitle = subtitle,
-            open = isOpen,
+            open = open,
             onStateChange = { newOpenState ->
                 if (newOpenState.not()) selectedId = ""
-                isOpen = newOpenState
                 onStateChange(newOpenState)
             }
         )
-        if (isOpen) {
+        if (open) {
             sections.forEach {
                 SirioMenuSpallaSection(
                     title = it.title,
@@ -296,24 +299,6 @@ data class SirioMenuSpallaColors(
             itemPrimary = SirioMenuSpallaItemColors.Unspecified,
             itemSecondary = SirioMenuSpallaItemColors.Unspecified,
             itemTertiary = SirioMenuSpallaItemColors.Unspecified,
-        )
-    }
-}
-
-@Keep
-data class SirioMenuSpallaTypography(
-    val drawerItem: SirioMenuSpallaDrawerItemTypography,
-    val drawerItemInfo: SirioMenuSpallaDrawerItemInfoTypography,
-    val itemTitleSection: SirioMenuSpallaItemTitleSectionTypography,
-    val item: SirioMenuSpallaItemTypography,
-) {
-    companion object {
-        @Stable
-        val Default = SirioMenuSpallaTypography(
-            drawerItem = SirioMenuSpallaDrawerItemTypography.Default,
-            drawerItemInfo = SirioMenuSpallaDrawerItemInfoTypography.Default,
-            itemTitleSection = SirioMenuSpallaItemTitleSectionTypography.Default,
-            item = SirioMenuSpallaItemTypography.Default,
         )
     }
 }

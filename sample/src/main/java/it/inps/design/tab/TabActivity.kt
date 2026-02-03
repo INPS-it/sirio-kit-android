@@ -25,7 +25,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -46,8 +45,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.guru.fontawesomecomposelib.FaIcons
-import it.inps.design.ui.DemoMenuItem
 import it.inps.sirio.theme.SirioTheme
+import it.inps.sirio.ui.listItem.SirioListItem
 import it.inps.sirio.ui.tab.SirioTab
 import it.inps.sirio.ui.tab.SirioTabGroup
 import it.inps.sirio.ui.tab.TabItemData
@@ -98,14 +97,12 @@ fun TabMenuDemo(navController: NavController) {
             .background(Color.White)
             .verticalScroll(rememberScrollState()),
     ) {
-        DemoMenuItem(TabDestinations.TAB_SINGLE) {
+        SirioListItem(TabDestinations.TAB_SINGLE) {
             navController.navigate(TabDestinations.TAB_SINGLE)
         }
-        HorizontalDivider()
-        DemoMenuItem(TabDestinations.TAB_GROUP) {
+        SirioListItem(TabDestinations.TAB_GROUP, showDivider = false) {
             navController.navigate(TabDestinations.TAB_GROUP)
         }
-        HorizontalDivider()
     }
 }
 

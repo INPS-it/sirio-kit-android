@@ -3,25 +3,54 @@ name: Android CI
 on:
   push:
     branches:
-      - 'main'
+      - main
+    tags:
+      - "v*"
 
 jobs:
   build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
 
+      - name: setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'gradle'
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      - name: Build
+        run: ./gradlew :design:assembleRelease
+
+      #genera dokka e sources/javadoc jar
+      - name: Generate docs (Dokka)
+        run: ./gradlew :design:dokkaGenerateHtml
+        if: ${{ always() }}
+
+  publish:
+    # Pubblica solo su TAG v* oppure se lanci manualmente
+    if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch'
+    needs: build
     runs-on: ubuntu-latest
 
     steps:
       - name: checkout
         uses: actions/checkout@v3
-      - name: setup AdoptOpenJDK
+
+      - name: setup Java
         uses: actions/setup-java@v3
         with:
-          distribution: 'adopt'
+          distribution: 'temurin'
           java-version: '17'
           cache: 'gradle'
+
       - name: Make gradlew executable
         run: chmod +x ./gradlew
-      - name: Build
-        run: ./gradlew assemble
+
       - name: Publish library
-        run: ./gradlew design:publish -PGITHUB_USER=${{ secrets.GITHUB_USER }} -PGITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
+        run: ./gradlew :design:publish -PGITHUB_USER=${{ secrets.GITHUB_USER }} -PGITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}

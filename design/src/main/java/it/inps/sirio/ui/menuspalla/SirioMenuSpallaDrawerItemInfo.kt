@@ -22,7 +22,6 @@ import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -36,6 +35,7 @@ import it.inps.sirio.theme.menuSpallaDrawerItemInfoPaddingHorizontal
 import it.inps.sirio.ui.text.SirioTextCommon
 import it.inps.sirio.utils.Border
 import it.inps.sirio.utils.SirioIcon
+import it.inps.sirio.utils.SirioIconSource
 import it.inps.sirio.utils.border
 
 @Composable
@@ -64,7 +64,7 @@ fun SirioMenuSpallaDrawerItemInfo(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             SirioIcon(
-                faIcon = icon,
+                icon = SirioIconSource.FaIcon(icon),
                 iconColor = LocalContentColor.current,
                 size = menuSpallaDrawerItemInfoIconSize.dp
             )
@@ -74,13 +74,13 @@ fun SirioMenuSpallaDrawerItemInfo(
                     text = title,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,
-                    typography = SirioTheme.typography.menuSpalla.drawerItemInfo.title,
+                    typography = SirioTheme.foundationTypography.headlineSmHeavy,
                 )
                 SirioTextCommon(
                     text = subtitle,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,
-                    typography = SirioTheme.typography.menuSpalla.drawerItemInfo.subtitle,
+                    typography = SirioTheme.foundationTypography.labelMdRegular,
                 )
             }
         }
@@ -99,20 +99,6 @@ data class SirioMenuSpallaDrawerItemInfoColors(
             background = Color.Unspecified,
             border = Color.Unspecified,
             content = Color.Unspecified,
-        )
-    }
-}
-
-@Keep
-data class SirioMenuSpallaDrawerItemInfoTypography(
-    val title: TextStyle,
-    val subtitle: TextStyle,
-) {
-    companion object {
-        @Stable
-        val Default = SirioMenuSpallaDrawerItemInfoTypography(
-            title = TextStyle.Default,
-            subtitle = TextStyle.Default,
         )
     }
 }

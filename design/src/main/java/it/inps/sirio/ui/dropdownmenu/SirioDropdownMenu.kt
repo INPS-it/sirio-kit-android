@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -30,6 +31,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
@@ -39,7 +42,8 @@ import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.theme.dropdownMenuBorderWidth
 import it.inps.sirio.theme.dropdownMenuCornerSize
 import it.inps.sirio.theme.dropdownMenuItemHeight
-import it.inps.sirio.theme.dropdownMenuVisibleitems
+import it.inps.sirio.theme.dropdownMenuMinWidth
+import it.inps.sirio.theme.dropdownMenuVisibleItems
 import it.inps.sirio.ui.button.SirioButton
 import it.inps.sirio.ui.button.SirioButtonHierarchy
 import it.inps.sirio.ui.button.SirioButtonSize
@@ -48,22 +52,26 @@ import kotlin.math.min
 
 /**
  * A dropdown menu with an icon button to view more actions that can be done.
- * The button shows the ellipsis icon if the text is null, otherwise it shows the text and the chevron down icon.
- * The dropdown menu is placed on the top of the button.
+ * The button shows the ellipsis icon if the [text] is null, otherwise it shows the text and the chevron down icon.
  *
  * @param text The optional text to display on the button. If null, only an ellipsis icon is shown.
+ * @param isTop `true` if the dropdown menu must be shown above the button, `false` otherwise.
+ * @param horizontalAlignment The [Alignment.Horizontal] of the dropdown menu referring to the button.
+ * @param offset The [DpOffset] of the dropdown menu relative to the button.
+ * The [DpOffset.x] is relative to the [horizontalAlignment] of the button, the [DpOffset.y] to the button top/bottom based on [isTop].
  * @param hierarchy The [SirioButtonHierarchy] of the button.
  * @param items The list of [SirioDropdownItemData] with actions.
  * @see SirioDropdownMenu
  */
 @Composable
 fun SirioMoreAction(
+    items: List<SirioDropdownItemData>,
     text: String? = null,
+    size: SirioButtonSize = SirioButtonSize.Medium,
     isTop: Boolean = true,
     horizontalAlignment: Alignment.Horizontal = Alignment.Start,
     hierarchy: SirioButtonHierarchy = SirioButtonHierarchy.Primary,
     offset: DpOffset = DpOffset(0.dp, 8.dp),
-    items: List<SirioDropdownItemData>,
 ) {
     val sirioPopupState: SirioPopupState = remember { SirioPopupState(false) }
     sirioPopupState.isTop = isTop
@@ -71,7 +79,7 @@ fun SirioMoreAction(
     val icon = if (text == null) SirioIconSource.FaIcon(FaIcons.EllipsisV)
     else SirioIconSource.FaIcon(FaIcons.ChevronDown)
     SirioButton(
-        size = SirioButtonSize.Medium,
+        size = size,
         hierarchy = hierarchy,
         text = text,
         icon = icon,
@@ -81,7 +89,10 @@ fun SirioMoreAction(
         onDismissRequest = { sirioPopupState.isVisible = false },
         offset = offset,
     ) {
-        SirioDropdownMenuContent(items = items)
+        SirioDropdownMenuContent(
+            items = items,
+            onItemSelected = { sirioPopupState.isVisible = false }
+        )
     }
 }
 
@@ -89,6 +100,7 @@ fun SirioMoreAction(
  * A Sirio dropdown menu. A list of items that can be opened and closed by the caller.
  * The menu is placed in a [SirioPopup].
  * @param popupState The [SirioPopupState] to control the menu visibility and position.
+ * @param offset The [DpOffset] of the dropdown menu.
  * @param onDismissRequest Callback called when the user requests to dismiss the menu, such as by tapping outside the menu or pressing the back button.
  * @param items The list of [SirioDropdownItemData] to show in the menu.
  */
@@ -104,37 +116,53 @@ fun SirioDropdownMenu(
         onDismissRequest = onDismissRequest,
         offset = offset,
     ) {
-        SirioDropdownMenuContent(items = items)
+        SirioDropdownMenuContent(
+            items = items,
+            onItemSelected = { popupState.isVisible = false }
+        )
     }
 }
 
 /**
- * The content of the Sirio dropdown menu
+ * The content of a Sirio dropdown menu, showing a list of items.
+ *
+ * This composable is intended for internal use by `SirioDropdownMenu` and `SirioMoreAction`,
+ * but can be used to build custom dropdown components.
  *
  * @param items The list of [SirioDropdownItemData] to show in the menu.
+ * @param onItemSelected A callback invoked when any of the menu items is selected.
  */
 @Composable
 fun SirioDropdownMenuContent(
     items: List<SirioDropdownItemData>,
+    onItemSelected: () -> Unit,
 ) {
     Surface(
-        modifier = Modifier,
+        modifier = Modifier.semantics{ testTagsAsResourceId = true },
         shape = RoundedCornerShape(dropdownMenuCornerSize.dp),
         border = BorderStroke(
             width = dropdownMenuBorderWidth.dp,
             color = SirioTheme.colors.dropdownMenu.border,
         )
     ) {
-        val height = min(items.count(), dropdownMenuVisibleitems) * dropdownMenuItemHeight
+        val height = min(items.count(), dropdownMenuVisibleItems) * dropdownMenuItemHeight
         Column(
             modifier = Modifier
+                .widthIn(min = dropdownMenuMinWidth.dp)
                 .width(IntrinsicSize.Max)
                 .height(height.dp)
                 .background(SirioTheme.colors.dropdownMenu.background)
                 .verticalScroll(rememberScrollState()),
         ) {
             items.forEachIndexed { index, item ->
-                SirioDropdownMenuItem(item)
+                SirioDropdownMenuItem(
+                    text = item.value,
+                    contentDescription = item.contentDescription,
+                    action = {
+                        onItemSelected()
+                        item.action()
+                    },
+                )
                 if (index < items.lastIndex) {
                     HorizontalDivider(
                         thickness = dropdownMenuBorderWidth.dp,
@@ -191,9 +219,10 @@ internal val dropdownMenuDarkColors = SirioDropdownMenuColors(
 private fun SirioDropdownMenuPreview() {
     SirioTheme {
         Column(
-            Modifier
+            modifier = Modifier
                 .fillMaxSize()
-                .background(Color.White)
+                .background(Color.White),
+            verticalArrangement = Arrangement.spacedBy(20.dp),
         ) {
             Row(
                 Modifier.weight(1f)
@@ -254,7 +283,7 @@ private fun SirioDropdownMenuPreview() {
                     Modifier
                         .weight(1f)
                         .fillMaxSize()
-                        .wrapContentSize(align = Alignment.TopEnd)
+                        .wrapContentSize(align = Alignment.TopEnd),
                 ) {
                     val sirioPopupState: SirioPopupState = remember { SirioPopupState(false) }
                     sirioPopupState.isTop = false
@@ -310,9 +339,10 @@ private fun SirioDropdownMenuPreview() {
 private fun SirioMoreActionPreview() {
     SirioTheme {
         Column(
-            Modifier
+            modifier = Modifier
                 .fillMaxSize()
-                .background(Color.White)
+                .background(Color.White),
+            verticalArrangement = Arrangement.spacedBy(20.dp),
         ) {
             Row(
                 Modifier.weight(1f)
@@ -492,7 +522,8 @@ private fun SirioDropdownMenuContentPreview() {
                 SirioDropdownItemData("Action #2") {},
                 SirioDropdownItemData("Action #3") {},
                 SirioDropdownItemData("Action #4") {},
-            )
+            ),
+            onItemSelected = {},
         )
     }
 }

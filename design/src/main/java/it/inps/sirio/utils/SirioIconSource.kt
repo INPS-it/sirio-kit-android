@@ -14,5 +14,5 @@ import com.guru.fontawesomecomposelib.FaIconType
 @Keep
 sealed class SirioIconSource {
     data class FaIcon(val faIcon: FaIconType) : SirioIconSource()
-    data class Drawable(@DrawableRes val iconResId: Int) : SirioIconSource()
+    data class Drawable(@param:DrawableRes val iconResId: Int) : SirioIconSource()
 }

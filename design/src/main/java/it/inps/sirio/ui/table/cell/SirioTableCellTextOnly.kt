@@ -16,8 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import it.inps.sirio.theme.SirioTheme
-import it.inps.sirio.ui.table.SirioTableCellType
-import it.inps.sirio.ui.table.SirioTableContentSize
+import it.inps.sirio.theme.SirioThemeMode
 import it.inps.sirio.ui.text.SirioTextCommon
 
 @Composable
@@ -25,13 +24,17 @@ fun RowScope.SirioTableCellTextOnly(
     text: String,
     size: SirioTableContentSize,
     weight: Float = 1f,
-    scroll: Boolean = false,
+    themeMode: SirioThemeMode? = SirioThemeMode.Light,
 ) {
-    SirioTableCellCommon(size = size, weight = weight, scroll = scroll) {
+    SirioTableCellCommon(
+        size = size,
+        weight = weight,
+        themeMode = themeMode,
+    ) {
         SirioTextCommon(
             text = text,
             color = SirioTheme.colors.table.cell.title,
-            typography = SirioTheme.typography.table.cell.text,
+            typography = SirioTheme.foundationTypography.labelMdRegular,
         )
     }
 }
@@ -39,13 +42,15 @@ fun RowScope.SirioTableCellTextOnly(
 @Composable
 internal fun RowScope.SirioTableCellTextOnly(
     data: SirioTableCellType.TextOnly,
+    size: SirioTableContentSize,
     weight: Float = 1f,
+    themeMode: SirioThemeMode? = SirioThemeMode.Light,
 ) {
     SirioTableCellTextOnly(
         text = data.text,
-        size = data.size,
+        size = size,
         weight = weight,
-        scroll = data.scroll,
+        themeMode = themeMode,
     )
 }
 
@@ -57,55 +62,37 @@ private fun SirioTableCellTextOnlyPreview() {
             Row(Modifier.height(IntrinsicSize.Max)) {
                 SirioTableCellTextOnly(
                     text = "Lorem ipsum\nLorem ipsum",
-                    size = SirioTableContentSize.LARGE,
-                    scroll = false,
+                    size = SirioTableContentSize.Large,
                 )
                 SirioTableCellTextOnly(
                     text = "Lorem ipsum",
-                    size = SirioTableContentSize.LARGE,
-                    scroll = false,
+                    size = SirioTableContentSize.Large,
                 )
             }
             Row(Modifier.height(IntrinsicSize.Max)) {
                 SirioTableCellTextOnly(
                     text = "Lorem ipsum",
-                    size = SirioTableContentSize.LARGE,
-                    scroll = false,
+                    size = SirioTableContentSize.Large,
                 )
             }
             Row(Modifier.height(IntrinsicSize.Max)) {
                 SirioTableCellTextOnly(
                     text = "Lorem ipsum",
-                    size = SirioTableContentSize.MEDIUM,
-                    scroll = false,
+                    size = SirioTableContentSize.Large,
+                    themeMode = SirioThemeMode.Dark,
                 )
             }
             Row(Modifier.height(IntrinsicSize.Max)) {
                 SirioTableCellTextOnly(
                     text = "Lorem ipsum",
-                    size = SirioTableContentSize.SMALL,
-                    scroll = false,
+                    size = SirioTableContentSize.Small,
                 )
             }
             Row(Modifier.height(IntrinsicSize.Max)) {
                 SirioTableCellTextOnly(
                     text = "Lorem ipsum",
-                    size = SirioTableContentSize.LARGE,
-                    scroll = true,
-                )
-            }
-            Row(Modifier.height(IntrinsicSize.Max)) {
-                SirioTableCellTextOnly(
-                    text = "Lorem ipsum",
-                    size = SirioTableContentSize.MEDIUM,
-                    scroll = true,
-                )
-            }
-            Row(Modifier.height(IntrinsicSize.Max)) {
-                SirioTableCellTextOnly(
-                    text = "Lorem ipsum",
-                    size = SirioTableContentSize.SMALL,
-                    scroll = true,
+                    size = SirioTableContentSize.Small,
+                    themeMode = SirioThemeMode.Dark,
                 )
             }
         }
