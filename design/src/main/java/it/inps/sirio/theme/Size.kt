@@ -1,7 +1,7 @@
 //
 // Size.kt
 //
-// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2026 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -9,7 +9,7 @@
 package it.inps.sirio.theme
 
 internal const val tabBarDividerHeight = 1
-internal const val tabBarHeight = 56
+internal const val tabBarHeight = 57
 internal const val tabBarItemStateIndicatorHeight = 3
 internal const val tabBarItemPaddingTop = 4
 internal const val tabBarItemPaddingHorizontal = 9
@@ -220,15 +220,16 @@ internal const val dialogButtonSecondPaddingTop = 16
 internal const val dialogIconSize = 24
 internal const val dialogHeaderPaddingBottom = 24
 
-internal const val cardIconSize = 16
-internal const val cardIconPaddingTop = 6
+internal const val cardIconSize = 24
 internal const val cardPaddingHorizontal = 16
 internal const val cardPaddingVertical = 12
-internal const val cardIconPaddingStart = 8
-internal const val cardTitlePaddingTopDefault = 8
+internal const val cardIconPaddingBottom = 8
+internal const val cardTitlePaddingTopDefault = 12
 internal const val cardTitlePaddingTopSpaced = 12
 internal const val cardSubtitlePaddingTop = 8
 internal const val cardTextPaddingTop = 8
+internal const val cardEditorialSubtitlePaddingTop = 12
+internal const val cardEditorialTextPaddingTop = 12
 internal const val cardButtonPaddingTop = 16
 internal const val cardActionsPaddingTop = 12
 internal const val cardImageHeight = 140
@@ -242,7 +243,7 @@ internal const val heroImageHeight = 86
 internal const val heroDividerHeight = 1
 
 internal const val badgeBorderSize = 1.5
-internal const val badgeSize = 6.5
+internal const val badgeSize = 8
 internal const val badgeBoxPaddingTop = 4
 internal const val badgeBoxPaddingEnd = 2
 

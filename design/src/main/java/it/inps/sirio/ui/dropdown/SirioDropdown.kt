@@ -1,7 +1,7 @@
 //
 // SirioDropdown.kt
 //
-// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2026 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -41,6 +41,7 @@ import it.inps.sirio.foundation.FoundationColor
 import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.theme.dropdownBorderWidth
 import it.inps.sirio.theme.dropdownCornerSize
+import it.inps.sirio.ui.popover.SirioPopoverButton
 import it.inps.sirio.ui.popover.SirioPopoverData
 import it.inps.sirio.ui.text.SirioText
 import it.inps.sirio.ui.textfield.SirioTextFieldCommon
@@ -61,13 +62,13 @@ import it.inps.sirio.utils.takeTwoWords
  * @param placeholder The optional text to be displayed when no value is selected.
  * @param iconContentDescription The content description for the dropdown's chevron icon, for accessibility.
  * @param label An optional label displayed above the dropdown field.
- * @param popoverData Optional data to display a [SirioPopover] next to the label for providing extra information.
+ * @param popoverData Optional data to display a [SirioPopoverButton] next to the label for providing extra information.
  * @param helperText Optional descriptive text displayed below the dropdown.
  * @param error A boolean indicating whether the dropdown should be displayed in an error state.
  * @param enabled A boolean indicating whether the dropdown is enabled for user interaction.
  *
  * @see SirioTextFieldCommon
- * @see SirioPopover
+ * @see SirioPopoverButton
  */
 @Composable
 fun SirioDropdown(

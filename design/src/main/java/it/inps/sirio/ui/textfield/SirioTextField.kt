@@ -1,7 +1,7 @@
 //
 // SirioTextField.kt
 //
-// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2026 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -18,11 +18,13 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.guru.fontawesomecomposelib.FaIcons
 import it.inps.sirio.theme.SirioTheme
+import it.inps.sirio.ui.popover.SirioPopoverButton
 import it.inps.sirio.ui.popover.SirioPopoverData
 import it.inps.sirio.utils.SirioIconSource
 
@@ -40,7 +42,7 @@ import it.inps.sirio.utils.SirioIconSource
  * @param icon An optional [SirioIconSource] to be displayed at the start of the text field.
  * @param iconContentDescription The content description for the leading icon, for accessibility.
  * @param label An optional label displayed above the text field.
- * @param popoverData Optional data to display a [SirioPopover] next to the label for providing extra information.
+ * @param popoverData Optional data to display a [SirioPopoverButton] next to the label for providing extra information.
  * @param helperText Optional descriptive text displayed below the text field.
  * @param type The current state of the text field, such as [TextFieldState.Alert] or [TextFieldState.Success].
  * @param enabled A boolean indicating whether the text field is enabled for user interaction.
@@ -51,7 +53,7 @@ import it.inps.sirio.utils.SirioIconSource
  * @param onTextFieldClick An optional callback to be invoked when the text field is clicked. Setting this makes the field read-only and triggers this lambda.
  *
  * @see SirioTextFieldCommon
- * @see SirioPopover
+ * @see SirioPopoverButton
  * @see TextFieldState
  */
 @Composable

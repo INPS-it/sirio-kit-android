@@ -1,7 +1,7 @@
 //
 // SirioFabCommon.kt
 //
-// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2026 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -73,25 +73,23 @@ internal fun SirioFabCommon(
     val backgroundColor = SirioTheme.colors.fab.container.get(pressed = isPressed)
     val contentColor = SirioTheme.colors.fab.content.get(pressed = isPressed)
     val iconSize = if (text != null) fabExtendedIconSize else fabIconSize
-    val paddingValues = when {
-        text == null && size == SirioFabSize.REGULAR -> PaddingValues(fabRegularPadding.dp)
-        text == null && size == SirioFabSize.SMALL -> PaddingValues(fabSmallPadding.dp)
+    val paddingValues = when (text) {
+        null if size == SirioFabSize.REGULAR -> PaddingValues(fabRegularPadding.dp)
+        null if size == SirioFabSize.SMALL -> PaddingValues(fabSmallPadding.dp)
         else -> PaddingValues(
             horizontal = fabExtendedPaddingHorizontal.dp,
             vertical = fabExtendedPaddingVertical.dp,
         )
     }
-    val sizeModifier = when {
-        text == null && size == SirioFabSize.SMALL -> Modifier.sizeIn(
+    val sizeModifier = when (text) {
+        null if size == SirioFabSize.SMALL -> Modifier.sizeIn(
             maxWidth = fabSizeSmall.dp,
             maxHeight = fabSizeSmall.dp,
         )
-
-        text == null && size == SirioFabSize.REGULAR -> Modifier.sizeIn(
+        null if size == SirioFabSize.REGULAR -> Modifier.sizeIn(
             maxWidth = fabSizeRegular.dp,
             maxHeight = fabSizeRegular.dp,
         )
-
         else -> Modifier
     }
     FloatingActionButton(

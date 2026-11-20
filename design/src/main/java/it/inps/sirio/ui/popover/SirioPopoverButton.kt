@@ -25,7 +25,7 @@ import it.inps.sirio.utils.SirioIconSource
 /**
  * A composable that displays a popover with informative content when its anchor is clicked.
  *
- * This version of [SirioPopover] is designed for direct use, accepting individual parameters
+ * This version of [SirioPopoverButton] is designed for direct use, accepting individual parameters
  * for its content. The anchor for this popover is a default information circle icon.
  *
  * @param text The main content text to be displayed inside the popover.
@@ -35,7 +35,7 @@ import it.inps.sirio.utils.SirioIconSource
  * @param action An optional lambda to be executed when the button is clicked.
  */
 @Composable
-fun SirioPopover(
+fun SirioPopoverButton(
     text: String,
     title: String? = null,
     buttonText: String? = null,
@@ -60,16 +60,16 @@ fun SirioPopover(
 /**
  * A composable that displays a popover with informative content, configured via a [SirioPopoverData] object.
  *
- * This overload is a convenience wrapper that simplifies the usage of [SirioPopover]
+ * This overload is a convenience wrapper that simplifies the usage of [SirioPopoverButton]
  * by accepting a single data object.
  *
  * @param data The [SirioPopoverData] object containing all configuration for the popover.
  */
 @Composable
-fun SirioPopover(
+fun SirioPopoverButton(
     data: SirioPopoverData,
 ) {
-    SirioPopover(
+    SirioPopoverButton(
         text = data.text,
         title = data.title,
         buttonText = data.buttonText,
@@ -79,7 +79,7 @@ fun SirioPopover(
 }
 
 /**
- * A data class representing the content and configuration for a [SirioPopover].
+ * A data class representing the content and configuration for a [SirioPopoverButton].
  *
  * @property text The main content text of the popover.
  * @property title An optional title for the popover.
@@ -98,20 +98,20 @@ data class SirioPopoverData(
 
 @Preview(showSystemUi = true)
 @Composable
-private fun SirioPopoverPreview() {
+private fun SirioPopoverButtonPreview() {
     SirioTheme() {
         Box(
             modifier = Modifier.fillMaxSize(),
         ) {
             Box(Modifier.align(Alignment.TopStart)) {
-                SirioPopover(
+                SirioPopoverButton(
                     title = "Titolo",
                     text = "Lorem ipsum sed eu consequat cras vitae eros.",
                     buttonText = "Azione",
                 )
             }
             Box(Modifier.align(Alignment.TopEnd)) {
-                SirioPopover(
+                SirioPopoverButton(
                     title = "Titolo",
                     text = "Lorem ipsum sed eu consequat cras vitae eros.",
                     buttonText = "Azione",
@@ -122,7 +122,7 @@ private fun SirioPopoverPreview() {
                     .fillMaxWidth(0.5f)
                     .align(Alignment.Center)
             ) {
-                SirioPopover(
+                SirioPopoverButton(
                     title = "Titolo",
                     text = "Lorem ipsum sed eu consequat cras vitae eros.",
                     buttonText = "Azione",
@@ -133,21 +133,21 @@ private fun SirioPopoverPreview() {
                     .fillMaxWidth(0.3f)
                     .align(Alignment.CenterEnd)
             ) {
-                SirioPopover(
+                SirioPopoverButton(
                     title = "Titolo",
                     text = "Lorem ipsum sed eu consequat cras vitae eros.",
                     buttonText = "Azione",
                 )
             }
             Box(Modifier.align(Alignment.BottomStart)) {
-                SirioPopover(
+                SirioPopoverButton(
                     title = "Titolo",
                     text = "Lorem ipsum sed eu consequat cras vitae eros.",
                     buttonText = "Azione",
                 )
             }
             Box(Modifier.align(Alignment.BottomEnd)) {
-                SirioPopover(
+                SirioPopoverButton(
                     title = "Titolo",
                     text = "Lorem ipsum sed eu consequat cras vitae eros.",
                     buttonText = "Azione",

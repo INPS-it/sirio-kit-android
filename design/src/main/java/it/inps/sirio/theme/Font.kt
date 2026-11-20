@@ -1,7 +1,7 @@
 //
 // Font.kt
 //
-// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2026 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -17,6 +17,7 @@ import it.inps.sirio.R
 internal val TitilliumWebFamily = FontFamily(
     Font(R.font.titilliumweb_regular, FontWeight.W400, FontStyle.Normal),
     Font(R.font.titilliumweb_bold, FontWeight.W700, FontStyle.Normal),
+    Font(R.font.titilliumweb_black, FontWeight.W900, FontStyle.Normal),
     Font(R.font.titilliumweb_italic, FontWeight.W400, FontStyle.Italic),
     Font(R.font.titilliumweb_light, FontWeight.W300, FontStyle.Normal),
     Font(R.font.titilliumweb_semibold, FontWeight.W600, FontStyle.Normal),

@@ -66,7 +66,7 @@ fun SirioTableActions(
                 },
             )
         } else {
-            actions.map {
+            actions.forEach {
                 SirioButton(
                     size = SirioButtonSize.Small,
                     hierarchy = SirioButtonHierarchy.GhostLight,

@@ -1,7 +1,7 @@
 //
 // SirioAccordionCommon.kt
 //
-// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2026 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -250,7 +250,11 @@ internal val accordionDarkColors = SirioAccordionColors(
         default = FoundationColor.colorAliasInteractivePrimaryDefault,
         pressed = FoundationColor.colorAliasInteractivePrimaryPressed,
     ),
-    border = SirioColorState.Unspecified,
+    border = SirioColorState(
+        default = FoundationColor.colorAliasBackgroundColorPrimaryLight0,
+        pressed = FoundationColor.colorAliasBackgroundColorPrimaryLight0,
+        disabled = Color.Unspecified,
+    ),
     icon = SirioColorState(
         default = FoundationColor.colorAliasAppInteractivePrimary000Default,
         pressed = FoundationColor.colorAliasAppInteractivePrimary000Default,

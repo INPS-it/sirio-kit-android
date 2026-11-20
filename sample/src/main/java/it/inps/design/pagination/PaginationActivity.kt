@@ -1,7 +1,7 @@
 //
 // PaginationActivity.kt
 //
-// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2026 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -61,11 +61,11 @@ fun PaginationDemoContent() {
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = SirioTheme.colors.brand),
             )
         },
-    ) {
+    ) { paddingValues ->
         Column(
             Modifier
                 .fillMaxSize()
-                .padding(it)
+                .padding(paddingValues)
                 .verticalScroll(rememberScrollState())
                 .background(Color(0xFFE5E5E5))
                 .padding(0.dp, 20.dp),

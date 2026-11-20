@@ -1,7 +1,7 @@
 //
 // TabBarActivity.kt
 //
-// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2026 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -9,10 +9,14 @@
 package it.inps.design.tabbar
 
 import android.content.res.Configuration
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -49,6 +53,16 @@ object Services
 class TabBarActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // The Sirio tab bar background is light in both themes.
+        enableEdgeToEdge(
+            navigationBarStyle = SystemBarStyle.light(
+                scrim = android.graphics.Color.TRANSPARENT,
+                darkScrim = 0x801B1B1B.toInt(),
+            ),
+        )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            window.isNavigationBarContrastEnforced = false
+        }
         setContent {
             SirioTheme {
                 // A surface container using the 'background' color from the theme
@@ -114,8 +128,12 @@ fun TabBarDemoContent(logout: () -> Unit = {}) {
         bottomBar = {
             SirioTabBar(items = listItems, selectedIndex = selectedIndex)
         }
-    ) {
-        Box(modifier = Modifier.padding(it)) {
+    ) { innerPadding ->
+        Box(
+            modifier = Modifier
+                .padding(innerPadding)
+                .consumeWindowInsets(innerPadding),
+        ) {
             NavigationGraph(navController = navController)
         }
     }

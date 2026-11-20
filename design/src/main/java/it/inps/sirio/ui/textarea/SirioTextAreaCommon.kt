@@ -1,7 +1,7 @@
 //
 // SirioTextAreaCommon.kt
 //
-// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2026 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -31,7 +31,6 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.TextFieldDefaults
@@ -44,6 +43,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -66,28 +66,33 @@ import it.inps.sirio.utils.SirioIconSource
 import it.inps.sirio.utils.takeTwoWords
 
 /**
- * A common composable function for creating a Sirio-styled text area.
+ * Internal implementation of [SirioTextArea].
  *
- * @param text The text to display in the text area.
- * @param onValueChange The callback that is triggered when the text changes.
- * @param placeholder The placeholder text to display when the text area is empty.
- * @param label The label text to display above the text area.
- * @param onInfoClick An optional callback that is triggered when the info icon is clicked.
- * @param infoContentDescription The content description for the info icon.
- * @param helperText The helper text to display below the text area.
- * @param state The state of the text area, such as Alert or Success.
+ * This composable is the single source of truth for the text area rendering and behavior.
+ * It operates on [TextFieldValue] to support advanced editing features such as selection,
+ * cursor management, and IME composition.
+ *
+ * Public overloads convert their input to [TextFieldValue] and delegate to this function.
+ *
+ * @param text The current text and editing state.
+ * @param onValueChange Callback invoked when the text or its editing state changes.
+ * @param label Optional label displayed above the text area.
+ * @param placeholder Optional placeholder shown when the text is empty.
+ * @param onInfoClick Optional callback triggered when the info icon is clicked.
+ * @param infoContentDescription Content description for the info icon (accessibility).
+ * @param helperText Optional helper text displayed below the text area.
+ * @param state Optional state of the text area.
  * @param enabled Whether the text area is enabled.
- * @param keyboardOptions Options for the software keyboard.
- * @param keyboardActions Actions for the software keyboard.
- * @param onIconClick An optional callback that is triggered when the trailing icon is clicked.
- * @param onTextAreaClick An optional callback that is triggered when the text area is clicked.
- **/
-@OptIn(ExperimentalMaterial3Api::class)
+ * @param keyboardOptions Software keyboard configuration.
+ * @param keyboardActions Actions triggered by the keyboard.
+ * @param onIconClick Optional callback triggered when the trailing icon is clicked.
+ * @param onTextAreaClick Optional callback triggered when the text area is tapped.
+ */
 @Composable
 internal fun SirioTextAreaCommon(
-    onValueChange: (String) -> Unit,
+    onValueChange: (TextFieldValue) -> Unit,
     label: String? = null,
-    text: String = "",
+    text: TextFieldValue = TextFieldValue(""),
     placeholder: String? = null,
     onInfoClick: (() -> Unit)? = null,
     infoContentDescription: String? = null,
@@ -107,37 +112,37 @@ internal fun SirioTextAreaCommon(
     val labelColor = stateColor ?: SirioTheme.colors.textArea.label.get(
         pressed = isPressed,
         disabled = !enabled,
-        valued = text.isNotEmpty(),
+        valued = text.text.isNotEmpty()
     )
     val placeholderTextColor = stateColor ?: SirioTheme.colors.textArea.placeholder.get(
         pressed = isPressed,
         disabled = !enabled,
-        valued = text.isNotEmpty(),
+        valued = text.text.isNotEmpty()
     )
     val textColor = stateColor ?: SirioTheme.colors.textArea.text.get(
         pressed = isPressed,
         disabled = !enabled,
-        valued = text.isNotEmpty(),
+        valued = text.text.isNotEmpty()
     )
     val containerColor = SirioTheme.colors.textArea.background.get(
         pressed = isPressed,
         disabled = !enabled,
-        valued = text.isNotEmpty(),
+        valued = text.text.isNotEmpty()
     )
     val borderColor = stateColor ?: SirioTheme.colors.textArea.border.get(
         pressed = isPressed,
         disabled = !enabled,
-        valued = text.isNotEmpty(),
+        valued = text.text.isNotEmpty()
     )
     val infoIconColor = SirioTheme.colors.textArea.infoIcon.get(
         pressed = isPressed,
         disabled = !enabled,
-        valued = text.isNotEmpty(),
+        valued = text.text.isNotEmpty()
     )
     val helperTextColor = stateColor ?: SirioTheme.colors.textArea.helperText.get(
         pressed = isPressed,
         disabled = !enabled,
-        valued = text.isNotEmpty(),
+        valued = text.text.isNotEmpty()
     )
     Column {
         label?.let {
@@ -214,7 +219,7 @@ internal fun SirioTextAreaCommon(
             interactionSource = interactionSource,
             decorationBox = @Composable { innerTextField ->
                 OutlinedTextFieldDefaults.DecorationBox(
-                    value = text,
+                    value = text.text,
                     innerTextField = innerTextField,
                     enabled = enabled,
                     singleLine = false,
@@ -381,14 +386,14 @@ private fun TextAreaCommonPreview() {
                 helperText = "Helper text",
             )
             SirioTextAreaCommon(
-                text = "Text",
+                text = TextFieldValue("Text"),
                 placeholder = "Placeholder",
                 onValueChange = { },
                 label = "Label",
                 helperText = "Helper text",
             )
             SirioTextAreaCommon(
-                text = "Text",
+                text = TextFieldValue("Text"),
                 placeholder = "Placeholder",
                 onValueChange = { },
                 label = "Label",
@@ -403,7 +408,7 @@ private fun TextAreaCommonPreview() {
                 onIconClick = {},
             )
             SirioTextAreaCommon(
-                text = "Text",
+                text = TextFieldValue("Text"),
                 onValueChange = { },
                 label = "Label",
                 helperText = "Helper text",
@@ -411,7 +416,7 @@ private fun TextAreaCommonPreview() {
                 state = TextAreaState.Alert
             )
             SirioTextAreaCommon(
-                text = "Text",
+                text = TextFieldValue("Text"),
                 onValueChange = { },
                 label = "Label",
                 helperText = "Helper text",

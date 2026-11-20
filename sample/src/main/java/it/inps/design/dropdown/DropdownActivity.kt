@@ -1,7 +1,7 @@
 //
 // DropdownActivity.kt
 //
-// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2026 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -58,12 +58,13 @@ fun DropdownDemoContent() {
                 title = { Text("Dropdown") },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = SirioTheme.colors.brand),
             )
-        }) {
+        }
+    ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
-                .padding(it)
+                .padding(paddingValues)
                 .padding(10.dp, 20.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(30.dp),
@@ -118,7 +119,7 @@ fun DropdownDemoContent() {
                 label = "Label",
                 helperText = "Helper text",
                 error = false,
-                popoverData = SirioPopoverData(text = "Popover text",),
+                popoverData = SirioPopoverData(text = "Popover text"),
             )
         }
     }

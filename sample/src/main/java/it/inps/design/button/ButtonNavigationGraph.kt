@@ -20,6 +20,12 @@ fun ButtonNavigationGraph(navController: NavHostController) {
         composable(ButtonDestinations.BUTTON_DANGER_ROUTE) {
             ButtonDangerDemoContent()
         }
+        composable(ButtonDestinations.BUTTON_DANGER_TERTIARY_ROUTE) {
+            ButtonDangerTertiaryDemoContent()
+        }
+        composable(ButtonDestinations.BUTTON_DANGER_GHOST_ROUTE) {
+            ButtonDangerGhostDemoContent()
+        }
         composable(ButtonDestinations.BUTTON_SECONDARY_ROUTE) {
             ButtonSecondaryDemoContent()
         }
@@ -42,6 +48,8 @@ object ButtonDestinations {
     const val BUTTON_MENU_ROUTE = "Buttons"
     const val BUTTON_PRIMARY_ROUTE = "Primary"
     const val BUTTON_DANGER_ROUTE = "Danger"
+    const val BUTTON_DANGER_TERTIARY_ROUTE = "Danger Tertiary"
+    const val BUTTON_DANGER_GHOST_ROUTE = "Danger Ghost"
     const val BUTTON_SECONDARY_ROUTE = "Secondary"
     const val BUTTON_TERTIARY_DARK_ROUTE = "Tertiary Dark"
     const val BUTTON_TERTIARY_LIGHT_ROUTE = "Tertiary Light"

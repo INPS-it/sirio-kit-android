@@ -1,7 +1,7 @@
 //
 // SirioTableDrawerStickyBottomBar.kt
 //
-// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2026 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -41,7 +41,7 @@ fun SirioTableDrawerStickyBottomBar(actions: List<SirioTableActionData>) {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.End,
     ) {
-        actions.take(3).map {
+        actions.take(3).forEach {
             SirioButton(
                 size = SirioButtonSize.Medium,
                 hierarchy = SirioTheme.colors.table.drawer.action,

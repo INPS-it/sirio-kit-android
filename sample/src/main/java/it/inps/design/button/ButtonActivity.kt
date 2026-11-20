@@ -1,7 +1,7 @@
 //
 // ButtonActivity.kt
 //
-// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2026 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -113,6 +113,12 @@ fun ButtonMenuDemo(navController: NavController) {
         SirioListItem("Danger") {
             navController.navigate(ButtonDestinations.BUTTON_DANGER_ROUTE)
         }
+        SirioListItem("Danger Tertiary") {
+            navController.navigate(ButtonDestinations.BUTTON_DANGER_TERTIARY_ROUTE)
+        }
+        SirioListItem("Danger Ghost") {
+            navController.navigate(ButtonDestinations.BUTTON_DANGER_GHOST_ROUTE)
+        }
         SirioListItem("Ghost Light") {
             navController.navigate(ButtonDestinations.BUTTON_GHOST_LIGHT_ROUTE)
         }
@@ -155,6 +161,42 @@ fun ButtonDangerDemoContent() {
         ButtonDemoContent(text, SirioButtonHierarchy.Danger, SirioButtonSize.Large)
         ButtonDemoContent(text, SirioButtonHierarchy.Danger, SirioButtonSize.Medium)
         ButtonDemoContent(text, SirioButtonHierarchy.Danger, SirioButtonSize.Small)
+    }
+}
+
+@Composable
+fun ButtonDangerTertiaryDemoContent() {
+    Column(
+        Modifier
+            .fillMaxSize()
+            .background(Color.White)
+            .verticalScroll(rememberScrollState())
+            .padding(0.dp, 10.dp),
+        verticalArrangement = Arrangement.spacedBy(20.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        val text = "Text"
+        ButtonDemoContent(text, SirioButtonHierarchy.DangerTertiary, SirioButtonSize.Large)
+        ButtonDemoContent(text, SirioButtonHierarchy.DangerTertiary, SirioButtonSize.Medium)
+        ButtonDemoContent(text, SirioButtonHierarchy.DangerTertiary, SirioButtonSize.Small)
+    }
+}
+
+@Composable
+fun ButtonDangerGhostDemoContent() {
+    Column(
+        Modifier
+            .fillMaxSize()
+            .background(Color.White)
+            .verticalScroll(rememberScrollState())
+            .padding(0.dp, 10.dp),
+        verticalArrangement = Arrangement.spacedBy(20.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        val text = "Text"
+        ButtonDemoContent(text, SirioButtonHierarchy.DangerGhost, SirioButtonSize.Large)
+        ButtonDemoContent(text, SirioButtonHierarchy.DangerGhost, SirioButtonSize.Medium)
+        ButtonDemoContent(text, SirioButtonHierarchy.DangerGhost, SirioButtonSize.Small)
     }
 }
 

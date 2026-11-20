@@ -46,7 +46,7 @@ import kotlinx.coroutines.launch
  *
  * This composable provides the core functionality for displaying a rich tooltip with a title,
  * text, and an optional action button. It is designed to be used internally by more specific
- * popover implementations like [SirioPopover].
+ * popover implementations like [SirioPopoverButton].
  *
  * @param text The main content text to be displayed inside the popover.
  * @param title An optional title for the popover.

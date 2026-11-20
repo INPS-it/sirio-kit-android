@@ -1,7 +1,7 @@
 //
 // SirioTextFieldCommon.kt
 //
-// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2026 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -77,7 +77,7 @@ import it.inps.sirio.theme.textFieldPaddingBottom
 import it.inps.sirio.ui.button.SirioButton
 import it.inps.sirio.ui.button.SirioButtonHierarchy
 import it.inps.sirio.ui.button.SirioButtonSize
-import it.inps.sirio.ui.popover.SirioPopover
+import it.inps.sirio.ui.popover.SirioPopoverButton
 import it.inps.sirio.ui.popover.SirioPopoverData
 import it.inps.sirio.ui.text.SirioTextCommon
 import it.inps.sirio.utils.SirioIcon
@@ -102,10 +102,11 @@ import it.inps.sirio.utils.takeTwoWords
  * @param iconContentDescription Content description for the leading icon, for accessibility.
  * @param iconButtonContentDescription Content description for the trailing icon button, for accessibility.
  * @param label An optional label string to display above the text field.
- * @param popoverData Optional data to display a [SirioPopover] next to the label.
+ * @param popoverData Optional data to display a [SirioPopoverButton] next to the label.
  * @param helperText An optional string to display as helper text below the text field.
  * @param optionValues A list of string values for the dropdown list.
- * @param onOptionValueSelected A callback invoked when an option value is selected from the dropdown list.
+ * @param disabledOptionValues Option values rendered in the dropdown but not selectable.
+ * @param onOptionValueSelected A callback invoked when an enabled option value is selected from the dropdown list.
  * @param state An optional [TextFieldState] to represent the state (e.g., warning, error) of the text field.
  * @param backgroundColor The background color for the text field.
  * @param enabled A boolean indicating whether the text field is enabled for interaction.
@@ -120,7 +121,7 @@ import it.inps.sirio.utils.takeTwoWords
  * @see TextFieldState
  * @see SirioIconSource
  * @see SirioButton
- * @see SirioPopover
+ * @see SirioPopoverButton
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -139,6 +140,7 @@ internal fun SirioTextFieldCommon(
     popoverData: SirioPopoverData? = null,
     helperText: String? = null,
     optionValues: List<String> = emptyList(),
+    disabledOptionValues: Set<String> = emptySet(),
     onOptionValueSelected: ((value: String) -> Unit)? = null,
     state: TextFieldState? = null,
     backgroundColor: Color? = null,
@@ -214,7 +216,7 @@ internal fun SirioTextFieldCommon(
                 )
                 popoverData?.let { popoverData ->
                     Spacer(Modifier.width(textFieldLabelPopoverAnchorPadding.dp))
-                    SirioPopover(popoverData)
+                    SirioPopoverButton(popoverData)
                 }
             }
             Spacer(modifier = Modifier.height(textFieldLabelVerticalPadding.dp))
@@ -334,13 +336,16 @@ internal fun SirioTextFieldCommon(
                         shape = RoundedCornerShape(dropdownMenuCornerSize.dp),
                     )
             ) {
-                items(items = optionValues, key = { it }, contentType = { String }) {
+                items(items = optionValues, key = { it }, contentType = { String }) { optionValue ->
+                    val isOptionEnabled = enabled && optionValue !in disabledOptionValues
                     SirioTextFieldOptionItem(
-                        value = it,
-                        enabled = enabled,
+                        value = optionValue,
+                        enabled = isOptionEnabled,
                         onItemClick = {
-                            onOptionValueSelected?.invoke(it)
-                            focusManager.clearFocus()
+                            if (isOptionEnabled) {
+                                onOptionValueSelected?.invoke(optionValue)
+                                focusManager.clearFocus()
+                            }
                         }
                     )
                 }

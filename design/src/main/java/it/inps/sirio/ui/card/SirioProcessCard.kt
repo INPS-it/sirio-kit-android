@@ -1,7 +1,7 @@
 //
 // SirioProcessCard.kt
 //
-// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2026 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -18,7 +18,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -41,8 +40,7 @@ import it.inps.sirio.styleDictionary.StyleDictionaryBoxShadow
 import it.inps.sirio.theme.Shapes
 import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.theme.cardButtonPaddingTop
-import it.inps.sirio.theme.cardIconPaddingStart
-import it.inps.sirio.theme.cardIconPaddingTop
+import it.inps.sirio.theme.cardIconPaddingBottom
 import it.inps.sirio.theme.cardIconSize
 import it.inps.sirio.theme.cardPaddingHorizontal
 import it.inps.sirio.theme.cardPaddingVertical
@@ -70,10 +68,11 @@ import it.inps.sirio.utils.takeWords
  * @param title The title text.
  * @param type The [SirioProcessCardType] that define the CTA style of the card.
  * @param modifier The [Modifier] to be applied to this card.
+ * @param icon The optional icon to display at the top of the card.
+ * @param iconColor The color of the icon. Default is defined by the theme.
  * @param subtitle The optional subtitle text to display below the title.
  * @param text The optional text to display below the subtitle.
  * @param color The [SirioCardColor] of the card. Default is [SirioCardColor.DARK].
- * @param onIconClick The callback to be invoked when the icon is clicked.
  * @param onClickCard The callback to be invoked when the card is clicked.
  */
 @Composable
@@ -82,10 +81,10 @@ fun SirioProcessCard(
     type: SirioProcessCardType,
     modifier: Modifier = Modifier,
     icon: SirioIconSource? = null,
+    iconColor: Color = SirioTheme.colors.card.process.icon,
     subtitle: String? = null,
     text: String? = null,
     color: SirioCardColor = SirioCardColor.DARK,
-    onIconClick: (() -> Unit)? = null,
     onClickCard: () -> Unit,
 ) {
     val elevation =
@@ -110,26 +109,23 @@ fun SirioProcessCard(
                     vertical = cardPaddingVertical.dp,
                 )
             ) {
-                Row {
-                    SirioText(
-                        text = title,
-                        color = SirioTheme.colors.card.process.title,
-                        overflow = TextOverflow.Ellipsis,
-                        maxLines = if (subtitle == null) 2 else 1,
-                        typography = SirioTheme.foundationTypography.headlineSmHeavy
-                    )
-                    icon?.let {
-                        Spacer(Modifier.width(cardIconPaddingStart.dp))
-                        Box(Modifier.padding(top = cardIconPaddingTop.dp).testTag("iconCard${title.takeWords(4)}")) {
-                            SirioIcon(
-                                icon = it,
-                                iconColor = SirioTheme.colors.card.process.icon,
-                                size = cardIconSize.dp,
-                                onClick = onIconClick,
-                            )
-                        }
+                icon?.let {
+                    Box(modifier = Modifier.testTag("iconCard${title.takeWords(4)}")) {
+                        SirioIcon(
+                            icon = it,
+                            iconColor = iconColor,
+                            size = cardIconSize.dp,
+                        )
                     }
+                    Spacer(Modifier.height(cardIconPaddingBottom.dp))
                 }
+                SirioText(
+                    text = title,
+                    color = SirioTheme.colors.card.process.title,
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = if (subtitle == null) 2 else 1,
+                    typography = SirioTheme.foundationTypography.headlineSmHeavy
+                )
                 subtitle?.let {
                     Spacer(Modifier.height(cardSubtitlePaddingTop.dp))
                     SirioText(
@@ -490,6 +486,7 @@ fun SirioProcessCardPreview() {
                             firstAction = null,
                             more = moreActions,
                         ),
+                        icon = SirioIconSource.FaIcon(FaIcons.ExclamationTriangle),
                         subtitle = subtitle,
                         text = text,
                         modifier = Modifier.weight(1f),

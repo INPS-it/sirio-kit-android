@@ -1,7 +1,7 @@
 //
 // SirioTable.kt
 //
-// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2026 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -105,7 +105,6 @@ fun SirioTable(
                 .fillMaxWidth()
                 .background(SirioTheme.colors.table.background)
                 .padding(horizontal = tablePaddingHorizontal.dp)
-                .border(top = tableBorder)
                 .ifElse(
                     condition = canScrollBackward,
                     ifTrueModifier = Modifier.border(start = scrollBorder),

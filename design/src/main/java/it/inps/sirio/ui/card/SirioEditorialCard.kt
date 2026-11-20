@@ -1,7 +1,7 @@
 //
 // SirioEditorialCard.kt
 //
-// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2026 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -45,11 +45,11 @@ import it.inps.sirio.styleDictionary.StyleDictionaryBoxShadow
 import it.inps.sirio.theme.Shapes
 import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.theme.cardActionsPaddingTop
+import it.inps.sirio.theme.cardEditorialSubtitlePaddingTop
+import it.inps.sirio.theme.cardEditorialTextPaddingTop
 import it.inps.sirio.theme.cardImageHeight
 import it.inps.sirio.theme.cardPaddingHorizontal
 import it.inps.sirio.theme.cardPaddingVertical
-import it.inps.sirio.theme.cardSubtitlePaddingTop
-import it.inps.sirio.theme.cardTextPaddingTop
 import it.inps.sirio.theme.cardTitlePaddingTopDefault
 import it.inps.sirio.theme.cardTitlePaddingTopSpaced
 import it.inps.sirio.ui.appnavigation.SirioAppNavigation
@@ -190,7 +190,7 @@ fun SirioEditorialCard(
             subtitle?.let {
                 SirioText(
                     text = it,
-                    modifier = Modifier.padding(top = cardSubtitlePaddingTop.dp),
+                    modifier = Modifier.padding(top = cardEditorialSubtitlePaddingTop.dp),
                     color = SirioTheme.colors.card.editorial.subtitle,
                     maxLines = 1,
                     typography = SirioTheme.foundationTypography.labelMdMiddle,
@@ -203,7 +203,7 @@ fun SirioEditorialCard(
                 }
                 SirioText(
                     text = it,
-                    modifier = Modifier.padding(top = cardTextPaddingTop.dp),
+                    modifier = Modifier.padding(top = cardEditorialTextPaddingTop.dp),
                     color = SirioTheme.colors.card.editorial.text,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = maxLines,

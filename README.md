@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
+SPDX-FileCopyrightText: 2026 Istituto Nazionale Previdenza Sociale
 
 SPDX-License-Identifier: BSD-3-Clause
 -->
@@ -25,7 +25,7 @@ repositories {
    }
 }
 dependencies {
-    implementation 'it.inps.sirio:library:11.0.0'
+    implementation 'it.inps.sirio:library:11.1.0'
 }
 ```
 2. Add following repository in your gradle file (es. settings.gradle)

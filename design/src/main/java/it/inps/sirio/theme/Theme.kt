@@ -1,7 +1,7 @@
 //
 // Theme.kt
 //
-// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2026 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -60,6 +60,7 @@ import it.inps.sirio.ui.toggle.SirioToggleColors
 import kotlin.math.min
 
 private const val MAX_FONT_SCALE = 1.4f
+internal val LocalSirioIsDarkTheme = staticCompositionLocalOf<Boolean?> { null }
 
 @Composable
 fun SirioTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
@@ -75,6 +76,7 @@ fun SirioTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable 
     CompositionLocalProvider(
         localSirioColors provides colors,
         LocalSirioFoundationTypography provides foundationTypography,
+        LocalSirioIsDarkTheme provides darkTheme,
 //        LocalSirioElevation provides Elevation,
         LocalDensity provides Density(
             density = LocalDensity.current.density,
@@ -346,10 +348,12 @@ enum class SirioThemeMode {
 
 @Composable
 internal fun SirioTheme(themeMode: SirioThemeMode?, content: @Composable () -> Unit) {
+    val inheritedDarkTheme = LocalSirioIsDarkTheme.current
+
     val darkTheme = when (themeMode) {
         SirioThemeMode.Dark -> true
         SirioThemeMode.Light -> false
-        null -> isSystemInDarkTheme()
+        null -> inheritedDarkTheme ?: isSystemInDarkTheme()
     }
     SirioTheme(darkTheme = darkTheme, content = content)
 }

@@ -1,7 +1,7 @@
 //
 // SirioSearchBarCommon.kt
 //
-// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2026 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -39,6 +39,11 @@ import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.theme.searchBarPadding
 import it.inps.sirio.ui.textfield.SirioTextFieldCommon
 import it.inps.sirio.utils.SirioIconSource
+
+private data class SearchBarFilteredOptions(
+    val values: List<String>,
+    val disabledValues: Set<String>,
+)
 
 /**
  * Internal shared implementation of the Sirio search bar.
@@ -121,15 +126,37 @@ internal fun SirioSearchBarCommon(
         { onSearch?.invoke(searchText) }
     } else null
 
-    val filteredOptionValues by remember(searchText, baseOptionValues, noOptionText, asyncMode) {
+    val noOptionValue by remember(searchText, noOptionText) {
+        derivedStateOf {
+            "$noOptionText $searchText"
+        }
+    }
+
+    val filteredOptions by remember(searchText, baseOptionValues, noOptionValue, asyncMode) {
         derivedStateOf {
             if (
                 asyncMode != null && searchText.isNotEmpty() && baseOptionValues.isNotEmpty()
             ) {
-                baseOptionValues
+                val matchingOptions = baseOptionValues
                     .filter { it.contains(searchText, ignoreCase = true) }
-                    .ifEmpty { listOf("$noOptionText $searchText") }
-            } else emptyList()
+
+                if (matchingOptions.isEmpty()) {
+                    SearchBarFilteredOptions(
+                        values = listOf(noOptionValue),
+                        disabledValues = setOf(noOptionValue),
+                    )
+                } else {
+                    SearchBarFilteredOptions(
+                        values = matchingOptions,
+                        disabledValues = emptySet(),
+                    )
+                }
+            } else {
+                SearchBarFilteredOptions(
+                    values = emptyList(),
+                    disabledValues = emptySet(),
+                )
+            }
         }
     }
 
@@ -142,7 +169,8 @@ internal fun SirioSearchBarCommon(
         iconColor = iconColor,
         iconButton = iconButton,
         label = label,
-        optionValues = filteredOptionValues,
+        optionValues = filteredOptions.values,
+        disabledOptionValues = filteredOptions.disabledValues,
         onOptionValueSelected = { onSearch?.invoke(it) },
         backgroundColor = SirioTheme.colors.searchBar.background,
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),

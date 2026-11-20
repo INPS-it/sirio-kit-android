@@ -1,7 +1,7 @@
 //
 // AppNavigationActivity.kt
 //
-// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2026 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -167,6 +167,7 @@ fun AppNavigationLogoDemoContent() {
             rightSecondItem = SirioAppNavigationItemData(
                 icon = FaIcons.Bell,
                 action = {},
+                badge = true,
             )
         )
     }

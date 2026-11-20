@@ -1,7 +1,7 @@
 //
 // CardActivity.kt
 //
-// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2026 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -37,6 +37,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.guru.fontawesomecomposelib.FaIcons
 import it.inps.design.sample.R
+import it.inps.sirio.foundation.FoundationColor
 import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.ui.card.SirioCardColor
 import it.inps.sirio.ui.card.SirioEditorialCard
@@ -187,6 +188,8 @@ fun ProcessCardDemo() {
                 type = SirioProcessCardType.Standard(
                     firstAction = firstAction,
                 ),
+                icon = SirioIconSource.FaIcon(FaIcons.ExclamationTriangle),
+                iconColor = FoundationColor.colorGlobalSemanticAlert100,
                 subtitle = subtitleValue,
                 text = textValue,
                 color = SirioCardColor.LIGHT,
@@ -197,6 +200,8 @@ fun ProcessCardDemo() {
                 type = SirioProcessCardType.Standard(
                     firstAction = firstAction,
                 ),
+                icon = SirioIconSource.FaIcon(FaIcons.ExclamationTriangle),
+                iconColor = FoundationColor.colorGlobalSemanticAlert100,
                 text = textValue,
                 color = SirioCardColor.LIGHT,
                 onClickCard = {},
@@ -206,6 +211,8 @@ fun ProcessCardDemo() {
                 type = SirioProcessCardType.Standard(
                     firstAction = firstAction,
                 ),
+                icon = SirioIconSource.FaIcon(FaIcons.ExclamationTriangle),
+                iconColor = FoundationColor.colorAliasBackgroundColorPrimaryLight0,
                 subtitle = subtitleValue,
                 text = textValue,
                 color = SirioCardColor.DARK,
@@ -221,6 +228,8 @@ fun ProcessCardDemo() {
                     firstAction = firstAction,
                     secondAction = secondAction,
                 ),
+                icon = SirioIconSource.FaIcon(FaIcons.ExclamationTriangle),
+                iconColor = FoundationColor.colorGlobalSemanticAlert100,
                 subtitle = subtitleValue,
                 text = textValue,
                 color = SirioCardColor.LIGHT,
@@ -232,6 +241,8 @@ fun ProcessCardDemo() {
                     firstAction = firstAction,
                     secondAction = secondAction,
                 ),
+                icon = SirioIconSource.FaIcon(FaIcons.ExclamationTriangle),
+                iconColor = FoundationColor.colorAliasBackgroundColorPrimaryLight0,
                 subtitle = subtitleValue,
                 text = textValue,
                 color = SirioCardColor.DARK,
@@ -247,6 +258,8 @@ fun ProcessCardDemo() {
                     firstAction = firstAction,
                     secondAction = secondAction,
                 ),
+                icon = SirioIconSource.FaIcon(FaIcons.ExclamationTriangle),
+                iconColor = FoundationColor.colorGlobalSemanticAlert100,
                 subtitle = subtitleValue,
                 text = textValue,
                 color = SirioCardColor.LIGHT,
@@ -258,6 +271,8 @@ fun ProcessCardDemo() {
                     firstAction = firstAction,
                     secondAction = secondAction,
                 ),
+                icon = SirioIconSource.FaIcon(FaIcons.ExclamationTriangle),
+                iconColor = FoundationColor.colorAliasBackgroundColorPrimaryLight0,
                 subtitle = subtitleValue,
                 text = textValue,
                 color = SirioCardColor.DARK,
@@ -273,6 +288,8 @@ fun ProcessCardDemo() {
                     firstAction = firstAction,
                     more = moreActions,
                 ),
+                icon = SirioIconSource.FaIcon(FaIcons.ExclamationTriangle),
+                iconColor = FoundationColor.colorGlobalSemanticAlert100,
                 subtitle = subtitleValue,
                 text = textValue,
                 color = SirioCardColor.LIGHT,
@@ -284,6 +301,8 @@ fun ProcessCardDemo() {
                     firstAction = firstAction,
                     more = moreActions,
                 ),
+                icon = SirioIconSource.FaIcon(FaIcons.ExclamationTriangle),
+                iconColor = FoundationColor.colorAliasBackgroundColorPrimaryLight0,
                 subtitle = subtitleValue,
                 text = textValue,
                 color = SirioCardColor.DARK,

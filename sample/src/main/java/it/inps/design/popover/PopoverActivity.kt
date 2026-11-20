@@ -1,7 +1,7 @@
 //
 // PopoverActivity.kt
 //
-// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2026 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -36,7 +36,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.ui.listItem.SirioListItem
-import it.inps.sirio.ui.popover.SirioPopover
+import it.inps.sirio.ui.popover.SirioPopoverButton
 import it.inps.sirio.ui.popover.SirioPopoverData
 import it.inps.sirio.ui.text.SirioText
 import it.inps.sirio.ui.textfield.SirioTextField
@@ -111,11 +111,11 @@ private fun PopoverComponents() {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         SirioText("Text")
-        SirioPopover(text = "Lorem ipsum sed eu consequat cras vitae eros.")
+        SirioPopoverButton(text = "Lorem ipsum sed eu consequat cras vitae eros.")
         SirioText("Title + Text")
-        SirioPopover(title = "Titolo", text = "Lorem ipsum sed eu consequat cras vitae eros.")
+        SirioPopoverButton(title = "Titolo", text = "Lorem ipsum sed eu consequat cras vitae eros.")
         SirioText("Title + Text + Action")
-        SirioPopover(
+        SirioPopoverButton(
             title = "Titolo",
             text = "Lorem ipsum sed eu consequat cras vitae eros.",
             buttonText = "Azione"

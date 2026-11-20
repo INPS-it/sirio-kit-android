@@ -1,7 +1,7 @@
 //
 // SirioBadgeBox.kt
 //
-// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2026 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -21,9 +21,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.guru.fontawesomecomposelib.FaIcons
 import it.inps.sirio.theme.SirioTheme
+import it.inps.sirio.theme.appNavigationActionIconSize
 import it.inps.sirio.theme.badgeBoxPaddingEnd
 import it.inps.sirio.theme.badgeBoxPaddingTop
-import it.inps.sirio.theme.tabBarItemIconSize
 import it.inps.sirio.utils.SirioIcon
 import it.inps.sirio.utils.SirioIconSource
 
@@ -57,14 +57,14 @@ private fun SirioBadgeBoxPreview() {
             SirioBadgeBox {
                 SirioIcon(
                     icon = SirioIconSource.FaIcon(FaIcons.Bell),
-                    size = tabBarItemIconSize.dp,
+                    size = appNavigationActionIconSize.dp,
                     iconColor = LocalContentColor.current
                 )
             }
             SirioBadgeBox(false) {
                 SirioIcon(
                     icon = SirioIconSource.FaIcon(FaIcons.Bell),
-                    size = tabBarItemIconSize.dp,
+                    size = appNavigationActionIconSize.dp,
                     iconColor = LocalContentColor.current
                 )
             }

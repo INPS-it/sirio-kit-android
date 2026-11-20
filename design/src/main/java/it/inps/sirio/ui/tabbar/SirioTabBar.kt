@@ -2,7 +2,7 @@
 // SirioTabBar.kt
 //
 //
-// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2026 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -11,10 +11,13 @@ package it.inps.sirio.ui.tabbar
 
 import androidx.annotation.Keep
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.material3.NavigationBarDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
@@ -39,30 +42,36 @@ import it.inps.sirio.utils.border
  *
  * @param items The items [SirioTabBarItemData] to be shown. Min 3 - Max 5
  * @param selectedIndex The index of the selected tab. Default 0
+ * @param windowInsets Insets protecting the tabs from system navigation, defaulting to
+ * Material 3 navigation bar insets (bottom and horizontal). Insets already consumed by
+ * ancestors are excluded. Pass `WindowInsets(0, 0, 0, 0)` when handled externally.
+ * The tab area remains 57 dp high; unconsumed insets add to the overall size.
  */
 @Composable
 fun SirioTabBar(
     items: List<SirioTabBarItemData>,
     selectedIndex: Int = 0,
+    windowInsets: WindowInsets = NavigationBarDefaults.windowInsets,
 ) {
     //TabBar should contain 3-5 tabs
     assert(items.size in 3..5)
     Surface(
         modifier = Modifier
-            .height(tabBarHeight.dp)
             .semantics { testTagsAsResourceId = true }
             .border(
                 top = Border(
                     tabBarDividerHeight.dp,
                     SirioTheme.colors.tabBar.divider,
                 )
-            )
-            .padding(top = tabBarDividerHeight.dp),
+            ),
         color = SirioTheme.colors.tabBar.background,
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
+                .windowInsetsPadding(windowInsets)
+                .height(tabBarHeight.dp)
+                .padding(top = tabBarDividerHeight.dp)
                 .selectableGroup(),
             verticalAlignment = Alignment.CenterVertically,
         ) {
@@ -103,7 +112,9 @@ internal val tabBarDarkColors = SirioTabBarColors(
 @Preview(showSystemUi = true)
 @Preview(showSystemUi = true, device = Devices.PIXEL_TABLET)
 @Composable
-private fun SirioTabBarPreview() {
+private fun SirioTabBarPreview(
+    windowInsets: WindowInsets = NavigationBarDefaults.windowInsets,
+) {
     SirioTheme {
         SirioTabBar(
             listOf(
@@ -114,7 +125,7 @@ private fun SirioTabBarPreview() {
                     action = {},
                 ),
                 SirioTabBarItemData(
-                    label = "News",
+                    label = "Notizie",
                     icon = FaIcons.Bell,
                     badge = true,
                     action = {},
@@ -137,7 +148,26 @@ private fun SirioTabBarPreview() {
                     badge = false,
                     action = {},
                 )
-            )
+            ),
+            windowInsets = windowInsets,
         )
     }
+}
+
+@Preview(showBackground = true, name = "No insets")
+@Composable
+private fun SirioTabBarNoInsetsPreview() {
+    SirioTabBarPreview(WindowInsets(0, 0, 0, 0))
+}
+
+@Preview(showBackground = true, name = "Bottom inset")
+@Composable
+private fun SirioTabBarBottomInsetPreview() {
+    SirioTabBarPreview(WindowInsets(bottom = 24.dp))
+}
+
+@Preview(showBackground = true, name = "Side insets")
+@Composable
+private fun SirioTabBarSideInsetsPreview() {
+    SirioTabBarPreview(WindowInsets(left = 24.dp, right = 24.dp))
 }

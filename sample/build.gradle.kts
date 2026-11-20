@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.compose.compiler)
 }
@@ -13,8 +12,8 @@ android {
         applicationId = "it.inps.design.sample"
         minSdk = libs.versions.sdkMin.get().toInt()
         targetSdk = libs.versions.sdkTarget.get().toInt()
-        versionCode = 11
-        versionName = "11.0.0"
+        versionCode = 12
+        versionName = "11.1.0"
 
         vectorDrawables {
             useSupportLibrary = true
@@ -31,8 +30,9 @@ android {
             )
         }
     }
-    kotlin {
-        jvmToolchain(17)
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     buildFeatures {
         compose = true

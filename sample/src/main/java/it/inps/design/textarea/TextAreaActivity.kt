@@ -1,7 +1,7 @@
 //
 // TextAreaActivity.kt
 //
-// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2026 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -31,6 +31,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -59,11 +60,11 @@ fun TextAreaDemoContent() {
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = SirioTheme.colors.brand),
             )
         },
-    ) {
+    ) { paddingValues ->
         Column(
             Modifier
                 .fillMaxSize()
-                .padding(it)
+                .padding(paddingValues)
                 .verticalScroll(rememberScrollState())
                 .padding(10.dp, 20.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -113,6 +114,17 @@ fun TextAreaDemoContent() {
                 helperText = helperText,
                 enabled = false,
                 state = TextAreaState.Success,
+            )
+            var textFieldValue by remember {
+                mutableStateOf(TextFieldValue("TextFieldValue"))
+            }
+            Text(text = "TextFieldValue")
+            SirioTextArea(
+                text = textFieldValue,
+                placeholder = "Placeholder",
+                onValueChange = { textFieldValue = it },
+                label = label,
+                helperText = helperText,
             )
         }
     }

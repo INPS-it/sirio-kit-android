@@ -1,7 +1,7 @@
 //
 // SirioStepProgressBar.kt
 //
-// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2026 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -27,12 +27,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalLocale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import it.inps.sirio.theme.SirioTheme
 import it.inps.sirio.theme.stepSelectionExpandedShadowHeight
 import it.inps.sirio.ui.textfield.SirioTextField
-import java.util.Locale
 
 @Composable
 fun SirioStepProgressBar(
@@ -107,7 +107,7 @@ private fun StepProgressBarSelectionExpanded(
                         steps.lastIndex -> SirioStepPosition.END
                         else -> SirioStepPosition.MIDDLE
                     }
-                    val pointText = String.format(locale = Locale.getDefault(), "%02d", index + 1)
+                    val pointText = String.format(locale = LocalLocale.current.platformLocale, "%02d", index + 1)
                     val interactive = index < currentStepIndex
                     val type = when {
                         index == currentStepIndex -> SirioStepPointType.TODO

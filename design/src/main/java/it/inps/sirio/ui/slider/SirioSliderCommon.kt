@@ -1,7 +1,7 @@
 //
 // SirioSliderCommon.kt
 //
-// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2026 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -36,11 +36,13 @@ import androidx.compose.material3.TextFieldDefaults.Container
 import androidx.compose.material3.TextFieldDefaults.FocusedIndicatorThickness
 import androidx.compose.material3.TextFieldDefaults.UnfocusedIndicatorThickness
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -98,6 +100,22 @@ internal fun SirioSliderCommon(
     val interactionSource = remember { MutableInteractionSource() }
     val textFieldBorderColor = SirioTheme.colors.slider.textFieldBorder.get(disabled = !enabled)
     val textFieldContentColor = SirioTheme.colors.slider.textFieldContent.get(disabled = !enabled)
+    val focusManager = LocalFocusManager.current
+
+    var tempValue by rememberSaveable { mutableStateOf(value.toString()) }
+
+    // quando cambia value dall'esterno (slider o parent), riallineo il testo
+    LaunchedEffect(value) {
+        tempValue = value.toString()
+    }
+
+    fun commitTemp() {
+        val committed = tempValue.toIntOrNull()
+            ?.coerceIn(minValue, maxValue)
+            ?: value // fallback: se vuoto/non valido, torno al valore attuale
+        onValueChange(committed)
+        tempValue = committed.toString()
+    }
 
     Column {
         title?.let {
@@ -117,23 +135,18 @@ internal fun SirioSliderCommon(
             Spacer(modifier = Modifier.height(sliderTextPaddingBottom.dp))
         }
         Row {
-            var currentValue by remember(value) { mutableIntStateOf(value) }
-            val focusManager = LocalFocusManager.current
             Column(Modifier.weight(1f)) {
                 Slider(
-                    value = currentValue.toFloat(),
+                    value = value.toFloat(),
                     onValueChange = {
-                        val newIntValue = it.roundToInt()
-                        currentValue = newIntValue
+                        val newIntValue = it.roundToInt().coerceIn(minValue, maxValue)
                         onValueChange(newIntValue)
                     },
                     modifier = Modifier.height(sliderHeight.dp),
                     enabled = enabled,
                     valueRange = minValue.toFloat()..maxValue.toFloat(),
                     colors = SliderDefaults.colors(),
-                    thumb = {
-                        SirioSliderThumb(enabled = enabled)
-                    },
+                    thumb = { SirioSliderThumb(enabled = enabled) },
                     track = { sliderState ->
                         SirioSliderTrack(
                             value = sliderState.value,
@@ -143,12 +156,13 @@ internal fun SirioSliderCommon(
                         )
                     }
                 )
+
                 Spacer(modifier = Modifier.height(sliderNumberPaddingTop.dp))
                 Row(
-                    Modifier
+                    modifier = Modifier
                         .fillMaxWidth()
                         .wrapContentHeight(),
-                    horizontalArrangement = Arrangement.SpaceBetween
+                    horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
                     SirioTextCommon(
                         text = "$minValue",
@@ -172,15 +186,12 @@ internal fun SirioSliderCommon(
                     .height(sliderTextFieldHeight.dp),
                 contentAlignment = Alignment.Center,
             ) {
-                var tempValue: String by remember(currentValue) { mutableStateOf(currentValue.toString()) }
                 BasicTextField(
                     value = tempValue,
                     onValueChange = { newValueString ->
-                        val newValueFiltered = newValueString.filter { it.isDigit() }
-                        tempValue = newValueFiltered
-                        newValueFiltered.toIntOrNull()?.let { newValue ->
-                            currentValue = newValue
-                        }
+                        tempValue = newValueString.filter { it.isDigit() }
+                        tempValue.toIntOrNull()
+                            ?.let { onValueChange(it.coerceIn(minValue, maxValue)) }
                     },
                     modifier = Modifier
                         .fillMaxSize()
@@ -193,7 +204,7 @@ internal fun SirioSliderCommon(
                         )
                         .onFocusChanged {
                             if (!it.hasFocus) {
-                                onValueChange(currentValue.coerceIn(minValue, maxValue))
+                                commitTemp()
                             }
                         },
                     keyboardOptions = KeyboardOptions(
@@ -211,10 +222,11 @@ internal fun SirioSliderCommon(
                         textAlign = TextAlign.Center,
                     ),
                     interactionSource = interactionSource,
+                    singleLine = true,
                 )
                 { innerTextField ->
                     TextFieldDefaults.DecorationBox(
-                        value = "$currentValue",
+                        value = tempValue,
                         visualTransformation = VisualTransformation.None,
                         innerTextField = innerTextField,
                         singleLine = true,

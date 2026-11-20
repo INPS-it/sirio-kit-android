@@ -1,7 +1,7 @@
 //
 // TextFieldActivity.kt
 //
-// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2026 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -63,11 +63,11 @@ fun TextFieldDemoContent() {
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = SirioTheme.colors.brand),
             )
         },
-    ) {
+    ) { paddingValues ->
         Column(
             Modifier
                 .fillMaxSize()
-                .padding(it)
+                .padding(paddingValues)
                 .verticalScroll(rememberScrollState())
                 .padding(10.dp, 20.dp),
             horizontalAlignment = Alignment.CenterHorizontally,

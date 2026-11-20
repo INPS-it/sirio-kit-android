@@ -1,7 +1,7 @@
 //
 // MainActivity.kt
 //
-// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2026 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -34,7 +34,6 @@ import it.inps.design.appnavigation.AppNavigationActivity
 import it.inps.design.avviso.AvvisoActivity
 import it.inps.design.button.ButtonActivity
 import it.inps.design.card.CardActivity
-import it.inps.design.carousel.CarouselActivity
 import it.inps.design.checkbox.CheckboxActivity
 import it.inps.design.chip.ChipActivity
 import it.inps.design.dialog.DialogActivity
@@ -114,9 +113,6 @@ fun DemoContent() {
                 }
                 SirioListItem("Card") {
                     context.startActivity(Intent(context, CardActivity::class.java))
-                }
-                SirioListItem("Carousel") {
-                    context.startActivity(Intent(context, CarouselActivity::class.java))
                 }
                 SirioListItem("Checkbox") {
                     context.startActivity(Intent(context, CheckboxActivity::class.java))

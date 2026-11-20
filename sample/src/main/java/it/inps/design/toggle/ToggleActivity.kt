@@ -1,7 +1,7 @@
 //
 // ToggleActivity.kt
 //
-// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2026 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -66,11 +66,11 @@ private fun ToggleDemoView() {
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = SirioTheme.colors.brand)
             )
         }
-    ) {
+    ) { paddingValues ->
         Column(
             Modifier
                 .fillMaxSize()
-                .padding(it)
+                .padding(paddingValues)
                 .padding(10.dp, 20.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(20.dp),

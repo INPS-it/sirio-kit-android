@@ -1,7 +1,7 @@
 //
 // SirioStepMobileSelection.kt
 //
-// SPDX-FileCopyrightText: 2025 Istituto Nazionale Previdenza Sociale
+// SPDX-FileCopyrightText: 2026 Istituto Nazionale Previdenza Sociale
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //
@@ -25,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.guru.fontawesomecomposelib.FaIcons
@@ -64,6 +65,7 @@ fun SirioStepSelection(
             text = title,
             modifier = Modifier.weight(1f),
             color = SirioTheme.colors.stepProgressBar.selection.label,
+            overflow = TextOverflow.Ellipsis,
             typography = SirioTheme.foundationTypography.headlineMdMiddle,
         )
         Spacer(Modifier.width(stepSelectionPaddingIntra.dp))
@@ -126,6 +128,13 @@ private fun SirioStepSelectionPreview() {
             )
             SirioStepSelection(
                 title = "Nome funzione",
+                currentStep = 2,
+                totalSteps = 7,
+                expanded = true,
+                onClick = {},
+            )
+            SirioStepSelection(
+                title = "Nome funzione molto molto lungo",
                 currentStep = 2,
                 totalSteps = 7,
                 expanded = true,
